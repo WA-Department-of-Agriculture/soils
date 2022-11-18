@@ -1,0 +1,9 @@
+Package: soils
+Title: Visualize and Report Soil Health Data
+Version: 0.0.0.9000
+Authors@R: person('Jadey', 'Ryan', email = 'jryan@agr.wa.gov', role = c('cre', 'aut'))
+Description: Collection of soil health data visualization and reporting tools.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2

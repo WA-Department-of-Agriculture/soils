@@ -1,0 +1,160 @@
+crop_group,crop
+Hay/Silage,Alfalfa Hay
+Seed,Alfalfa Seed
+Hay/Silage,Alfalfa/Grass Hay
+Other,Alkali Bee Bed
+Flower Bulb,Allium
+Orchard,Apple
+Orchard,Apricot
+Vegetable,Asparagus
+Cereal Grain,Barley
+Hay/Silage,Barley Hay
+Seed,Bean Seed
+Vegetable,"Bean, Dry"
+Vegetable,"Bean, Garbanzo"
+Vegetable,"Bean, Green"
+Vegetable,Beet
+Seed,Beet Seed
+Berry,"Berry, Unknown"
+Berry,Blueberry
+Seed,Bluegrass Seed
+Vegetable,Broccoli
+Seed,Bromegrass Seed
+Vegetable,Brussels Sprouts
+Seed,Brussels Sprouts Seed
+Cereal Grain,Buckwheat
+Vegetable,Cabbage
+Seed,Cabbage Seed
+Oilseed,Camelina
+Berry,Caneberry
+Oilseed,Canola
+Melon,Cantaloupe
+Vegetable,Carrot
+Seed,Carrot Seed
+Vegetable,Cauliflower
+Cereal Grain,"Cereal Grain, Unknown"
+Orchard,Cherry
+Orchard,Chestnut
+Commercial Tree,Christmas Tree
+Seed,Cilantro Seed
+Hay/Silage,Clover Hay
+Seed,Clover Seed
+Hay/Silage,Clover/Grass Hay
+Seed,Conifer Seed
+Seed,Corn Seed
+Cereal Grain,"Corn, Field"
+Vegetable,"Corn, Sweet"
+Vegetable,"Corn, Unknown"
+Berry,Cranberry
+Other,CRP/Conservation
+Vegetable,Cucumber
+Berry,Currant
+Flower Bulb,Daffodil
+Flower Bulb,Dahlia
+Vegetable,Dandelion
+Developed,Developed
+Oilseed,Dill
+Turfgrass,Driving Range
+Fallow,Fallow
+Fallow,"Fallow, Tilled"
+Cereal Grain,"Fallow, Wheat"
+Seed,Fescue Seed
+Orchard,Filbert
+Seed,Flax Seed
+Forest,"Forest, Native"
+Forest,"Forest, Timber"
+Forest,"Forest, Unknown"
+Vegetable,Garlic
+Turfgrass,Golf Course
+Vineyard,"Grape, Juice"
+Vineyard,"Grape, Table"
+Vineyard,"Grape, Unknown"
+Vineyard,"Grape, Wine"
+Hay/Silage,Grass Hay
+Seed,Grass Seed
+Green Manure,Green Manure
+Hay/Silage,"Hay/Silage, Unknown"
+Seed,Hemp
+Herb,Hops
+Flower Bulb,Iris
+Vegetable,Kale
+Berry,Kiwi
+Green Manure,Legume Cover
+Vegetable,Lentil
+Herb,Marijuana
+Vegetable,Market Crops
+Herb,Medicinal Herb
+Melon,"Melon, Unknown"
+Herb,Mint
+Oilseed,Mustard
+Seed,Mustard Seed
+Native Land,"Native land, grazed"
+Native Land,"Native land, undisturbed"
+Orchard,Nectarine/Peach
+Nursery,"Nursery, Caneberry"
+Nursery,"Nursery, Greenhouse"
+Nursery,"Nursery, Holly"
+Nursery,"Nursery, Lavender"
+Nursery,"Nursery, Lilac"
+Nursery,"Nursery, Orchard/Vineyard"
+Nursery,"Nursery, Ornamental"
+Nursery,"Nursery, Silviculture"
+Cereal Grain,Oat
+Hay/Silage,Oat Hay
+Vegetable,Onion
+Seed,Onion Seed
+Orchard,"Orchard, Mixed"
+Orchard,"Orchard, Unknown"
+Vegetable,Parsley
+"Pasture, Seeded","Pasture, Seeded"
+Seed,Pea Seed
+Vegetable,"Pea, Dry"
+Vegetable,"Pea, Green"
+Orchard,Pear
+Flower Bulb,Peony
+Vegetable,Pepper
+Orchard,Plum
+Commercial Tree,Poplar
+Vegetable,Potato
+Seed,Potato Seed
+Vegetable,Pumpkin
+Cereal Grain,Quinoa
+Vegetable,Radish
+Seed,Radish Seed
+Seed,Reclamation Seed
+Other,Research Station
+Vegetable,Rhubarb
+Vegetable,Rutabaga
+Cereal Grain,Rye
+Hay/Silage,Rye Hay
+Seed,Ryegrass Seed
+Seed,Safflower Seed
+Seed,"Seed, Other"
+Shellfish,Shellfish
+Commercial Tree,Silviculture
+Turfgrass,Sod Farm
+Hay/Silage,Sorghum
+Oilseed,Soybean
+Vegetable,Spinach
+Seed,Spinach Seed
+Vegetable,Squash
+Berry,Strawberry
+Hay/Silage,Sudangrass
+Vegetable,Sugar Beet
+Seed,Sugar Beet Seed
+Oilseed,Sunflower
+Seed,Sunflower Seed
+Seed,Swiss Chard Seed
+Hay/Silage,Timothy
+Vegetable,Tomato
+Cereal Grain,Triticale
+Hay/Silage,Triticale Hay
+Flower Bulb,Tulip
+Other,Unknown
+Vegetable,"Vegetable, Unknown"
+Orchard,Walnut
+Melon,Watermelon
+Cereal Grain,Wheat
+Other,Wildlife Feed
+Seed,Yarrow Seed
+Green Manure,Yellow Mustard

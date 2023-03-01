@@ -5,3 +5,5 @@
 .Rdata
 .httr-oauth
 .DS_Store
+/inst/images/map_files
+map.**

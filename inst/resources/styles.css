@@ -1,0 +1,80 @@
+p.subtitle {
+    margin-top: 0.95em;
+    margin-bottom: -0.05em;
+}
+
+.lead {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #335c67;
+    text-align: right;
+}
+
+p {
+    font-family: "Poppins";
+}
+
+.tab-pane>p {
+    padding-top: 0em;
+}
+
+a {
+    color: #a60f2d;
+}
+
+a:hover {
+    color: #CD1338;
+}
+
+.sidebar nav[role=doc-toc] ul>li>a.active {
+    border-left: 1px solid #a60f2d !important;
+    color: #a60f2d !important;
+}
+
+.sidebar nav[role=doc-toc] ul>li>ul>li>a.active {
+    border-left: 1px solid #a60f2d;
+    color: #a60f2d !important;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: "Lato";
+    color: #023B2C!important;
+    font-weight: bold!important;
+}
+
+caption, .table-caption {
+    text-align: left!important;
+}
+
+div.callout-tip.callout {
+    background: #F2F0E6;!important
+}
+
+div.callout-tip.callout {
+    font-family: "Poppins";
+    border-left-color: #023B2C;!important
+}
+
+div.callout-tip.callout-style-default>.callout-header {
+    background-color: #023B2C;!important
+}
+
+div.callout-tip.callout-style-default>.callout-header {
+    color: white;!important
+}
+
+.btn-success {
+    color: white;
+    background-color: #023B2C;
+    border-color: #023B2C;
+}
+
+.js-plotly-plot .plotly .modebar-btn {
+    position: relative;
+    font-size: 25px;
+    padding: 3px 4px;
+    height: 22px;
+    cursor: pointer;
+    line-height: normal;
+    box-sizing: border-box;
+}

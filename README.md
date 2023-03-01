@@ -12,7 +12,7 @@ This repository and package are a **work in progress**.
 
 ## Instructions
 
-These report templates use
+The report template uses
 [Quarto](https://quarto.org/docs/get-started/hello/rstudio.html), which
 is the next-generation version of R Markdown. Your version of RStudio
 must be at least v2022.07 for editing and previewing Quarto documents.

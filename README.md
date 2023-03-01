@@ -22,6 +22,9 @@ must be at least v2022.07 for editing and previewing Quarto documents.
     <https://github.com/WA-Department-of-Agriculture/soils.git> to clone
     the repo and get all the files needed to render the report
 
+    - Or, click the green “Use this template” button to “Create a new
+      repository”![](README-template.png)
+
 2.  Run renv::restore() in your console to install the packages into
     this project
 

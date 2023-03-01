@@ -6,5 +6,6 @@
 .httr-oauth
 .DS_Store
 README.Rmd
+README-template.png
 /inst/images/map_files
 map.**

@@ -29,6 +29,8 @@ These report templates use [Quarto](https://quarto.org/docs/get-started/hello/rs
 
 1.  Open RStudio \> File \> New Project \> Version Control \> Git \> paste this URL <https://github.com/WA-Department-of-Agriculture/soils.git> to clone the repo and get all the files needed to render the report
 
+    -   Or, click the green "Use this template" button to "Create a new repository"![](README-template.png)
+
 2.  Run renv::restore() in your console to install the packages into this project
 
 3.  Go to the data folder \> open example_data.csv and data_dictionary.csv

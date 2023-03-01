@@ -1,6 +1,9 @@
 ---
 title: "![](images/logos.png)  Results from [INSERT PROJECT NAME]"
 subtitle: "[INSERT DATE]"
+params:
+  producerId: 4
+  year: 2022
 execute:
   echo: false
   warning: false
@@ -23,9 +26,6 @@ format:
     reference-doc: resources/word-template.docx
 fig-align: left
 fig-dpi: 300
-params:
-  producerId: "04"
-  year: 2022
 ---
 
 ```{r setup}
@@ -63,22 +63,25 @@ out_type <- opts_knit$get("rmarkdown.pandoc.to")
 ```{r load-data}
 
 # EDIT: you will need to add your own cleaned lab data to this
-# data folder, using 'example_data.Rdata' as a template. 'data_dictionary.csv' must also be updated to match your own dataset.
+# data folder, using 'example_data.csv' as a template. 'data_dictionary.csv' must also be updated to match your own dataset.
 
 # load lab results
 
-load(paste0(here(), "/data/example_data.Rdata"))
+data <- read.csv(paste0(here(),
+                                "/data/example_data.csv"),
+                         check.names = FALSE)
 
 # load data dictionary for pretty labels
 
-dictionary <- read.csv(paste0(here(), "/data/data_dictionary.csv"))
+dictionary <- read.csv(paste0(here(),
+                              "/data/data_dictionary.csv"))
 ```
 
 ```{r subset-and-categorize}
 
 # subset to producer samples
 
-producer_samples <- example_data |> 
+producer_samples <- data |> 
   subset(producerId == params$producerId & year == params$year)
 
 # identify measurements that producer has results for
@@ -101,7 +104,7 @@ producer$farmName <- producer$farmName[[1]]
 
 # change category value to "same" if the sample is from the same crop or county as the producer
 
-results <- example_data |>
+results <- data |>
   mutate(
     .before = sampleId,
     dummy = "dummy",

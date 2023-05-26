@@ -1,72 +1,76 @@
-# render word docs
-
-#' render_docx
+#' Render word docs
 #'
-#' @param producerId
+#' @param producerId Character producerId to render report for.
+#' @param year Year of samples to include in report.
 #'
 #' @export
 #'
 #' @examples
-#' unique(results22$producerId) |>
-#' as.character() |>
-#' walk(render_docx)
-
-render_docx <- function(producerId) {
-  box::use(here[here],
-           glue[glue],
-           quarto[quarto_render])
-  quarto_render(
+#' \dontrun{
+#' unique(example_data_wide$producerId) |>
+#'   as.character() |>
+#'   purrr::walk(\(x) render_to_docx(x, 2022))
+#' }
+render_to_docx <- function(producerId, year) {
+  quarto::quarto_render(
     input = paste0(
-      here(),
+      here::here(),
       "/qmd/producer_report.qmd"
     ),
     output_format = "docx",
-    output_file = glue("qmd/reports/{producerId}.docx"),
+    output_file = paste0(
+      here::here(),
+      "/inst/reports/", producerId, ".docx"
+    ),
     execute_params = list(
       producerId = producerId,
-      year = params$year
+      year = year
     )
   )
 }
 
-# if no changes to individual reports are desired, open
-# Adobe Acrobat > Create PDF > Multiple Files >
-# Create Multiple PDF Files > Uncheck "Overwrite file",
+# if no changes to individual reports are desired, open Adobe Acrobat > Create
+# PDF > Multiple Files > Create Multiple PDF Files > Uncheck "Overwrite file",
 # add all word files then click okay!
 
 # render html reports
 #
-# unfortunately, self-contained html reports must be rendered
-# to the same folder as the .qmd html reports should be manually
-# moved to the qmd/reports/ subfolder after rendering
+# unfortunately, self-contained html reports must be rendered to the same folder
+# as the .qmd html reports should be manually moved to the qmd/reports/
+# subfolder after rendering
 # https://stackoverflow.com/questions/72346829/two-problems-rendering-a-qmd-file-with-quarto-render-from-r
 
+# https://github.com/quarto-dev/quarto-cli/discussions/2171 has a function to
+# copy the files to another folder then delete them from the parent folder
 
-#' render html
+#' Render .qmd to html
 #'
-#' @param producerId
+#' @param producerId Character producerId to render report for.
+#' @param year Year of samples to include in report.
 #'
 #' @export
 #'
 #' @examples
-#' unique(results22$producerId) |>
-#' as.character() |>
-#' walk(render_html)
-
-render_html <- function(producerId) {
-  box::use(here[here],
-           glue[glue],
-           quarto[quarto_render])
-  quarto_render(
+#' \dontrun{
+#' unique(example_data_wide$producerId) |>
+#'   as.character() |>
+#'   purrr::walk(\(x) render_to_html(x, 2022))
+#' }
+render_to_html <- function(producerId, year) {
+  quarto::quarto_render(
     input = paste0(
-      here(),
+      here::here(),
       "/qmd/producer_report.qmd"
     ),
     output_format = "html",
-    output_file = glue("qmd/{producerId}.html"),
+    output_file = paste0(
+      here::here(),
+      "/inst/",
+      producerId, ".html"
+    ),
     execute_params = list(
       producerId = producerId,
-      year = params$year
+      year = year
     )
   )
 }

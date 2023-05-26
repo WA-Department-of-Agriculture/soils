@@ -2,18 +2,36 @@
 % Please edit documentation in R/texture_triangle.R
 \name{texture_triangle}
 \alias{texture_triangle}
-\title{Texture triangle}
+\title{Create a texture triangle}
 \usage{
 texture_triangle(
-  data,
-  primary_color = washi_pal$green,
-  secondary_color = washi_pal$gray,
-  other_color = washi_pal$tan
+  df,
+  primary_color = washi::washi_pal[["standard"]][["green"]],
+  secondary_color = washi::washi_pal[["standard"]][["gray"]],
+  other_color = washi::washi_pal[["standard"]][["tan"]],
+  font_family = "Poppins"
 )
 }
 \arguments{
-\item{data}{dataframe with columns: category, Clay, Sand, Silt}
+\item{df}{Dataframe containing columns: 'Sand', 'Clay', 'Silt',
+'category'}
+
+\item{primary_color}{Color of producer's sample points Defaults to
+WaSHI green.}
+
+\item{secondary_color}{Color of sample points with 'sameCrop' or
+sameCounty' categories. Defaults to WaSHI gray.}
+
+\item{other_color}{Color of all other sample points in project.
+Defaults to WaSHI tan.}
+
+\item{font_family}{Font family to use throughout plot. Defaults to
+"Poppins".}
+}
+\value{
+\code{ggplot} texture triangle.
 }
 \description{
-Texture triangle
+This plot requires the functions in 'prepare_data.R' to be run
+first.
 }

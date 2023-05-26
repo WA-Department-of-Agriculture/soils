@@ -1,0 +1,21 @@
+---
+format: html
+---
+
+## [**Chemical**]{style="color: #d4820a"} ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/chemical.png){height="50px"}\newline\newline
+
+***Plant Essential Nutrients*** include both macronutrients such as nitrogen (N), phosphorous (P), potassium (K), calcium (Ca), magnesium (Mg), and sulfur (S), and micronutrients (required in comparatively smaller amounts) such as iron (Fe), zinc (Zn), copper (C), boron (B), and manganese (Mn). These elements are typically reported in parts per million, which is equivalent to milligrams per kilogram (1 ppm = 1 mg/kg). Each of these elements are required for crop production, though the 4 Rs---or the right quantity, right timing, right placement, and right source--- which will vary depending on the crop. While many of these nutrients are inherent in the soil, some must be added. Careful consideration should be given to balancing and replenishing plant essential nutrients via soil health building practices and principles. More information on plant essential nutrients can be found in this [OSU Soil Test Interpretation Guide](https://catalog.extension.oregonstate.edu/ec1478 "OSU Soil Test Interpretation Guide").
+
+***Soil pH*** describes how acidic (pH less than 7.0) or alkaline (pH greater than 7.0) the soil is, and is a measure of the concentration of hydrogen ions in the soil solution. Many essential nutrients like P, Fe, Mn, Zn, Cu, Co, and B become less plant-available at alkaline pHs. Other nutrients like Al or B can become toxic at acidic pHs. Soil pH also greatly affects what microbial populations can live in the soil. Soil pH is impacted by inherent qualities of the soil such as its age, mineralogy, and rainfall zone. It is also impacted by fertilization, irrigation water pH, and SOM content. Most agricultural crops grow best in neutral soil pHs, within a range of 6 to 8. Soil pH can be lowered using sulfur or raised by adding agricultural lime.
+
+***Electrical Conductivity*** (EC) measures the concentration of salts in the soil. Excessive salts can stress plants and lower crop yield and quality, as well as impact soil structure, infiltration rates, and water holding capacity. In particular, sodium (Na) can cause crusting and dispersion of soil particles, leading to surface runoff and erosion. Crops in sodium-affected soils (sodic soils) may also have challenges taking up other essential salts such as Ca, Mg, and K.
+
+***Cation Exchange Capacity*** (CEC) describes the soil's ability to hold a slow-release reservoir of nutrients, as positively charged ions (e.g., NH^~4~+^, K^+^, Ca^2+^, Mg^2+^) in the soil are held by negatively charged sites on clay particles and SOM. While CEC is determined in part by soil texture, increasing SOM can greatly increase CEC. Sandy loam soils typically have CECs ranging from 1 to 10 meq/100 g, loam soils range from 5 to 15 meq/100 g, and clay soils have CECs greater than 30 meq/100 g. SOM can provide an additional 200 to 400 meq/100 g (note that CEC units may be reported differently, but 1 meq/100g = 1 cmolc/kg). Soil pH can also alter the CEC of organic matter and clay particles, further underscoring the impact of pH on other soil measurements.
+
+***Total Nitrogen*** is a measurement of both inorganic (plant-available nitrate and ammonium) and organic (typically not plant-available) nitrogen in the soil. Having sufficient total nitrogen in the soil is key for promoting mineralization, or the process of changing the organic nitrogen to a form that plants can use.
+
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/TN.png){width="400"}
+
+***Inorganic Carbon***, frequently called carbonates, is present in some soils, mostly in arid environments. Carbonates can be an important source of nutrients and carbon storage in soils, but in excess can lead to challenges with salinity and poor infiltration. While some strategies can be employed to increase or decrease carbonates in soil, they are generally considered less sensitive to management than organic C. As such, most discussions of agricultural management focus only on organic C.
+
+\[INSERT A DESCRIPTION OF ANY OTHER CHEMICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]

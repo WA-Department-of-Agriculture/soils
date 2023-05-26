@@ -2,17 +2,22 @@
 % Please edit documentation in R/plots.R
 \name{save_plot}
 \alias{save_plot}
-\title{save plot}
+\title{Save plot}
 \usage{
 save_plot(plot, ext, height, width)
 }
 \arguments{
-\item{plot}{name of plot to save}
+\item{plot}{Name of plot to save.}
 
-\item{ext}{file extension type ("png", "svg", etc)}
+\item{ext}{File extension type ("png", "svg", etc).}
 
-\item{height}{height of plot}
+\item{height}{Height of plot.}
+
+\item{width}{Width of plot.}
+}
+\value{
+Side effects of saving plot.
 }
 \description{
-save plot
+Save plot
 }

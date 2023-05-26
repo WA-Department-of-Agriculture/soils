@@ -2,13 +2,32 @@
 % Please edit documentation in R/tables.R
 \name{style_ft}
 \alias{style_ft}
-\title{style flextable}
+\title{Style flextable}
 \usage{
-style_ft(ft, header_color = washi_pal$green, border_color = washi_pal$tan)
+style_ft(
+  ft,
+  header_font = "Lato",
+  body_font = "Poppins",
+  header_color = washi::washi_pal[["standard"]][["green"]],
+  border_color = washi::washi_pal[["standard"]][["tan"]]
+)
 }
 \arguments{
-\item{ft}{flextable object}
+\item{ft}{Flextable object.}
+
+\item{header_font}{Font of header text. Defaults to Lato.}
+
+\item{body_font}{Font of body text. Defaults to Poppins.}
+
+\item{header_color}{Background color of header cells. Defaults to
+WaSHI green.}
+
+\item{border_color}{Color of border lines (programmatically
+darkened from selected color). Defaults to WaSHI tan.}
+}
+\value{
+Styled flextable object.
 }
 \description{
-style flextable
+Style flextable
 }

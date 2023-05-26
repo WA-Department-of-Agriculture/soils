@@ -1,102 +1,90 @@
-#' make facetted strip plot
+#' Make facetted strip plot
 #'
-#' @param data dataframe
-#'
-#' @param output type of ouput, either "static" or "html"
+#' @param df Dataframe containing columns: 'category', 'abbr_unit',
+#'   'unit', 'dummy', 'sampleLabel'.
+#' @param output Type of ouput: either "static" or "html"
+#' @param font_family Font family to use throughout plot. Defaults to
+#'   "Poppins".
+#' @param primary_color Color of producer's sample points. Defaults to
+#'   WaSHI green.
+#' @param secondary_color Color of sample points with 'sameCrop' or
+#'   sameCounty' categories. Defaults to WaSHI gray.
+#' @param other_color Color of all other sample points in project.
+#'   Defaults to WaSHI tan.
+#' @param primary_accent_color Color of facet strip background.
+#'   Defaults to WaSHI blue.
 #'
 #' @export
 #'
 
-make_strip_plot <- function(data,
-                            output,
-                            primary_color = washi_pal$green,
-                            secondary_color = washi_pal$gray,
-                            other_color = washi_pal$tan,
-                            primary_accent_color = washi_pal$blue) {
-  box::use(
-    ggplot2[
-      theme, element_blank, element_rect, element_text,
-      unit, ggplot, aes, geom_hline, geom_jitter,
-      scale_linetype_manual, scale_alpha_manual,
-      scale_color_manual, scale_size_manual,
-      scale_shape_manual, theme_bw, facet_wrap, margin
-    ],
-    ggtext[element_markdown],
-    dplyr[select, n_distinct, summarize],
-    ggrepel[geom_label_repel]
-  )
+make_strip_plot <- function(
+    df,
+    output,
+    font_family = "Poppins",
+    primary_color = washi::washi_pal[["standard"]][["green"]],
+    secondary_color = washi::washi_pal[["standard"]][["gray"]],
+    other_color = washi::washi_pal[["standard"]][["tan"]],
+    primary_accent_color = washi::washi_pal[["standard"]][["blue"]]) {
+  output <- match.arg(arg = output, choices = c("static", "html"))
 
-  # subset data to just producer for labels
-  producer <- data[data$category == "Your fields", ]
+  # Subset data to just producer for labels
+  producer <- df[df$category == "Your fields", ]
 
-  # set number of columns in facet
-  ncol <- ifelse(n_distinct(data$abbr_unit) > 6, 4, 3)
+  # Set number of columns in facet
+  ncol <- ifelse(dplyr::n_distinct(df$abbr_unit) > 6, 4, 3)
 
-  # find project average for each measurement
-  averages <- data |>
-    group_by(abbr_unit, unit) |>
-    summarize(
+  # Find project average for each measurement
+  averages <- df |>
+    dplyr::group_by(abbr_unit, unit) |>
+    dplyr::summarize(
       mean = mean(value, na.rm = TRUE),
       .groups = "keep"
     )
 
-  # set theme for pdf
-  if (output == "static") {
-    theme <- theme(
-      # font family
-      text = element_text(family = "Poppins"),
-      # gridlines formatting
-      panel.grid.major.x = element_blank(),
-      # axis formatting
-      axis.title = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.text.x = element_blank(),
-      # facet label formatting
-      strip.background = element_rect(fill = primary_accent_color),
-      strip.text = element_markdown(
-        color = "white",
-        face = "bold",
-        size = 12
-      ),
-      # legend formatting
-      legend.title = element_blank(),
-      legend.position = "bottom"
-    )
-  }
+  theme <- ggplot2::theme(
+    # Font family
+    text = ggplot2::element_text(family = font_family),
+    # Gridlines formatting
+    panel.grid.major.x = ggplot2::element_blank(),
+    # Axis formatting
+    axis.title = ggplot2::element_blank(),
+    axis.ticks.x = ggplot2::element_blank(),
+    axis.text.x = ggplot2::element_blank(),
+    # Facet label formatting
+    strip.background = ggplot2::element_rect(
+      fill = primary_accent_color
+    ),
+    strip.text = ggtext::element_markdown(
+      color = "white",
+      face = "bold",
+      size = 12
+    ),
+    # Legend formatting
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom"
+  )
 
-  # set theme for html
-
+  # Adjust theme for plotly
   if (output == "html") {
-    theme <- theme(
-      # font family
-      text = element_text(family = "Poppins"),
-      # gridlines formatting
-      panel.grid.major.x = element_blank(),
-      # panel spacing
-      panel.spacing.x = unit(6, "line"),
-      panel.spacing.y = unit(30, "line"),
-      # axis formatting
-      axis.title = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.text.x = element_blank(),
-      # facet label formatting
-      strip.background = element_rect(fill = primary_accent_color),
-      strip.text = element_markdown(
-        color = "white",
-        face = "bold",
-        size = 12,
-        margin = margin(0.35, 0, 0.6, 0, "cm")
-      ),
-      # legend formatting
-      legend.title = element_blank(),
-      legend.position = "bottom",
-      legend.text = element_text(size = 12)
-    )
+    theme <- theme +
+      ggplot2::theme(
+        # Panel spacing
+        panel.spacing.x = ggplot2::unit(6, "line"),
+        panel.spacing.y = ggplot2::unit(30, "line"),
+        # Facet label formatting
+        strip.text = ggtext::element_markdown(
+          margin = ggplot2::margin(0.35, 0, 0.6, 0, "cm")
+        ),
+        # Legend formatting
+        legend.text = ggplot2::element_text(
+          size = 11
+        )
+      )
   }
 
-  plot <- ggplot(
-    data = data,
-    mapping = aes(
+  plot <- ggplot2::ggplot(
+    data = df,
+    mapping = ggplot2::aes(
       x = dummy,
       y = value,
       alpha = category,
@@ -106,148 +94,158 @@ make_strip_plot <- function(data,
       text = paste(sampleLabel, round(value, 2), unit)
     )
   ) +
-    geom_hline(
+    ggplot2::geom_hline(
       data = averages,
-      mapping = aes(
+      mapping = ggplot2::aes(
         yintercept = mean,
         linetype = "Average"
       )
     ) +
-    geom_jitter(
+    ggplot2::geom_jitter(
       width = 0.2,
       height = 0,
       na.rm = TRUE
     ) +
-    # define styles for producer's samples versus all samples
-    scale_alpha_manual(values = c(
+    # Define styles for producer's samples versus all samples
+    ggplot2::scale_alpha_manual(values = c(
       "Your fields" = 0.8,
       "Same county" = 0.8,
       "Same crop" = 0.8,
-      "All fields" = 0.6
+      "Other fields" = 0.6
     )) +
-    scale_color_manual(values = c(
+    ggplot2::scale_color_manual(values = c(
       "Your fields" = primary_color,
       "Same county" = secondary_color,
       "Same crop" = secondary_color,
-      "All fields" = other_color
+      "Other fields" = other_color
     )) +
-    scale_shape_manual(values = c(
+    ggplot2::scale_shape_manual(values = c(
       "Your fields" = 15,
       "Same county" = 17,
       "Same crop" = 18,
-      "All fields" = 19
+      "Other fields" = 19
     )) +
-    scale_size_manual(values = c(
+    ggplot2::scale_size_manual(values = c(
       "Your fields" = 3,
       "Same county" = 2.2,
       "Same crop" = 2.5,
-      "All fields" = 2
+      "Other fields" = 2
     )) +
-    scale_linetype_manual(
+    ggplot2::scale_linetype_manual(
       values = c("Average" = "dashed")
     ) +
-    facet_wrap(
+    ggplot2::facet_wrap(
       ~abbr_unit,
       ncol = ncol,
       scales = "free_y"
     ) +
-    # customize theme of plot
-    theme_bw() +
+    # Customize theme of plot
+    ggplot2::theme_bw() +
     theme
 
-  # label fieldId for producer's samples if they have less than 4 samples
-  n <- subset(data, category == "Your fields") |>
-    select(sampleId) |>
-    n_distinct()
-
-  # two geom_label_repels so the solid text shows above the transparent background
-  if (n < 5 & output == "static") {
-    plot <- plot + geom_label_repel(
-      data = producer,
-      mapping = aes(
-        label = paste(fieldName, ":", round(value, 2), unit)
-      ),
-      alpha = 0.7,
-      color = NA,
-      size = 2.8,
-      hjust = 1,
-      direction = "y",
-      max.time = 5,
-      force = 100,
-      force_pull = 1,
-      fontface = "bold",
-      label.padding = unit(0.15, "lines"),
-      show.legend = FALSE,
-      # don't show line connecting label to point
-      segment.color = NA,
-      seed = 12345
-    ) +
-      geom_label_repel(
-        data = producer,
-        mapping = aes(
-          label = paste(fieldName, ":", round(value, 2), unit)
-        ),
-        alpha = 1,
-        fill = NA,
-        color = primary_color,
-        size = 2.8,
-        hjust = 1,
-        direction = "y",
-        max.time = 5,
-        force = 100,
-        force_pull = 1,
-        fontface = "bold",
-        label.padding = unit(0.15, "lines"),
-        show.legend = FALSE,
-        # don't show line connecting label to point
-        segment.color = NA,
-        seed = 12345
-      )
-  }
+  # Uncomment if you want to label producer's samples
+  #
+  # Label fieldId for producer's samples if they have less than 4
+  # samples
+  #
+  # n <- subset(data, category == "Your fields") |>
+  #   dplyr::select(sampleId) |>
+  #   dplyr::n_distinct()
+  #
+  # # Two geom_label_repels so the solid text shows above the
+  # transparent background
+  #
+  # if (n < 5 & output == "static") {
+  #   plot <- plot + ggrepel::geom_label_repel(
+  #     data = producer,
+  #     mapping = ggplot2::aes(
+  #       label = paste(fieldName, ":", round(value, 2), unit)
+  #     ),
+  #     alpha = 0.7,
+  #     color = NA,
+  #     size = 2.8,
+  #     hjust = 1,
+  #     direction = "y",
+  #     max.time = 5,
+  #     force = 100,
+  #     force_pull = 1,
+  #     fontface = "bold",
+  #     label.padding = unit(0.15, "lines"),
+  #     show.legend = FALSE,
+  #     # Don't show line connecting label to point
+  #     segment.color = NA,
+  #     seed = 12345
+  #   ) +
+  #     ggrepel::geom_label_repel(
+  #       data = producer,
+  #       mapping = ggplot2::aes(
+  #         label = paste(fieldName, ":", round(value, 2), unit)
+  #       ),
+  #       alpha = 1,
+  #       fill = NA,
+  #       color = primary_color,
+  #       size = 2.8,
+  #       hjust = 1,
+  #       direction = "y",
+  #       max.time = 5,
+  #       force = 100,
+  #       force_pull = 1,
+  #       fontface = "bold",
+  #       label.padding = unit(0.15, "lines"),
+  #       show.legend = FALSE,
+  #       # Don't show line connecting label to point
+  #       segment.color = NA,
+  #       seed = 12345
+  #     )
+  # }
 
   return(plot)
 }
 
-#' make plotly
+#' Make stripplot interactive with plotly
 #'
-#' @param data dataframe
-#'
+#' @param df Dataframe containing columns: 'category', 'abbr_unit',
+#'   'unit', 'dummy', 'sampleLabel'.
+#' @param font_family Font family to use throughout plot. Defaults to
+#'   "Poppins".
+#' @param primary_color Color of producer's sample points Defaults to
+#'   WaSHI green.
+#' @param secondary_color Color of sample points with 'sameCrop' or
+#'   sameCounty' categories. Defaults to WaSHI gray.
+#' @param other_color Color of all other sample points in project.
+#'   Defaults to WaSHI tan.
+#' @param primary_accent_color Color of facet strip background.
+#'   Defaults to WaSHI blue.
 #' @export
 #'
 
-make_plotly <- function(data,
-                        primary_color = washi_pal$green,
-                        secondary_color = washi_pal$gray,
-                        other_color = washi_pal$tan,
-                        primary_accent_color = washi_pal$blue) {
-
-  # ggplot -> plotly has issues with overlapping axis labels when facetting
-  # https://github.com/plotly/plotly.R/issues/1224
-  # possible solution to look into:
+make_plotly <- function(
+    df,
+    font_family = "Poppins",
+    primary_color = washi::washi_pal[["standard"]][["green"]],
+    secondary_color = washi::washi_pal[["standard"]][["gray"]],
+    other_color = washi::washi_pal[["standard"]][["tan"]],
+    primary_accent_color = washi::washi_pal[["standard"]][["blue"]]) {
+  # ggplot -> plotly has issues with overlapping axis labels when
+  # facetting https://github.com/plotly/plotly.R/issues/1224 possible
+  # solution to look into:
   # https://stackoverflow.com/questions/42763280/r-ggplot-and-plotly-axis-margin-wont-change
-  # current remedy is adjusting the panel.spacing.x and .y in make_strip_plot function
+  # current remedy is adjusting the panel.spacing.x and .y in
+  # make_strip_plot function
 
-  box::use(
-    plotly[ggplotly, add_annotations, layout, style, config],
-    glue[glue],
-    stringr[str_detect, str_remove_all]
-  )
-
-  df_plotly <- make_strip_plot(data,
-    output = "html",
-    primary_color,
-    secondary_color,
-    other_color,
-    primary_accent_color
+  df_plotly <- soils::make_strip_plot(df,
+    output = "html"
   ) |>
-    ggplotly(tooltip = "text") |>
-    layout(
+    plotly::ggplotly(tooltip = "text") |>
+    plotly::layout(
+      # Legend title doesn't actually appear.
+      # It prevents the variable names from showing up though.
       legend = list(orientation = "h", title = "Interactive Legend"),
       margin = list(t = 100),
-      font = list(family = "Poppins", size = 15)
+      font = list(family = font_family, size = 15)
     ) |>
-    style(hoverlabel = list(font = list(size = 15))) |>
-    config(
+    plotly::style(hoverlabel = list(font = list(size = 15))) |>
+    plotly::config(
       modeBarButtonsToRemove = c(
         "zoom2d",
         "pan2d",
@@ -262,7 +260,7 @@ make_plotly <- function(data,
       displaylogo = FALSE,
       displayModeBar = TRUE,
       toImageButtonOptions = list(
-        filename = glue("soil_{deparse(substitute(data))}_plot")
+        filename = paste0("soil_", deparse(substitute(df)), "_plot")
       )
     )
 
@@ -271,9 +269,10 @@ make_plotly <- function(data,
 
   for (i in seq_along(df_plotly$x$data)) {
     # Is the layer the first entry of the group?
-    is_first <- str_detect(df_plotly$x$data[[i]]$name, "\\b1\\b")
-    # Extract the group identifier and assign it to the name and legend group arguments
-    df_plotly$x$data[[i]]$name <- str_remove_all(
+    is_first <- stringr::str_detect(df_plotly$x$data[[i]]$name, "\\b1\\b")
+    # Extract the group identifier and assign it to the name and
+    # legend group arguments
+    df_plotly$x$data[[i]]$name <- stringr::str_remove_all(
       df_plotly$x$data[[i]]$name,
       "[:punct:]|[:digit:]|NA"
     )
@@ -286,26 +285,24 @@ make_plotly <- function(data,
   return(df_plotly)
 }
 
-#' save plot
+#' Save plot
 #'
-#' @param plot name of plot to save
+#' @param plot Name of plot to save.
+#' @param ext File extension type ("png", "svg", etc).
+#' @param height Height of plot.
+#' @param width Width of plot.
 #'
-#' @param ext file extension type ("png", "svg", etc)
-#'
-#' @param height height of plot
+#' @returns Side effects of saving plot.
 #'
 #' @export
 #'
 
 save_plot <- function(plot, ext, height, width) {
-  box::use(
-    ggplot2[ggsave],
-    here[here]
-  )
-  ggsave(
+  ggplot2::ggsave(
     plot = plot,
     filename = paste0(deparse(substitute(plot)), ".", ext),
-    path = paste0(here(), "/qmd/images/"),
+    path = paste0(here::here(), "/inst/figure_output/"),
+    dpi = 300,
     scale = 1,
     height = height,
     width = width,

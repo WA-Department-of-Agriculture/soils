@@ -1,76 +1,62 @@
-#' Texture triangle
+#' Create a texture triangle
 #'
-#' @param data dataframe with columns: category, Clay, Sand, Silt
+#' This plot requires the functions in 'prepare_data.R' to be run
+#' first.
+#'
+#' @param df Dataframe containing columns: 'Sand', 'Clay', 'Silt',
+#'   'category'
+#' @param primary_color Color of producer's sample points Defaults to
+#'   WaSHI green.
+#' @param secondary_color Color of sample points with 'sameCrop' or
+#'   sameCounty' categories. Defaults to WaSHI gray.
+#' @param other_color Color of all other sample points in project.
+#'   Defaults to WaSHI tan.
+#' @param font_family Font family to use throughout plot. Defaults to
+#'   "Poppins".
+#'
+#' @returns `ggplot` texture triangle.
 #'
 #' @export
 #'
 
-texture_triangle <- function(data,
-                             primary_color = washi_pal$green,
-                             secondary_color = washi_pal$gray,
-                             other_color = washi_pal$tan) {
-  box::use(
-    here[here],
-    plyr[ddply],
-    dplyr[n_distinct, select],
-    ggplot2[
-      ggplot, aes, geom_polygon, geom_text, geom_point, geom_label,
-      scale_alpha_manual, scale_color_manual, scale_size_manual,
-      scale_shape_manual, theme_bw, labs, theme, margin, element_blank,
-      element_text
-    ],
-    ggtern[coord_tern, theme_hidetitles, theme_showarrows]
-  )
-  # get USDA textural classification polygons and labels
-
-  load(paste0(here(), "/data/USDA.RData"))
-
-  # turns Loamy Sand to the side to fit within the polygon
-
-  USDA_label <- ddply(USDA, "Label", function(df) {
-    label <- as.character(df$Label[1])
-    df$Angle <- switch(label,
-      "Loamy Sand" = -35,
-      0
-    )
-    colMeans(df[setdiff(colnames(df), "Label")])
-  })
-
-  # create texture triangle
-
-  triangle <- ggplot(
-    data = USDA,
-    mapping = aes(
-      x = Sand,
-      y = Clay,
-      z = Silt
+texture_triangle <- function(
+    df,
+    primary_color = washi::washi_pal[["standard"]][["green"]],
+    secondary_color = washi::washi_pal[["standard"]][["gray"]],
+    other_color = washi::washi_pal[["standard"]][["tan"]],
+    font_family = "Poppins") {
+  ggplot2::ggplot(
+    data = usda_texture$polygons,
+    mapping = ggplot2::aes(
+      x = sand,
+      y = clay,
+      z = silt
     )
   ) +
-    coord_tern(L = "x", T = "y", R = "z") +
+    ggtern::coord_tern(L = "x", T = "y", R = "z") +
     # USDA texture polygons
-    geom_polygon(
-      mapping = aes(
-        fill = Label
+    ggplot2::geom_polygon(
+      mapping = ggplot2::aes(
+        fill = label
       ),
       alpha = 0,
-      size = 0.5,
+      linewidth = 0.5,
       color = "#201F1F",
       show.legend = FALSE
     ) +
     # USDA texture labels
-    geom_text(
-      data = USDA_label,
-      mapping = aes(
-        label = Label,
-        angle = Angle
+    ggplot2::geom_text(
+      data = usda_texture$labels,
+      mapping = ggplot2::aes(
+        label = label,
+        angle = angle
       ),
       color = "#201F1F",
       size = 2
     ) +
-    # sample points that are not the producer's
-    geom_point(
-      data = data,
-      mapping = aes(
+    ggplot2::geom_point(
+      data = df,
+      mapping = ggplot2::aes(
         x = Sand,
         y = Clay,
         z = Silt,
@@ -80,61 +66,135 @@ texture_triangle <- function(data,
         size = category
       )
     ) +
-    # define styles for categories
-    scale_alpha_manual(
+    # Define scales for categories
+    ggplot2::scale_alpha_manual(
       values = c(
         "Your fields" = 0.8,
         "Same county" = 0.8,
         "Same crop" = 0.8,
-        "All fields" = 0.6
+        "Other fields" = 0.6
       )
     ) +
-    scale_color_manual(
+    ggplot2::scale_color_manual(
       values = c(
         "Your fields" = primary_color,
         "Same county" = secondary_color,
         "Same crop" = secondary_color,
-        "All fields" = other_color
+        "Other fields" = other_color
       )
     ) +
-    scale_shape_manual(
+    ggplot2::scale_shape_manual(
       values = c(
         "Your fields" = 15,
         "Same county" = 17,
         "Same crop" = 18,
-        "All fields" = 19
+        "Other fields" = 19
       )
     ) +
-    scale_size_manual(
+    ggplot2::scale_size_manual(
       values = c(
         "Your fields" = 3,
         "Same county" = 2.2,
         "Same crop" = 2.5,
-        "All fields" = 2
+        "Other fields" = 2
       )
     ) +
-    # show arrows with custom label
-    theme_bw() +
-    theme_showarrows() +
-    labs(
+    # Theme
+    ggplot2::theme_minimal() +
+    ggplot2::labs(
       xarrow = "Sand (%)",
       yarrow = "Clay (%)",
       zarrow = "Silt (%)"
     ) +
-    # hide redundant sand, clay, silt titles that show at triangle points
-    theme_hidetitles() +
-    # customize theme of plot
-    theme(
-      # font family
-      text = element_text(size = 12, family = "Poppins"),
-      # legend
+    # Tweak theme of plot
+    ggplot2::theme(
+      # Font
+      text = ggplot2::element_text(size = 12, family = font_family),
+      # Triangle panel
+      tern.panel.mask.show = FALSE,
+      # Axes
+      tern.axis.title.show = FALSE,
+      tern.axis.text.T = ggplot2::element_text(
+        hjust = 0.5
+      ),
+      tern.axis.text.L = ggplot2::element_text(
+        hjust = 0.5,
+        angle = 60
+      ),
+      tern.axis.text.R = ggplot2::element_text(
+        vjust = 0.5,
+        angle = -60
+      ),
+      tern.axis.ticks = ggplot2::element_line(color = "transparent"),
+      # Legend
       legend.position = "right",
-      legend.text = element_text(size = 10),
-      legend.margin = margin(l = -50),
-      legend.title = element_blank(),
-      # triangle panel
-      tern.panel.mask.show = FALSE
+      legend.text = ggplot2::element_text(size = 10),
+      legend.margin = ggplot2::margin(l = -50),
+      legend.title = ggplot2::element_blank(),
+      # Arrows
+      tern.axis.arrow.show = TRUE,
+      tern.axis.arrow.sep = 0.075,
+      tern.axis.arrow.text.T = ggplot2::element_text(vjust = -0.6),
+      tern.axis.arrow.text.L = ggplot2::element_text(vjust = -0.6),
+      tern.axis.arrow.text.R = ggplot2::element_text(vjust = 1)
     )
-
-  return(triangle)
 }
+
+# TODO: Interactive texture triangle works for just plotting sample
+# points, but can't get the USDA textural class polygons to work.
+
+# https://www.r-bloggers.com/2016/05/ternary-plots-in-r-using-plotly/
+
+# library(plotly)
+#
+# p <- plot_ly(
+#   data = example_data_wide,
+#   type = "scatterternary",
+#   mode = "markers",
+#   a = ~`clay_%`,
+#   b = ~`sand_%`,
+#   c = ~`silt_%`,
+#   hovertemplate = ~ paste0(
+#     "<b>Sample ID: </b>", sampleId,
+#     "<b><br>Texture: </b>", texture,
+#     "<b><br>Sand: </b>", `sand_%`, " %",
+#     "<b><br>Clay: </b>", `clay_%`, " %",
+#     "<b><br>Silt: </b>", `silt_%`, " %",
+#     # <extra> tag hides secondary box that displays "trace0"
+#     "<extra></extra>"
+#   )
+# ) |>
+#   layout(
+#     ternary = list(
+#       sum = 1,
+#       aaxis = list(title = "Clay", tickformat = ".0%"),
+#       baxis = list(title = "Sand", tickformat = ".0%"),
+#       caxis = list(title = "Silt", tickformat = ".0%")
+#     ),
+#     hoverlabel = list(
+#       align = "left"
+#     ),
+#     margin = list(
+#       b = 100,
+#       t = 100,
+#       l = 100,
+#       r = 100
+#     ),
+#     font = list(
+#       family = c("Poppins", "Open Sans", "Raleway"),
+#       size = 10
+#     )
+#   )
+#
+# p
+#
+# for (i in 1:length(ds)) {
+#   p <- add_trace(p,
+#                  data = ds[[i]], a = ~clay, b = ~sand, c = ~silt,
+#                  type = "scatterternary",
+#                  mode = "lines",
+#                  line = list(color = "black"),
+#                  inherit = FALSE
+#   )
+# }
+# p

@@ -2,19 +2,36 @@
 % Please edit documentation in R/plots.R
 \name{make_plotly}
 \alias{make_plotly}
-\title{make plotly}
+\title{Make stripplot interactive with plotly}
 \usage{
 make_plotly(
-  data,
-  primary_color = washi_pal$green,
-  secondary_color = washi_pal$gray,
-  other_color = washi_pal$tan,
-  primary_accent_color = washi_pal$blue
+  df,
+  font_family = "Poppins",
+  primary_color = washi::washi_pal[["standard"]][["green"]],
+  secondary_color = washi::washi_pal[["standard"]][["gray"]],
+  other_color = washi::washi_pal[["standard"]][["tan"]],
+  primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
 )
 }
 \arguments{
-\item{data}{dataframe}
+\item{df}{Dataframe containing columns: 'category', 'abbr_unit',
+'unit', 'dummy', 'sampleLabel'.}
+
+\item{font_family}{Font family to use throughout plot. Defaults to
+"Poppins".}
+
+\item{primary_color}{Color of producer's sample points Defaults to
+WaSHI green.}
+
+\item{secondary_color}{Color of sample points with 'sameCrop' or
+sameCounty' categories. Defaults to WaSHI gray.}
+
+\item{other_color}{Color of all other sample points in project.
+Defaults to WaSHI tan.}
+
+\item{primary_accent_color}{Color of facet strip background.
+Defaults to WaSHI blue.}
 }
 \description{
-make plotly
+Make stripplot interactive with plotly
 }

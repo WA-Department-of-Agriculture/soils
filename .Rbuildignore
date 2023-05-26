@@ -4,4 +4,8 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
-^data-raw$
+^data-raw
+^inst/figure_output
+^inst/images
+\.html$
+\.docx$

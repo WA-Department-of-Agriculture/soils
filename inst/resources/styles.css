@@ -1,3 +1,9 @@
+:root {
+    --green: #023B2C;
+    --blue: #335c67;
+    --red: #a60f2d;
+}
+
 p.subtitle {
     margin-top: 0.95em;
     margin-bottom: -0.05em;
@@ -6,7 +12,7 @@ p.subtitle {
 .lead {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #335c67;
+    color: var(--blue);
     text-align: right;
 }
 
@@ -19,44 +25,44 @@ p {
 }
 
 a {
-    color: #a60f2d;
+    color: var(--red);
 }
 
 a:hover {
-    color: #CD1338;
+    color: var(--red);
 }
 
 .sidebar nav[role=doc-toc] ul>li>a.active {
-    border-left: 1px solid #a60f2d !important;
-    color: #a60f2d !important;
+    border-left: 1px solid var(--red);
+    color: var(--red)!important;
 }
 
 .sidebar nav[role=doc-toc] ul>li>ul>li>a.active {
-    border-left: 1px solid #a60f2d;
-    color: #a60f2d !important;
+    border-left: 1px solid var(--red);
+    color: var(--red)!important;
 }
 
 h1, h2, h3, h4, h5 {
     font-family: "Lato";
-    color: #023B2C!important;
-    font-weight: bold!important;
+    color: var(--green);
+    font-weight: bold;
 }
 
 caption, .table-caption {
-    text-align: left!important;
+    text-align: left!;
 }
 
 div.callout-tip.callout {
-    background: #F2F0E6;!important
+    background: #F2F0E6;
 }
 
 div.callout-tip.callout {
     font-family: "Poppins";
-    border-left-color: #023B2C;!important
+    border-left-color: var(--green);
 }
 
 div.callout-tip.callout-style-default>.callout-header {
-    background-color: #023B2C;!important
+    background-color: var(--green);
 }
 
 div.callout-tip.callout-style-default>.callout-header {
@@ -65,8 +71,8 @@ div.callout-tip.callout-style-default>.callout-header {
 
 .btn-success {
     color: white;
-    background-color: #023B2C;
-    border-color: #023B2C;
+    background-color: var(--green);
+    border-color: var(--green);
 }
 
 .js-plotly-plot .plotly .modebar-btn {

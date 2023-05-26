@@ -2,18 +2,18 @@
 % Please edit documentation in R/tables.R
 \name{unit_hline}
 \alias{unit_hline}
-\title{unit_hline}
+\title{Add bottom border to specific columns in flextable}
 \usage{
 unit_hline(ft, columns)
 }
 \arguments{
 \item{ft}{flextable object}
 
-\item{columns}{indices of columns that were merged to add border under header}
+\item{columns}{Indices of columns that were merged.}
 }
 \value{
-flextable object
+Flextable object with bottom borders added.
 }
 \description{
-unit_hline
+Use when columns with the same units are merged together.
 }

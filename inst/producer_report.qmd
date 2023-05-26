@@ -1,5 +1,5 @@
 ---
-title: "![](images/logos.png)  Results from [INSERT PROJECT NAME]"
+title: "![](images/logos.png) Results from [INSERT PROJECT NAME]"
 subtitle: "[INSERT DATE]"
 params:
   producerId: 4
@@ -11,146 +11,135 @@ execute:
 format: 
   html:
     link-external-newwindow: true
-    linkcolor: "#A60F2D"
-    self-contained: true
+    embed-resources: true
     page-layout: full
     toc: true
     toc-depth: 4
     toc-location: left
     css: resources/styles.css
-  pdf:
-    documentclass: scrartcl
-    keep-tex: true
-    include-in-header: resources/template.tex
-  docx: 
+  docx:
     reference-doc: resources/word-template.docx
+format-links: false
 fig-align: left
 fig-dpi: 300
 ---
 
 ```{r setup}
+library(extrafont)
+library(washi)
 library(soils)
-options(box.path = paste0(here::here()))
-box::use(
-  here[here],
-  knitr[opts_chunk, opts_knit, include_graphics],
-  dplyr[select, across, mutate, case_when, inner_join, full_join,
-    left_join, arrange, relocate, rename, n_distinct, contains, 
-    bind_rows, group_by, ungroup, summarize],
-  tidyr[pivot_longer, pivot_wider],
-  htmlwidgets[saveWidget],
-  webshot[webshot],
-  downloadthis[download_file, download_this],
-  flextable[flextable, set_header_df],
-  purrr[set_names, map],
-  ggplot2[ggsave]
-)
-
-# fonts
-library(showtext)
-font_add_google("Lato")
-font_add_google('Poppins')
 
 # global chunk options
-opts_chunk$set(ft.align = "left",
-               fig.showtext = TRUE,
-               tbl.cap = NULL)
+knitr::opts_chunk$set(
+  ft.align = "left",
+  fig.showtext = TRUE,
+  tbl.cap = NULL
+)
 
 # get output file type
-out_type <- opts_knit$get("rmarkdown.pandoc.to")
+out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 ```
 
 ```{r load-data}
+# EDIT: You will need to add your own cleaned lab data to this data
+# folder, using 'example_data.csv' as a template.
+#
+# 'data_dictionary.csv' must also be updated to match your own
+# dataset.
 
-# EDIT: you will need to add your own cleaned lab data to this
-# data folder, using 'example_data.csv' as a template. 'data_dictionary.csv' must also be updated to match your own dataset.
-
-# load lab results
-
-data <- read.csv(paste0(here(),
-                                "/data/example_data.csv"),
-                         check.names = FALSE)
-
-# load data dictionary for pretty labels
-
-dictionary <- read.csv(paste0(here(),
-                              "/data/data_dictionary.csv"))
+# Load lab results
+data <- read.csv(
+  paste0(here::here(), "/inst/extdata/example_data_wide.csv"),
+  check.names = FALSE
+)
+# Load data dictionary for pretty labels
+dictionary <- read.csv(
+  paste0(here::here(), "/inst/extdata/data_dictionary.csv"),
+  encoding = "UTF-8"
+)
 ```
 
 ```{r subset-and-categorize}
-
-# subset to producer samples
-
-producer_samples <- data |> 
+# Subset to producer samples
+producer_samples <- data |>
   subset(producerId == params$producerId & year == params$year)
 
-# identify measurements that producer has results for
+# Identify measurements that producer has results for
+cols_to_keep <- colSums(
+  is.na(producer_samples)
+) != nrow(producer_samples)
 
-cols_to_keep <- colSums(is.na(producer_samples)) != nrow(producer_samples)
-
-# extract only measurements that producer has results for
-
+# Extract only measurements that producer has results for
 producer_samples <- producer_samples[, cols_to_keep, drop = FALSE]
 
-# extract producer sample IDs, crops, counties, and farm name into producer list
+# Extract producer sample IDs, crops, counties, and farm name into
+# producer list
+producer <- list("sampleId", "crop", "county", "farmName") |>
+  rlang::set_names() |>
+  purrr::map(\(x) soils::pull_unique(
+    df = producer_samples,
+    target = x
+  ))
 
-producer <- list("sampleId", "crop", "county", "farmName") |> 
-  set_names() |> 
-  map(\(x) pull_unique(data = producer_samples, target = x))
-
-# in case of multiple farm names, grab first one
-
+# In case of multiple farm names, grab first one
 producer$farmName <- producer$farmName[[1]]
 
-# change category value to "same" if the sample is from the same crop or county as the producer
+# Add producer dataframe to producer list
+producer <- list(info = producer, data = producer_samples)
 
+# Prepare results dataframe with categories and sample labels
 results <- data |>
-  mutate(
+  dplyr::mutate(
     .before = sampleId,
+    # Dummy variable for strip plots
     dummy = "dummy",
+    # Category variable for producer's samples, samples in same crop
+    # or county, and others in the project
     category =
-      case_when(
-        producerId == params$producerId & 
-          year == params$year ~ "producer",
-        crop %in% producer$crop ~ "sameCrop",
-        county == producer$county ~ "sameCounty",
-        TRUE ~ "all"
+      dplyr::case_when(
+        sampleId %in% producer$info$sampleId ~ "producer",
+        crop %in% producer$info$crop ~ "sameCrop",
+        county == producer$info$county ~ "sameCounty",
+        TRUE ~ "other"
       )
   ) |>
-  mutate(
+  # Create sample labels for plot legend
+  dplyr::mutate(
     .after = category,
-    sampleLabel = case_when(
+    sampleLabel = dplyr::case_when(
       category == "producer" ~ paste(fieldName, "<br>Result:"),
-      category %in% c("sameCrop", "sameCounty") ~ paste(county, crop,
-        "Result:",
+      category %in% c("sameCrop", "sameCounty") ~ paste(
+        county, crop, "Result:",
         sep = "<br>"
       ),
       TRUE ~ paste("Result:")
     )
   )
 
-# set category with correct factor level order
-# this is important so producer's samples are plotted on top of the others
-
+# Set category with correct factor level order this is important so
+# producer's samples are plotted on top of the others
 results$category <- factor(
   results$category,
-  levels = c("all", "sameCrop", "sameCounty", "producer"),
+  levels = c(
+    "other",
+    "sameCounty",
+    "sameCrop",
+    "producer"
+  ),
   labels = c(
-    "All fields",
-    "Same crop",
+    "Other fields",
     "Same county",
+    "Same crop",
     "Your fields"
   )
 )
 ```
 
-```{r wrangle-and-group}
-
-# tidy results into long format, join with data dictionary
-
+```{r lengthen-and-group}
+# Tidy data into long format and join with data dictionary
 results_long <- results |>
-  mutate(across(contains("_"), as.numeric)) |>
-  pivot_longer(
+  dplyr::mutate(dplyr::across(dplyr::contains("_"), as.numeric)) |>
+  tidyr::pivot_longer(
     cols = !c(
       dummy, category, sampleLabel, sampleId, farmName,
       producerName, producerId, fieldName, fieldId, county, crop,
@@ -158,9 +147,9 @@ results_long <- results |>
     ),
     names_to = "measurement"
   ) |>
-  inner_join(dictionary, by = c("measurement" = "column_name")) |>
-  arrange(measurement_group, order) |>
-  mutate(
+  dplyr::inner_join(dictionary, by = c("measurement" = "column_name")) |>
+  dplyr::arrange(measurement_group, order) |>
+  dplyr::mutate(
     abbr = factor(abbr,
       levels = dictionary$abbr,
       ordered = is.ordered(dictionary$order)
@@ -171,67 +160,69 @@ results_long <- results |>
     )
   )
 
-# get measurements tested for producer's fields
-
+# Get measurements tested for producer's fields
 producer_measurements <- results_long |>
   subset(category == "Your fields" & !is.na(value)) |>
-  pull_unique(measurement)
+  soils::pull_unique(measurement)
 
-# subset results_long to exclude any measurements that the producer didn't have tested
-
-results_long <- results_long |> 
+# Subset results_long to exclude any measurements that the producer
+# didn't have tested
+results_long <- results_long |>
   subset(measurement %in% producer_measurements)
 
-# split df into list with each measurement group as its own df
-
-groups <- results_long |> split(results_long$measurement_group)
+# Split df into list with each measurement group as its own df
+groups <- results_long |>
+  split(results_long$measurement_group)
 ```
 
 ```{r producer-tables}
+# Subsets producer samples and pivots a measurement group
+# df wider for use in tables
 
-# this function subsets producer fields and pivots a measurement group df wider for use in tables.
-
-subset_widen_producer <- function(data) {
-  data |> 
-  subset(category == "Your fields") |> 
-  select(`Field or Average` = fieldName, abbr, value) |> 
-  pivot_wider(id_cols = `Field or Average`, names_from = abbr)
+subset_widen_producer <- function(df) {
+  df |>
+    subset(category == "Your fields") |>
+    dplyr::select(
+      `Field or Average` = fieldName, abbr, value
+    ) |>
+    tidyr::pivot_wider(
+      id_cols = `Field or Average`, names_from = abbr
+    )
 }
 
-# map function to each measurement group df, resulting in a new df containing producer's samples within a list
-
-groups_producer <- groups |> 
-  set_names(paste0) |> 
-  map(subset_widen_producer)
+# Map function to each measurement group df, resulting in a new df
+# containing producer's samples within a list
+groups_producer <- groups |>
+  rlang::set_names(paste0) |>
+  purrr::map(subset_widen_producer)
 ```
 
 ```{r average-tables}
-# this function calculates the county, crop, and project averages for each measurement group
+# This function calculates the county, crop, and project averages for
+# each measurement group
 
 group_averages <- function(data) {
-  
-  # by county
-  
+  # By county
   n_county <- results |>
     subset(county %in% producer$county) |>
-    group_by(county) |>
-    summarize(n = n_distinct(sampleId))
-  
+    dplyr::group_by(county) |>
+    dplyr::summarize(n = dplyr::n_distinct(sampleId))
+
   county_texture <- groups$physical |>
-    group_by(county) |>
-    summarize(Texture = calculate_mode(texture)) |> 
+    dplyr::group_by(county) |>
+    dplyr::summarize(Texture = soils::calculate_mode(texture)) |>
     subset(county %in% producer$county)
 
   county <- data |>
-    group_by(abbr, county) |>
-    summarize(
+    dplyr::group_by(abbr, county) |>
+    dplyr::summarize(
       value = mean(value, na.rm = TRUE),
       .groups = "keep"
     ) |>
-    subset(county %in% producer$county) |> 
-    left_join(n_county) |> 
-    left_join(county_texture) |> 
-    mutate(
+    subset(county %in% producer$county) |>
+    dplyr::left_join(n_county) |>
+    dplyr::left_join(county_texture) |>
+    dplyr::mutate(
       `Field or Average` = paste0(
         county,
         " Average \n(",
@@ -239,31 +230,30 @@ group_averages <- function(data) {
         " Fields)"
       )
     ) |>
-    ungroup() |> 
-    select(-c(county, n))
-  
-  # by crop
+    dplyr::ungroup() |>
+    dplyr::select(-c(county, n))
 
+  # By crop
   n_crop <- results |>
     subset(crop %in% producer$crop) |>
-    group_by(crop) |>
-    summarize(n = n_distinct(sampleId))
-  
+    dplyr::group_by(crop) |>
+    dplyr::summarize(n = dplyr::n_distinct(sampleId))
+
   crop_texture <- groups$physical |>
-  group_by(crop) |>
-  summarize(Texture = calculate_mode(texture)) |> 
-  subset(crop %in% producer$crop)
+    dplyr::group_by(crop) |>
+    dplyr::summarize(Texture = soils::calculate_mode(texture)) |>
+    subset(crop %in% producer$crop)
 
   crop <- data |>
-    group_by(abbr, crop) |>
-    summarize(
+    dplyr::group_by(abbr, crop) |>
+    dplyr::summarize(
       value = mean(value, na.rm = TRUE),
       .groups = "keep"
     ) |>
-    subset(crop %in% producer$crop) |> 
-    left_join(n_crop) |> 
-    left_join(crop_texture) |> 
-    mutate(
+    subset(crop %in% producer$crop) |>
+    dplyr::left_join(n_crop) |>
+    dplyr::left_join(crop_texture) |>
+    dplyr::mutate(
       `Field or Average` = paste0(
         crop,
         " Average \n(",
@@ -271,23 +261,22 @@ group_averages <- function(data) {
         " Fields)"
       )
     ) |>
-    ungroup() |> 
-    select(-c(crop, n))
-  
-  # by project
+    dplyr::ungroup() |>
+    dplyr::select(-c(crop, n))
 
+  # By project
   n_project <- results |>
     nrow()
-  
-  texture_project <- calculate_mode(groups$physical$texture)
-  
+
+  texture_project <- soils::calculate_mode(groups$physical$texture)
+
   project <- data |>
-    group_by(abbr) |>
-    summarize(
+    dplyr::group_by(abbr) |>
+    dplyr::summarize(
       value = mean(value, na.rm = TRUE),
       .groups = "keep"
     ) |>
-    mutate(
+    dplyr::mutate(
       "Field or Average" = paste0(
         "Project Average \n(",
         n_project,
@@ -295,76 +284,74 @@ group_averages <- function(data) {
       ),
       Texture = texture_project
     ) |>
-    ungroup()
-  
-  # bind all together into one df
+    dplyr::ungroup()
 
-  bind_rows(county, crop, project) |>
-    mutate(value = as.numeric(formatC(value, 2, 
-                                      drop0trailing = TRUE))) |>
-    pivot_wider(id_cols = c(`Field or Average`, Texture), 
-                names_from = abbr)
+  # Bind all together into one df
+  dplyr::bind_rows(county, crop, project) |>
+    dplyr::mutate(value = as.numeric(formatC(value, 2,
+      drop0trailing = TRUE
+    ))) |>
+    tidyr::pivot_wider(
+      id_cols = c(`Field or Average`, Texture),
+      names_from = abbr
+    )
 }
 
-# map function to each measurement group, resulting in a new dfs of crop, county, project averages in a list
-
+# Map function to each measurement group, resulting in a new dfs of crop, county, project averages in a list
 averages <- groups |>
-  map(group_averages)
+  purrr::map(group_averages)
 
-# extract physical df from averages list 
-
+# Extract physical df from averages list
 physical <- list(physical = averages$physical)
 
-# remove texture from all dataframes except physical
+# Remove texture from all dataframes except physical
+averages <- purrr::map(
+  subset(
+    averages,
+    !(names(averages) == "physical")
+  ),
+  \(x) dplyr::select(x, -Texture)
+)
 
-averages <- map(subset(averages, 
-                       !(names(averages) == "physical")), 
-                select, -Texture)
-
-# add physical df back to the averages list
-
+# Add physical df back to the averages list
 averages <- c(averages, physical)
 ```
 
 ```{r combine-producer-averages}
-
-# combine two lists into one
-
+# Combine two lists into one
 tables <- c(groups_producer, averages)
 
-# split the list by name then use bind rows to combine the df for each group
+# Split the list by name then use bind rows to combine the df for each group
+tables <- purrr::map(split(tables, names(tables)), dplyr::bind_rows)
 
-tables <- map(split(tables, names(tables)), bind_rows)
-
-# delete any county or crop averages where n = 0
-
-tables <- map(tables, 
-              subset, !grepl("(1 Fields)", `Field or Average`))
+# Delete any county or crop averages where n = 0
+tables <- purrr::map(
+  tables,
+  subset, !grepl("(1 Fields)", `Field or Average`)
+)
 ```
 
 ```{r headers}
-
-# this function uses the data dictionary to create a new dataframe of the abbreviations and units for each measurement group for flextable
-
+# This function uses the data dictionary to create a new dataframe of
+# the abbreviations and units for each measurement group for flextable
 table_headers <- function(group) {
-  
-  dictionary |> 
-    subset(measurement_group == group) |> 
-    select(abbr, unit) |> 
-    mutate(key = abbr, .after = abbr) |> 
+  dictionary |>
+    subset(measurement_group == group) |>
+    dplyr::select(abbr, unit) |>
+    dplyr::mutate(key = abbr, .after = abbr) |>
     rbind(c("Field or Average", "Field or Average", ""))
 }
 
-# map function to each measurement group, resulting in a new df with abbreviations and units in a list
-
-headers <- results_long |> 
-  pull_unique(target = measurement_group) |> 
-  as.list() |> 
-  set_names() |> 
-  map(table_headers)
+# Map function to each measurement group, resulting in a new df with
+# abbreviations and units in a list
+headers <- results_long |>
+  soils::pull_unique(target = measurement_group) |>
+  as.list() |>
+  rlang::set_names() |>
+  purrr::map(table_headers)
 ```
 
-## `r ifelse(!is.na(producer$farmName), producer$farmName, paste("Farm:", params$producerId))`
+# `r ifelse(!is.na(producer$info$farmName), producer$info$farmName, paste("Farm:", params$producerId))`
 
 \[INSERT DESCRIPTION OF YOUR PROJECT\] *Thank the participating farmer. Consider including information related to how many samples you've taken, in how many crops and regions. Consider identifying members of the project team and acknowledging support from your funders and collaborators. Emphasize the objectives of the project, and include links for more information.*
 
@@ -386,174 +373,89 @@ To date, the Washington State Department of Agriculture (WSDA), Washington State
 
 EXAMPLE:
 
-![](images/sampling_scene.png){width="594"}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/sampling_scene.png){width="550"}
 
 \newpage
 
-### Soil Health
+{{< include _soil_health_background.qmd >}}
 
-Soil health is a term that describes how well a soil ecosystem supports plants, animals, and humans. It also recognizes the living nature of soils and the importance of soil microorganisms. Healthy soils can provide wildlife habitat, support biodiversity, reduce the effects of climate change, filter air and water, increase crop productivity and food security, and ensure thriving rural economies.
-
-::: {.callout-tip icon="false"}
-## Qualities of a Healthy Agricultural Soil
-
--   Good soil tilth allows roots to penetrate
--   Near neutral pH (6--8) maximizes nutrient availability for most crops, and minimizes Al and Mn toxicity
--   Sufficient---but not excessive---nutrient supply for crop growth
--   Small population of plant pathogens and pests
--   Adequate soil drainage and infiltration
--   Diverse and active microbial population
--   Low weed seed bank
--   No residual chemicals or toxins that may harm the crop, including salts
--   Resistance to degradation such as from erosion or surface runoff
-:::
-
-### Soil Science 101
-
-A crucial part of the soil health journey is measuring changes in your soil and understanding how to interpret those measurements. We can measure soil health with a range of indicators describing a soil's physical, chemical, and biological properties, which can relate to important soil functions. Each indicator measures a different property of the soil and can be affected differently by management.
-
-To learn more about management practices that support healthy soil, check out these resources from the [Natural Resources Conservation Service (NRCS) principles of building soil health](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health "NRCS principles of building soil health").
-
-### What We Measured in Your Soil
-
-::: panel-tabset
-## [**Physical**]{style="color: #a60f2d"} ![](images/physical.png){height="50px"}\newline\newline
-
-***Soil Texture*** is the relative proportion of sand, silt, and clay-sized particles in your soil. Imagine these particles like basketballs, golf balls, and poppy seeds, which are very different in size even though soil particles don't appear different to the naked eye. Importantly, soil texture describes only the mineral portion of the soil and is not affected by organic matter or management. However, soil texture is a significant driver of how soils respond to management. Soils with higher clay content can hold more nutrients, organic matter, and water than sandy soils. This is because clay particles have high surface area and electrical charge and create small soil pores. Soils with high sand content have larger pores, and cannot hold as much water.
-
-![Figure showing size comparisons of soil particles (sand, silt, and clay) to common circular items (basketball, golf ball, and poppy seed)](images/texture.png){fig-alt="Texture comparison figure" width="377"}
-
-***Bulk Density*** is the mass of particles within a certain volume of soil and is used as an indicator of soil compaction. Bulk density varies depending on soil texture and structure and is greatly affected by tillage, tractor passes, and organic matter inputs. It is a primary determinant of soil aeration, porosity, water infiltration, and root growth. For more information on the special equipment required to measure bulk density, consult this [NRCS protocol](https://www.nrcs.usda.gov/sites/default/files/2022-10/Soil%20Bulk%20Density%20Moisture%20Aeration.pdf "NRCS bulk density protocol").
-
-![](images/compaction.png){width="419"}
-
-***Infiltration*** measures the rate at which water enters the soil surface. If the infiltration rate is low, water will pond on the surface. This can make it difficult to enter the field and lead to erosion and runoff. High salinity, plow pans, and cemented layers in the soil can lead to poor infiltration and drainage. Soil texture is also a major factor, as large pores created by sand particles quicken infiltration rates while small pores from clay particles slow infiltration rates. Management also plays a role. Excessive tillage can break up soil structure which slows infiltration. Adding organic matter can form soil aggregates, which can quicken infiltration. This indicator is typically measured in the field, as outlined in this [NRCS protocol](https://www.nrcs.usda.gov/sites/default/files/2022-10/Infiltration.pdf "NRCS infiltration protocol").
-
-***Aggregate Stability*** measures the resistance of groups of soil particles, or aggregates, to disintegration. Aggregates are formed when soil particles associate with organic matter, plant roots, fungal hyphae, and "glues" made by soil microorganisms. Water and wind can break down unstable aggregates, while stable aggregates can reduce erosion and increase water infiltration, drainage, and storage capacity. Aggregate stability is an excellent example of how biological life impacts soil physical properties. Soils high in clay tend to have higher aggregate stability than sandy soils, but increasing soil organic matter improves aggregate stability across all soil textures.ate stability, while inherently high sand content reduces aggregate stability.
-
-![](images/aggregate_stability.png){width="594"}
-
-***Water Holding Capacity*** (WHC) is the amount of water a soil can hold. WHC describes how the soil will store and supply water during high rainfall events and times of drought. WHC varies by soil texture and bulk density, and can be greatly impacted by management. Generally, soils with finer textures, high organic matter, and low bulk density have higher WHC.
-
-\[INSERT A DESCRIPTION OF ANY OTHER PHYSICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]
-
-## [**Biological**]{style="color: #335c67"} ![](images/Biological.png){height="50px"}\newline\newline
-
-***Soil Organic Matter*** (SOM) is the portion of soils not made up of minerals, air, and water, but is instead composed of animal, plant, and microbial matter in various stages of decomposition. SOM is comprised of approximately 58% organic carbon (to convert total organic carbon (TOC) to SOM, an easy rule of thumb is to simply multiply by 2). The remaining portion of SOM includes other essential plant nutrients such as nitrogen, phosphorous, and sulfur. SOM varies by inherent soil and landscape properties such as texture, mineralogy, precipitation, and temperature. It is also greatly impacted by management. To learn more about how to increase SOM, read about the [NRCS principles of building soil health](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health "NRCS principles of building soil health"). SOM underlies many of the benefits and ecosystem services that soils provide. It has a large impact on almost all other soil properties and is often used as a primary indicator of soil health. However, SOM can be slow to change as the result of management. Because of this, many other indicators have been developed to detect more sensitive components in SOM. Keep reading to learn more.
-
-![](images/SOM.png){width="400"}
-
-***Potentially Mineralizable Carbon*** (MinC, frequently referred to as "Soil Respiration") measures the release of carbon dioxide (CO₂) from soil. This measurement is done in a laboratory incubation under controlled conditions "ideal" for microbes. The term mineralization refers to the process in which soil microbes produce CO₂ as they decompose SOM and plant residues. This process also releases other nutrients, like nitrogen, which can be taken up by crops. Higher MinC represents greater potential biological activity. Soils with lower SOM will have inherently lower MinC, while compacted soils may not provide adequate aeration for the mineralization process.
-
-***Permanganate Oxidizable Carbon*** (POXC, once referred to as "Active Carbon") is a fraction of SOM that is easily influenced by changes in management (compared to SOM, which can take up to ten years to detect a difference). In this laboratory test, a portion of SOM is decomposed or oxidized by potassium permanganate. This test measures a portion of SOM that is newly stabilized and may be an early sign of long term carbon storage.
-
-***Potentially Mineralizable Nitrogen*** (PMN) represents the amount of organic nitrogen that can be converted (or "mineralized") to plant-available nitrate or ammonium. This measurement is taken from a laboratory incubation and can help producers estimate how much nitrogen may be released to crops during the growing season. Additional information on the measurement and interpretation of PMN can be found in this [Extension Publication from Oregon State University](https://catalog.extension.oregonstate.edu/sites/catalog/files/project/pdf/em9281.pdf "Extension Publication from Oregon State University").
-
-***ACE Soil Protein*** is the fraction of SOM comprised of proteins from soil microorganisms. Proteins contain nitrogen that can be mineralized for plant uptake, and are therefore an important contributor to crop growth. ACE stands for autoclaved citrate-extractable, which is the laboratory method for extracting the proteins. ACE soil protein is related to aggregate stability as it partly measures proteins that are physically sticky and hold soil particles together. ACE is also sensitive to management changes, so can be a valuable indicator for evaluating relatively short-term changes in soil health.
-
-\[INSERT A DESCRIPTION OF ANY OTHER BIOLOGICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]
-
-## [**Chemical**]{style="color: #d4820a"} ![](images/chemical.png){height="50px"}\newline\newline
-
-***Plant Essential Nutrients*** include both macronutrients such as nitrogen (N), phosphorous (P), potassium (K), calcium (Ca), magnesium (Mg), and sulfur (S), and micronutrients (required in comparatively smaller amounts) such as iron (Fe), zinc (Zn), copper (C), boron (B), and manganese (Mn). These elements are typically reported in parts per million, which is equivalent to milligrams per kilogram (1 ppm = 1 mg/kg). Each of these elements are required for crop production, though the 4 Rs---or the right quantity, right timing, right placement, and right source--- which will vary depending on the crop. While many of these nutrients are inherent in the soil, some must be added. Careful consideration should be given to balancing and replenishing plant essential nutrients via soil health building practices and principles. More information on plant essential nutrients can be found in this [OSU Soil Test Interpretation Guide](https://catalog.extension.oregonstate.edu/ec1478 "OSU Soil Test Interpretation Guide").
-
-***Soil pH*** describes how acidic (pH less than 7.0) or alkaline (pH greater than 7.0) the soil is, and is a measure of the concentration of hydrogen ions in the soil solution. Many essential nutrients like P, Fe, Mn, Zn, Cu, Co, and B become less plant-available at alkaline pHs. Other nutrients like Al or B can become toxic at acidic pHs. Soil pH also greatly affects what microbial populations can live in the soil. Soil pH is impacted by inherent qualities of the soil such as its age, mineralogy, and rainfall zone. It is also impacted by fertilization, irrigation water pH, and SOM content. Most agricultural crops grow best in neutral soil pHs, within a range of 6 to 8. Soil pH can be lowered using sulfur or raised by adding agricultural lime.
-
-***Electrical Conductivity*** (EC) measures the concentration of salts in the soil. Excessive salts can stress plants and lower crop yield and quality, as well as impact soil structure, infiltration rates, and water holding capacity. In particular, sodium (Na) can cause crusting and dispersion of soil particles, leading to surface runoff and erosion. Crops in sodium-affected soils (sodic soils) may also have challenges taking up other essential salts such as Ca, Mg, and K.
-
-***Cation Exchange Capacity*** (CEC) describes the soil's ability to hold a slow-release reservoir of nutrients, as positively charged ions (e.g., NH^~4~+^, K^+^, Ca^2+^, Mg^2+^) in the soil are held by negatively charged sites on clay particles and SOM. While CEC is determined in part by soil texture, increasing SOM can greatly increase CEC. Sandy loam soils typically have CECs ranging from 1 to 10 meq/100 g, loam soils range from 5 to 15 meq/100 g, and clay soils have CECs greater than 30 meq/100 g. SOM can provide an additional 200 to 400 meq/100 g (note that CEC units may be reported differently, but 1 meq/100g = 1 cmolc/kg). Soil pH can also alter the CEC of organic matter and clay particles, further underscoring the impact of pH on other soil measurements.
-
-***Total Nitrogen*** is a measurement of both inorganic (plant-available nitrate and ammonium) and organic (typically not plant-available) nitrogen in the soil. Having sufficient total nitrogen in the soil is key for promoting mineralization, or the process of changing the organic nitrogen to a form that plants can use.
-
-![](images/TN.png){width="400"}
-
-***Inorganic Carbon***, frequently called carbonates, is present in some soils, mostly in arid environments. Carbonates can be an important source of nutrients and carbon storage in soils, but in excess can lead to challenges with salinity and poor infiltration. While some strategies can be employed to increase or decrease carbonates in soil, they are generally considered less sensitive to management than organic C. As such, most discussions of agricultural management focus only on organic C.
-
-\[INSERT A DESCRIPTION OF ANY OTHER CHEMICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]
-:::
-
-## Soil Health Indicators
-
-![](images/curve_table.png){width="727"}
-
-## Soil Health Testing
-
-![](images/quality_results.png){width="733"}
+\newpage
 
 ## Your Fields
 
 ```{r gis}
-
-gis <- producer_samples |>
+gis <- producer$data |>
   subset(!duplicated(sampleId)) |>
-  arrange(fieldId) |>
-  mutate(across(where(is.numeric), round, 4)) |>
-  select(c(
+  dplyr::arrange(fieldId) |>
+  dplyr::mutate(dplyr::across(
+    dplyr::where(is.numeric),
+    \(x) round(x, 4)
+  )) |>
+  dplyr::select(c(
     "Sample ID" = sampleId,
     "Field ID" = fieldId,
     "Field Name" = fieldName,
     "Crop" = crop,
     "Longitude" = longitude,
     "Latitude" = latitude
-  )) |> 
-  mutate(`Field ID` = as.character(`Field ID`))
+  )) |>
+  dplyr::mutate(`Field ID` = as.character(`Field ID`))
 ```
 
 ```{r}
-
-flextable(gis) |> 
-  style_ft()
+washi::washi_flextable(gis, cols_bold = 1)
 ```
 
-```{r map}
+```{r create-map}
+map <- soils::map_samples(gis)
+```
 
-# create map
-map <- map_samples(gis, washi_pal$red)
+```{r save-map}
+invisible(htmlwidgets::saveWidget(
+  map,
+  file = paste0(here::here(), "/inst/figure_output/map.html")
+))
+invisible(webshot::webshot(
+  url = paste0(here::here(), "/inst/figure_output/map.html"),
+  file = paste0(here::here(), "/inst/figure_output/map.png"),
+))
 ```
 
 ```{r map-tip}
 #| eval: !expr out_type == "html"
 #| results: asis
-
-cat("**Map Tip:** Click on the points to see the field name and crop.")
+cat("**Map Tip:** Click on the points to see the field ID, field name, and crop.")
 ```
 
 ```{r map-html}
 #| eval: !expr out_type == "html"
 map
-
-# save map as png
-
-invisible(saveWidget(map, file = paste0(here(), "/inst/images/map.html")))
-invisible(webshot(
-  url = paste0(here(), "/inst/images/map.html"),
-  file = paste0(here(), "/inst/images/map.png"),
-))
 ```
 
 ```{r map-static}
-#| eval: !expr out_type == "pdf"
-#| out-width: 4in
-
-include_graphics(paste0(here(), "/inst/images/map.png"))
+#| eval: !expr out_type %in% c("pdf", "docx")
+#| out-width: 6in
+knitr::include_graphics(paste0(
+  here::here(), "/inst/figure_output/map.png"
+))
 ```
 
 ```{r line-break}
 #| eval: !expr out_type == "html"
 #| results: asis
-
 cat("<br>")
 ```
 
 ```{r map-download}
 #| eval: !expr out_type == "html"
-
-download_file(
-  path = paste0(here(), "/inst/images/map.png"),
-  button_label = "Download as .png",
+downloadthis::download_file(
+  path = paste0(here::here(), "/inst/figure_output/map.png"),
+  button_label = "Download map as .png",
   button_type = "success"
 )
 ```
+
+\newpage
 
 ## Project Results
 
@@ -565,77 +467,79 @@ cat("### <span style='color:#a60f2d'>Physical Measurements</span> ![](images/phy
 ```
 
 ```{r texture-wrangle}
-
-# texture is formatted for the texture triangle
-
+# Texture is formatted for the texture triangle
 texture <- groups$physical |>
   subset(measurement %in% c("sand_%", "silt_%", "clay_%")) |>
-  select(category,
+  dplyr::select(category,
     sampleId,
     Field = fieldName,
     Texture = texture,
     measurement,
     value
   ) |>
-  pivot_wider(
+  tidyr::pivot_wider(
     id_cols = c(sampleId, category, Field, Texture),
     names_from = measurement
   ) |>
-  rename(
+  dplyr::rename(
     Sand = `sand_%`,
     Silt = `silt_%`,
     Clay = `clay_%`
   ) |>
-  mutate(Field = as.character(Field))
+  dplyr::mutate(Field = as.character(Field))
 
-# modify physical table to include texture of producer fields and texture mode across county, crop, project
-
-tables$physical <- texture |> 
-  subset(category == "Your fields") |> 
-  select(Field, Texture) |> 
-  full_join(tables$physical, 
-                 by = c("Field" = "Field or Average")) |> 
-  mutate(
+# Modify physical table to include texture of producer fields and
+# texture mode across county, crop, project
+tables$physical <- texture |>
+  subset(category == "Your fields") |>
+  dplyr::select(Field, Texture) |>
+  dplyr::full_join(tables$physical,
+    by = c("Field" = "Field or Average")
+  ) |>
+  dplyr::mutate(
     Texture = ifelse(is.na(Texture.x), Texture.y, Texture.x),
     .after  = Field
   ) |>
-  rename(`Field or Average` = "Field") |> 
-  select(-c(Texture.x, Texture.y))
+  dplyr::rename(`Field or Average` = "Field") |>
+  dplyr::select(-c(Texture.x, Texture.y))
 ```
 
 ```{r texture-triangle}
-
-print(texture_triangle(texture))
+soils::texture_triangle(texture)
 ```
 
+\newpage
+
 ```{r}
-
 # do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-
-make_ft("physical") |>  
-  # EDIT: adds border above merged unit cells. 
+soils::make_ft("physical") |>
+  # EDIT: adds border above merged unit cells.
   # may need to adjust column index
-  unit_hline(3) 
+  soils::unit_hline(3)
 ```
 
 ```{r physical-plot-static}
-#| eval: !expr out_type == "pdf"
+#| eval: !expr out_type %in% c("pdf", "docx")
+physical_plot <- soils::make_strip_plot(groups$physical, output = "static")
+soils::save_plot(physical_plot, ext = "png", width = 6, height = 4)
 
-print(make_strip_plot(groups$physical, output = "static"))
+knitr::include_graphics(
+  paste0(
+    here::here(), "/inst/figure_output/physical_plot.png"
+  )
+)
 ```
 
 ```{r plot-tips}
 #| eval: !expr out_type == "html"
 #| results: asis
-
 cat("<span style='color:black'>**Plot Tips:** Hover over a point to see its value. Zoom in by drawing a box within a plot. Click on a legend item to show or hide those points.</span>")
 ```
 
 ```{r physical-plot-html}
 #| eval: !expr out_type == "html"
 #| fig-height: 6
- 
-make_plotly(groups$physical)
+soils::make_plotly(groups$physical)
 ```
 
 \newpage
@@ -647,14 +551,19 @@ cat("### <span style='color:#335c67'>Biological Measurements</span> ![](images/b
 
 ```{r}
 # do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-
-make_ft("biological")
+soils::make_ft("biological")
 ```
 
 ```{r biological-plot-static}
-#| eval: !expr out_type == "pdf"
+#| eval: !expr out_type %in% c("pdf", "docx")
+biological_plot <- soils::make_strip_plot(groups$biological, output = "static")
+soils::save_plot(biological_plot, ext = "png", width = 6, height = 4)
 
-print(make_strip_plot(groups$biological, output = "static"))
+knitr::include_graphics(
+  paste0(
+    here::here(), "/inst/figure_output/biological_plot.png"
+  )
+)
 ```
 
 ```{r biological-plot-tips, ref.label=I("plot-tips")}
@@ -663,11 +572,8 @@ print(make_strip_plot(groups$biological, output = "static"))
 ```{r biological-plot-html}
 #| eval: !expr out_type == "html"
 #| fig-height: 6
- 
-make_plotly(groups$biological)
+soils::make_plotly(groups$biological)
 ```
-
-\newpage
 
 ```{r chemical-header}
 #| results: asis
@@ -676,17 +582,22 @@ cat("### <span style='color:#d4820a'>Chemical Measurements</span> ![](images/che
 
 ```{r}
 # do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-
-make_ft("chemical")  |>  
-  # EDIT: adds border above merged unit cells. 
+soils::make_ft("chemical") |>
+  # EDIT: adds border above merged unit cells.
   # may need to adjust column index
-  unit_hline(c(5)) 
+  soils::unit_hline(c(5))
 ```
 
 ```{r chemical-plot-static}
-#| eval: !expr out_type == "pdf"
+#| eval: !expr out_type %in% c("pdf", "docx")
+chemical_plot <- soils::make_strip_plot(groups$chemical, output = "static")
+soils::save_plot(chemical_plot, ext = "png", width = 6, height = 4)
 
-print(make_strip_plot(groups$chemical, output = "static"))
+knitr::include_graphics(
+  paste0(
+    here::here(), "/inst/figure_output/chemical_plot.png"
+  )
+)
 ```
 
 ```{r chemical-plot-tips, ref.label=I("plot-tips")}
@@ -695,29 +606,32 @@ print(make_strip_plot(groups$chemical, output = "static"))
 ```{r chemical-plot-html}
 #| eval: !expr out_type == "html"
 #| fig-height: 6
- 
-make_plotly(groups$chemical)
+soils::make_plotly(groups$chemical)
 ```
 
 ```{r macro-header}
 #| results: asis
-
 cat("#### <span style='color:#d4820a'>Plant Essential Macro Nutrients</span>")
 ```
 
 ```{r}
 # do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-
-make_ft("macro") |> 
-  # EDIT: adds border above merged unit cells. 
+soils::make_ft("macro") |>
+  # EDIT: adds border above merged unit cells.
   # may need to adjust column index
-  unit_hline(c(3))
+  soils::unit_hline(c(3))
 ```
 
 ```{r macro-plot-static}
-#| eval: !expr out_type == "pdf"
+#| eval: !expr out_type %in% c("pdf", "docx")
+macro_plot <- soils::make_strip_plot(groups$macro, output = "static")
+soils::save_plot(macro_plot, ext = "png", width = 6, height = 4)
 
-print(make_strip_plot(groups$macro, output = "static"))
+knitr::include_graphics(
+  paste0(
+    here::here(), "/inst/figure_output/macro_plot.png"
+  )
+)
 ```
 
 ```{r macro-plot-tips, ref.label=I("plot-tips")}
@@ -726,29 +640,32 @@ print(make_strip_plot(groups$macro, output = "static"))
 ```{r macro-plot-html}
 #| eval: !expr out_type == "html"
 #| fig-height: 6
- 
-make_plotly(groups$macro)
+soils::make_plotly(groups$macro)
 ```
 
 ```{r micro-header}
 #| results: asis
-
 cat("#### <span style='color:#d4820a'>Plant Essential Micro Nutrients</span>")
 ```
 
 ```{r}
 # do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-
-make_ft("micro") |>  
-  # EDIT: adds border above merged unit cells. 
+soils::make_ft("micro") |>
+  # EDIT: adds border above merged unit cells.
   # may need to adjust column index
-  unit_hline(c(2)) 
+  soils::unit_hline(c(2))
 ```
 
 ```{r micro-plot-static}
-#| eval: !expr out_type == "pdf"
+#| eval: !expr out_type %in% c("pdf", "docx")
+micro_plot <- soils::make_strip_plot(groups$micro, output = "static")
+soils::save_plot(micro_plot, ext = "png", width = 6, height = 4)
 
-print(make_strip_plot(groups$micro, output = "static"))
+knitr::include_graphics(
+  paste0(
+    here::here(), "/inst/figure_output/micro_plot.png"
+  )
+)
 ```
 
 ```{r micro-plot-tips, ref.label=I("plot-tips")}
@@ -757,20 +674,17 @@ print(make_strip_plot(groups$micro, output = "static"))
 ```{r micro-plot-html}
 #| eval: !expr out_type == "html"
 #| fig-height: 6
-
-make_plotly(groups$micro)
+soils::make_plotly(groups$micro)
 ```
 
 ```{r download-data-text}
 #| eval: !expr out_type == "html"
 #| results: asis
-
 cat("## Download your data")
 ```
 
 ```{r download-data}
 #| eval: !expr out_type == "html"
-
 list(
   results = producer_samples,
   measurement_dictionary = dictionary[, c(
@@ -780,7 +694,7 @@ list(
     "unit"
   )]
 ) |>
-  download_this(
+  downloadthis::download_this(
     output_name = "soils_data",
     output_extension = ".xlsx",
     button_label = "Download as Excel spreadsheet",
@@ -798,7 +712,7 @@ This Soil Health Report Template was developed by Washington State Department of
 
 Please use the following citation when acknowledging our work:
 
-Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL. 2023. A Soil Health Report Template for Survey Studies. The Washington Soil Health Initiative. [washingtonsoilhealthinitiative.org](washingtonsoilhealthinitiative.org "washingtonsoilhealthinitiative.org")
+| Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL. 2023. A Soil Health Report Template for Survey Studies. The Washington Soil Health Initiative. [washingtonsoilhealthinitiative.org](washingtonsoilhealthinitiative.org "washingtonsoilhealthinitiative.org")
 
 ```{js open-link-in-new-tab}
 

@@ -1,0 +1,23 @@
+---
+format: html
+---
+
+## [**Physical**]{style="color: #a60f2d"} ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/physical.png){height="50px"}\newline\newline
+
+***Soil Texture*** is the relative proportion of sand, silt, and clay-sized particles in your soil. Imagine these particles like basketballs, golf balls, and poppy seeds, which are very different in size even though soil particles don't appear different to the naked eye. Importantly, soil texture describes only the mineral portion of the soil and is not affected by organic matter or management. However, soil texture is a significant driver of how soils respond to management. Soils with higher clay content can hold more nutrients, organic matter, and water than sandy soils. This is because clay particles have high surface area and electrical charge and create small soil pores. Soils with high sand content have larger pores, and cannot hold as much water.
+
+![Figure showing size comparisons of soil particles (sand, silt, and clay) to common circular items (basketball, golf ball, and poppy seed)](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/texture.png){fig-alt="Texture comparison figure" width="377"}
+
+***Bulk Density*** is the mass of particles within a certain volume of soil and is used as an indicator of soil compaction. Bulk density varies depending on soil texture and structure and is greatly affected by tillage, tractor passes, and organic matter inputs. It is a primary determinant of soil aeration, porosity, water infiltration, and root growth. For more information on the special equipment required to measure bulk density, consult this [NRCS protocol](https://www.nrcs.usda.gov/sites/default/files/2022-10/Soil%20Bulk%20Density%20Moisture%20Aeration.pdf "NRCS bulk density protocol").
+
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/compaction.png){width="419"}
+
+***Infiltration*** measures the rate at which water enters the soil surface. If the infiltration rate is low, water will pond on the surface. This can make it difficult to enter the field and lead to erosion and runoff. High salinity, plow pans, and cemented layers in the soil can lead to poor infiltration and drainage. Soil texture is also a major factor, as large pores created by sand particles quicken infiltration rates while small pores from clay particles slow infiltration rates. Management also plays a role. Excessive tillage can break up soil structure which slows infiltration. Adding organic matter can form soil aggregates, which can quicken infiltration. This indicator is typically measured in the field, as outlined in this [NRCS protocol](https://www.nrcs.usda.gov/sites/default/files/2022-10/Infiltration.pdf "NRCS infiltration protocol").
+
+***Aggregate Stability*** measures the resistance of groups of soil particles, or aggregates, to disintegration. Aggregates are formed when soil particles associate with organic matter, plant roots, fungal hyphae, and "glues" made by soil microorganisms. Water and wind can break down unstable aggregates, while stable aggregates can reduce erosion and increase water infiltration, drainage, and storage capacity. Aggregate stability is an excellent example of how biological life impacts soil physical properties. Soils high in clay tend to have higher aggregate stability than sandy soils, but increasing soil organic matter improves aggregate stability across all soil textures.ate stability, while inherently high sand content reduces aggregate stability.
+
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/aggregate_stability.png){width="594"}
+
+***Water Holding Capacity*** (WHC) is the amount of water a soil can hold. WHC describes how the soil will store and supply water during high rainfall events and times of drought. WHC varies by soil texture and bulk density, and can be greatly impacted by management. Generally, soils with finer textures, high organic matter, and low bulk density have higher WHC.
+
+\[INSERT A DESCRIPTION OF ANY OTHER PHYSICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]

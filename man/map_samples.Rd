@@ -2,15 +2,18 @@
 % Please edit documentation in R/map_samples.R
 \name{map_samples}
 \alias{map_samples}
-\title{make leaflet map}
+\title{Make leaflet map}
 \usage{
-map_samples(data, primary_color)
+map_samples(df, primary_color = washi::washi_pal[["standard"]][["red"]])
 }
 \arguments{
-\item{data}{dataframe that contains sample info (sampleid, fieldid, crop, coordinates)}
+\item{df}{Dataframe that contains sample info (sampleid, fieldid, crop, coordinates).}
 
-\item{primary_color}{color of points}
+\item{primary_color}{Color of points. Defaults to WaSHI red.}
+}
+\value{
+Leaflet map.
 }
 \description{
-reset view code from https://github.com/bhaskarvk/leaflet.extras/blob/master/R/mapUtils.R
+Reset view code from https://github.com/bhaskarvk/leaflet.extras/blob/master/R/mapUtils.R
 }

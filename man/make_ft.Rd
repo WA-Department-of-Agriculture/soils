@@ -2,13 +2,15 @@
 % Please edit documentation in R/tables.R
 \name{make_ft}
 \alias{make_ft}
-\title{make flextable}
+\title{Make flextable for specified 'measurement_group'.}
 \usage{
 make_ft(measurement_group)
 }
 \arguments{
-\item{measurement_group}{}
+\item{measurement_group}{Name of measurement group to visualize in
+flextable.}
 }
 \description{
-make flextable
+This function requires the functions in 'prepare_data.R' to be run
+first.
 }

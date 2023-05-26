@@ -204,14 +204,14 @@ groups_producer <- groups |>
 group_averages <- function(data) {
   # By county
   n_county <- results |>
-    subset(county %in% producer$county) |>
+    subset(county %in% producer$info$county) |>
     dplyr::group_by(county) |>
     dplyr::summarize(n = dplyr::n_distinct(sampleId))
 
   county_texture <- groups$physical |>
     dplyr::group_by(county) |>
     dplyr::summarize(Texture = soils::calculate_mode(texture)) |>
-    subset(county %in% producer$county)
+    subset(county %in% producer$info$county)
 
   county <- data |>
     dplyr::group_by(abbr, county) |>
@@ -219,7 +219,7 @@ group_averages <- function(data) {
       value = mean(value, na.rm = TRUE),
       .groups = "keep"
     ) |>
-    subset(county %in% producer$county) |>
+    subset(county %in% producer$info$county) |>
     dplyr::left_join(n_county) |>
     dplyr::left_join(county_texture) |>
     dplyr::mutate(
@@ -235,14 +235,14 @@ group_averages <- function(data) {
 
   # By crop
   n_crop <- results |>
-    subset(crop %in% producer$crop) |>
+    subset(crop %in% producer$info$crop) |>
     dplyr::group_by(crop) |>
     dplyr::summarize(n = dplyr::n_distinct(sampleId))
 
   crop_texture <- groups$physical |>
     dplyr::group_by(crop) |>
     dplyr::summarize(Texture = soils::calculate_mode(texture)) |>
-    subset(crop %in% producer$crop)
+    subset(crop %in% producer$info$crop)
 
   crop <- data |>
     dplyr::group_by(abbr, crop) |>
@@ -250,7 +250,7 @@ group_averages <- function(data) {
       value = mean(value, na.rm = TRUE),
       .groups = "keep"
     ) |>
-    subset(crop %in% producer$crop) |>
+    subset(crop %in% producer$info$crop) |>
     dplyr::left_join(n_crop) |>
     dplyr::left_join(crop_texture) |>
     dplyr::mutate(

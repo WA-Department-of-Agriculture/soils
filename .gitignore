@@ -5,7 +5,7 @@
 .Rdata
 .httr-oauth
 .DS_Store
-README.Rmd
-README-template.png
 /inst/figure_output/
+*.html
+*.docx
 map.**

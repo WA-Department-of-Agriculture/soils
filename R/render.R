@@ -15,12 +15,11 @@ render_to_docx <- function(producerId, year) {
   quarto::quarto_render(
     input = paste0(
       here::here(),
-      "/qmd/producer_report.qmd"
+      "/inst/producer_report.qmd"
     ),
     output_format = "docx",
     output_file = paste0(
-      here::here(),
-      "/inst/reports/", producerId, ".docx"
+      producerId, ".docx"
     ),
     execute_params = list(
       producerId = producerId,
@@ -60,12 +59,10 @@ render_to_html <- function(producerId, year) {
   quarto::quarto_render(
     input = paste0(
       here::here(),
-      "/qmd/producer_report.qmd"
+      "/inst/producer_report.qmd"
     ),
     output_format = "html",
     output_file = paste0(
-      here::here(),
-      "/inst/",
       producerId, ".html"
     ),
     execute_params = list(

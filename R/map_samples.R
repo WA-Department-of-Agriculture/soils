@@ -14,11 +14,12 @@ map_samples <- function(
     df,
     primary_color = washi::washi_pal[["standard"]][["red"]]) {
   leaflet::leaflet(df) |>
-    leaflet::addProviderTiles("Esri.WorldTopoMap",
-      group = "Topographic"
-    ) |>
-    leaflet::addProviderTiles("Esri.WorldImagery",
+    leaflet::addTiles(
+      urlTemplate = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       group = "Satellite"
+    ) |>
+    leaflet::addTiles("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+      group = "Topographic"
     ) |>
     leaflet::addCircleMarkers(~Longitude, ~Latitude,
       label = ~ lapply(paste(`Field ID`), htmltools::HTML),
@@ -42,7 +43,7 @@ map_samples <- function(
       fillOpacity = 0.7
     ) |>
     leaflet::addLayersControl(
-      baseGroups = c("Topographic", "Satellite"),
+      baseGroups = c("Satellite", "Topographic"),
       options = leaflet::layersControlOptions(collapsed = FALSE)
     ) |>
     leaflet::addEasyButton(

@@ -35,8 +35,9 @@ Imports:
     officer,
     plotly,
     quarto,
-    stringr
-Suggests: 
+    stringr,
+    washi
+Suggests:
     downloadthis,
     extrafont,
     purrr,

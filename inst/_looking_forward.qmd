@@ -1,0 +1,7 @@
+---
+format: html
+---
+
+## Looking Forward
+
+\[INSERT SUMMARY INFORMATION AND A CALL TO ACTION\] *Consider describing how this data will be used. Are you building decision support tools? Publications? Will you be speaking at upcoming field days or conferences about this work? Soils data can be confusing... let your audience know that this is just the start of the conversation! Thank participating producers once again.*

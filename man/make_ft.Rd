@@ -11,6 +11,5 @@ make_ft(measurement_group)
 flextable.}
 }
 \description{
-This function requires the functions in 'prepare_data.R' to be run
-first.
+Make flextable for specified 'measurement_group'.
 }

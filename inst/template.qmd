@@ -1,9 +1,6 @@
 ---
 title: "![](images/logos.png) Results from [INSERT PROJECT NAME]"
 subtitle: "[INSERT DATE]"
-params:
-  producerId: 4
-  year: 2022
 execute:
   echo: false
   warning: false
@@ -19,9 +16,14 @@ format:
     css: resources/styles.css
   docx:
     reference-doc: resources/word-template.docx
+resource-path: 
+  - inst
 format-links: false
 fig-align: left
 fig-dpi: 300
+params:
+  producerId: 4
+  year: 2022
 ---
 
 ```{r setup}
@@ -49,14 +51,21 @@ out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 
 # Load lab results
 data <- read.csv(
-  paste0(here::here(), "/inst/extdata/example_data_wide.csv"),
+  here::here("inst/extdata/example_data_wide.csv"),
   check.names = FALSE
 )
+
 # Load data dictionary for pretty labels
 dictionary <- read.csv(
-  paste0(here::here(), "/inst/extdata/data_dictionary.csv"),
+  here::here("inst/extdata/data_dictionary.csv"),
   encoding = "UTF-8"
 )
+
+# If field name is blank, use field ID
+data$fieldName <- ifelse(is.na(data$fieldName), data$fieldId, data$fieldName)
+
+# If farm name is blank, use producer ID
+data$farmName <- ifelse(is.na(data$farmName), data$producerId, data$farmName)
 ```
 
 ```{r subset-and-categorize}
@@ -97,10 +106,10 @@ results <- data |>
     # or county, and others in the project
     category =
       dplyr::case_when(
-        sampleId %in% producer$info$sampleId ~ "producer",
-        crop %in% producer$info$crop ~ "sameCrop",
-        county == producer$info$county ~ "sameCounty",
-        TRUE ~ "other"
+        sampleId %in% producer$info$sampleId ~ "4producer",
+        crop %in% producer$info$crop ~ "3sameCrop",
+        county == producer$info$county ~ "2sameCounty",
+        TRUE ~ "1other"
       )
   ) |>
   # Create sample labels for plot legend
@@ -108,23 +117,24 @@ results <- data |>
     .after = category,
     sampleLabel = dplyr::case_when(
       category == "producer" ~ paste(fieldName, "<br>Result:"),
-      category %in% c("sameCrop", "sameCounty") ~ paste(
+      category %in% c("3sameCrop", "2sameCounty") ~ paste(
         county, crop, "Result:",
         sep = "<br>"
       ),
       TRUE ~ paste("Result:")
     )
-  )
+  ) |>
+  dplyr::arrange(category)
 
 # Set category with correct factor level order this is important so
 # producer's samples are plotted on top of the others
 results$category <- factor(
   results$category,
   levels = c(
-    "other",
-    "sameCounty",
-    "sameCrop",
-    "producer"
+    "1other",
+    "2sameCounty",
+    "3sameCrop",
+    "4producer"
   ),
   labels = c(
     "Other fields",
@@ -297,7 +307,7 @@ group_averages <- function(data) {
     )
 }
 
-# Map function to each measurement group, resulting in a new dfs of crop, county, project averages in a list
+# Map function to each measurement group, resulting in new dfs of crop, county, project averages in a list
 averages <- groups |>
   purrr::map(group_averages)
 
@@ -351,29 +361,9 @@ headers <- results_long |>
   purrr::map(table_headers)
 ```
 
-# `r ifelse(!is.na(producer$info$farmName), producer$info$farmName, paste("Farm:", params$producerId))`
+## `r ifelse(!is.na(producer$info$farmName), producer$info$farmName, paste("Farm:", params$producerId))`
 
-\[INSERT DESCRIPTION OF YOUR PROJECT\] *Thank the participating farmer. Consider including information related to how many samples you've taken, in how many crops and regions. Consider identifying members of the project team and acknowledging support from your funders and collaborators. Emphasize the objectives of the project, and include links for more information.*
-
-EXAMPLE: Thank you for being a participant in our [State of the Soils Assessment](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health/state-of-the-soils). This work would not be possible without your collaboration and input.
-
-The goals of our project are to:
-
-**1)** Assess baseline soil health in Washington;
-
-**2)** Understand how climate, crop type, and management impact soil health;
-
-**3)** Develop cost-effective ways for producers to assess their own soil health, and;
-
-**4)** Develop crop- and region-specific decision support tools.
-
-To date, the Washington State Department of Agriculture (WSDA), Washington State University (WSU), conservation districts, and agricultural professionals across Washington have sampled from nearly **700** fields planted in more than **50** crop types. We are excited to share with you some preliminary results with data from your fields.
-
-\[INSERT IMAGE OF YOUR TEAM OR A SCENE FROM YOUR SAMPLING PROJECT\]
-
-EXAMPLE:
-
-![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/sampling_scene.png){width="550"}
+{{< include _project_summary.qmd >}}
 
 \newpage
 
@@ -413,11 +403,11 @@ map <- soils::map_samples(gis)
 ```{r save-map}
 invisible(htmlwidgets::saveWidget(
   map,
-  file = paste0(here::here(), "/inst/figure_output/map.html")
+  file = here::here("inst/figure_output/map.html")
 ))
 invisible(webshot::webshot(
-  url = paste0(here::here(), "/inst/figure_output/map.html"),
-  file = paste0(here::here(), "/inst/figure_output/map.png"),
+  url = here::here("inst/figure_output/map.html"),
+  file = here::here("inst/figure_output/map.png"),
 ))
 ```
 
@@ -435,9 +425,9 @@ map
 ```{r map-static}
 #| eval: !expr out_type %in% c("pdf", "docx")
 #| out-width: 6in
-knitr::include_graphics(paste0(
-  here::here(), "/inst/figure_output/map.png"
-))
+knitr::include_graphics(
+  here::here("inst/figure_output/map.png")
+)
 ```
 
 ```{r line-break}
@@ -524,9 +514,7 @@ physical_plot <- soils::make_strip_plot(groups$physical, output = "static")
 soils::save_plot(physical_plot, ext = "png", width = 6, height = 4)
 
 knitr::include_graphics(
-  paste0(
-    here::here(), "/inst/figure_output/physical_plot.png"
-  )
+  here::here("inst/figure_output/physical_plot.png")
 )
 ```
 
@@ -560,9 +548,7 @@ biological_plot <- soils::make_strip_plot(groups$biological, output = "static")
 soils::save_plot(biological_plot, ext = "png", width = 6, height = 4)
 
 knitr::include_graphics(
-  paste0(
-    here::here(), "/inst/figure_output/biological_plot.png"
-  )
+  here::here("inst/figure_output/biological_plot.png")
 )
 ```
 
@@ -577,7 +563,7 @@ soils::make_plotly(groups$biological)
 
 ```{r chemical-header}
 #| results: asis
-cat("### <span style='color:#d4820a'>Chemical Measurements</span> ![](images/chemical){height='50px'}")
+cat("### <span style='color:#824d00'>Chemical Measurements</span> ![](images/chemical){height='50px'}")
 ```
 
 ```{r}
@@ -594,9 +580,7 @@ chemical_plot <- soils::make_strip_plot(groups$chemical, output = "static")
 soils::save_plot(chemical_plot, ext = "png", width = 6, height = 4)
 
 knitr::include_graphics(
-  paste0(
-    here::here(), "/inst/figure_output/chemical_plot.png"
-  )
+  here::here("inst/figure_output/chemical_plot.png")
 )
 ```
 
@@ -611,7 +595,7 @@ soils::make_plotly(groups$chemical)
 
 ```{r macro-header}
 #| results: asis
-cat("#### <span style='color:#d4820a'>Plant Essential Macro Nutrients</span>")
+cat("#### <span style='color:#824d00'>Plant Essential Macro Nutrients</span>")
 ```
 
 ```{r}
@@ -628,9 +612,7 @@ macro_plot <- soils::make_strip_plot(groups$macro, output = "static")
 soils::save_plot(macro_plot, ext = "png", width = 6, height = 4)
 
 knitr::include_graphics(
-  paste0(
-    here::here(), "/inst/figure_output/macro_plot.png"
-  )
+  here::here("inst/figure_output/macro_plot.png")
 )
 ```
 
@@ -645,7 +627,7 @@ soils::make_plotly(groups$macro)
 
 ```{r micro-header}
 #| results: asis
-cat("#### <span style='color:#d4820a'>Plant Essential Micro Nutrients</span>")
+cat("#### <span style='color:#824d00'>Plant Essential Micro Nutrients</span>")
 ```
 
 ```{r}
@@ -662,9 +644,7 @@ micro_plot <- soils::make_strip_plot(groups$micro, output = "static")
 soils::save_plot(micro_plot, ext = "png", width = 6, height = 4)
 
 knitr::include_graphics(
-  paste0(
-    here::here(), "/inst/figure_output/micro_plot.png"
-  )
+  here::here("inst/figure_output/micro_plot.png")
 )
 ```
 
@@ -702,17 +682,11 @@ list(
   )
 ```
 
-## Looking Forward
+\newpage
 
-\[INSERT SUMMARY INFORMATION AND A CALL TO ACTION\] *Consider describing how this data will be used. Are you building decision support tools? Publications? Will you be speaking at upcoming field days or conferences about this work? Soils data can be confusing... let your audience know that this is just the start of the conversation! Thank participating producers once again.*
+{{< include _looking_forward.qmd >}}
 
-## Acknowledgement
-
-This Soil Health Report Template was developed by Washington State Department of Agriculture and Washington State University (WSU) as part of the Washington Soil Health Initiative. Text and figures were adapted from [WSU Extension publication #FS378E Soil Health in Washington Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards "WSU Extension publication").
-
-Please use the following citation when acknowledging our work:
-
-| Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL. 2023. A Soil Health Report Template for Survey Studies. The Washington Soil Health Initiative. [washingtonsoilhealthinitiative.org](washingtonsoilhealthinitiative.org "washingtonsoilhealthinitiative.org")
+{{< include _acknowledgement.qmd >}}
 
 ```{js open-link-in-new-tab}
 

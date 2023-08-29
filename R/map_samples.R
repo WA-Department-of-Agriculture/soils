@@ -13,12 +13,15 @@
 map_samples <- function(
     df,
     primary_color = washi::washi_pal[["standard"]][["red"]]) {
+  agol <- "https://server.arcgisonline.com/ArcGIS/rest/services/"
+
   leaflet::leaflet(df) |>
     leaflet::addTiles(
-      urlTemplate = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      urlTemplate = paste0(agol, "World_Imagery/MapServer/tile/{z}/{y}/{x}"),
       group = "Satellite"
     ) |>
-    leaflet::addTiles("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+    leaflet::addTiles(
+      urlTemplate = paste0(agol, "/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"),
       group = "Topographic"
     ) |>
     leaflet::addCircleMarkers(~Longitude, ~Latitude,

@@ -21,8 +21,8 @@ make_strip_plot <- function(
     df,
     output,
     font_family = "Poppins",
-    primary_color = washi::washi_pal[["standard"]][["green"]],
-    secondary_color = washi::washi_pal[["standard"]][["gray"]],
+    primary_color = washi::washi_pal[["standard"]][["red"]],
+    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
     other_color = washi::washi_pal[["standard"]][["tan"]],
     primary_accent_color = washi::washi_pal[["standard"]][["blue"]]) {
   output <- match.arg(arg = output, choices = c("static", "html"))
@@ -109,9 +109,9 @@ make_strip_plot <- function(
     # Define styles for producer's samples versus all samples
     ggplot2::scale_alpha_manual(values = c(
       "Your fields" = 0.8,
-      "Same county" = 0.8,
-      "Same crop" = 0.8,
-      "Other fields" = 0.6
+      "Same county" = 0.6,
+      "Same crop" = 0.6,
+      "Other fields" = 0.5
     )) +
     ggplot2::scale_color_manual(values = c(
       "Your fields" = primary_color,
@@ -126,7 +126,7 @@ make_strip_plot <- function(
       "Other fields" = 19
     )) +
     ggplot2::scale_size_manual(values = c(
-      "Your fields" = 3,
+      "Your fields" = 4,
       "Same county" = 2.2,
       "Same crop" = 2.5,
       "Other fields" = 2
@@ -222,8 +222,8 @@ make_strip_plot <- function(
 make_plotly <- function(
     df,
     font_family = "Poppins",
-    primary_color = washi::washi_pal[["standard"]][["green"]],
-    secondary_color = washi::washi_pal[["standard"]][["gray"]],
+    primary_color = washi::washi_pal[["standard"]][["red"]],
+    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
     other_color = washi::washi_pal[["standard"]][["tan"]],
     primary_accent_color = washi::washi_pal[["standard"]][["blue"]]) {
   # ggplot -> plotly has issues with overlapping axis labels when
@@ -233,8 +233,8 @@ make_plotly <- function(
   # current remedy is adjusting the panel.spacing.x and .y in
   # make_strip_plot function
 
-  df_plotly <- soils::make_strip_plot(df,
-    output = "html"
+  df_plotly <- make_strip_plot(df,
+                               output = "html"
   ) |>
     plotly::ggplotly(tooltip = "text") |>
     plotly::layout(

@@ -69,8 +69,10 @@ style_ft <- function(ft,
                      body_font = "Poppins",
                      header_color = washi::washi_pal[["standard"]][["green"]],
                      border_color = washi::washi_pal[["standard"]][["tan"]]) {
-  flextable::set_flextable_defaults(font.family = body_font,
-                                    font.size = 10)
+  flextable::set_flextable_defaults(
+    font.family = body_font,
+    font.size = 10
+  )
 
   header_cell <- officer::fp_cell(
     background.color = header_color
@@ -102,15 +104,12 @@ style_ft <- function(ft,
     flextable::align(align = "center", part = "header") |>
     flextable::line_spacing(space = 1.3, part = "all") |>
     flextable::width(j = 1, width = 0.75) |>
-    flextable::autofit(add_w = 0.05)
+    flextable::autofit()
 
   return(ft)
 }
 
 #' Make flextable for specified 'measurement_group'.
-#'
-#' This function requires the functions in 'prepare_data.R' to be run
-#' first.
 #'
 #' @param measurement_group Name of measurement group to visualize in
 #'   flextable.
@@ -124,8 +123,8 @@ make_ft <- function(measurement_group) {
     flextable::set_header_df(
       mapping = headers[[measurement_group]], key = "key"
     ) |>
-    soils::format_ft_colors() |>
-    soils::style_ft()
+    format_ft_colors() |>
+    style_ft()
 }
 
 #' Add bottom border to specific columns in flextable

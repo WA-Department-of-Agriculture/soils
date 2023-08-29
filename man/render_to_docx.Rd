@@ -12,12 +12,15 @@ render_to_docx(producerId, year)
 \item{year}{Year of samples to include in report.}
 }
 \description{
-Render word docs
+After rendering to word, open files and make sure formatting looks good.
+Flextables may need to be adjusted if there are many columns.
 }
 \examples{
 \dontrun{
 unique(example_data_wide$producerId) |>
   as.character() |>
-  purrr::walk(\(x) render_to_docx(x, 2022))
+  purrr::walk(\(x) render_to_html(x, 2022),
+    .progress = TRUE
+  )
 }
 }

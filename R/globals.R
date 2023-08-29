@@ -1,0 +1,18 @@
+utils::globalVariables(c(
+  "Clay",
+  "Sand",
+  "Silt",
+  "abbr_unit",
+  "angle",
+  "category",
+  "clay",
+  "dummy",
+  "headers",
+  "label",
+  "sampleLabel",
+  "sand",
+  "silt",
+  "tables",
+  "unit",
+  "value"
+))

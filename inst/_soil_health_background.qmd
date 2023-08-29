@@ -6,6 +6,7 @@ format: html
 
 Soil health is a term that describes how well a soil ecosystem supports plants, animals, and humans. It also recognizes the living nature of soils and the importance of soil microorganisms. Healthy soils can provide wildlife habitat, support biodiversity, reduce the effects of climate change, filter air and water, increase crop productivity and food security, and ensure thriving rural economies.
 
+::: {.content-visible when-format="html"}
 ::: {.callout-tip icon="false"}
 ## Qualities of a Healthy Agricultural Soil
 
@@ -18,6 +19,37 @@ Soil health is a term that describes how well a soil ecosystem supports plants, 
 -   Low weed seed bank
 -   No residual chemicals or toxins that may harm the crop, including salts
 -   Resistance to degradation such as from erosion or surface runoff
+:::
+:::
+
+::: {.content-visible unless-format="html"}
+```{r echo=FALSE}
+df <- data.frame("Qualities of a Healthy Agricultural Soil" = c(
+  "•   Good soil tilth allows roots to penetrate",
+  "•   Near neutral pH (6 - 8) maximizes nutrient availability for most crops",
+  "•   Near neutral pH also minimizes Al and Mn toxicity",
+  "•   Sufficient — but not excessive — nutrient supply for crop growth",
+  "•   Small population of plant pathogens and pests",
+  "•   Adequate soil drainage and infiltration",
+  "•   Diverse and active microbial population",
+  "•   Low weed seed bank",
+  "•   No residual chemicals or toxins that may harm the crop, including salts",
+  "•   Resistance to degradation such as from erosion or surface runoff"
+), check.names = FALSE)
+
+green <- washi::washi_pal[["standard"]][["green"]]
+
+washi::washi_flextable(df, border_color = NA) |>
+  flextable::vline_left(border = officer::fp_border(color = green, width = 3)) |>
+  flextable::vline_right(border = officer::fp_border(color = green, width = 1)) |>
+  flextable::hline_bottom(border = officer::fp_border(color = green, width = 1)) |>
+  flextable::bg(bg = "#F2F0E6") |>
+  flextable::align(align = "left", part = "all") |> 
+  flextable::fontsize(size = 10) |> 
+  flextable::line_spacing(space = 1.5, part = "header") |> 
+  flextable::line_spacing(space = 1.1, part = "body") |> 
+  flextable::width(width = 6)
+```
 :::
 
 ## Soil Science 101
@@ -48,8 +80,8 @@ To learn more about management practices that support healthy soil, check out th
 
 ## Soil Health Indicators
 
-![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/curve_table.png){width="600"}
+![](images/curve_table.png){width="600"}
 
 ## Soil Health Testing
 
-![](https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/images/quality_results.png){width="650"}
+![](images/quality_results.png){width="650"}

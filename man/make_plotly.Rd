@@ -7,8 +7,8 @@
 make_plotly(
   df,
   font_family = "Poppins",
-  primary_color = washi::washi_pal[["standard"]][["green"]],
-  secondary_color = washi::washi_pal[["standard"]][["gray"]],
+  primary_color = washi::washi_pal[["standard"]][["red"]],
+  secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
   other_color = washi::washi_pal[["standard"]][["tan"]],
   primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
 )

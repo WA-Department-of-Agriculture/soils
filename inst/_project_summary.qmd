@@ -1,0 +1,25 @@
+---
+format: html
+---
+
+\[INSERT DESCRIPTION OF YOUR PROJECT\] *Thank the participating farmer. Consider including information related to how many samples you've taken, in how many crops and regions. Consider identifying members of the project team and acknowledging support from your funders and collaborators. Emphasize the objectives of the project, and include links for more information.*
+
+EXAMPLE: Thank you for being a participant in our [State of the Soils Assessment](https://washingtonsoilhealthinitiative.com/state-of-the-soils/ "State of the Soils Assessment Webpage"). This work would not be possible without your collaboration and input.
+
+The goals of our project are to:
+
+**1)** Assess baseline soil health in Washington;
+
+**2)** Understand how climate, crop type, and management impact soil health;
+
+**3)** Develop cost-effective ways for producers to assess their own soil health, and;
+
+**4)** Develop crop- and region-specific decision support tools.
+
+To date, the Washington State Department of Agriculture (WSDA), Washington State University (WSU), conservation districts, and agricultural professionals across Washington have sampled from nearly **900** fields planted in more than **60** crop types or land uses. We are excited to share with you some preliminary results with data from your fields.
+
+\[INSERT IMAGE OF YOUR TEAM OR A SCENE FROM YOUR SAMPLING PROJECT\]
+
+EXAMPLE:
+
+![](images/sampling_scene.png){width="4in"}

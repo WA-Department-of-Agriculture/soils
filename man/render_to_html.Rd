@@ -2,7 +2,7 @@
 % Please edit documentation in R/render.R
 \name{render_to_html}
 \alias{render_to_html}
-\title{Render .qmd to html}
+\title{Render HTML reports}
 \usage{
 render_to_html(producerId, year)
 }
@@ -12,12 +12,17 @@ render_to_html(producerId, year)
 \item{year}{Year of samples to include in report.}
 }
 \description{
-Render .qmd to html
+Unfortunately, self-contained html reports must be rendered to the same folder
+as the .qmd html reports should be manually moved to the inst/reports/
+subfolder after rendering
+https://stackoverflow.com/questions/72346829/two-problems-rendering-a-qmd-file-with-quarto-render-from-r
 }
 \examples{
 \dontrun{
 unique(example_data_wide$producerId) |>
   as.character() |>
-  purrr::walk(\(x) render_to_html(x, 2022))
+  purrr::walk(\(x) render_to_html(x, 2022),
+    .progress = TRUE
+  )
 }
 }

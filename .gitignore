@@ -6,6 +6,7 @@
 .httr-oauth
 .DS_Store
 /inst/figure_output/
-*.html
 *.docx
 map.**
+docs
+inst/doc

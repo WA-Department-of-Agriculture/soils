@@ -5,7 +5,12 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^data-raw
-^inst/figure_output
-^inst/images
 \.html$
 \.docx$
+example_reports
+figure_output
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^vignettes/articles$

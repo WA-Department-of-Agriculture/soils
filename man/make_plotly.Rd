@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{make_plotly}
 \alias{make_plotly}
-\title{Make stripplot interactive with plotly}
+\title{Make strip plot interactive with plotly}
 \usage{
 make_plotly(
   df,
@@ -20,7 +20,7 @@ make_plotly(
 \item{font_family}{Font family to use throughout plot. Defaults to
 "Poppins".}
 
-\item{primary_color}{Color of producer's sample points Defaults to
+\item{primary_color}{Color of producer's sample points. Defaults to
 WaSHI green.}
 
 \item{secondary_color}{Color of sample points with 'sameCrop' or
@@ -33,5 +33,5 @@ Defaults to WaSHI tan.}
 Defaults to WaSHI blue.}
 }
 \description{
-Make stripplot interactive with plotly
+Make strip plot interactive with plotly
 }

@@ -19,7 +19,7 @@ Vector of unique values from target column.
 Pull unique values from one column of dataframe
 }
 \examples{
-example_data_wide |>
+exampleData |>
   pull_unique(crop)
 
 }

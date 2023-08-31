@@ -16,6 +16,6 @@ The value that occurred most often.
 Calculate mode of categorical variable
 }
 \examples{
-calculate_mode(example_data_wide$crop)
+calculate_mode(exampleData$crop)
 
 }

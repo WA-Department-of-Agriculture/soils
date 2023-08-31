@@ -1,71 +1,78 @@
-#' Render word docs
+#' Render producer reports
 #'
-#' After rendering to word, open files and make sure formatting looks good.
-#' Flextables may need to be adjusted if there are many columns.
+#' Render `_producerReport.qmd` to .html or .docx files. The word document
+#' outputs should be opened and manually tweaked to ensure the report looks
+#' good. Specifically, some wide tables should be `autofit` within MS Word by
+#' going to `Layout` > `AutoFit` > `AutoFit Window.`
 #'
 #' @param producerId Character producerId to render report for.
 #' @param year Year of samples to include in report.
+#' @param output Target output format.
+#'
+#' Currently supported options:
+#'
+#'   * 'html' for an interactive report.
+#'   * 'docx' for an editable word document.
+#'   * 'all' for rendering all supported output formats.
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' unique(example_data_wide$producerId) |>
-#'   as.character() |>
-#'   purrr::walk(\(x) render_to_html(x, 2022),
-#'     .progress = TRUE
-#'   )
+#' # Render single html report for first producer in data set
+#' first_producer <- head(exampleData$producerId, 1)
+#' render_report(
+#'   first_producer,
+#'   year = 2023,
+#'   output = "html"
+#' )
+#'
+#' # Render docx reports for all 2023 producers
 #' }
-render_to_docx <- function(producerId, year) {
+#' unique(exampleData$producerId) |>
+#'   purrr::walk(
+#'     \(producerId) render_html(
+#'       producerId,
+#'       year = 2023,
+#'       output = "docx",
+#'       .progress = TRUE
+#'     )
+#'   )
+#'
+render_report <- function(producerId, year, output = "html") {
+  rlang::arg_match(
+    output,
+    values = c("docx", "html", "all")
+  )
+
   quarto::quarto_render(
     input = paste0(
       here::here(),
-      "/inst/", year, "_producer_report.qmd"
+      "/inst/",
+      "_producerReport.qmd"
     ),
-    output_format = "docx",
+    output_format = output,
     output_file = paste0(
-      year, "_", producerId, ".docx"
+      year,
+      "_",
+      producerId,
+      "report"
     ),
     execute_params = list(
       producerId = producerId,
       year = year
     )
   )
-}
 
-#' Render HTML reports
-#'
-#' Unfortunately, self-contained html reports must be rendered to the same folder
-#' as the .qmd html reports should be manually moved to the inst/reports/
-#' subfolder after rendering
-#' https://stackoverflow.com/questions/72346829/two-problems-rendering-a-qmd-file-with-quarto-render-from-r
-#'
-#' @param producerId Character producerId to render report for.
-#' @param year Year of samples to include in report.
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' unique(example_data_wide$producerId) |>
-#'   as.character() |>
-#'   purrr::walk(\(x) render_to_html(x, 2022),
-#'     .progress = TRUE
-#'   )
-#' }
-render_to_html <- function(producerId, year) {
-  quarto::quarto_render(
-    input = paste0(
-      here::here(),
-      "/inst/", year, "_producer_report.qmd"
-    ),
-    output_format = "html",
-    output_file = paste0(
-      year, "_", producerId, ".html"
-    ),
-    execute_params = list(
-      producerId = producerId,
-      year = year
-    )
+  # Move files from main project folder to reports folder
+  files <- list.files(
+    path = here::here(),
+    pattern = "\\report.docx$|\\report.html$",
+    full.names = FALSE
+  )
+
+  fs::file_move(
+    path = paste0(here::here(), "/", files),
+    new_path = paste0(here::here(), "/inst/reports/", files)
   )
 }

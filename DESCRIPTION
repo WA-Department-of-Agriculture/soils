@@ -2,17 +2,19 @@ Package: soils
 Title: Visualize and Report Soil Health Data
 Version: 0.0.0.9000
 Authors@R: c(
-  person('Jadey N', 'Ryan', email = 'jryan@agr.wa.gov', role = c('cre', 'aut')),
-  person('Molly', 'McIlquham', role = c('aut')),
-  person('Kwabena A', 'Sarpong ', role = c('aut')),
-  person('Leslie', 'Michel', role = c('aut')),
-  person('Teal', 'Potter ', role = c('aut')),
-  person('Deirdre', 'Griffin LaHue ', role = c('aut')),
-  person('Dani L', 'Gelardi', role = c('aut')),
-  person('Washington State Department of Agriculture', role = c('cph', 'fnd'))
+    person("Jadey N", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut")),
+    person("Molly", "McIlquham", role = "aut"),
+    person("Kwabena A", "Sarpong ", role = "aut"),
+    person("Leslie", "Michel", role = "aut"),
+    person("Teal", "Potter ", role = "aut"),
+    person("Deirdre", "Griffin LaHue ", role = "aut"),
+    person("Dani L", "Gelardi", role = "aut"),
+    person("Washington State Department of Agriculture", role = c("cph", "fnd"))
   )
-Description: Collection of soil health data visualization and reporting tools.
-URL: https://github.com/WA-Department-of-Agriculture/soils
+Description: Collection of soil health data visualization and reporting
+    tools.
+URL: https://github.com/WA-Department-of-Agriculture/soils,
+    https://wa-department-of-agriculture.github.io/soils/
 BugReports: https://github.com/WA-Department-of-Agriculture/soils/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -38,8 +40,16 @@ Imports:
     stringr,
     washi
 Suggests:
+    cli,
     downloadthis,
     extrafont,
+    fs,
+    knitr,
     purrr,
     rlang,
-    tidyr
+    rmarkdown,
+    rstudioapi,
+    tidyr,
+    usethis
+VignetteBuilder: 
+    knitr

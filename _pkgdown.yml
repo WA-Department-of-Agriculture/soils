@@ -1,0 +1,79 @@
+url: https://wa-department-of-agriculture.github.io/soils/
+template:
+  bootstrap: 5
+  theme: a11y-light
+  bslib:
+      bg: "#faf9f6"
+      fg: "black"
+      primary: "#023b2c"
+      light: "#023b2c"
+      success: "#335c67"
+      heading_font: {google: "Lato"}
+      base_font: {google: "Poppins"}
+  navbar:
+      type: dark
+      structure:
+        left:
+        - intro
+        - reference
+        - articles
+        - examples
+        right: github
+      components:
+        reference:
+          text: Reference
+          href: reference/index.html
+        github:
+          icon: fab fa-github fa-lg
+          href: https://github.com/WA-Department-of-Agriculture/soils/
+          aria-label: github
+        articles:
+          text: Articles
+          menu:
+          - text: Writing a Soil Health Report
+            href: articles/report.html
+        examples:
+          text: Example Reports
+          menu:
+          - text: docx
+            href: articles/docx.html
+          - text: html
+            href: articles/html.html
+
+reference:
+- title: "Copy template files"
+  contents:
+  - create_soils
+
+- title: "Map"
+  contents:
+  - make_leaflet
+
+- title: "Plots"
+  contents:
+  - make_strip_plot
+  - make_plotly
+  - texture_triangle
+  - save_plot
+
+- title: "Tables"
+  contents:
+  - make_ft
+  - style_ft
+  - format_ft_colors
+  - unit_hline
+
+- title: "Render reports"
+  contents:
+  - render_report
+
+- title: "Helpers"
+  contents:
+  - calculate_mode
+  - pull_unique
+
+- title: "Example data and dictionary"
+  contents:
+  - exampleData
+  - dataDictionary
+

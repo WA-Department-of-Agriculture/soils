@@ -1,0 +1,12 @@
+---
+title: "Example .docx Report"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example .docx Report}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE}
+knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/example_reports/example_producer_report.pdf", height = "100%")
+```

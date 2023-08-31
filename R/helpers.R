@@ -5,7 +5,7 @@
 #' @returns The value that occurred most often.
 #'
 #' @examples
-#' calculate_mode(example_data_wide$crop)
+#' calculate_mode(exampleData$crop)
 #'
 #' @export
 #'
@@ -23,7 +23,7 @@ calculate_mode <- function(x) {
 #'
 #' @returns Vector of unique values from target column.
 #' @examples
-#' example_data_wide |>
+#' exampleData |>
 #'   pull_unique(crop)
 #'
 #' @export

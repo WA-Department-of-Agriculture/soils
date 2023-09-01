@@ -469,7 +469,7 @@ cat("<br>")
 #| eval: !expr out_type == "html"
 if ("downloadthis" %in% rownames(installed.packages())) {
   downloadthis::download_file(
-    path = paste0(path, "map.png"),
+    path = paste0(path, "/map.png"),
     button_label = "Download map as .png",
     button_type = "success"
   )

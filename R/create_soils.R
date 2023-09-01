@@ -57,24 +57,10 @@ create_soils <- function(
     overwrite = TRUE
   )
 
-  # Delete random files from package build and sysdata
-  files_delete <- c(
-    "soils",
-    "soils.rdb",
-    "soils.rdx",
-    "sysdata.rdb",
-    "sysdata.rdx"
+  # Open _producerReport.qmd
+  rstudioapi::documentOpen(
+    paste0(path, "/inst/_producerReport.qmd")
   )
-
-  invisible(purrr::map(
-    files_delete,
-    \(file) {
-      path <- paste0(path, "/R/", file)
-      if (fs::file_exists(path)) {
-        fs::file_delete()
-      }
-    }
-  ))
 }
 
 #' Create a project directory for soil health reports using a Quarto template

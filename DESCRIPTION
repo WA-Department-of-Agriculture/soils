@@ -4,10 +4,10 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Jadey N", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut")),
     person("Molly", "McIlquham", role = "aut"),
-    person("Kwabena A", "Sarpong ", role = "aut"),
+    person("Kwabena A", "Sarpong", role = "aut"),
     person("Leslie", "Michel", role = "aut"),
-    person("Teal", "Potter ", role = "aut"),
-    person("Deirdre", "Griffin LaHue ", role = "aut"),
+    person("Teal", "Potter", role = "aut"),
+    person("Deirdre", "Griffin LaHue", role = "aut"),
     person("Dani L", "Gelardi", role = "aut"),
     person("Washington State Department of Agriculture", role = c("cph", "fnd"))
   )
@@ -51,5 +51,4 @@ Suggests:
     rstudioapi,
     tidyr,
     usethis
-VignetteBuilder: 
-    knitr
+VignetteBuilder: knitr

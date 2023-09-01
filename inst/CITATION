@@ -1,0 +1,24 @@
+citHeader("To cite soils in publications, please use:")
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Visualize and Report Soil Health Survey Data with {soils}",
+  author   = c(
+    as.person("Jadey N Ryan"),
+    as.person("Molly McIlquham"),
+    as.person("Kwabena A Sarpong"),
+    as.person("Leslie Michel"),
+    as.person("Teal Potter"),
+    as.person("Deirdre Griffin LaHue"),
+    as.person("Dani L Gelardi"),
+    as.person("Washington State Department of Agriculture")
+  ),
+  journal  = "Washington Soil Health Initiative",
+  year     = "2023",
+  url      = "https://wa-department-of-agriculture.github.io/soils/",
+  textVersion =
+    paste("Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL.",
+    "2023. Visualize and Report Soil Health Survey Data with {soils}.",
+    "Washington Soil Health Initiative.",
+    "https://wa-department-of-agriculture.github.io/soils/")
+)

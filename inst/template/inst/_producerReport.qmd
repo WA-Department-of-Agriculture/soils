@@ -720,7 +720,11 @@ if ("downloadthis" %in% rownames(installed.packages())) {
 
 \newpage
 
+## Looking Forward
+
 {{< include 06_looking_forward.qmd >}}
+
+## Acknowledgement
 
 {{< include 07_acknowledgement.qmd >}}
 

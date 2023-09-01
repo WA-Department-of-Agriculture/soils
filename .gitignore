@@ -7,7 +7,6 @@
 .DS_Store
 /inst/figure_output/
 *.docx
-map.**
 docs
 inst/doc
 /doc/

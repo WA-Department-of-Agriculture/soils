@@ -91,14 +91,15 @@
 <!-- badges: start -->
 <!-- badges: end -->
 <div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>As part of the <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">Washington Soil Health Initiative</a>, <a href="https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health" class="external-link">Washington State Department of Agriculture</a> and <a href="https://soilhealth.wsu.edu/" class="external-link">Washington State University</a> developed <code>soils</code> for soil health data visualization and reporting.</p>
+<p>Inspired by the <a href="https://github.com/atlas-aai/ratlas" class="external-link"><code>ratlas</code></a> package and Spencer Schien’s <a href="https://spencerschien.info/post/r_for_nonprofits/quarto_template/" class="external-link">blog post</a> on including a Quarto template within an R package, <code>soils</code> is intended to help you generate interactive and static reports for each producer or land owner that participates in your soil sampling project.</p>
+</div>
+<div class="section level2">
 <h2 id="disclaimer">Disclaimer<a class="anchor" aria-label="anchor" href="#disclaimer"></a>
 </h2>
 <p>This repository and package are a <strong>work in progress</strong>.</p>
-</div>
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h2>
-<p>As part of the <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">Washington Soil Health Initiative</a>, <a href="https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health" class="external-link">Washington State Department of Agriculture</a> and <a href="https://soilhealth.wsu.edu/" class="external-link">Washington State University</a> developed <strong><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></strong> for soil health data visualization and reporting.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -109,7 +110,7 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"WA-Department-of-Agriculture/soils"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="creating-a-new-soils-project">Creating a New <code>{soils}</code> Project<a class="anchor" aria-label="anchor" href="#creating-a-new-soils-project"></a>
+<h2 id="creating-a-new-soils-project">Creating a New <code>soils</code> Project<a class="anchor" aria-label="anchor" href="#creating-a-new-soils-project"></a>
 </h2>
 <p>Read the <a href="https://wa-department-of-agriculture.github.io/soils/articles/project.html">vignette</a> for a detailed how-to.</p>
 <p>To view the vignette within RStudio, run the command <code><a href="articles/project.html">vignette("project", "soils")</a></code>.</p>
@@ -119,13 +120,6 @@
 </h2>
 <p>Read the <a href="https://wa-department-of-agriculture.github.io/soils/articles/functions.html">vignette</a> for more details.</p>
 <p>To view the vignette within RStudio, run the command <code><a href="articles/functions.html">vignette("functions", "soils")</a></code>.</p>
-<div class="section level3">
-<h3 id="washi-theme">
-<code>{washi}</code> Theme<a class="anchor" aria-label="anchor" href="#washi-theme"></a>
-</h3>
-<p>Describe dependency on <a href="https://github.com/WA-Department-of-Agriculture/washi" class="external-link">washi</a> for pretty styling of visualizations and reports.</p>
-<p>Describe font installation.</p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="reports">Reports<a class="anchor" aria-label="anchor" href="#reports"></a>
@@ -133,22 +127,45 @@
 <p>This package can generate static <code>.docx</code> reports and interactive <code>.html</code> reports.</p>
 <p>Read the <a href="https://wa-department-of-agriculture.github.io/soils/articles/report.html">vignette</a> for a detailed how-to.</p>
 <p>To view the vignette within RStudio, run the command <code><a href="articles/report.html">vignette("report", "soils")</a></code>.</p>
-<p>Click on the below images to open the report examples.</p>
-<p><a href="https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.pdf" class="external-link"><img src="reference/figures/report_docx.png" data-fig-alt="First page of example .docx report" height="300" alt="First page of example .docx report"></a></p>
-<p><a href="https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.html" class="external-link"><img src="reference/figures/report_html.png" data-fig-alt="Screenshot of .html report" height="300" alt="Screenshot of example .html report"></a></p>
-<div class="section level3">
-<h3 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
-</h3>
+<figure><img src="reference/figures/report_docx.png" data-fig-alt="First page of example .docx report" height="300" alt="First page of example .docx report"><figcaption aria-hidden="true">
+First page of example .docx report
+</figcaption></figure><figure><img src="reference/figures/report_html.png" data-fig-alt="Screenshot of .html report" height="300" alt="Screenshot of example .html report"><figcaption aria-hidden="true">
+Screenshot of example .html report
+</figcaption></figure>
+</div>
+<div class="section level2">
+<h2 id="washi-theme">
+<code>washi</code> Theme<a class="anchor" aria-label="anchor" href="#washi-theme"></a>
+</h2>
+<p>Default fonts and colors within <code>soils</code> come from the Washington Soil Health Initiative (WaSHI) branding package <a href="https://wa-department-of-agriculture.github.io/washi/" class="external-link"><code>washi</code></a>. This allows you to create beautiful plots, tables, and reports out of the box. Throughout <code>soils</code> functions, style sheets, and report templates, you can customize the fonts and colors to match your own branding.</p>
+<p>To install, import, and register the default fonts (<a href="https://fonts.google.com/specimen/Lato?query=lato" class="external-link">Lato</a> for headings, <a href="https://fonts.google.com/specimen/Poppins?query=poppins" class="external-link">Poppins</a> for body text), read these <a href="https://wa-department-of-agriculture.github.io/washi/#requirements." class="external-link">instructions</a></p>
+</div>
+<div class="section level2">
+<h2 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
+</h2>
 <p>The report template uses <a href="https://quarto.org/docs/get-started/" class="external-link">Quarto</a>, which is the next-generation version of R Markdown. Your version of RStudio must be at least v2022.07 for editing and previewing Quarto documents. Though it is strongly recommended that you use the <a href="https://posit.co/download/rstudio-desktop/" class="external-link">latest release</a> of RStudio.</p>
 <p>To render <code>.docx</code> files, you must have Microsoft Word installed.</p>
 </div>
-</div>
 <div class="section level2">
-<h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>Text and figures were adapted from <a href="https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards" title="WSU Extension publication" class="external-link">WSU Extension publication #FS378E Soil Health in Washington Vineyards</a>.</p>
-<p>Please use the following citation when acknowledging our work:</p>
-<p>Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL. 2023. A Soil Health Report Template for Survey Studies. The Washington Soil Health Initiative. <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">washingtonsoilhealthinitiative.org</a></p>
+<p>This Soil Health Report Template was developed by Washington State Department of Agriculture and Washington State University (WSU) as part of the Washington Soil Health Initiative. Text and figures were adapted from <a href="https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards" title="WSU Extension publication" class="external-link">WSU Extension publication #FS378E Soil Health in Washington Vineyards</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; To cite soils in publications, please use:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   D, Gelardi DL. 2023. A Soil Health Report Template for Survey</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Studies. Washington Soil Health Initiative.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   https://wa-department-of-agriculture.github.io/soils/</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   @Article{,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     title = {A Soil Health Report Template for Survey Studies},</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     author = {Jadey N Ryan and Molly McIlquham and Kwabena A Sarpong and Leslie Michel and Teal Potter and Deirdre Griffin LaHue and Dani L Gelardi and Washington State Department of Agriculture},</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     journal = {Washington Soil Health Initiative},</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     year = {2023},</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     url = {https://wa-department-of-agriculture.github.io/soils/},</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   }</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -180,10 +197,10 @@
 <ul class="list-unstyled">
 <li>Jadey N Ryan <br><small class="roles"> Maintainer, author </small>  </li>
 <li>Molly McIlquham <br><small class="roles"> Author </small>  </li>
-<li>Kwabena A Sarpong  <br><small class="roles"> Author </small>  </li>
+<li>Kwabena A Sarpong <br><small class="roles"> Author </small>  </li>
 <li>Leslie Michel <br><small class="roles"> Author </small>  </li>
-<li>Teal Potter  <br><small class="roles"> Author </small>  </li>
-<li>Deirdre Griffin LaHue  <br><small class="roles"> Author </small>  </li>
+<li>Teal Potter <br><small class="roles"> Author </small>  </li>
+<li>Deirdre Griffin LaHue <br><small class="roles"> Author </small>  </li>
 <li>Dani L Gelardi <br><small class="roles"> Author </small>  </li>
 <li>Washington State Department of Agriculture <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
@@ -197,7 +214,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Jadey N Ryan, Molly McIlquham, Kwabena A Sarpong , Leslie Michel, Teal Potter , Deirdre Griffin LaHue , Dani L Gelardi, Washington State Department of Agriculture.</p>
+<p>Developed by Jadey N Ryan, Molly McIlquham, Kwabena A Sarpong, Leslie Michel, Teal Potter, Deirdre Griffin LaHue, Dani L Gelardi, Washington State Department of Agriculture.</p>
 </div>
 
 <div class="pkgdown-footer-right">

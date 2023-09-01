@@ -30,7 +30,7 @@ devtools::install_github("WA-Department-of-Agriculture/soils")
 ## Creating a New `{soils}` Project
 
 Read the
-[vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/project.html)
+[vignette](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
 for a detailed how-to.
 
 To view the vignette within RStudio, run the command
@@ -39,11 +39,18 @@ To view the vignette within RStudio, run the command
 ## R Scripts and Functions
 
 Read the
-[vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/functions.html)
+[vignette](https://wa-department-of-agriculture.github.io/soils/articles/functions.html)
 for more details.
 
 To view the vignette within RStudio, run the command
 `vignette("functions", "soils")`.
+
+### `{washi}` Theme
+
+Describe dependency on `{washi}` for pretty styling of visualizations
+and reports.
+
+Describe font installation.
 
 ## Reports
 
@@ -51,7 +58,7 @@ This package can generate static `.docx` reports and interactive `.html`
 reports.
 
 Read the
-[vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/report.html)
+[vignette](https://wa-department-of-agriculture.github.io/soils/articles/report.html)
 for a detailed how-to.
 
 To view the vignette within RStudio, run the command

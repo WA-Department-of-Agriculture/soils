@@ -105,7 +105,10 @@ release](https://posit.co/download/rstudio-desktop/) of RStudio.
 
 To render `.docx` files, you must have Microsoft Word installed.
 
-## Citation
+## Acknowledgement and Citation
+
+The below acknowledgement and citation are automatically embedded in
+each report.
 
 The Soil Health Report Template used to generate this report was
 developed by Washington State Department of Agriculture and Washington

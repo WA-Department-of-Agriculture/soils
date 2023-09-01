@@ -63,7 +63,9 @@ The report template uses [Quarto](https://quarto.org/docs/get-started/), which i
 
 To render `.docx` files, you must have Microsoft Word installed.
 
-## Citation
+## Acknowledgement and Citation
+
+The below acknowledgement and citation are automatically embedded in each report.
 
 ```{r, echo = FALSE, results='asis'}
 acknowledgement <- knitr::knit_child(

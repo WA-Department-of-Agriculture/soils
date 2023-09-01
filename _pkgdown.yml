@@ -58,7 +58,7 @@ reference:
   - format_ft_colors
   - unit_hline
 - title: Render reports
-  contents: render_report
+  contents: render_producer_report
 - title: Helpers
   contents:
   - calculate_mode

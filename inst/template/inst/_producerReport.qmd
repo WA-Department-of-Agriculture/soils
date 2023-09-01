@@ -455,7 +455,7 @@ map
 #| eval: !expr out_type %in% c("pdf", "docx")
 #| out-width: 6in
 knitr::include_graphics(
-  paste0(path, "map.png")
+  paste0(path, "/map.png")
 )
 ```
 
@@ -557,7 +557,7 @@ physical_plot <- soils::make_strip_plot(
 soils::save_plot(physical_plot, path = path)
 
 knitr::include_graphics(
-  paste0(path, "physical_plot.png")
+  paste0(path, "/physical_plot.png")
 )
 ```
 
@@ -598,7 +598,7 @@ soils::save_plot(
 )
 
 knitr::include_graphics(
-  paste0(path, "biological_plot.png")
+  paste0(path, "/biological_plot.png")
 )
 ```
 
@@ -637,7 +637,7 @@ soils::save_plot(
 )
 
 knitr::include_graphics(
-  paste0(path, "chemical_plot.png")
+  paste0(path, "/chemical_plot.png")
 )
 ```
 
@@ -673,7 +673,7 @@ macro_plot <- soils::make_strip_plot(
 soils::save_plot(macro_plot, path = path)
 
 knitr::include_graphics(
-  paste0(path, "macro_plot.png")
+  paste0(path, "/macro_plot.png")
 )
 ```
 
@@ -712,7 +712,7 @@ soils::save_plot(
 )
 
 knitr::include_graphics(
-  paste0(path, "micro_plot.png")
+  paste0(path, "/micro_plot.png")
 )
 ```
 

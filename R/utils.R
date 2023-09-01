@@ -1,3 +1,11 @@
+# Copy R files to template folder
+files <- c("helpers.R", "map.R", "plots.R", "render.R", "tables.R")
+fs::file_copy(
+  path = paste0(here::here(), "/R/", files),
+  new_path = paste0(here::here(), "/inst/template/R/", files),
+  overwrite = TRUE
+)
+
 # Check packages are installed manually with rlang since they are used only in
 # Quarto
 

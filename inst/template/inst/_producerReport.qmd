@@ -39,6 +39,14 @@ knitr::opts_chunk$set(
 
 # get output file type
 out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+
+# set path for saving figure output
+path <- here::here("inst/figure_output/")
+
+# create directory if needed
+if (!dir.exists(path)) {
+  dir.create(path)
+}
 ```
 
 ```{r load-data}
@@ -424,11 +432,11 @@ map <- soils::make_leaflet(gis)
 ```{r save-map}
 invisible(htmlwidgets::saveWidget(
   map,
-  file = here::here("inst/figure_output/map.html")
+  file = paste0(path, "map.html")
 ))
 invisible(webshot::webshot(
-  url = here::here("inst/figure_output/map.html"),
-  file = here::here("inst/figure_output/map.png"),
+  url = paste0(path, "map.html"),
+  file = paste0(path, "map.png"),
 ))
 ```
 
@@ -447,7 +455,7 @@ map
 #| eval: !expr out_type %in% c("pdf", "docx")
 #| out-width: 6in
 knitr::include_graphics(
-  here::here("inst/figure_output/map.png")
+  paste0(path, "map.png")
 )
 ```
 
@@ -461,7 +469,7 @@ cat("<br>")
 #| eval: !expr out_type == "html"
 if ("downloadthis" %in% rownames(installed.packages())) {
   downloadthis::download_file(
-    path = paste0(here::here(), "/inst/figure_output/map.png"),
+    path = paste0(path, "map.png"),
     button_label = "Download map as .png",
     button_type = "success"
   )
@@ -480,9 +488,11 @@ cat("### <span style='color:#a60f2d'>Physical Measurements</span> ![](images/phy
 ```
 
 ```{r texture-wrangle}
-# Texture is formatted for the texture triangle
+# Wrangle physical data for the texture triangle
 texture <- groups$physical |>
-  subset(measurement %in% c("sand_%", "silt_%", "clay_%")) |>
+  subset(
+    measurement %in% c("sand_%", "silt_%", "clay_%")
+  ) |>
   dplyr::select(
     category,
     sampleId,
@@ -512,8 +522,12 @@ tables$physical <- texture |>
     by = c("Field" = "Field or Average")
   ) |>
   dplyr::mutate(
-    Texture = ifelse(is.na(Texture.x), Texture.y, Texture.x),
-    .after  = Field
+    Texture = ifelse(
+      is.na(Texture.x),
+      Texture.y,
+      Texture.x
+    ),
+    .after = Field
   ) |>
   dplyr::rename(`Field or Average` = "Field") |>
   dplyr::select(-c(Texture.x, Texture.y))
@@ -535,11 +549,15 @@ soils::make_ft("physical") |>
 
 ```{r physical-plot-static}
 #| eval: !expr out_type %in% c("pdf", "docx")
-physical_plot <- soils::make_strip_plot(groups$physical, output = "static")
-soils::save_plot(physical_plot, ext = "png", width = 6, height = 4)
+physical_plot <- soils::make_strip_plot(
+  groups$physical,
+  output = "static"
+)
+
+soils::save_plot(physical_plot, path = path)
 
 knitr::include_graphics(
-  here::here("inst/figure_output/physical_plot.png")
+  paste0(path, "physical_plot.png")
 )
 ```
 
@@ -569,11 +587,18 @@ soils::make_ft("biological")
 
 ```{r biological-plot-static}
 #| eval: !expr out_type %in% c("pdf", "docx")
-biological_plot <- soils::make_strip_plot(groups$biological, output = "static")
-soils::save_plot(biological_plot, ext = "png", width = 6, height = 4)
+biological_plot <- soils::make_strip_plot(
+  groups$biological,
+  output = "static"
+)
+
+soils::save_plot(
+  biological_plot,
+  path = path
+)
 
 knitr::include_graphics(
-  here::here("inst/figure_output/biological_plot.png")
+  paste0(path, "biological_plot.png")
 )
 ```
 
@@ -601,11 +626,18 @@ soils::make_ft("chemical") |>
 
 ```{r chemical-plot-static}
 #| eval: !expr out_type %in% c("pdf", "docx")
-chemical_plot <- soils::make_strip_plot(groups$chemical, output = "static")
-soils::save_plot(chemical_plot, ext = "png", width = 6, height = 4)
+chemical_plot <- soils::make_strip_plot(
+  groups$chemical,
+  output = "static"
+)
+
+soils::save_plot(
+  chemical_plot,
+  path = path
+)
 
 knitr::include_graphics(
-  here::here("inst/figure_output/chemical_plot.png")
+  paste0(path, "chemical_plot.png")
 )
 ```
 
@@ -617,8 +649,6 @@ knitr::include_graphics(
 #| fig-height: 6
 soils::make_plotly(groups$chemical)
 ```
-
-\newpage
 
 ```{r macro-header}
 #| results: asis
@@ -635,11 +665,15 @@ soils::make_ft("macro") |>
 
 ```{r macro-plot-static}
 #| eval: !expr out_type %in% c("pdf", "docx")
-macro_plot <- soils::make_strip_plot(groups$macro, output = "static")
-soils::save_plot(macro_plot, ext = "png", width = 6, height = 4)
+macro_plot <- soils::make_strip_plot(
+  groups$macro,
+  output = "static"
+)
+
+soils::save_plot(macro_plot, path = path)
 
 knitr::include_graphics(
-  here::here("inst/figure_output/macro_plot.png")
+  paste0(path, "macro_plot.png")
 )
 ```
 
@@ -651,8 +685,6 @@ knitr::include_graphics(
 #| fig-height: 6
 soils::make_plotly(groups$macro)
 ```
-
-\newpage
 
 ```{r micro-header}
 #| results: asis
@@ -669,11 +701,18 @@ soils::make_ft("micro") |>
 
 ```{r micro-plot-static}
 #| eval: !expr out_type %in% c("pdf", "docx")
-micro_plot <- soils::make_strip_plot(groups$micro, output = "static")
-soils::save_plot(micro_plot, ext = "png", width = 6, height = 4)
+micro_plot <- soils::make_strip_plot(
+  groups$micro,
+  output = "static"
+)
+
+soils::save_plot(
+  micro_plot,
+  path = path
+)
 
 knitr::include_graphics(
-  here::here("inst/figure_output/micro_plot.png")
+  paste0(path, "micro_plot.png")
 )
 ```
 

@@ -18,13 +18,14 @@
 #'
 
 make_strip_plot <- function(
-    df,
-    output,
-    font_family = "Poppins",
-    primary_color = washi::washi_pal[["standard"]][["red"]],
-    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-    other_color = washi::washi_pal[["standard"]][["tan"]],
-    primary_accent_color = washi::washi_pal[["standard"]][["blue"]]) {
+  df,
+  output,
+  font_family = "Poppins",
+  primary_color = washi::washi_pal[["standard"]][["red"]],
+  secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
+  other_color = washi::washi_pal[["standard"]][["tan"]],
+  primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
+    ) {
   output <- match.arg(arg = output, choices = c("static", "html"))
 
   # Subset data to just producer for labels
@@ -209,12 +210,13 @@ make_strip_plot <- function(
 #'
 
 make_plotly <- function(
-    df,
-    font_family = "Poppins",
-    primary_color = washi::washi_pal[["standard"]][["red"]],
-    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-    other_color = washi::washi_pal[["standard"]][["tan"]],
-    primary_accent_color = washi::washi_pal[["standard"]][["blue"]]) {
+  df,
+  font_family = "Poppins",
+  primary_color = washi::washi_pal[["standard"]][["red"]],
+  secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
+  other_color = washi::washi_pal[["standard"]][["tan"]],
+  primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
+    ) {
   # ggplot -> plotly has issues with overlapping axis labels when
   # facetting https://github.com/plotly/plotly.R/issues/1224 possible
   # solution to look into:
@@ -222,8 +224,9 @@ make_plotly <- function(
   # current remedy is adjusting the panel.spacing.x and .y in
   # make_strip_plot function
 
-  df_plotly <- make_strip_plot(df,
-                               output = "html"
+  df_plotly <- make_strip_plot(
+    df,
+    output = "html"
   ) |>
     plotly::ggplotly(tooltip = "text") |>
     plotly::layout(
@@ -274,27 +277,38 @@ make_plotly <- function(
   return(df_plotly)
 }
 
-#' Save plot
+#' ggplot2::ggsave() with default arguments set.
 #'
-#' @param plot Name of plot to save.
-#' @param ext File extension type ("png", "svg", etc).
-#' @param height Height of plot.
-#' @param width Width of plot.
+#' @inheritParams ggplot2::ggsave
+#' @param path Path of the directory to save plot to. File name is
+#' determined by name of plot and file extension.
 #'
 #' @returns Side effects of saving plot.
 #'
 #' @export
 #'
 
-save_plot <- function(plot, ext, height, width) {
+save_plot <- function(
+  plot,
+  path,
+  device = "png",
+  height = 4,
+  width = 6,
+  units = "in"
+    ) {
+  if (!dir.exists(path)) {
+    dir.create(path)
+  }
+
   ggplot2::ggsave(
     plot = plot,
-    filename = paste0(deparse(substitute(plot)), ".", ext),
-    path = paste0(here::here(), "/inst/figure_output/"),
+    filename = paste0(deparse(substitute(plot)), ".", device),
+    path = path,
     dpi = 300,
     scale = 1,
     height = height,
     width = width,
-    device = ext
+    units = units,
+    device = device
   )
 }

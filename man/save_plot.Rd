@@ -2,22 +2,26 @@
 % Please edit documentation in R/plots.R
 \name{save_plot}
 \alias{save_plot}
-\title{Save plot}
+\title{ggplot2::ggsave() with default arguments set.}
 \usage{
-save_plot(plot, ext, height, width)
+save_plot(plot, path, device = "png", height = 4, width = 6, units = "in")
 }
 \arguments{
-\item{plot}{Name of plot to save.}
+\item{plot}{Plot to save, defaults to last plot displayed.}
 
-\item{ext}{File extension type ("png", "svg", etc).}
+\item{path}{Path of the directory to save plot to. File name is
+determined by name of plot and file extension.}
 
-\item{height}{Height of plot.}
+\item{device}{Device to use. Can either be a device function
+(e.g. \link{png}), or one of "eps", "ps", "tex" (pictex),
+"pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).}
 
-\item{width}{Width of plot.}
+\item{width, height, units}{Plot size in \code{units} ("in", "cm", "mm", or "px").
+If not supplied, uses the size of current graphics device.}
 }
 \value{
 Side effects of saving plot.
 }
 \description{
-Save plot
+ggplot2::ggsave() with default arguments set.
 }

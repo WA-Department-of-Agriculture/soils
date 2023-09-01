@@ -14,6 +14,7 @@
 #'   * 'html' for an interactive report.
 #'   * 'docx' for an editable word document.
 #'   * 'all' for rendering all supported output formats.
+#' @param output_dir Path to the directory that holds the reports.
 #'
 #' @export
 #'
@@ -21,27 +22,33 @@
 #' \dontrun{
 #' # Render single html report for first producer in data set
 #' first_producer <- head(exampleData$producerId, 1)
-#' render_report(
+#' render_producer_report(
 #'   first_producer,
 #'   year = 2023,
-#'   output = "html"
+#'   output = "html",
+#'   output_dir = paste0(here::here(),"/inst/reports/")
 #' )
 #'
 #' # Render docx reports for all 2023 producers
 #' unique(exampleData$producerId) |>
 #'   purrr::walk(
-#'     \(producerId) render_report(
+#'     \(producerId) render_producer_report(
 #'       producerId,
 #'       year = 2023,
 #'       output = "docx",
+#'       output_dir = paste0(here::here(),"/inst/reports/"),
 #'       .progress = TRUE
 #'     )
 #'   )
 #' }
-render_report <- function(producerId, year, output = "html") {
+render_producer_report <- function(producerId,
+                                   year,
+                                   output = "html",
+                                   output_dir
+                                   ) {
   rlang::arg_match(
     output,
-    values = c("docx", "html", "all")
+    values = c("docx", "html")
   )
 
   quarto::quarto_render(
@@ -55,7 +62,8 @@ render_report <- function(producerId, year, output = "html") {
       year,
       "_",
       producerId,
-      "report"
+      "_Report.",
+      output
     ),
     execute_params = list(
       producerId = producerId,
@@ -66,12 +74,17 @@ render_report <- function(producerId, year, output = "html") {
   # Move files from main project folder to reports folder
   files <- list.files(
     path = here::here(),
-    pattern = "\\report.docx$|\\report.html$",
+    pattern = "\\_Report.docx$|\\_Report.html$",
     full.names = FALSE
   )
 
+  # Create directory if needed
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir)
+  }
+
   fs::file_move(
     path = paste0(here::here(), "/", files),
-    new_path = paste0(here::here(), "/inst/reports/", files)
+    new_path = paste0(output_dir, files)
   )
 }

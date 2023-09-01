@@ -1,4 +1,4 @@
-citHeader("To cite soils in publications, please use:")
+citHeader("To cite {soils} in publications, please use:")
 
 bibentry(
   bibtype  = "Article",
@@ -15,10 +15,10 @@ bibentry(
   ),
   journal  = "Washington Soil Health Initiative",
   year     = "2023",
-  url      = "https://wa-department-of-agriculture.github.io/soils/",
+  url      = "https://washingtonsoilhealthinitiative.com/",
   textVersion =
     paste("Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL.",
     "2023. Visualize and Report Soil Health Survey Data with {soils}.",
     "Washington Soil Health Initiative.",
-    "https://wa-department-of-agriculture.github.io/soils/")
+    "https://washingtonsoilhealthinitiative.com/")
 )

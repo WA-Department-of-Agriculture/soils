@@ -2,15 +2,6 @@
 output: github_document
 ---
 
-```{r options, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.cap = "bottom",
-  out.width = "100%"
-)
-```
-
 # soils <a href="https://wa-department-of-agriculture.github.io/soils/">![](man/figures/logo.svg){align="right" height="138"}</a>
 
 <!-- badges: start -->
@@ -52,7 +43,7 @@ To view the vignette within RStudio, run the command `vignette("functions", "soi
 
 This package can generate static `.docx` reports and interactive `.html` reports.
 
-Read the [vignette](https://wa-department-of-agriculture.github.io/soils/articles/report.html) for a detailed how-to.
+Read the [vignette](https://wa-department-of-agriculture.github.io/soils/articles/report.html) for a detailed how-to and to check out the example reports.
 
 To view the vignette within RStudio, run the command `vignette("report", "soils")`.
 
@@ -75,6 +66,9 @@ To render `.docx` files, you must have Microsoft Word installed.
 ## Citation
 
 ```{r, echo = FALSE, results='asis'}
-acknowledgement <- knitr::knit_child("./inst/template/inst/07_acknowledgement.qmd", quiet = TRUE)
+acknowledgement <- knitr::knit_child(
+  "./inst/template/inst/07_acknowledgement.qmd", 
+  quiet = TRUE)
+
 cat(acknowledgement, sep = "\n")
 ```

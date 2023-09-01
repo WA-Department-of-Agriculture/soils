@@ -11,8 +11,9 @@
 #'
 
 make_leaflet <- function(
-    df,
-    primary_color = washi::washi_pal[["standard"]][["red"]]) {
+  df,
+  primary_color = washi::washi_pal[["standard"]][["red"]]
+    ) {
   agol <- "https://server.arcgisonline.com/ArcGIS/rest/services/"
 
   leaflet::leaflet(df) |>
@@ -24,7 +25,9 @@ make_leaflet <- function(
       urlTemplate = paste0(agol, "/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"),
       group = "Topographic"
     ) |>
-    leaflet::addCircleMarkers(~Longitude, ~Latitude,
+    leaflet::addCircleMarkers(
+      ~Longitude,
+      ~Latitude,
       label = ~ lapply(paste(`Field ID`), htmltools::HTML),
       labelOptions = leaflet::labelOptions(
         noHide = TRUE,
@@ -33,7 +36,9 @@ make_leaflet <- function(
       ),
       popup = ~ lapply(
         paste(
-          `Field ID`, `Field Name`, Crop,
+          `Field ID`,
+          `Field Name`,
+          Crop,
           sep = "<br>"
         ),
         htmltools::HTML

@@ -59,7 +59,7 @@ reports.
 
 Read the
 [vignette](https://wa-department-of-agriculture.github.io/soils/articles/report.html)
-for a detailed how-to.
+for a detailed how-to and to check out the example reports.
 
 To view the vignette within RStudio, run the command
 `vignette("report", "soils")`.
@@ -107,25 +107,26 @@ To render `.docx` files, you must have Microsoft Word installed.
 
 ## Citation
 
-This Soil Health Report Template was developed by Washington State
-Department of Agriculture and Washington State University (WSU) as part
-of the Washington Soil Health Initiative. Text and figures were adapted
-from [WSU Extension publication \#FS378E Soil Health in Washington
+The Soil Health Report Template used to generate this report was
+developed by Washington State Department of Agriculture and Washington
+State University (WSU) as part of the Washington Soil Health Initiative.
+Text and figures were adapted from [WSU Extension publication \#FS378E
+Soil Health in Washington
 Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards "WSU Extension publication").
 
-    #> To cite soils in publications, please use:
-    #> 
-    #>   Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue
-    #>   D, Gelardi DL. 2023. A Soil Health Report Template for Survey
-    #>   Studies. Washington Soil Health Initiative.
-    #>   https://wa-department-of-agriculture.github.io/soils/
-    #> 
-    #> A BibTeX entry for LaTeX users is
-    #> 
-    #>   @Article{,
-    #>     title = {A Soil Health Report Template for Survey Studies},
-    #>     author = {Jadey N Ryan and Molly McIlquham and Kwabena A Sarpong and Leslie Michel and Teal Potter and Deirdre Griffin LaHue and Dani L Gelardi and Washington State Department of Agriculture},
-    #>     journal = {Washington Soil Health Initiative},
-    #>     year = {2023},
-    #>     url = {https://wa-department-of-agriculture.github.io/soils/},
-    #>   }
+To cite {soils} in publications, please use:
+
+> Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D,
+> Gelardi DL. 2023. Visualize and Report Soil Health Survey Data with
+> {soils}. Washington Soil Health Initiative.
+> <https://washingtonsoilhealthinitiative.com/>
+
+BibTex entry:
+
+    ## @Article{,
+    ##   title = {Visualize and Report Soil Health Survey Data with {soils}},
+    ##   author = {Jadey N Ryan and Molly McIlquham and Kwabena A Sarpong and Leslie Michel and Teal Potter and Deirdre Griffin LaHue and Dani L Gelardi and Washington State Department of Agriculture},
+    ##   journal = {Washington Soil Health Initiative},
+    ##   year = {2023},
+    ##   url = {https://washingtonsoilhealthinitiative.com/},
+    ## }

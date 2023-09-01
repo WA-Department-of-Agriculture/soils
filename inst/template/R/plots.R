@@ -204,18 +204,7 @@ make_strip_plot <- function(
 
 #' Make strip plot interactive with plotly
 #'
-#' @param df Dataframe containing columns: 'category', 'abbr_unit',
-#'   'unit', 'dummy', 'sampleLabel'.
-#' @param font_family Font family to use throughout plot. Defaults to
-#'   "Poppins".
-#' @param primary_color Color of producer's sample points Defaults to
-#'   WaSHI green.
-#' @param secondary_color Color of sample points with 'sameCrop' or
-#'   sameCounty' categories. Defaults to WaSHI gray.
-#' @param other_color Color of all other sample points in project.
-#'   Defaults to WaSHI tan.
-#' @param primary_accent_color Color of facet strip background.
-#'   Defaults to WaSHI blue.
+#' @inheritParams make_strip_plot
 #' @export
 #'
 

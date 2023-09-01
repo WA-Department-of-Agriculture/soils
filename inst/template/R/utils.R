@@ -21,11 +21,6 @@ rlang::check_installed(
   reason = "to pivot data for wrangling."
 )
 
-rlang::check_installed(
-  "rlang",
-  reason = "to check packages are installed and set names in purrr functions."
-)
-
 # Below functions from
 # https://github.com/ThinkR-open/golem/blob/365a5cc303b189973abab0dd375c64be79bcf74a/R/utils.R
 

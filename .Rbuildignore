@@ -3,7 +3,6 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^data-raw
-\.docx$
 example_reports
 figure_output
 ^_pkgdown\.yml$

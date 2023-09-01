@@ -1,8 +1,8 @@
 ---
-title: "Soil Health Reports"
+title: "New Template Project"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Soil Health Reports}
+  %\VignetteIndexEntry{New Template Project}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

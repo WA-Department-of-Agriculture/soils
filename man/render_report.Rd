@@ -23,8 +23,8 @@ Currently supported options:
 \description{
 Render \verb{_producerReport.qmd} to .html or .docx files. The word document
 outputs should be opened and manually tweaked to ensure the report looks
-good. Specifically, some wide tables should be \code{autofit} within MS Word by
-going to \code{Layout} > \code{AutoFit} > \verb{AutoFit Window.}
+good. See \code{vignette("docx", package = "soils")} for more details on these
+tweaks.
 }
 \examples{
 \dontrun{
@@ -37,15 +37,14 @@ render_report(
 )
 
 # Render docx reports for all 2023 producers
-}
 unique(exampleData$producerId) |>
   purrr::walk(
-    \(producerId) render_html(
+    \(producerId) render_report(
       producerId,
       year = 2023,
       output = "docx",
       .progress = TRUE
     )
   )
-
+}
 }

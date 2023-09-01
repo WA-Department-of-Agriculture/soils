@@ -1,8 +1,6 @@
 ---
-format: gfm
+output: github_document
 ---
-
-<!-- README.md is generated from README.qmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -35,13 +33,31 @@ Install the development version of `soils` from [GitHub](https://github.com/) wi
 devtools::install_github("WA-Department-of-Agriculture/soils")
 ```
 
-## Functions
+## Creating a New `{soils}` Project
+
+Read the [vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/project.html) for a detailed how-to.
+
+To view the vignette within RStudio, run the command `vignette("project", "soils")`.
+
+## R Scripts and Functions
+
+Read the [vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/functions.html) for more details.
+
+To view the vignette within RStudio, run the command `vignette("functions", "soils")`.
 
 ## Reports
 
-This package can generate static `.docx` reports and interactive `.html` reports. Click on the below screenshots to view examples.
+This package can generate static `.docx` reports and interactive `.html` reports.
 
-[![First page of example .docx report](man/figures/report_docx.png){fig-alt="First page of example .docx report" width="290"}](https://github.com/WA-Department-of-Agriculture/soils/tree/origin/inst/example_reports/)
+Read the [vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/report.html) for a detailed how-to.
+
+To view the vignette within RStudio, run the command `vignette("report", "soils")`.
+
+Click on the below images to open the report examples.
+
+[![First page of example .docx report](man/figures/report_docx.png){fig-alt="First page of example .docx report" height="300"}](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.pdf)
+
+[![Screenshot of example .html report](man/figures/report_html.png){fig-alt="Screenshot of .html report" height="300"}](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.html)
 
 ### Requirements
 

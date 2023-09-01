@@ -1,6 +1,4 @@
 
-<!-- README.md is generated from README.qmd. Please edit that file -->
-
 # soils <a href="https://wa-department-of-agriculture.github.io/soils/"><img src="man/figures/logo.svg" data-align="right" height="138" /></a>
 
 <!-- badges: start -->
@@ -29,20 +27,45 @@ Install the development version of `soils` from
 devtools::install_github("WA-Department-of-Agriculture/soils")
 ```
 
-## Functions
+## Creating a New `{soils}` Project
+
+Read the
+[vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/project.html)
+for a detailed how-to.
+
+To view the vignette within RStudio, run the command
+`vignette("project", "soils")`.
+
+## R Scripts and Functions
+
+Read the
+[vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/functions.html)
+for more details.
+
+To view the vignette within RStudio, run the command
+`vignette("functions", "soils")`.
 
 ## Reports
 
 This package can generate static `.docx` reports and interactive `.html`
-reports. Click on the below screenshots to view examples.
+reports.
 
-<div fig-alt="First page of example .docx report">
+Read the
+[vignette](https://wa-department-of-agriculture.github.io/soils/docs/articles/report.html)
+for a detailed how-to.
 
-[<img src="man/figures/report_docx.png" width="290" />](https://github.com/WA-Department-of-Agriculture/soils/tree/origin/inst/example_reports/)
+To view the vignette within RStudio, run the command
+`vignette("report", "soils")`.
 
-First page of example .docx report
+Click on the below images to open the report examples.
 
-</div>
+[<img src="man/figures/report_docx.png"
+data-fig-alt="First page of example .docx report" height="300"
+alt="First page of example .docx report" />](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.pdf)
+
+[<img src="man/figures/report_html.png"
+data-fig-alt="Screenshot of .html report" height="300"
+alt="Screenshot of example .html report" />](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.html)
 
 ### Requirements
 

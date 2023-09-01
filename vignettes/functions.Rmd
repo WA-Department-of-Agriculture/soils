@@ -1,8 +1,8 @@
 ---
-title: "Soil Health Reports"
+title: "Visualization Functions"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Soil Health Reports}
+  %\VignetteIndexEntry{Visualization Functions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

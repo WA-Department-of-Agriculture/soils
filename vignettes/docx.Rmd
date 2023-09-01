@@ -7,6 +7,46 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r echo=FALSE}
-knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/origin/inst/example_reports/example_producer_report.pdf", height = "100%")
+```{r setup}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  out.width = "150%"
+)
+```
+
+```{=html}
+<style>
+
+.tabset-pills .tab-content {
+    border: 0px;
+}
+
+</style>
+```
+These example reports were rendered to `.docx` files then converted to PDFs for web publishing.
+
+After rendering to `.docx`, the file was opened in Microsoft Word for manual formatting edits:
+
+-   Change images to float around text.
+-   Some wide tables should be `autofit` by going to `Layout` \> `AutoFit` \> \`AutoFit Window.
+-   Adjust plot sizes and page breaks.
+
+The below examples show the output with and without these edits.
+
+##  {.tabset .tabset-pills}
+
+### Manual Formatting Edits
+
+See this manually formatted report full screen in a [new tab](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.pdf "See the manually edited .docx report without edits in full screen."){target="_blank"}.
+
+```{r}
+knitr::include_url("https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.pdf", height = "500px")
+```
+
+### Without Edits
+
+See the original rendered report full screen in a [new tab](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/72aefb3a55da25b6b1d3191c45ebc90570555e7d/inst/example_reports/example_producer_report_notFormatted.pdf "See the original .docx report without edits in full screen."){target="_blank"}.
+
+```{r}
+knitr::include_url("https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/72aefb3a55da25b6b1d3191c45ebc90570555e7d/inst/example_reports/example_producer_report_notFormatted.pdf", height = "500px")
 ```

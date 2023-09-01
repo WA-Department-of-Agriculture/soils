@@ -1,15 +1,15 @@
 #' Render producer reports
 #'
 #' Render `_producerReport.qmd` to .html or .docx files. The word document
-#' outputs should be opened and manually tweaked to ensure the report looks
-#' good. Specifically, some wide tables should be `autofit` within MS Word by
-#' going to `Layout` > `AutoFit` > `AutoFit Window.`
+#' outputs should be opened and manually edited to ensure the report looks
+#' good. See `vignette("docx", package = "soils")` for more details on these
+#' edits
 #'
 #' @param producerId Character producerId to render report for.
 #' @param year Year of samples to include in report.
 #' @param output Target output format.
 #'
-#' Currently supported options:
+#'   Currently supported options:
 #'
 #'   * 'html' for an interactive report.
 #'   * 'docx' for an editable word document.
@@ -28,17 +28,16 @@
 #' )
 #'
 #' # Render docx reports for all 2023 producers
-#' }
 #' unique(exampleData$producerId) |>
 #'   purrr::walk(
-#'     \(producerId) render_html(
+#'     \(producerId) render_report(
 #'       producerId,
 #'       year = 2023,
 #'       output = "docx",
 #'       .progress = TRUE
 #'     )
 #'   )
-#'
+#' }
 render_report <- function(producerId, year, output = "html") {
   rlang::arg_match(
     output,

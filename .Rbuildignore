@@ -14,3 +14,5 @@ figure_output
 ^pkgdown$
 ^\.github$
 ^vignettes/articles$
+^doc$
+^Meta$

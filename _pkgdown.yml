@@ -26,7 +26,7 @@ template:
         href: reference/index.html
 articles:
 - title: Get Started
-  navbar: ~
+  navbar: Get Started
   contents:
   - project
   - functions

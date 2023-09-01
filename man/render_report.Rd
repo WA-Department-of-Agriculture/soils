@@ -22,9 +22,9 @@ Currently supported options:
 }
 \description{
 Render \verb{_producerReport.qmd} to .html or .docx files. The word document
-outputs should be opened and manually tweaked to ensure the report looks
+outputs should be opened and manually edited to ensure the report looks
 good. See \code{vignette("docx", package = "soils")} for more details on these
-tweaks.
+edits
 }
 \examples{
 \dontrun{

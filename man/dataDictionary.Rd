@@ -5,9 +5,8 @@
 \alias{dataDictionary}
 \title{Data dictionary}
 \format{
-\subsection{\code{dataDictionary} A data frame with 32 rows and 7 columns.}{
+\subsection{\code{dataDictionary} A data frame with 32 rows and 7 columns. columns:}{
 
-columns:
 \describe{
 \item{measurement_group}{Name to group measurements by}
 \item{order}{Order of how measurements are presented within each measurement_group}
@@ -21,12 +20,13 @@ columns:
 }
 }
 \source{
-\url{https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health/state-of-the-soils}
+\href{https://washingtonsoilhealthinitiative.com/state-of-the-soils/}{WaSHI State of the Soils}
 }
 \usage{
 dataDictionary
 }
 \description{
-An example data dictionary for the example data set.
+An example data dictionary for the Washington Soil Health Initiative (WaSHI)
+State of the Soils Assessment anonymized data.
 }
 \keyword{datasets}

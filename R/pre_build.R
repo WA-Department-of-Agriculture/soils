@@ -1,4 +1,4 @@
-# Run this script before pushing to GitHub!
+# This should automatically be run during the package build process
 
 template_path <- paste0(here::here(), "/inst/template")
 

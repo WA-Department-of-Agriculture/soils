@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{calculate_mode}
 \alias{calculate_mode}
-\title{Calculate mode of categorical variable}
+\title{Calculate the mode of categorical variable}
 \usage{
 calculate_mode(x)
 }
@@ -13,7 +13,7 @@ calculate_mode(x)
 The value that occurred most often.
 }
 \description{
-Calculate mode of categorical variable
+Calculate the mode of categorical variable
 }
 \examples{
 calculate_mode(exampleData$crop)

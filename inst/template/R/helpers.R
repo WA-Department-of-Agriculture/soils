@@ -1,4 +1,4 @@
-#' Calculate mode of categorical variable
+#' Calculate the mode of categorical variable
 #'
 #' @param x Character vector to calculate mode from.
 #'

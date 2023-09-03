@@ -1,22 +1,229 @@
-#' Make facetted strip plot
+#' Make a texture triangle
 #'
-#' @param df Dataframe containing columns: 'category', 'abbr_unit',
-#'   'unit', 'dummy', 'sampleLabel'.
-#' @param output Type of ouput: either "static" or "html"
+#' ```{r child = "man/rmd/wrangle.Rmd"}
+#' ````
+#'
+#' @param df Data frame containing columns: `Sand`, `Clay`, `Silt`, `category`
+#' @param primary_color Color of producer's sample points Defaults to WaSHI
+#'   green.
+#' @param secondary_color Color of sample points with `"Same crop"` or `"Same
+#'   county"` values in the `category` column. Defaults to WaSHI gray.
+#' @param other_color Color of sample points with `"Other fields"` value in
+#'   `category` column. Defaults to WaSHI tan.
 #' @param font_family Font family to use throughout plot. Defaults to
-#'   "Poppins".
-#' @param primary_color Color of producer's sample points. Defaults to
-#'   WaSHI green.
-#' @param secondary_color Color of sample points with 'sameCrop' or
-#'   sameCounty' categories. Defaults to WaSHI gray.
-#' @param other_color Color of all other sample points in project.
-#'   Defaults to WaSHI tan.
-#' @param primary_accent_color Color of facet strip background.
-#'   Defaults to WaSHI blue.
+#'   `"Poppins"`.
+#'
+#' @returns `ggplot2` texture triangle.
 #'
 #' @export
 #'
+#' @examples
+#' # For Poppins font, must have it installed and registered in R with
+#' # the `{extrafont}` package.
+#' library(extrafont)
+#'
+#' # Read in wrangled texture data.
+#' # See `data_wrangling.R` for processing steps.
+#' path <- soils_example("dfTexture.csv")
+#' df <- read.csv(path)
+#'
+#' # The data structure necessary to render the df triangle
+#' dplyr::slice_sample(df, n = 1, by = category) |>
+#'   dplyr::glimpse()
+#'
+#' # Make sure class of `category` is `ordered factor` with `Your fields` at the
+#' # end so it is plotted on top of the other points.
+#' df$category <- factor(
+#'   df$category,
+#'   levels = c(
+#'     "Other fields",
+#'     "Same county",
+#'     "Same crop",
+#'     "Your fields"
+#'   ),
+#'   ordered = TRUE
+#' )
+#'
+#' class(df$category)
+#'
+#' levels(df$category)
+#'
+#' # Make the plot
+#' make_texture_triangle(df)
+#'
+make_texture_triangle <- function(
+  df,
+  primary_color = washi::washi_pal[["standard"]][["red"]],
+  secondary_color = washi::washi_pal[["standard"]][["gray"]],
+  other_color = washi::washi_pal[["standard"]][["tan"]],
+  font_family = "Poppins"
+    ) {
+  suppressWarnings({
+    ggplot2::ggplot(
+      data = usdaTexture$polygons,
+      mapping = ggplot2::aes(
+        x = sand,
+        y = clay,
+        z = silt
+      )
+    ) +
+      ggtern::coord_tern(L = "x", T = "y", R = "z") +
+      # USDA texture polygons
+      ggplot2::geom_polygon(
+        mapping = ggplot2::aes(
+          fill = label
+        ),
+        alpha = 0,
+        linewidth = 0.5,
+        color = "#201F1F",
+        show.legend = FALSE
+      ) +
+      # USDA texture labels
+      ggplot2::geom_text(
+        data = usdaTexture$labels,
+        mapping = ggplot2::aes(
+          label = label,
+          angle = angle
+        ),
+        color = "#201F1F",
+        size = 2
+      ) +
+      ggplot2::geom_point(
+        data = df,
+        mapping = ggplot2::aes(
+          x = Sand,
+          y = Clay,
+          z = Silt,
+          alpha = category,
+          color = category,
+          shape = category,
+          size = category
+        )
+      ) +
+      # Define scales for categories
+      ggplot2::scale_alpha_manual(
+        values = c(
+          "Your fields" = 0.8,
+          "Same county" = 0.8,
+          "Same crop" = 0.8,
+          "Other fields" = 0.6
+        )
+      ) +
+      ggplot2::scale_color_manual(
+        values = c(
+          "Your fields" = primary_color,
+          "Same county" = secondary_color,
+          "Same crop" = secondary_color,
+          "Other fields" = other_color
+        )
+      ) +
+      ggplot2::scale_shape_manual(
+        values = c(
+          "Your fields" = 15,
+          "Same county" = 17,
+          "Same crop" = 18,
+          "Other fields" = 19
+        )
+      ) +
+      ggplot2::scale_size_manual(
+        values = c(
+          "Your fields" = 3,
+          "Same county" = 2.2,
+          "Same crop" = 2.5,
+          "Other fields" = 2
+        )
+      ) +
+      # Theme
+      ggplot2::theme_minimal() +
+      ggplot2::labs(
+        xarrow = "Sand (%)",
+        yarrow = "Clay (%)",
+        zarrow = "Silt (%)"
+      ) +
+      # Tweak theme of plot
+      ggplot2::theme(
+        # Font
+        text = ggplot2::element_text(size = 12, family = font_family),
+        # Triangle panel
+        tern.panel.mask.show = FALSE,
+        # Axes
+        tern.axis.title.show = FALSE,
+        tern.axis.text.T = ggplot2::element_text(
+          hjust = 0.5
+        ),
+        tern.axis.text.L = ggplot2::element_text(
+          hjust = 0.5,
+          angle = 60
+        ),
+        tern.axis.text.R = ggplot2::element_text(
+          vjust = 0.5,
+          angle = -60
+        ),
+        tern.axis.ticks = ggplot2::element_line(color = "transparent"),
+        # Legend
+        legend.position = "right",
+        legend.text = ggplot2::element_text(size = 10),
+        legend.margin = ggplot2::margin(l = -50),
+        legend.title = ggplot2::element_blank(),
+        # Arrows
+        tern.axis.arrow.show = TRUE,
+        tern.axis.arrow.sep = 0.075,
+        tern.axis.arrow.text.T = ggplot2::element_text(vjust = -0.6),
+        tern.axis.arrow.text.L = ggplot2::element_text(vjust = -0.6),
+        tern.axis.arrow.text.R = ggplot2::element_text(vjust = 1)
+      )
+  })
+}
 
+#' Make facetted strip plot
+#'
+#' ```{r child = "man/rmd/wrangle.Rmd"}
+#' ````
+#'
+#' @param df Dataframe containing columns: `category`, `abbr_unit`, `unit`,
+#'   `dummy`, and `sampleLabel`.
+#' @param output Type of ouput: either `"static"` or `"html"`
+#' @inheritParams make_texture_triangle
+#' @param primary_accent_color Color of facet strip background. Defaults to
+#'   WaSHI blue.
+#'
+#' @export
+#' @returns Facetted `ggplot2.` strip plot
+#'
+#' @examples
+#' # For Poppins font, must have it installed and registered in R with
+#' # the `{extrafont}` package.
+#' library(extrafont)
+#'
+#' # Read in wrangled plot data.
+#' # See `data_wrangling.R` for processing steps.
+#' path <- soils_example("dfplot.csv")
+#' df <- read.csv(path, encoding = "UTF-8")
+#'
+#' # The data structure necessary to render the df triangle
+#' dplyr::slice_sample(df, n = 1, by = category) |>
+#'   dplyr::glimpse()
+#'
+#' # Make sure class of `category` is `ordered factor` with `Your fields` at the
+#' # end so it is dfted on top of the other points.
+#' df$category <- factor(
+#'   df$category,
+#'   levels = c(
+#'     "Other fields",
+#'     "Same county",
+#'     "Same crop",
+#'     "Your fields"
+#'   ),
+#'   ordered = TRUE
+#' )
+#'
+#' class(df$category)
+#'
+#' levels(df$category)
+#'
+#' # Make the plot
+#' make_strip_plot(df, output = "static")
+#'
 make_strip_plot <- function(
   df,
   output,
@@ -203,12 +410,56 @@ make_strip_plot <- function(
   return(plot)
 }
 
-#' Make strip plot interactive with plotly
+#' Make facetted strip plot interactive with `plotly`
+#'
+#' @description
+#'
+#' This function runs `make_strip_plot()` then adds `plotly` interactivity.
+#'
+#' NOTE: `plotly` has issues with overlapping axis labels when facetting (See
+#' this [GitHub issue](https://github.com/plotly/plotly.R/issues/1224)).There
+#' were some hacky solutions to getting these plots to look good in the rendered
+#' reports.
 #'
 #' @inheritParams make_strip_plot
 #' @export
+#' @returns Facetted `plotly` strip plot.
 #'
-
+#' @examples
+#' # For Poppins font, must have it installed and registered in R with
+#' # the `{extrafont}` package.
+#' library(extrafont)
+#'
+#' # Read in wrangled plot data.
+#' # See `data_wrangling.R` for processing steps.
+#' path <- soils_example("dfplot.csv")
+#' df <- read.csv(path, encoding = "UTF-8")
+#'
+#' # The data structure necessary to render the df triangle
+#' dplyr::slice_sample(df, n = 1, by = category) |>
+#'   dplyr::glimpse()
+#'
+#' # Make sure class of `category` is `ordered factor` with `Your fields`
+#' # at the end so it is plotted on top of the other points.
+#' df$category <- factor(
+#'   df$category,
+#'   levels = c(
+#'     "Other fields",
+#'     "Same county",
+#'     "Same crop",
+#'     "Your fields"
+#'   ),
+#'   ordered = TRUE
+#' )
+#'
+#' class(df$category)
+#'
+#' levels(df$category)
+#'
+#' # Remember this function creates the plot specifically for the Quarto
+#' # rendered reports and will not look right outside of the reports.
+#'
+#' make_plotly(df)
 make_plotly <- function(
   df,
   font_family = "Poppins",
@@ -217,12 +468,12 @@ make_plotly <- function(
   other_color = washi::washi_pal[["standard"]][["tan"]],
   primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
     ) {
-  # ggplot -> plotly has issues with overlapping axis labels when
-  # facetting https://github.com/plotly/plotly.R/issues/1224 possible
-  # solution to look into:
+  # ggplot -> plotly has issues with overlapping axis labels when facetting
+  # https://github.com/plotly/plotly.R/issues/1224 possible solution to look
+  # into:
   # https://stackoverflow.com/questions/42763280/r-ggplot-and-plotly-axis-margin-wont-change
-  # current remedy is adjusting the panel.spacing.x and .y in
-  # make_strip_plot function
+  # current remedy is adjusting the panel.spacing.x and .y in make_strip_plot
+  # function
 
   df_plotly <- make_strip_plot(
     df,
@@ -277,17 +528,35 @@ make_plotly <- function(
   return(df_plotly)
 }
 
-#' ggplot2::ggsave() with default arguments set.
+#' `ggplot2::ggsave()` with default arguments
+#'
+#' Wrapper of `ggplot2::ggsave()` to save a plot to the specified directory with
+#' default settings of `.png` output with dimensions of 6" x 4".
 #'
 #' @inheritParams ggplot2::ggsave
-#' @param path Path of the directory to save plot to. File name is
-#' determined by name of plot and file extension.
+#' @param path Path of the directory to save plot to. File name is determined by
+#'   name of plot and file extension.
 #'
 #' @returns Side effects of saving plot.
 #'
 #' @export
 #'
-
+#' @examples
+#' library(ggplot2)
+#'
+#' plot <- exampleData |>
+#'   ggplot(aes(crop)) +
+#'   geom_bar() +
+#'   coord_flip()
+#'
+#' # Create temp file to save plot
+#' file <- tempfile()
+#'
+#' # Save plot
+#' save_plot(plot, path = file)
+#'
+#' # Delete plot file
+#' unlink(file)
 save_plot <- function(
   plot,
   path,

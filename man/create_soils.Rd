@@ -3,6 +3,9 @@
 \name{create_soils}
 \alias{create_soils}
 \title{Create a project directory for soil health reports using a Quarto template}
+\source{
+Adapted from \code{golem::create_golem()}.
+}
 \usage{
 create_soils(path, overwrite = FALSE, open = TRUE)
 }
@@ -17,11 +20,19 @@ create_soils(path, overwrite = FALSE, open = TRUE)
 A new project directory containing template and resources.
 }
 \description{
-This function was adapted from
-https://github.com/ThinkR-open/golem/blob/365a5cc303b189973abab0dd375c64be79bcf74a/R/create_golem.R
+Creates an RStudio project containing Quarto template and resources (images,
+style sheets, etc.) and R scripts with functions used in the Quarto template
+for your modification. See \code{vignettes("project", "soils")} for more details.
 }
 \examples{
 \dontrun{
-create_soils_project(tempdir("soils"))
+# Create temporary directory
+dir <- tempdir()
+
+# Create soils project
+create_soils(dir, overwrite = TRUE)
+
+# Delete temporary directory
+unlink(dir, recursive = TRUE)
 }
 }

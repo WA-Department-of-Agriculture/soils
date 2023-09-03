@@ -1,20 +1,20 @@
 #' Render producer reports
 #'
-#' Render `_producerReport.qmd` to .html or .docx files. The word document
-#' outputs should be opened and manually edited to ensure the report looks
-#' good. See `vignette("docx", package = "soils")` for more details on these
-#' edits
+#' Render `_producerReport.qmd` to `.html` or `.docx` files. The word document
+#' outputs should be opened and manually edited to ensure the report looks good.
+#' See `vignette("docx", package = "soils")` for more details on these edits
 #'
-#' @param producerId Character producerId to render report for.
+#' @param producerId Character `producerId` to render report for.
 #' @param year Year of samples to include in report.
 #' @param output Target output format.
 #'
 #'   Currently supported options:
 #'
-#'   * 'html' for an interactive report.
-#'   * 'docx' for an editable word document.
-#'   * 'all' for rendering all supported output formats.
-#' @param output_dir Path to the directory that holds the reports.
+#'   * `"html"` for an interactive report.
+#'   * `"docx"` for an editable word document.
+#'   * `"all"` for rendering all supported output formats.
+#' @param output_dir Path to the directory that holds the reports. If `NULL`,
+#'   the reports will be saved in the project directory.
 #'
 #' @export
 #'
@@ -44,12 +44,16 @@
 render_producer_report <- function(producerId,
                                    year,
                                    output = "html",
-                                   output_dir
+                                   output_dir = NULL
                                    ) {
   rlang::arg_match(
     output,
     values = c("docx", "html")
   )
+
+  if (is.null(output_dir)) {
+    output_dir <- here::here()
+  }
 
   quarto::quarto_render(
     input = paste0(
@@ -85,6 +89,6 @@ render_producer_report <- function(producerId,
 
   fs::file_move(
     path = paste0(here::here(), "/", files),
-    new_path = paste0(output_dir, files)
+    new_path = paste0(output_dir, "/", files)
   )
 }

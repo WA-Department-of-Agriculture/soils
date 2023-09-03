@@ -5,9 +5,8 @@
 \alias{exampleData}
 \title{Example data}
 \format{
-\subsection{\code{exampleData} A data frame with 100 rows and 51}{
+\subsection{\code{exampleData} A data frame with 100 rows and 51 columns:}{
 
-columns:
 \describe{
 \item{year}{Year of sample}
 \item{sampleId, producerId, fieldId}{Anonymized IDs}
@@ -20,14 +19,14 @@ columns:
 }
 }
 \source{
-\url{https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health/state-of-the-soils}
+\href{https://washingtonsoilhealthinitiative.com/state-of-the-soils/}{WaSHI State of the Soils}
 }
 \usage{
 exampleData
 }
 \description{
-A subset WaSHI State of the Soils Assessment data set that has been
-anonymized. This data set presents each sample in its own row, with
-columns for each measurement.
+A subset of the Washington Soil Health Initiative (WaSHI) State of the Soils
+Assessment anonymized data. This data set presents each sample in its own
+row, with columns for each measurement.
 }
 \keyword{datasets}

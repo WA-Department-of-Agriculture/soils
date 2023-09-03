@@ -4,10 +4,10 @@
 \alias{render_producer_report}
 \title{Render producer reports}
 \usage{
-render_producer_report(producerId, year, output = "html", output_dir)
+render_producer_report(producerId, year, output = "html", output_dir = NULL)
 }
 \arguments{
-\item{producerId}{Character producerId to render report for.}
+\item{producerId}{Character \code{producerId} to render report for.}
 
 \item{year}{Year of samples to include in report.}
 
@@ -15,18 +15,18 @@ render_producer_report(producerId, year, output = "html", output_dir)
 
 Currently supported options:
 \itemize{
-\item 'html' for an interactive report.
-\item 'docx' for an editable word document.
-\item 'all' for rendering all supported output formats.
+\item \code{"html"} for an interactive report.
+\item \code{"docx"} for an editable word document.
+\item \code{"all"} for rendering all supported output formats.
 }}
 
-\item{output_dir}{Path to the directory that holds the reports.}
+\item{output_dir}{Path to the directory that holds the reports. If \code{NULL},
+the reports will be saved in the project directory.}
 }
 \description{
-Render \verb{_producerReport.qmd} to .html or .docx files. The word document
-outputs should be opened and manually edited to ensure the report looks
-good. See \code{vignette("docx", package = "soils")} for more details on these
-edits
+Render \verb{_producerReport.qmd} to \code{.html} or \code{.docx} files. The word document
+outputs should be opened and manually edited to ensure the report looks good.
+See \code{vignette("docx", package = "soils")} for more details on these edits
 }
 \examples{
 \dontrun{

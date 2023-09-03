@@ -20,5 +20,5 @@ bibentry(
     paste("Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL.",
     "2023. Visualize and Report Soil Health Survey Data with {soils}.",
     "Washington Soil Health Initiative.",
-    "https://washingtonsoilhealthinitiative.com/")
+    "https://washingtonsoilhealthinitiative.com/.")
 )

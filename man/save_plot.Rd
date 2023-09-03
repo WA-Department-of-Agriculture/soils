@@ -2,15 +2,15 @@
 % Please edit documentation in R/plots.R
 \name{save_plot}
 \alias{save_plot}
-\title{ggplot2::ggsave() with default arguments set.}
+\title{\code{ggplot2::ggsave()} with default arguments}
 \usage{
 save_plot(plot, path, device = "png", height = 4, width = 6, units = "in")
 }
 \arguments{
 \item{plot}{Plot to save, defaults to last plot displayed.}
 
-\item{path}{Path of the directory to save plot to. File name is
-determined by name of plot and file extension.}
+\item{path}{Path of the directory to save plot to. File name is determined by
+name of plot and file extension.}
 
 \item{device}{Device to use. Can either be a device function
 (e.g. \link{png}), or one of "eps", "ps", "tex" (pictex),
@@ -23,5 +23,23 @@ If not supplied, uses the size of current graphics device.}
 Side effects of saving plot.
 }
 \description{
-ggplot2::ggsave() with default arguments set.
+Wrapper of \code{ggplot2::ggsave()} to save a plot to the specified directory with
+default settings of \code{.png} output with dimensions of 6" x 4".
+}
+\examples{
+library(ggplot2)
+
+plot <- exampleData |>
+  ggplot(aes(crop)) +
+  geom_bar() +
+  coord_flip()
+
+# Create temp file to save plot
+file <- tempfile()
+
+# Save plot
+save_plot(plot, path = file)
+
+# Delete plot file
+unlink(file)
 }

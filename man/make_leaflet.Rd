@@ -3,11 +3,16 @@
 \name{make_leaflet}
 \alias{make_leaflet}
 \title{Make leaflet map}
+\source{
+JavaScript code adapted from
+\href{https://github.com/bhaskarvk/leaflet.extras/tree/master}{\code{leaflet.extras}}.
+}
 \usage{
 make_leaflet(df, primary_color = washi::washi_pal[["standard"]][["red"]])
 }
 \arguments{
-\item{df}{Dataframe that contains sample info (sampleid, fieldid, crop, coordinates).}
+\item{df}{Dataframe containing columns: \verb{Field ID}, \verb{Field Name}, \code{Crop},
+\code{Latitude}, \code{Longitdude}.}
 
 \item{primary_color}{Color of points. Defaults to WaSHI red.}
 }
@@ -15,5 +20,29 @@ make_leaflet(df, primary_color = washi::washi_pal[["standard"]][["red"]])
 Leaflet map.
 }
 \description{
-Reset view code from https://github.com/bhaskarvk/leaflet.extras/blob/master/R/mapUtils.R
+\href{https://github.com/WA-Department-of-Agriculture/soils/blob/main/R/data_wrangling.R}{\code{data_wrangling.R}} wrangles the data into the specific structure shown in the below example. Currently, many variables and values are hard-coded into this function. In future work, we hope to broaden this function's flexibility. See the below example for what the input data structure must look like.
+}
+\examples{
+# Just for this example: remove duplicate coordinates.
+# Remember this is a dummy dataset with truncated coordinates, so many
+# points overlap and some may be displayed in water bodies.
+df <- exampleData |>
+  dplyr::distinct(latitude, longitude, .keep_all = TRUE)
+
+# Set up df for leaflet
+df <- df |>
+  subset(!duplicated(sampleId)) |>
+  dplyr::arrange(fieldId) |>
+  dplyr::select(c(
+    "Sample ID" = sampleId,
+    "Field ID" = fieldId,
+    "Field Name" = fieldName,
+    "Crop" = crop,
+    "Longitude" = longitude,
+    "Latitude" = latitude
+  )) |>
+  dplyr::mutate(`Field ID` = as.character(`Field ID`))
+
+# Make leaflet
+make_leaflet(df)
 }

@@ -1,18 +1,28 @@
-#' Create a project directory for soil health reports using a Quarto template
+#' Create a project directory for generating soil health reports
 #'
-#' This function was adapted from
-#' https://github.com/ThinkR-open/golem/blob/365a5cc303b189973abab0dd375c64be79bcf74a/R/create_golem.R
+#' Creates an RStudio project containing Quarto template and resources (images,
+#' style sheets, etc.) and R scripts with functions used in the Quarto template
+#' for your modification. See `vignettes("project", "soils")` for more details.
 #'
 #' @param path Name of project directory to be created.
 #' @param overwrite Boolean. Overwrite the existing project?
 #' @param open Boolean. Open the newly created project?
+#'
+#' @source Adapted from `golem::create_golem()`.
 #'
 #' @return A new project directory containing template and resources.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' create_soils_project(tempdir("soils"))
+#' # Create temporary directory
+#' dir <- tempdir()
+#'
+#' # Create soils project
+#' create_soils(dir, overwrite = TRUE)
+#'
+#' # Delete temporary directory
+#' unlink(dir, recursive = TRUE)
 #' }
 create_soils <- function(
   path,
@@ -48,19 +58,16 @@ create_soils <- function(
   }
   cat_green_tick("Created project directory")
 
-  template <- soils_sys("template")
+  invisible({
+    template <- soils_sys("template")
 
-  # Copy over whole directory
-  fs::dir_copy(
-    path = template,
-    new_path = paste0(path),
-    overwrite = TRUE
-  )
-
-  # Open _producerReport.qmd
-  rstudioapi::documentOpen(
-    paste0(path, "/inst/_producerReport.qmd")
-  )
+    # Copy over whole directory
+    fs::dir_copy(
+      path = template,
+      new_path = paste0(path),
+      overwrite = TRUE
+    )
+  })
 }
 
 #' Create a project directory for soil health reports using a Quarto template

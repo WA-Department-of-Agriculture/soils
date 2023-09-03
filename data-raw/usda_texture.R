@@ -1,5 +1,5 @@
 # This script prepares the USDA soil texture data for use in
-# `washi_texture_triangle()`. The data are stored internally only.
+# `make_texture_triangle()`.
 
 data(USDA, package = "ggtern")
 
@@ -22,6 +22,6 @@ labels <- USDA |>
       )
   )
 
-usda_texture <- list(polygons = polygons, labels = labels)
+usdaTexture <- list(polygons = polygons, labels = labels)
 
-usethis::use_data(usda_texture, internal = TRUE, overwrite = TRUE)
+usethis::use_data(usdaTexture, internal = TRUE, overwrite = TRUE)

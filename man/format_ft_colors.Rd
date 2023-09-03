@@ -2,7 +2,7 @@
 % Please edit documentation in R/tables.R
 \name{format_ft_colors}
 \alias{format_ft_colors}
-\title{Conditionally flextable background cell colors.}
+\title{Conditional formatting of flextable background cell colors}
 \usage{
 format_ft_colors(
   ft,
@@ -18,7 +18,20 @@ format_ft_colors(
 \item{darker_col}{Darker background color. Defaults to WaSHI tan.}
 }
 \description{
-Color the background cells based on how the value compares
-to the project average (as long as the project average is the last
-row of the table).
+Color the background cells based on how the value compares to the project
+average. The project average must be the last row of the table. A footnote is
+added to the table describing what the dark and light colors mean.
+}
+\examples{
+# Read in wrangled example table data.
+# See `data_wrangling.R` for processing steps.
+tables_path <- soils_example("tables.RDS")
+tables <- readRDS(tables_path)
+
+# Make the table
+ft <- flextable::flextable(tables$biological)
+ft
+
+# Conditionally format the background cells
+format_ft_colors(ft)
 }

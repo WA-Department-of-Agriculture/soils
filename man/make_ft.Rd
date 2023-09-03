@@ -2,14 +2,40 @@
 % Please edit documentation in R/tables.R
 \name{make_ft}
 \alias{make_ft}
-\title{Make flextable for specified 'measurement_group'.}
+\title{Make a flextable with column names from another dataframe}
 \usage{
-make_ft(measurement_group)
+make_ft(table, header)
 }
 \arguments{
-\item{measurement_group}{Name of measurement group to visualize in
-flextable.}
+\item{table}{A dataframe with the contents of the desired flextable output.}
+
+\item{header}{Another dataframe with three columns:
+\itemize{
+\item First column contains what the top header row. In our template, this is the abbreviation of the measurement (i.e. \verb{Organic Matter}).
+\item Second column, called \code{"key"}, contains the join key. In our template, this is the same as the first column.
+\item Third column contains the second header row. In our template, this is the unit (i.e. \verb{\%}).
+}}
+}
+\value{
+Formatted flextable object.
 }
 \description{
-Make flextable for specified 'measurement_group'.
+Make a flextable with column names from another dataframe
+}
+\examples{
+# Read in wrangled table data.
+# See `data_wrangling.R` for processing steps.
+headers_path <- soils_example("headers.RDS")
+headers <- readRDS(headers_path)
+
+tables_path <- soils_example("tables.RDS")
+tables <- readRDS(tables_path)
+
+# The data structure necessary to render the flextable
+headers$chemical
+
+tables$chemical
+
+# Make the table
+make_ft(table = tables$chemical, header = headers$chemical)
 }

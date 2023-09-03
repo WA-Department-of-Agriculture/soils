@@ -15,19 +15,34 @@ style_ft(
 \arguments{
 \item{ft}{Flextable object.}
 
-\item{header_font}{Font of header text. Defaults to Lato.}
+\item{header_font}{Font of header text. Defaults to \code{"Lato"}.}
 
-\item{body_font}{Font of body text. Defaults to Poppins.}
+\item{body_font}{Font of body text. Defaults to \code{"Poppins"}.}
 
-\item{header_color}{Background color of header cells. Defaults to
-WaSHI green.}
+\item{header_color}{Background color of header cells. Defaults to WaSHI
+green.}
 
-\item{border_color}{Color of border lines (programmatically
-darkened from selected color). Defaults to WaSHI tan.}
+\item{border_color}{Color of border lines. Defaults to WaSHI tan. Uses
+\code{{colorspace}} to programatically darken the given color since the default
+border color is the same as the darker background color in
+\code{format_ft_colors()}.}
 }
 \value{
 Styled flextable object.
 }
 \description{
 Style flextable
+}
+\examples{
+# Read in wrangled example table data.
+# See `data_wrangling.R` for processing steps.
+tables_path <- soils_example("tables.RDS")
+tables <- readRDS(tables_path)
+
+# Make the table
+ft <- flextable::flextable(tables$biological)
+ft
+
+# Style the table
+style_ft(ft)
 }

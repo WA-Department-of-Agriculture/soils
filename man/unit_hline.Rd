@@ -15,5 +15,22 @@ unit_hline(ft, columns)
 Flextable object with bottom borders added.
 }
 \description{
-Use when columns with the same units are merged together.
+Use when columns with the same units are merged together to add a bottom
+border to make it more obvious those columns share units.
+}
+\examples{
+# Read in wrangled table data.
+# See `data_wrangling.R` for processing steps.
+headers_path <- soils_example("headers.RDS")
+headers <- readRDS(headers_path)
+
+tables_path <- soils_example("tables.RDS")
+tables <- readRDS(tables_path)
+
+# Make the table
+ft <- make_ft(table = tables$chemical, header = headers$chemical)
+ft
+
+# Add a line under the merged columns with the same units
+unit_hline(ft, 5)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{make_plotly}
 \alias{make_plotly}
-\title{Make strip plot interactive with plotly}
+\title{Make facetted strip plot interactive with \code{plotly}}
 \usage{
 make_plotly(
   df,
@@ -14,24 +14,67 @@ make_plotly(
 )
 }
 \arguments{
-\item{df}{Dataframe containing columns: 'category', 'abbr_unit',
-'unit', 'dummy', 'sampleLabel'.}
+\item{df}{Dataframe containing columns: \code{category}, \code{abbr_unit}, \code{unit},
+\code{dummy}, and \code{sampleLabel}.}
 
 \item{font_family}{Font family to use throughout plot. Defaults to
-"Poppins".}
+\code{"Poppins"}.}
 
-\item{primary_color}{Color of producer's sample points. Defaults to
-WaSHI green.}
+\item{primary_color}{Color of producer's sample points Defaults to WaSHI
+green.}
 
-\item{secondary_color}{Color of sample points with 'sameCrop' or
-sameCounty' categories. Defaults to WaSHI gray.}
+\item{secondary_color}{Color of sample points with \code{"Same crop"} or \code{"Same county"} values in the \code{category} column. Defaults to WaSHI gray.}
 
-\item{other_color}{Color of all other sample points in project.
-Defaults to WaSHI tan.}
+\item{other_color}{Color of sample points with \code{"Other fields"} value in
+\code{category} column. Defaults to WaSHI tan.}
 
-\item{primary_accent_color}{Color of facet strip background.
-Defaults to WaSHI blue.}
+\item{primary_accent_color}{Color of facet strip background. Defaults to
+WaSHI blue.}
+}
+\value{
+Facetted \code{plotly} strip plot.
 }
 \description{
-Make strip plot interactive with plotly
+This function runs \code{make_strip_plot()} then adds \code{plotly} interactivity.
+
+NOTE: \code{plotly} has issues with overlapping axis labels when facetting (See
+this \href{https://github.com/plotly/plotly.R/issues/1224}{GitHub issue}).There
+were some hacky solutions to getting these plots to look good in the rendered
+reports.
+}
+\examples{
+# For Poppins font, must have it installed and registered in R with
+# the `{extrafont}` package.
+library(extrafont)
+
+# Read in wrangled plot data.
+# See `data_wrangling.R` for processing steps.
+path <- soils_example("dfplot.csv")
+df <- read.csv(path, encoding = "UTF-8")
+
+# The data structure necessary to render the df triangle
+dplyr::slice_sample(df, n = 1, by = category) |>
+  dplyr::glimpse()
+
+# Make sure class of `category` is `ordered factor` with `Your fields`
+# at the end so it is plotted on top of the other points.
+df$category <- factor(
+  df$category,
+  levels = c(
+    "Other fields",
+    "Same county",
+    "Same crop",
+    "Your fields"
+  ),
+  ordered = TRUE
+)
+
+class(df$category)
+
+levels(df$category)
+
+# Remember this function creates the plot specifically for the Quarto
+# rendered reports and will not look right outside of the reports.
+
+make_plotly(df)
 }

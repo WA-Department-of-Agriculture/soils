@@ -1,15 +1,42 @@
 #' Make leaflet map
 #'
-#' Reset view code from https://github.com/bhaskarvk/leaflet.extras/blob/master/R/mapUtils.R
+#' ```{r child = "man/rmd/wrangle.Rmd"}
+#' ````
 #'
-#' @param df Dataframe that contains sample info (sampleid, fieldid, crop, coordinates).
+#' @param df Dataframe containing columns: `Field ID`, `Field Name`, `Crop`,
+#'   `Latitude`, `Longitdude`.
 #' @param primary_color Color of points. Defaults to WaSHI red.
+#'
+#' @source JavaScript code adapted from
+#'   [`leaflet.extras`](https://github.com/bhaskarvk/leaflet.extras/tree/master).
 #'
 #' @returns Leaflet map.
 #'
 #' @export
 #'
-
+#' @examples
+#' # Just for this example: remove duplicate coordinates.
+#' # Remember this is a dummy dataset with truncated coordinates, so many
+#' # points overlap and some may be displayed in water bodies.
+#' df <- exampleData |>
+#'   dplyr::distinct(latitude, longitude, .keep_all = TRUE)
+#'
+#' # Set up df for leaflet
+#' df <- df |>
+#'   subset(!duplicated(sampleId)) |>
+#'   dplyr::arrange(fieldId) |>
+#'   dplyr::select(c(
+#'     "Sample ID" = sampleId,
+#'     "Field ID" = fieldId,
+#'     "Field Name" = fieldName,
+#'     "Crop" = crop,
+#'     "Longitude" = longitude,
+#'     "Latitude" = latitude
+#'   )) |>
+#'   dplyr::mutate(`Field ID` = as.character(`Field ID`))
+#'
+#' # Make leaflet
+#' make_leaflet(df)
 make_leaflet <- function(
   df,
   primary_color = washi::washi_pal[["standard"]][["red"]]

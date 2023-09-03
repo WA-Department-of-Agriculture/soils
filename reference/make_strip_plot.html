@@ -122,15 +122,37 @@ WaSHI blue.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Read in wrangled plot data.</span></span></span>
 <span class="r-in"><span><span class="co"># See `data_wrangling.R` for processing steps.</span></span></span>
-<span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="soils_example.html">soils_example</a></span><span class="op">(</span><span class="st">"dfplot.csv"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="soils_example.html">soils_example</a></span><span class="op">(</span><span class="st">"dfPlot.csv"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">path</span>, encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>file("") only supports open = "w+" and open = "w+b": using the former</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in read.table(file = file, header = header, sep = sep, quote = quote,     dec = dec, fill = fill, comment.char = comment.char, ...):</span> no lines available in input</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The data structure necessary to render the df triangle</span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="va">category</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in UseMethod("slice_sample"):</span> no applicable method for 'slice_sample' applied to an object of class "function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ year                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2022, 2023, 2023, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ dummy                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "dummy", "dummy", "dummy", "dummy"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ category              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Other fields", "Same county", "Same crop", "You…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleLabel           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Result:", "County 9&lt;br&gt;Cereal Grain&lt;br&gt;Result:"…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleId              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "22-ZPJ03-04", "23-DJU01-03", "23-FFF03-03", "23…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ farmName              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 013", "Farm 148", "Farm 153", "Farm 150"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerName          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Timmie", "Raashid", "Shaafi", "Shanna"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerId            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ZPJ03", "DJU01", "FFF03", "WUY05"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldName             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 04", "Field 03", "Field 03", "Field 03"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldId               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 4, 3, 3, 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ county                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 3", "County 9", "County 10", "County 9"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ crop                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Vegetable", "Cereal Grain", "Hay/Silage", "Past…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ texture               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sandy Loam", "Loamy Sand", "Silty Clay Loam", "…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ longitude             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -119, -120, -117, -119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ latitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 47, 48, 48, 49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "sand_%", "bd_g.cm3", "WHC_in.ft", "wsa_%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ value                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 54.00, 1.27, 1.90, 84.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement_group     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "physical", "physical", "physical", "physical"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ order                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 5, 7, 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement_full_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sand", "Bulk Density", "Water Holding Capacity"…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sand", "Bulk Density", "WHC", "Agg. Stability"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ unit                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "g/cm³", "in/ft", "%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr_unit             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sand &lt;br&gt;(%)", "Bulk Density &lt;br&gt;(g/cm³)", "WHC…</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Make sure class of `category` is `ordered factor` with `Your fields` at the</span></span></span>
 <span class="r-in"><span><span class="co"># end so it is dfted on top of the other points.</span></span></span>
@@ -144,17 +166,16 @@ WaSHI blue.</p></dd>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  ordered <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in df$category:</span> object of type 'closure' is not subsettable</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">category</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in df$category:</span> object of type 'closure' is not subsettable</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ordered" "factor" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">category</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in df$category:</span> object of type 'closure' is not subsettable</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Other fields" "Same county"  "Same crop"    "Your fields" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Make the plot</span></span></span>
 <span class="r-in"><span><span class="fu">make_strip_plot</span><span class="op">(</span><span class="va">df</span>, output <span class="op">=</span> <span class="st">"static"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in df$category:</span> object of type 'closure' is not subsettable</span>
+<span class="r-plt img"><img src="make_strip_plot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

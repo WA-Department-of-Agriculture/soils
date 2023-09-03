@@ -49,7 +49,7 @@ To view the vignette within RStudio, run the command `vignette("report", "soils"
 
 ![First page of example `.docx` report](man/figures/report_docx.png){fig-alt="First page of example .docx report"}
 
-![Screenshot of example `.html` report](man/figures/report_html.png){fig-alt="Screenshot of .html report"}
+![The beginning of an example `.html` report](man/figures/report_html.png){fig-alt="Screenshot of .html report"}
 
 ## R Scripts and Visualization Functions
 

@@ -29,8 +29,8 @@ articles:
   navbar: Get Started
   contents:
   - project
-  - functions
   - report
+  - functions
 - title: Examples
   navbar: Example Reports
   contents:
@@ -47,24 +47,26 @@ reference:
   contents: make_leaflet
 - title: Plots
   contents:
+  - make_texture_triangle
   - make_strip_plot
   - make_plotly
-  - texture_triangle
   - save_plot
 - title: Tables
   contents:
   - make_ft
-  - style_ft
-  - format_ft_colors
   - unit_hline
+  - format_ft_colors
+  - style_ft
 - title: Render reports
   contents: render_producer_report
 - title: Helpers
   contents:
   - calculate_mode
   - pull_unique
-- title: Example data and dictionary
+- title: Example data
   contents:
+  - soils_example
   - exampleData
   - dataDictionary
+  - usdaTexture
 

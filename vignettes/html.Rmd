@@ -7,9 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-HTML reports contain interactive features such as a table of contents, map, figures, and a downloadable spreadsheet. These reports are 'self-contained', meaning all of the images and necessary resources are embedded in the file. Consequently, the file size can be quite large.
+HTML reports contain interactive features such as a table of contents, map, figures, and a downloadable spreadsheet. These reports are 'self-contained', meaning all images and necessary resources are embedded in the file. Consequently, the file size can be quite large.
 
-These reports can be distributed with cloud storage (Google Drive, Box.com, Dropbox.com, etc.). The report recipients should download the `.html` file to their computer and then open the file in a browser (Microsoft Edge, Google Chrome, Safari, etc.).
+These reports can be distributed with cloud storage (Google Drive, Box.com, Dropbox.com, etc.). Report recipients must download the `.html` file to their computer and then open the file in their web browser.
 
 See this report full screen in a [new tab](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.html "See the .html report in full screen."){target="_blank"}.
 

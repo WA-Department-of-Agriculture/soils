@@ -23,12 +23,12 @@ knitr::opts_chunk$set(
 
 </style>
 ```
-These example reports were rendered to `.docx` files then converted to PDFs for web publishing.
+These example reports were rendered to `.docx` files and then converted to PDFs for web publishing.
 
 After rendering to `.docx`, the file was opened in Microsoft Word for manual formatting edits:
 
 -   Change images to float around text.
--   Some wide tables should be `autofit` by going to `Layout` \> `AutoFit` \> \`AutoFit Window.
+-   Some wide tables should be `autofit` by going to `Layout` \> `AutoFit` \> `AutoFit Window`.
 -   Adjust plot sizes and page breaks.
 
 The below examples show the output with and without these edits.

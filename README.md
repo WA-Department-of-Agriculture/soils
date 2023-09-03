@@ -76,9 +76,9 @@ report</figcaption>
 <figure>
 <img src="man/figures/report_html.png"
 data-fig-alt="Screenshot of .html report"
-alt="Screenshot of example .html report" />
-<figcaption aria-hidden="true">Screenshot of example <code>.html</code>
-report</figcaption>
+alt="The beginning of an example .html report" />
+<figcaption aria-hidden="true">The beginning of an example
+<code>.html</code> report</figcaption>
 </figure>
 
 ## R Scripts and Visualization Functions

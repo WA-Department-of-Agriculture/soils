@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_soils.R
 \name{create_soils}
 \alias{create_soils}
-\title{Create a project directory for soil health reports using a Quarto template}
+\title{Create a project directory for generating soil health reports}
 \source{
 Adapted from \code{golem::create_golem()}.
 }

@@ -7,13 +7,93 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r options, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
-library(soils)
+## Create a Soil Health Report Project
+
+We assume you are working in RStudio Desktop. This workflow has not been tested in other IDEs such as Visual Studio Code.
+
+There are two ways to create the RStudio project.
+
+**Option 1**. `Open RStudio` \> `File` \> `New Project` \> `"Soil Health Quarto Report"`
+
+![RStudio Project Wizard with `Soil Health Quarto Report` selected](images/new_proj_wiz.png)
+
+**Option 2**. In the console, run:
+
+```{r, eval=FALSE}
+soils::create_soils(path = "path/to/project")
 ```
+
+The following should print in your console:
+
+![Output from running `soils::create_soils()` in the RStudio console. `usethis::create_project()` prints the steps to creating the new project directory.](images/create_soils.png)
+
+## Project Structure
+
+Both options will create and launch a new RStudio project with:
+
+1.  `inst` folder containing the Quarto template, child documents, example data, images, and style resources. Read the [Soil Health Report Article](https://wa-department-of-agriculture.github.io/soils/articles/report.html) for more information about each of these components and our recommended workflow for modifying them.
+
+2.  `R` folder with R scripts with the source code for most `soils` functions for customization.
+
+    -   Note: If you decide to change these functions, you will need to update `_producerReport.qmd`. For example, if you change the `make_ft()` function in the `tables.R` file, you should add `source(here::here("R/tables.R")` to the top `{r setup}` chunk. Read the [Visualization Functions Article](https://wa-department-of-agriculture.github.io/soils/articles/functions.html) for more details.
+
+<details open>
+
+<summary>Project Structure</summary>
+
+```         
+├── inst
+│   ├── _producerReport.qmd
+│   ├── 01_project_summary.qmd
+│   ├── 02_soil_health_background.qmd
+│   ├── 03_physical_measurements.qmd
+│   ├── 04_biological_measurements.qmd
+│   ├── 05_chemical_measurements.qmd
+│   ├── 06_looking_forward.qmd
+│   ├── 07_acknowledgement.qmd
+│   ├── extdata
+│   │   ├── dataDictionary.csv
+│   │   ├── dfPlot.csv
+│   │   ├── dfTexture.csv
+│   │   ├── exampleData.csv
+│   │   ├── headers.RDS
+│   │   └── tables.RDS
+│   ├── images
+│   │   ├── biological.png
+│   │   ├── chemical.png
+│   │   ├── logo.png
+│   │   └── physical.png
+│   ├── resources
+│   │   ├── styles.css
+│   │   └── word-template.docx
+└── R
+    ├── data_wrangling.R
+    ├── helpers.R
+    ├── map.R
+    ├── plots.R
+    ├── render.R
+    └── tables.R
+```
+
+</details>
+
+## Render the Report Template
+
+If you used the RStudio IDE to create the project, the main Quarto template `_producerReport.qmd` should automatically open in the new project session. If you used `soils::create_soils()`, you will need to open the `inst` folder to access this file in the `Files` pane.
+
+![RStudio Files pane showing `.qmd` files and resources inside the `project` \> `inst` folder](images/files.png)
+
+Once `_producerReport.qmd` is open, click the `Render` button at the top of the file to generate either the `HTML` or `MS Word` report.
+
+![RStudio Quarto render button with a dropdown for `HTML` and `MS Word`](images/render.png)
+
+This renders the report in the `inst` directory and the file name will match the input `.qmd` name. This is the fastest way to render reports and is great for iterating on content and style.
+
+When you're ready to render reports for all producers in your project, you should use the `render_producer_report()` function. The year and producer ID are incorporated in the file name (ex. `2023_WUY05_Report.html`). You can specify the output directory where you want the reports to be stored. To iterate through each producer ID and year to render all reports at once, use `purrr::walk()`. See [example R code](https://wa-department-of-agriculture.github.io/soils/reference/render_producer_report.html#ref-examples) and read the article on [Soil Health Reports](https://wa-department-of-agriculture.github.io/soils/articles/report.html) for more details.

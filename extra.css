@@ -1,3 +1,7 @@
+.caption {
+  font-style: italic;
+}
+
 .text-muted {
     color: #b1afaf !important;
 }

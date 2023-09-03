@@ -80,8 +80,8 @@ To learn more about management practices that support healthy soil, check out th
 
 ## Soil Health Indicators
 
-![](images/curve_table.png){width="600"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/curve_table.png){width="6in"}
 
 ## Soil Health Testing
 
-![](images/quality_results.png){width="650"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/quality_results.png){width="6.5in"}

@@ -14,7 +14,7 @@ format: html
 
 ***Total Nitrogen*** is a measurement of both inorganic (plant-available nitrate and ammonium) and organic (typically not plant-available) nitrogen in the soil. Having sufficient total nitrogen in the soil is key for promoting mineralization, or the process of changing the organic nitrogen to a form that plants can use.
 
-![](images/TN.png){width="400"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/TN.png){width="400"}
 
 ***Inorganic Carbon***, frequently called carbonates, is present in some soils, mostly in arid environments. Carbonates can be an important source of nutrients and carbon storage in soils, but in excess can lead to challenges with salinity and poor infiltration. While some strategies can be employed to increase or decrease carbonates in soil, they are generally considered less sensitive to management than organic C. As such, most discussions of agricultural management focus only on organic C.
 

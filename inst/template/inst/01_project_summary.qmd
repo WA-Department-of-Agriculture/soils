@@ -22,4 +22,4 @@ To date, the Washington State Department of Agriculture (WSDA), Washington State
 
 EXAMPLE:
 
-![](images/sampling_scene.png){width="4in"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/sampling_scene.png){width="4in"}

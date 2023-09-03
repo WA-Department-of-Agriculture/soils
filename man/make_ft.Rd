@@ -23,22 +23,24 @@ Formatted flextable object.
 Make a flextable with column names from another dataframe
 }
 \examples{
-# Read in wrangled table data.
-# See `data_wrangling.R` for processing steps.
+# Read in wrangled table data
+# See `data_wrangling.R` for processing steps
 headers_path <- soils_example("headers.RDS")
 headers <- readRDS(headers_path)
 
 tables_path <- soils_example("tables.RDS")
 tables <- readRDS(tables_path)
 
-# The data structure necessary to render the flextable
+# Input dataframes
 headers$chemical
 
 tables$chemical
 
-# Make the table
-make_ft(table = tables$chemical, header = headers$chemical)
+# Make the flextable
+# See `unit_hline()` example for adding a bottom border for merged headers
+make_ft(
+  table = tables$chemical,
+  header = headers$chemical
+)
 
-# Note the line under the merged headers has not been added in this example.
-# See the example for `unit_hline()`.
 }

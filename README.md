@@ -37,9 +37,12 @@ devtools::install_github("WA-Department-of-Agriculture/soils")
 ## Requirements
 
 The report template uses [Quarto](https://quarto.org/docs/get-started/),
-which is the next-generation version of R Markdown. Your version of
-RStudio must be at least v2022.07 for editing and previewing Quarto
-documents. Though it is strongly recommended that you use the [latest
+which is the next-generation version of R Markdown.
+
+We assume you’re working in RStudio Desktop. This workflow has not been
+tested in other IDEs such as Visual Studio Code. Your version of RStudio
+must be at least v2022.07 for editing and previewing Quarto documents.
+Though it is strongly recommended that you use the [latest
 release](https://posit.co/download/rstudio-desktop/) of RStudio.
 
 To render `.docx` files, you must have Microsoft Word installed.

@@ -6,6 +6,8 @@
 \usage{
 make_plotly(
   df,
+  panel.spacing.x = 6,
+  panel.spacing.y = 30,
   font_family = "Poppins",
   primary_color = washi::washi_pal[["standard"]][["red"]],
   secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
@@ -16,6 +18,12 @@ make_plotly(
 \arguments{
 \item{df}{Dataframe containing columns: \code{category}, \code{abbr_unit}, \code{unit},
 \code{dummy}, and \code{sampleLabel}.}
+
+\item{panel.spacing.x, panel.spacing.y}{Spacing between facet panels in units
+\code{line} when \code{output = "html"}. Defaults to \code{6} for \code{x} and \code{30} for \code{y} for
+rendering in producer reports. These default values seem to look the best
+with the dimensions of the plot outputs in the reports. This argument is
+used to deal with \code{plotly} issues. See \code{make_plotly()} for examples.}
 
 \item{font_family}{Font family to use throughout plot. Defaults to
 \code{"Poppins"}.}
@@ -35,12 +43,12 @@ WaSHI blue.}
 Facetted \code{plotly} strip plot.
 }
 \description{
-This function runs \code{make_strip_plot()} then adds \code{plotly} interactivity.
+Wrapper of \code{make_strip_plot()} that adds \code{plotly} interactivity.
 
 NOTE: \code{plotly} has issues with overlapping axis labels when facetting (See
-this \href{https://github.com/plotly/plotly.R/issues/1224}{GitHub issue}).There
-were some hacky solutions to getting these plots to look good in the rendered
-reports.
+this \href{https://github.com/plotly/plotly.R/issues/1224}{GitHub issue}). The
+somewhat hacky solution to getting these plots to look good involves tweaking
+the \code{panel.spacing} arguments in \code{ggplot2::theme()}.
 }
 \examples{
 # For Poppins font, must have it installed and registered in R with
@@ -50,10 +58,17 @@ library(extrafont)
 # Read in wrangled plot data.
 # See `data_wrangling.R` for processing steps.
 path <- soils_example("dfPlot.csv")
-df <- read.csv(path, encoding = "UTF-8")
+df <- read.csv(
+  path,
+  encoding = "UTF-8"
+)
 
 # The data structure necessary to render the df triangle
-dplyr::slice_sample(df, n = 1, by = category) |>
+dplyr::slice_sample(
+  df,
+  n = 1,
+  by = category
+) |>
   dplyr::glimpse()
 
 # Make sure class of `category` is `ordered factor` with `Your fields`
@@ -73,8 +88,14 @@ class(df$category)
 
 levels(df$category)
 
-# Remember this function creates the plot specifically for the Quarto
-# rendered reports and will not look right outside of the reports.
-
+# This `plotly` does not look right when viewing outside the reports
 make_plotly(df)
+
+# Conversely, this `plotly` looks better in this example when
+# the `panel.spacing` arguments are modified
+make_plotly(
+  df,
+  panel.spacing.x = 0.01,
+  panel.spacing.y = 3
+)
 }

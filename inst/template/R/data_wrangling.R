@@ -338,7 +338,7 @@ table_headers <- function(group) {
 # Map function to each measurement group, resulting in a new df with
 # abbreviations and units in a list
 headers <- results_long |>
-  soils::pull_unique(target = measurement_group) |>
+  pull_unique(target = measurement_group) |>
   as.list() |>
   rlang::set_names() |>
   purrr::map(table_headers)

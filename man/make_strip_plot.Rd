@@ -7,6 +7,8 @@
 make_strip_plot(
   df,
   output,
+  panel.spacing.x = 6,
+  panel.spacing.y = 30,
   font_family = "Poppins",
   primary_color = washi::washi_pal[["standard"]][["red"]],
   secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
@@ -19,6 +21,12 @@ make_strip_plot(
 \code{dummy}, and \code{sampleLabel}.}
 
 \item{output}{Type of ouput: either \code{"static"} or \code{"html"}}
+
+\item{panel.spacing.x, panel.spacing.y}{Spacing between facet panels in units
+\code{line} when \code{output = "html"}. Defaults to \code{6} for \code{x} and \code{30} for \code{y} for
+rendering in producer reports. These default values seem to look the best
+with the dimensions of the plot outputs in the reports. This argument is
+used to deal with \code{plotly} issues. See \code{make_plotly()} for examples.}
 
 \item{font_family}{Font family to use throughout plot. Defaults to
 \code{"Poppins"}.}
@@ -41,21 +49,27 @@ Facetted \code{ggplot2.} strip plot
 \href{https://github.com/WA-Department-of-Agriculture/soils/blob/main/R/data_wrangling.R}{\code{data_wrangling.R}} wrangles the data into the specific structure shown in the below example. Currently, many variables and values are hard-coded into this function. In future work, we hope to broaden this function's flexibility. See the below example for what the input data structure must look like.
 }
 \examples{
-# For Poppins font, must have it installed and registered in R with
-# the `{extrafont}` package.
+# Install and register Poppins font in R with the `{extrafont}` package.
 library(extrafont)
 
-# Read in wrangled plot data.
-# See `data_wrangling.R` for processing steps.
+# Read in wrangled plot data
+# See `data_wrangling.R` for processing steps
 path <- soils_example("dfPlot.csv")
-df <- read.csv(path, encoding = "UTF-8")
+df <- read.csv(
+  path,
+  encoding = "UTF-8"
+)
 
 # The data structure necessary to render the df triangle
-dplyr::slice_sample(df, n = 1, by = category) |>
+dplyr::slice_sample(
+  df,
+  n = 1,
+  by = category
+) |>
   dplyr::glimpse()
 
 # Make sure class of `category` is `ordered factor` with `Your fields` at the
-# end so it is dfted on top of the other points.
+# end so it is plotted on top of the other points
 df$category <- factor(
   df$category,
   levels = c(

@@ -18,21 +18,24 @@
 #' @export
 #'
 #' @examples
-#' # For Poppins font, must have it installed and registered in R with
-#' # the `{extrafont}` package.
+#' # Install and register Poppins font in R with the `{extrafont}` package.
 #' library(extrafont)
 #'
-#' # Read in wrangled texture data.
-#' # See `data_wrangling.R` for processing steps.
+#' # Read in wrangled texture data
+#' # See `data_wrangling.R` for processing steps
 #' path <- soils_example("dfTexture.csv")
 #' df <- read.csv(path)
 #'
-#' # The data structure necessary to render the df triangle
-#' dplyr::slice_sample(df, n = 1, by = category) |>
+#' # Glimpse at data structure
+#' dplyr::slice_sample(
+#'   df,
+#'   n = 1,
+#'   by = category
+#' ) |>
 #'   dplyr::glimpse()
 #'
 #' # Make sure class of `category` is `ordered factor` with `Your fields` at the
-#' # end so it is plotted on top of the other points.
+#' # end so it is plotted on top of the other points
 #' df$category <- factor(
 #'   df$category,
 #'   levels = c(
@@ -183,6 +186,11 @@ make_texture_triangle <- function(
 #' @param df Dataframe containing columns: `category`, `abbr_unit`, `unit`,
 #'   `dummy`, and `sampleLabel`.
 #' @param output Type of ouput: either `"static"` or `"html"`
+#' @param panel.spacing.x,panel.spacing.y Spacing between facet panels in units
+#'   `line` when `output = "html"`. Defaults to `6` for `x` and `30` for `y` for
+#'   rendering in producer reports. These default values seem to look the best
+#'   with the dimensions of the plot outputs in the reports. This argument is
+#'   used to deal with `plotly` issues. See `make_plotly()` for examples.
 #' @inheritParams make_texture_triangle
 #' @param primary_accent_color Color of facet strip background. Defaults to
 #'   WaSHI blue.
@@ -191,21 +199,27 @@ make_texture_triangle <- function(
 #' @returns Facetted `ggplot2.` strip plot
 #'
 #' @examples
-#' # For Poppins font, must have it installed and registered in R with
-#' # the `{extrafont}` package.
+#' # Install and register Poppins font in R with the `{extrafont}` package.
 #' library(extrafont)
 #'
-#' # Read in wrangled plot data.
-#' # See `data_wrangling.R` for processing steps.
+#' # Read in wrangled plot data
+#' # See `data_wrangling.R` for processing steps
 #' path <- soils_example("dfPlot.csv")
-#' df <- read.csv(path, encoding = "UTF-8")
+#' df <- read.csv(
+#'   path,
+#'   encoding = "UTF-8"
+#' )
 #'
 #' # The data structure necessary to render the df triangle
-#' dplyr::slice_sample(df, n = 1, by = category) |>
+#' dplyr::slice_sample(
+#'   df,
+#'   n = 1,
+#'   by = category
+#' ) |>
 #'   dplyr::glimpse()
 #'
 #' # Make sure class of `category` is `ordered factor` with `Your fields` at the
-#' # end so it is dfted on top of the other points.
+#' # end so it is plotted on top of the other points
 #' df$category <- factor(
 #'   df$category,
 #'   levels = c(
@@ -227,13 +241,15 @@ make_texture_triangle <- function(
 make_strip_plot <- function(
   df,
   output,
+  panel.spacing.x = 6,
+  panel.spacing.y = 30,
   font_family = "Poppins",
   primary_color = washi::washi_pal[["standard"]][["red"]],
   secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
   other_color = washi::washi_pal[["standard"]][["tan"]],
   primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
     ) {
-  output <- match.arg(arg = output, choices = c("static", "html"))
+  rlang::arg_match(output, c("static", "html"))
 
   # Subset data to just producer for labels
   producer <- df[df$category == "Your fields", ]
@@ -277,15 +293,15 @@ make_strip_plot <- function(
     theme <- theme +
       ggplot2::theme(
         # Panel spacing
-        panel.spacing.x = ggplot2::unit(6, "line"),
-        panel.spacing.y = ggplot2::unit(30, "line"),
+        panel.spacing.x = ggplot2::unit(panel.spacing.x, "line"),
+        panel.spacing.y = ggplot2::unit(panel.spacing.y, "line"),
         # Facet label formatting
         strip.text = ggtext::element_markdown(
           margin = ggplot2::margin(0.35, 0, 0.6, 0, "cm")
         ),
         # Legend formatting
         legend.text = ggplot2::element_text(
-          size = 11
+          size = 10
         )
       )
   }
@@ -351,62 +367,6 @@ make_strip_plot <- function(
     ggplot2::theme_bw() +
     theme
 
-  # Uncomment if you want to label producer's samples
-  #
-  # Label fieldId for producer's samples if they have less than 4
-  # samples
-  #
-  # n <- subset(data, category == "Your fields") |>
-  #   dplyr::select(sampleId) |>
-  #   dplyr::n_distinct()
-  #
-  # # Two geom_label_repels so the solid text shows above the
-  # transparent background
-  #
-  # if (n < 5 & output == "static") {
-  #   plot <- plot + ggrepel::geom_label_repel(
-  #     data = producer,
-  #     mapping = ggplot2::aes(
-  #       label = paste(fieldName, ":", round(value, 2), unit)
-  #     ),
-  #     alpha = 0.7,
-  #     color = NA,
-  #     size = 2.8,
-  #     hjust = 1,
-  #     direction = "y",
-  #     max.time = 5,
-  #     force = 100,
-  #     force_pull = 1,
-  #     fontface = "bold",
-  #     label.padding = unit(0.15, "lines"),
-  #     show.legend = FALSE,
-  #     # Don't show line connecting label to point
-  #     segment.color = NA,
-  #     seed = 12345
-  #   ) +
-  #     ggrepel::geom_label_repel(
-  #       data = producer,
-  #       mapping = ggplot2::aes(
-  #         label = paste(fieldName, ":", round(value, 2), unit)
-  #       ),
-  #       alpha = 1,
-  #       fill = NA,
-  #       color = primary_color,
-  #       size = 2.8,
-  #       hjust = 1,
-  #       direction = "y",
-  #       max.time = 5,
-  #       force = 100,
-  #       force_pull = 1,
-  #       fontface = "bold",
-  #       label.padding = unit(0.15, "lines"),
-  #       show.legend = FALSE,
-  #       # Don't show line connecting label to point
-  #       segment.color = NA,
-  #       seed = 12345
-  #     )
-  # }
-
   return(plot)
 }
 
@@ -414,12 +374,12 @@ make_strip_plot <- function(
 #'
 #' @description
 #'
-#' This function runs `make_strip_plot()` then adds `plotly` interactivity.
+#' Wrapper of `make_strip_plot()` that adds `plotly` interactivity.
 #'
 #' NOTE: `plotly` has issues with overlapping axis labels when facetting (See
-#' this [GitHub issue](https://github.com/plotly/plotly.R/issues/1224)).There
-#' were some hacky solutions to getting these plots to look good in the rendered
-#' reports.
+#' this [GitHub issue](https://github.com/plotly/plotly.R/issues/1224)). The
+#' somewhat hacky solution to getting these plots to look good involves tweaking
+#' the `panel.spacing` arguments in `ggplot2::theme()`.
 #'
 #' @inheritParams make_strip_plot
 #' @export
@@ -433,10 +393,17 @@ make_strip_plot <- function(
 #' # Read in wrangled plot data.
 #' # See `data_wrangling.R` for processing steps.
 #' path <- soils_example("dfPlot.csv")
-#' df <- read.csv(path, encoding = "UTF-8")
+#' df <- read.csv(
+#'   path,
+#'   encoding = "UTF-8"
+#' )
 #'
 #' # The data structure necessary to render the df triangle
-#' dplyr::slice_sample(df, n = 1, by = category) |>
+#' dplyr::slice_sample(
+#'   df,
+#'   n = 1,
+#'   by = category
+#' ) |>
 #'   dplyr::glimpse()
 #'
 #' # Make sure class of `category` is `ordered factor` with `Your fields`
@@ -456,36 +423,39 @@ make_strip_plot <- function(
 #'
 #' levels(df$category)
 #'
-#' # Remember this function creates the plot specifically for the Quarto
-#' # rendered reports and will not look right outside of the reports.
-#'
+#' # This `plotly` does not look right when viewing outside the reports
 #' make_plotly(df)
+#'
+#' # Conversely, this `plotly` looks better in this example when
+#' # the `panel.spacing` arguments are modified
+#' make_plotly(
+#'   df,
+#'   panel.spacing.x = 0.01,
+#'   panel.spacing.y = 3
+#' )
 make_plotly <- function(
   df,
+  panel.spacing.x = 6,
+  panel.spacing.y = 30,
   font_family = "Poppins",
   primary_color = washi::washi_pal[["standard"]][["red"]],
   secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
   other_color = washi::washi_pal[["standard"]][["tan"]],
   primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
     ) {
-  # ggplot -> plotly has issues with overlapping axis labels when facetting
-  # https://github.com/plotly/plotly.R/issues/1224 possible solution to look
-  # into:
-  # https://stackoverflow.com/questions/42763280/r-ggplot-and-plotly-axis-margin-wont-change
-  # current remedy is adjusting the panel.spacing.x and .y in make_strip_plot
-  # function
-
   df_plotly <- make_strip_plot(
     df,
-    output = "html"
+    output = "html",
+    panel.spacing.x = panel.spacing.x,
+    panel.spacing.y = panel.spacing.y
   ) |>
     plotly::ggplotly(tooltip = "text") |>
     plotly::layout(
       # Legend title doesn't actually appear.
       # It prevents the variable names from showing up though.
-      legend = list(orientation = "h", title = "Interactive Legend"),
+      legend = list(orientation = "h", title = "Legend"),
       margin = list(t = 100),
-      font = list(family = font_family, size = 15)
+      font = list(family = font_family, size = 12)
     ) |>
     plotly::style(hoverlabel = list(font = list(size = 15))) |>
     plotly::config(
@@ -512,13 +482,12 @@ make_plotly <- function(
 
   for (i in seq_along(df_plotly$x$data)) {
     # Is the layer the first entry of the group?
-    is_first <- stringr::str_detect(df_plotly$x$data[[i]]$name, "\\b1\\b")
+    is_first <- grepl("^\\(.*?,1", df_plotly$x$data[[i]]$name)
     # Extract the group identifier and assign it to the name and
     # legend group arguments
-    df_plotly$x$data[[i]]$name <- stringr::str_remove_all(
-      df_plotly$x$data[[i]]$name,
-      "[:punct:]|[:digit:]|NA"
-    )
+    df_plotly$x$data[[i]]$name <- gsub("[[:punct:]0-9]|\\bNA\\b",
+                                       "\\1",
+                                       df_plotly$x$data[[i]]$name)
 
     df_plotly$x$data[[i]]$legendgroup <- df_plotly$x$data[[i]]$name
     # Show the legend only for the first layer of the group

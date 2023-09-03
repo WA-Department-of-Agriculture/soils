@@ -11,8 +11,8 @@
 #' @export
 #'
 #' @examples
-#' # Read in wrangled example table data.
-#' # See `data_wrangling.R` for processing steps.
+#' # Read in wrangled example table data
+#' # See `data_wrangling.R` for processing steps
 #' tables_path <- soils_example("tables.RDS")
 #' tables <- readRDS(tables_path)
 #'
@@ -20,7 +20,7 @@
 #' ft <- flextable::flextable(tables$biological)
 #' ft
 #'
-#' # Conditionally format the background cells
+#' # Conditionally format background cell colors
 #' format_ft_colors(ft)
 format_ft_colors <- function(
   ft,
@@ -65,7 +65,7 @@ format_ft_colors <- function(
   return(ft)
 }
 
-#' Style flextable
+#' Style a flextable
 #'
 #' @param header_font Font of header text. Defaults to `"Lato"`.
 #' @param body_font Font of body text. Defaults to `"Poppins"`.
@@ -82,8 +82,8 @@ format_ft_colors <- function(
 #' @export
 #'
 #' @examples
-#' # Read in wrangled example table data.
-#' # See `data_wrangling.R` for processing steps.
+#' # Read in wrangled example table data
+#' # See `data_wrangling.R` for processing steps
 #' tables_path <- soils_example("tables.RDS")
 #' tables <- readRDS(tables_path)
 #'
@@ -153,24 +153,26 @@ style_ft <- function(
 #' @returns Formatted flextable object.
 #'
 #' @examples
-#' # Read in wrangled table data.
-#' # See `data_wrangling.R` for processing steps.
+#' # Read in wrangled table data
+#' # See `data_wrangling.R` for processing steps
 #' headers_path <- soils_example("headers.RDS")
 #' headers <- readRDS(headers_path)
 #'
 #' tables_path <- soils_example("tables.RDS")
 #' tables <- readRDS(tables_path)
 #'
-#' # The data structure necessary to render the flextable
+#' # Input dataframes
 #' headers$chemical
 #'
 #' tables$chemical
 #'
-#' # Make the table
-#' make_ft(table = tables$chemical, header = headers$chemical)
+#' # Make the flextable
+#' # See `unit_hline()` example for adding a bottom border for merged headers
+#' make_ft(
+#'   table = tables$chemical,
+#'   header = headers$chemical
+#' )
 #'
-#' # Note the line under the merged headers has not been added in this example.
-#' # See the example for `unit_hline()`.
 make_ft <- function(table, header) {
   table |>
     flextable::flextable() |>
@@ -194,7 +196,7 @@ make_ft <- function(table, header) {
 #' @export
 #'
 #' @examples
-#' # Read in wrangled table data.
+#' # Read in wrangled table data
 #' # See `data_wrangling.R` for processing steps.
 #' headers_path <- soils_example("headers.RDS")
 #' headers <- readRDS(headers_path)
@@ -203,11 +205,18 @@ make_ft <- function(table, header) {
 #' tables <- readRDS(tables_path)
 #'
 #' # Make the table
-#' ft <- make_ft(table = tables$chemical, header = headers$chemical)
+#' ft <- make_ft(
+#'   table = tables$chemical,
+#'   header = headers$chemical
+#' )
+#'
 #' ft
 #'
 #' # Add a line under the merged columns with the same units
-#' unit_hline(ft, 5)
+#' unit_hline(
+#'   ft,
+#'   columns = 5
+#' )
 unit_hline <- function(ft, columns) {
   flextable::hline(
     ft,

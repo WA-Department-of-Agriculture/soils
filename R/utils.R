@@ -31,6 +31,7 @@ rlang::check_installed(
 #' @source Adapted from `readxl::readxl_example()`.
 #' @examples
 #' soils_example()
+#'
 #' soils_example("dfPlot.csv")
 soils_example <- function(file = NULL) {
   if (is.null(file)) {

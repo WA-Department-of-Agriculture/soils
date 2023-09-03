@@ -37,7 +37,6 @@ Imports:
     officer,
     plotly,
     quarto,
-    stringr,
     washi
 Suggests:
     cli,

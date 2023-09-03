@@ -23,8 +23,8 @@ average. The project average must be the last row of the table. A footnote is
 added to the table describing what the dark and light colors mean.
 }
 \examples{
-# Read in wrangled example table data.
-# See `data_wrangling.R` for processing steps.
+# Read in wrangled example table data
+# See `data_wrangling.R` for processing steps
 tables_path <- soils_example("tables.RDS")
 tables <- readRDS(tables_path)
 
@@ -32,6 +32,6 @@ tables <- readRDS(tables_path)
 ft <- flextable::flextable(tables$biological)
 ft
 
-# Conditionally format the background cells
+# Conditionally format background cell colors
 format_ft_colors(ft)
 }

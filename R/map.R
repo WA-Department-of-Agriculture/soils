@@ -15,9 +15,7 @@
 #' @export
 #'
 #' @examples
-#' # Just for this example: remove duplicate coordinates.
-#' # Remember this is a dummy dataset with truncated coordinates, so many
-#' # points overlap and some may be displayed in water bodies.
+#' # Just for this example: remove duplicate coordinates
 #' df <- exampleData |>
 #'   dplyr::distinct(latitude, longitude, .keep_all = TRUE)
 #'
@@ -35,7 +33,13 @@
 #'   )) |>
 #'   dplyr::mutate(`Field ID` = as.character(`Field ID`))
 #'
+#' # Glimpse data structure
+#' dplyr::glimpse(df)
+#'
 #' # Make leaflet
+#'
+#' # Remember this is a dummy dataset with truncated coordinates, so many
+#' # points overlap and some may be displayed in water bodies
 #' make_leaflet(df)
 make_leaflet <- function(
   df,

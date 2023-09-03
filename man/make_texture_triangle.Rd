@@ -33,21 +33,24 @@ green.}
 \href{https://github.com/WA-Department-of-Agriculture/soils/blob/main/R/data_wrangling.R}{\code{data_wrangling.R}} wrangles the data into the specific structure shown in the below example. Currently, many variables and values are hard-coded into this function. In future work, we hope to broaden this function's flexibility. See the below example for what the input data structure must look like.
 }
 \examples{
-# For Poppins font, must have it installed and registered in R with
-# the `{extrafont}` package.
+# Install and register Poppins font in R with the `{extrafont}` package.
 library(extrafont)
 
-# Read in wrangled texture data.
-# See `data_wrangling.R` for processing steps.
+# Read in wrangled texture data
+# See `data_wrangling.R` for processing steps
 path <- soils_example("dfTexture.csv")
 df <- read.csv(path)
 
-# The data structure necessary to render the df triangle
-dplyr::slice_sample(df, n = 1, by = category) |>
+# Glimpse at data structure
+dplyr::slice_sample(
+  df,
+  n = 1,
+  by = category
+) |>
   dplyr::glimpse()
 
 # Make sure class of `category` is `ordered factor` with `Your fields` at the
-# end so it is plotted on top of the other points.
+# end so it is plotted on top of the other points
 df$category <- factor(
   df$category,
   levels = c(

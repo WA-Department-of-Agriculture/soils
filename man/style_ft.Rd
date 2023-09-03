@@ -2,7 +2,7 @@
 % Please edit documentation in R/tables.R
 \name{style_ft}
 \alias{style_ft}
-\title{Style flextable}
+\title{Style a flextable}
 \usage{
 style_ft(
   ft,
@@ -31,11 +31,11 @@ border color is the same as the darker background color in
 Styled flextable object.
 }
 \description{
-Style flextable
+Style a flextable
 }
 \examples{
-# Read in wrangled example table data.
-# See `data_wrangling.R` for processing steps.
+# Read in wrangled example table data
+# See `data_wrangling.R` for processing steps
 tables_path <- soils_example("tables.RDS")
 tables <- readRDS(tables_path)
 

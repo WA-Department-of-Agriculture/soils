@@ -49,7 +49,7 @@ library(extrafont)
 
 # Read in wrangled plot data.
 # See `data_wrangling.R` for processing steps.
-path <- soils_example("dfplot.csv")
+path <- soils_example("dfPlot.csv")
 df <- read.csv(path, encoding = "UTF-8")
 
 # The data structure necessary to render the df triangle

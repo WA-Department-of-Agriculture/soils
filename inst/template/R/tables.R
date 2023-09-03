@@ -168,6 +168,9 @@ style_ft <- function(
 #'
 #' # Make the table
 #' make_ft(table = tables$chemical, header = headers$chemical)
+#'
+#' # Note the line under the merged headers has not been added in this example.
+#' # See the example for `unit_hline()`.
 make_ft <- function(table, header) {
   table |>
     flextable::flextable() |>

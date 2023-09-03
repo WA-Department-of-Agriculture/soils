@@ -64,6 +64,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_strip_plot</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
 <span>  <span class="va">output</span>,</span>
+<span>  panel.spacing.x <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  panel.spacing.y <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>  font_family <span class="op">=</span> <span class="st">"Poppins"</span>,</span>
 <span>  primary_color <span class="op">=</span> <span class="fu">washi</span><span class="fu">::</span><span class="va"><a href="https://wa-department-of-agriculture.github.io/washi/reference/washi_pal.html" class="external-link">washi_pal</a></span><span class="op">[[</span><span class="st">"standard"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"red"</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>  secondary_color <span class="op">=</span> <span class="fu">washi</span><span class="fu">::</span><span class="va"><a href="https://wa-department-of-agriculture.github.io/washi/reference/washi_pal.html" class="external-link">washi_pal</a></span><span class="op">[[</span><span class="st">"standard"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"ltgray"</span><span class="op">]</span><span class="op">]</span>,</span>
@@ -81,6 +83,14 @@
 
 <dt>output</dt>
 <dd><p>Type of ouput: either <code>"static"</code> or <code>"html"</code></p></dd>
+
+
+<dt>panel.spacing.x, panel.spacing.y</dt>
+<dd><p>Spacing between facet panels in units
+<code>line</code> when <code>output = "html"</code>. Defaults to <code>6</code> for <code>x</code> and <code>30</code> for <code>y</code> for
+rendering in producer reports. These default values seem to look the best
+with the dimensions of the plot outputs in the reports. This argument is
+used to deal with <code>plotly</code> issues. See <code><a href="make_plotly.html">make_plotly()</a></code> for examples.</p></dd>
 
 
 <dt>font_family</dt>
@@ -116,17 +126,23 @@ WaSHI blue.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># For Poppins font, must have it installed and registered in R with</span></span></span>
-<span class="r-in"><span><span class="co"># the `{extrafont}` package.</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Install and register Poppins font in R with the `{extrafont}` package.</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wch/extrafont" class="external-link">extrafont</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Read in wrangled plot data.</span></span></span>
-<span class="r-in"><span><span class="co"># See `data_wrangling.R` for processing steps.</span></span></span>
+<span class="r-in"><span><span class="co"># Read in wrangled plot data</span></span></span>
+<span class="r-in"><span><span class="co"># See `data_wrangling.R` for processing steps</span></span></span>
 <span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="soils_example.html">soils_example</a></span><span class="op">(</span><span class="st">"dfPlot.csv"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">path</span>, encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">path</span>,</span></span>
+<span class="r-in"><span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The data structure necessary to render the df triangle</span></span></span>
-<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="va">df</span>, n <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="va">category</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">df</span>,</span></span>
+<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  by <span class="op">=</span> <span class="va">category</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 23</span>
@@ -134,28 +150,28 @@ WaSHI blue.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ dummy                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "dummy", "dummy", "dummy", "dummy"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ category              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Other fields", "Same county", "Same crop", "You…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleLabel           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Result:", "County 9&lt;br&gt;Cereal Grain&lt;br&gt;Result:"…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleId              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "22-ZPJ03-04", "23-DJU01-03", "23-FFF03-03", "23…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ farmName              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 013", "Farm 148", "Farm 153", "Farm 150"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerName          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Timmie", "Raashid", "Shaafi", "Shanna"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerId            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "ZPJ03", "DJU01", "FFF03", "WUY05"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldName             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 04", "Field 03", "Field 03", "Field 03"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldId               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 4, 3, 3, 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ county                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 3", "County 9", "County 10", "County 9"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ crop                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Vegetable", "Cereal Grain", "Hay/Silage", "Past…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ texture               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sandy Loam", "Loamy Sand", "Silty Clay Loam", "…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ longitude             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -119, -120, -117, -119</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ latitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 47, 48, 48, 49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "sand_%", "bd_g.cm3", "WHC_in.ft", "wsa_%"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ value                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 54.00, 1.27, 1.90, 84.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleId              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "22-SNO01-02", "23-DJU01-03", "23-VQC06-01", "23…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ farmName              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 048", "Farm 148", "Farm 178", "Farm 150"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerName          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Josephine", "Raashid", "Allison", "Shanna"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerId            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "SNO01", "DJU01", "VQC06", "WUY05"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldName             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 02", "Field 03", "Field 01", "Field 03"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldId               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 3, 1, 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ county                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 10", "County 9", "County 14", "County 9"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ crop                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Native Land", "Cereal Grain", "Pasture, Seeded"…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ texture               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sandy Loam", "Loamy Sand", "Loam", "Sandy Loam"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ longitude             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -117, -120, -118, -119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ latitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 48, 48, 47, 49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "silt_%", "silt_%", "clay_%", "sand_%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ value                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 31, 10, 14, 64</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement_group     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "physical", "physical", "physical", "physical"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ order                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 5, 7, 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement_full_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sand", "Bulk Density", "Water Holding Capacity"…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sand", "Bulk Density", "WHC", "Agg. Stability"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ unit                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "g/cm³", "in/ft", "%"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr_unit             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sand &lt;br&gt;(%)", "Bulk Density &lt;br&gt;(g/cm³)", "WHC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ order                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 3, 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement_full_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt", "Silt", "Clay", "Sand"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt", "Silt", "Clay", "Sand"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ unit                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "%", "%", "%"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr_unit             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt &lt;br&gt;(%)", "Silt &lt;br&gt;(%)", "Clay &lt;br&gt;(%)", …</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Make sure class of `category` is `ordered factor` with `Your fields` at the</span></span></span>
-<span class="r-in"><span><span class="co"># end so it is dfted on top of the other points.</span></span></span>
+<span class="r-in"><span><span class="co"># end so it is plotted on top of the other points</span></span></span>
 <span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">category</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">df</span><span class="op">$</span><span class="va">category</span>,</span></span>
 <span class="r-in"><span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>

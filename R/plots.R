@@ -436,7 +436,7 @@ make_strip_plot <- function(
 #' make_plotly(
 #'   df,
 #'   panel_spacing_x = 0.01,
-#'   panel_spacing_y = 5,
+#'   panel_spacing_y = 6,
 #'   font_family = "sans"
 #' )
 make_plotly <- function(

@@ -609,9 +609,12 @@ different default fonts and colors:</p>
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Ctrl + F to find and replace all instances of `make_texture_triangle(...)`</span></span>
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co"># to `make_texture_triangle_custom(...)`.</span></span></code></pre></div>
 <p>Note for Mac OS users: facetted <a href="https://plotly-r.com" class="external-link">plotly</a> strip plots
-have issues with the default theme settings. Try modifying the
-<code>panel_spacing</code> arguments as described in the
-<code><a href="../reference/make_plotly.html">make_plotly()</a></code> <a href="https://wa-department-of-agriculture.github.io/soils/reference/make_plotly.html">documentation</a>.</p>
+have <a href="https://github.com/plotly/plotly.R/issues/1224" class="external-link">issues</a>
+with overlapping labels. The default <code>panel_spacing</code>
+arguments in <code><a href="../reference/make_plotly.html">make_plotly()</a></code> are optimized for rendering
+reports on a Windows machine. If the plots don’t look right on your
+machine, try modifying the <code>panel_spacing</code> arguments as
+described in the function <a href="https://wa-department-of-agriculture.github.io/soils/reference/make_plotly.html">documentation</a>.</p>
 </div>
 </div>
 </div>

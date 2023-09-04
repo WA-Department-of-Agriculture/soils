@@ -105,6 +105,7 @@ green.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Install and register Poppins font in R with the `{extrafont}` package.</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wch/extrafont" class="external-link">extrafont</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Registering fonts with R</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Read in wrangled texture data</span></span></span>
 <span class="r-in"><span><span class="co"># See `data_wrangling.R` for processing steps</span></span></span>
@@ -120,13 +121,13 @@ green.</p></dd>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleId <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "22-IOX04-06", "23-DJU01-03", "22-REM03-02", "23-WUY05-03"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleId <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-PJP06-05", "23-DJU01-03", "22-VTR04-02", "23-WUY05-03"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ category <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Other fields", "Same county", "Same crop", "Your fields"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ Field    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 06", "Field 03", "Field 02", "Field 03"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Field    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 05", "Field 03", "Field 02", "Field 03"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ Texture  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt Loam", "Loamy Sand", "Silt Loam", "Sandy Loam"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ Sand     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 31, 84, 25, 64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ Silt     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 50, 10, 53, 33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ Clay     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 19, 6, 22, 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Sand     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 27, 84, 12, 64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Silt     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 63, 10, 65, 33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Clay     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 10, 6, 23, 3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Make sure class of `category` is `ordered factor` with `Your fields` at the</span></span></span>
 <span class="r-in"><span><span class="co"># end so it is plotted on top of the other points</span></span></span>
@@ -148,7 +149,10 @@ green.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Other fields" "Same county"  "Same crop"    "Your fields" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Make the plot</span></span></span>
-<span class="r-in"><span><span class="fu">make_texture_triangle</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">make_texture_triangle</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">df</span>,</span></span>
+<span class="r-in"><span>  font_family <span class="op">=</span> <span class="st">"sans"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 methods overwritten by 'ggtern':</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   method           from   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   grid.draw.ggplot ggplot2</span>

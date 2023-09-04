@@ -39,7 +39,7 @@ create_soils <- function(
       stop(
         paste(
           "Project directory already exists.\n",
-          "Set `create_soils_project(overwrite = TRUE)` to overwrite anyway."
+          "Set `create_soils(overwrite = TRUE)` to overwrite anyway."
         ),
         call. = FALSE
       )

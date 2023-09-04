@@ -1,8 +1,8 @@
 ---
-title: "Example .docx Report"
+title: "MS Word Reports"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example .docx Report}
+  %\VignetteIndexEntry{MS Word Reports}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -23,13 +23,29 @@ knitr::opts_chunk$set(
 
 </style>
 ```
-These example reports were rendered to `.docx` files and then converted to PDFs for web publishing.
-
-After rendering to `.docx`, the file was opened in Microsoft Word for manual formatting edits:
+After rendering to `.docx`, the reports were opened in MS Word for manual formatting edits:
 
 -   Change images to float around text.
 -   Some wide tables should be `autofit` by going to `Layout` \> `AutoFit` \> `AutoFit Window`.
 -   Adjust plot sizes and page breaks.
+
+After manually adjusting each image to float around the text for the first report, we copied and pasted the static pages of project background to the other reports. This reduced some of the tedious point and click formatting.
+
+We added a keyboard shortcut for autofitting the wide tables:
+
+In MS Word \> `File` \> `Options` \> `Customize Ribbon`.
+
+Open the `Customize Keyboard` dialog box by clicking `Keboard shortcuts: Customize`.
+
+Then select `Categories: Table Tools | Layout Tab` \> `Commands: AutoFitWindow` \> `Press new shortcut key: Alt+Ctrl+Shift+A` \> `Assign`.
+
+Click in each table and use your new shortcut to autofit to the window.
+
+![Word Options to add a new shortcut key for autofitting tables to fit the window](images/autofit.png)
+
+In the future, we would like to create a template using `LaTex` to render `.pdf` reports that have better controls for floating images around text and fitting tables and plots to avoid the intermediate `.docx` step.
+
+These example reports were rendered to `.docx` files and then converted to PDFs for web publishing.
 
 The below examples show the output with and without these edits.
 
@@ -37,16 +53,16 @@ The below examples show the output with and without these edits.
 
 ### Manual Formatting Edits
 
-See this manually formatted report full screen in a [new tab](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.pdf "See the manually edited .docx report without edits in full screen."){target="_blank"}.
+See this manually formatted report full screen in a [new tab](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report.pdf "See the manually edited .docx report without edits in full screen."){target="_blank"}.
 
 ```{r}
-knitr::include_url("https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/944448976992604a12dafbf47258327be0e5ab98/inst/example_reports/example_producer_report.pdf", height = "500px")
+knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report.pdf", height = "500px")
 ```
 
 ### Without Edits
 
-See the original rendered report full screen in a [new tab](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/72aefb3a55da25b6b1d3191c45ebc90570555e7d/inst/example_reports/example_producer_report_notFormatted.pdf "See the original .docx report without edits in full screen."){target="_blank"}.
+See the original rendered report full screen in a [new tab](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report_notFormatted.pdf "See the original .docx report without edits in full screen."){target="_blank"}.
 
 ```{r}
-knitr::include_url("https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/72aefb3a55da25b6b1d3191c45ebc90570555e7d/inst/example_reports/example_producer_report_notFormatted.pdf", height = "500px")
+knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report_notFormatted.pdf", height = "500px")
 ```

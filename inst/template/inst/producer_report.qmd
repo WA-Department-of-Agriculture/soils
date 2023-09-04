@@ -48,7 +48,9 @@ if (!dir.exists(path)) {
   dir.create(path)
 }
 
-# Run data wrangling script
+# Run data wrangling script for current producer and year
+pid <- params$producerId
+yr <- params$year
 source(here::here("R/data_wrangling.R"))
 ```
 
@@ -95,7 +97,7 @@ map
 ```
 
 ```{r map-static}
-#| eval: !expr out_type %in% c("pdf", "docx")
+#| eval: !expr out_type == "docx"
 #| out-width: 6in
 knitr::include_graphics(
   paste0(path, "/map.png")
@@ -145,7 +147,7 @@ make_ft(table = tables$physical, header = headers$physical) |>
 ```
 
 ```{r physical-plot-static}
-#| eval: !expr out_type %in% c("pdf", "docx")
+#| eval: !expr out_type == "docx"
 physical_plot <- make_strip_plot(
   groups$physical,
   output = "static"
@@ -183,7 +185,7 @@ make_ft(table = tables$biological, header = headers$biological)
 ```
 
 ```{r biological-plot-static}
-#| eval: !expr out_type %in% c("pdf", "docx")
+#| eval: !expr out_type == "docx"
 biological_plot <- make_strip_plot(
   groups$biological,
   output = "static"
@@ -222,7 +224,7 @@ make_ft(table = tables$chemical, header = headers$chemical) |>
 ```
 
 ```{r chemical-plot-static}
-#| eval: !expr out_type %in% c("pdf", "docx")
+#| eval: !expr out_type == "docx"
 chemical_plot <- make_strip_plot(
   groups$chemical,
   output = "static"
@@ -261,7 +263,7 @@ make_ft(table = tables$macro, header = headers$macro) |>
 ```
 
 ```{r macro-plot-static}
-#| eval: !expr out_type %in% c("pdf", "docx")
+#| eval: !expr out_type == "docx"
 macro_plot <- make_strip_plot(
   groups$macro,
   output = "static"
@@ -297,7 +299,7 @@ make_ft(table = tables$micro, header = headers$micro) |>
 ```
 
 ```{r micro-plot-static}
-#| eval: !expr out_type %in% c("pdf", "docx")
+#| eval: !expr out_type == "docx"
 micro_plot <- make_strip_plot(
   groups$micro,
   output = "static"

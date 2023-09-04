@@ -28,7 +28,7 @@ data$farmName <- ifelse(is.na(data$farmName), data$producerId, data$farmName)
 
 # Subset to producer samples
 producer_samples <- data |>
-  subset(producerId == params$producerId & year == params$year)
+  subset(producerId == pid & year == yr)
 
 # Identify measurements that producer has results for
 cols_to_keep <- colSums(

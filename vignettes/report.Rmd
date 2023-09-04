@@ -1,8 +1,8 @@
 ---
-title: "Soil Health Reports"
+title: "Write Soil Health Reports"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Soil Health Reports}
+  %\VignetteIndexEntry{Write Soil Health Reports}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,7 +17,7 @@ library(soils)
 
 ## Quarto and Markdown Basics
 
-If you're new to Quarto, first check out these [tutorials](https://quarto.org/docs/get-started/hello/rstudio.html). Also, see this [guide](https://quarto.org/docs/authoring/markdown-basics.html) for markdown basics.
+If you're new to Quarto or markdown, first check out these [tutorials](https://quarto.org/docs/get-started/hello/rstudio.html) and [markdown basics guide](https://quarto.org/docs/authoring/markdown-basics.html).
 
 ## File Paths
 
@@ -31,7 +31,7 @@ To install, import, and register the `washi` default fonts, follow these [instru
 
 ## Project Structure
 
-Let's begin by familiarizing ourselves with the project structure and which files to edit or add. Look for the **bolded statements** for where you will need to edit or add files. How you should add or edit files is described in the later sections: **1)** Import Data, **2)** Edit Files, **3)** Render Your Reports, and **4)** Final Edits and Sendoff.
+Let's begin by familiarizing ourselves with the project structure and which files to edit or add. Look for the **bolded statements** for where you will need to edit or add files. How you should add or edit files is described in the later sections: **1)** Import Data, **2)** Write and Edit, **3)** Render Your Reports, and **4)** Final Edits and Sendoff.
 
 ### `inst`
 
@@ -53,7 +53,7 @@ At the top level, there are eight Quarto files. The first is the main document, 
 │   └── _07_acknowledgement.qmd
 ```
 
-Child documents allow us to reuse content without copying and pasting. You could use the same project summary in other reports by using the `{{< include >}}` [shortcode](https://quarto.org/docs/authoring/includes.html). When it's time to update the summary, you only have edit in one place.
+Child documents allow us to reuse content without copying and pasting. Use the same project summary in other reports by using the `{{< include >}}` [shortcode](https://quarto.org/docs/authoring/includes.html). When it's time to update the summary, you only have edit in one place.
 
 ```         
 # Our Project Summary
@@ -65,7 +65,7 @@ More content here...
 
 #### `extdata`
 
-This is where example data live, and where your data needs to go. **Add your data set and data dictionary here** for processing in the `data_wrangling.R` script (**make sure the file names in `extdata` match the script**).
+This is where example data live, and where your data need to go. **Add your data set and data dictionary** to this folder for processing in the `data_wrangling.R` script. The file names in `extdata` must match the script.
 
 The files with `*` contain wrangled data used in the function [examples](https://wa-department-of-agriculture.github.io/soils/reference/make_plotly.html#ref-examples). They demonstrate what the input data must look like for `soils` visualization functions. You do not need to edit or add your own data to these files.
 
@@ -82,7 +82,7 @@ The files with `*` contain wrangled data used in the function [examples](https:/
 
 #### `images`
 
-This folder contains images you want to include in your report. See more [info](https://quarto.org/docs/authoring/figures.html) on including images in Quarto. You should **replace the `logo.png` with your own**.
+This folder contains images you want to include in your report. See more [info](https://quarto.org/docs/authoring/figures.html) on including images in Quarto. **Replace `logo.png` with your own**.
 
 ```         
 ├── inst
@@ -93,7 +93,7 @@ This folder contains images you want to include in your report. See more [info](
 │   │   └── physical.png
 ```
 
-To include an image in the report, use the following syntax:
+Use the following syntax to include an image in the report:
 
 ```         
 ![](images/chemical.png){height="50px"}
@@ -101,7 +101,7 @@ To include an image in the report, use the following syntax:
 
 #### `resources`
 
-The style sheets that make the reports look pretty live in this folder. `styles.css` is for `.html` output and `word-template.docx` is for `.docx` output.
+Style sheets are used to customize the appearance of the reports. `styles.css` is for `.html` output and `word-template.docx` is for `.docx` output.
 
 ```         
 ├── inst
@@ -110,7 +110,7 @@ The style sheets that make the reports look pretty live in this folder. `styles.
 │   │   └── word-template.docx
 ```
 
-You can **open these files and modify the fonts and colors** to match your own branding. Learn more about [CSS](https://quarto.org/docs/visual-editor/content.html#css-styles) and [MS Word Style Templates](https://quarto.org/docs/output-formats/ms-word-templates.html).
+**Open these files and modify the fonts and colors** to match your own branding. Learn more about [Cascading Style Sheets (CSS)](https://quarto.org/docs/visual-editor/content.html#css-styles) and [MS Word Style Templates](https://quarto.org/docs/output-formats/ms-word-templates.html).
 
 ### `R`
 
@@ -126,21 +126,11 @@ The `R` folder holds the `data_wrangling.R` script that gets sourced in `produce
     └── tables.R
 ```
 
-You can **modify these functions** to better suit your data and reporting needs. For example, you could change the font and color default arguments from the `{washi}` branding package to your own organization's theme. `producer_report.qmd` uses the built-in `soils` functions, so you need to source the modified R scripts in the `.qmd` document. To avoid confusion, you should also rename your modified function in the R script and in the `.qmd` document.
-
-For example, if you modified `tables.R`:
-
-```         
-# Add this to your setup chunk
-source(here::here("R/tables.R"))
-
-# Replace make_ft(...) with:
-make_ft_custom(...)
-```
+Optionally, **modify these functions** to better suit your data and reporting needs. For example, you could change the font and color default arguments from the `{washi}` branding package to your own organization's theme. `producer_report.qmd` uses the built-in `soils` functions, so you need to source the modified R scripts in the `.qmd` document. To avoid confusion, you should also rename your modified function in the R script and in the `.qmd` document.
 
 ## 1) Import Data
 
-`soils` includes an example data set and data dictionary (found in the `inst/extdata/` folder) for you to use as a template. These files are also automatically loaded when you call `library(soils)`. This allows you to try out the visualization functions and rendering the reports immediately after installing `soils` on your machine.
+`soils` includes an example data set and data dictionary to use as templates. These files also automatically loaded when you call `library(soils)`, but also are found in the `inst/extdata` folder. They allow you to try out the visualization functions and report rendering immediately after installing `soils` on your machine.
 
 ### Project Data
 
@@ -157,13 +147,17 @@ dplyr::glimpse(exampleData)
 
 </details>
 
-All column names in your data, besides the measurements, must be exactly the same as above. If the column names differ, you will need to use `CTRL + SHIFT + F` to find and replace the hard-coded values throughout the `.qmd` files and `.R` scripts.
+All column names in your data, besides the measurements, must be exactly the same as above. If the column names differ, use `Ctrl + Shift + F` to find and replace the hard-coded values throughout the `.qmd` files and `.R` scripts.
 
 Each measurement must be in its own column. These measurement column names must match the `column_name` in your data dictionary.
 
 ### Data Dictionary
 
-The data dictionary must have the exact same column names as the example:
+The data dictionary is used to group and order the measurements, as well as provide nicely formatted labels for display in tables and plots. The example data dictionary contains `UTF-8` superscripts and subscripts and is saved with this specific encoding.
+
+![Data dictionary is saved as `CSV UTF-8 (Comma delimited) (*.csv)` in MS Excel](images/utf-8.png)
+
+Your data dictionary must have the exact same column names as the example:
 
 <details open>
 
@@ -173,7 +167,9 @@ The data dictionary must have the exact same column names as the example:
 dplyr::glimpse(dataDictionary)
 
 dataDictionary |>
+  # Removing this very wide column to better show the other columns
   dplyr::select(-measurement_full_name) |>
+  # Show just the top 3 measurements in each `measurement_group`
   dplyr::slice_head(
     n = 3,
     by = measurement_group
@@ -182,14 +178,15 @@ dataDictionary |>
 
 </details>
 
--   `measurement_group` column determines how the measurements are grouped.
--   `order` column specifies the order in which the measurements appear in each group's tables and plots.
--   `abbr` and `unit` columns are how the measurements are represented in `flextable` tables.
--   `abbr_unit` is the abbreviation and unit, formatted with HTML line breaks for `ggplot2` plots.
+-   `measurement_group` determines how the measurements are grouped.
+-   `order` column specifies the order in which the measurements appear in each measurement group's tables and plots.
+-   `column_name` is the join key for joining with your project data.
+-   `abbr` and `unit` are how the measurements are represented in `flextable` tables.
+-   `abbr_unit` is formatted with HTML line breaks for `ggplot2` plots.
 
 ### `data_wrangling.R`
 
-Once you have added your project data and data dictionary files into the `inst/extdata` folder, edit `data_wrangling.R` with your file names:
+Once your project data and data dictionary files are in the `inst/extdata` folder, edit `data_wrangling.R` with your file names:
 
 ```{r eval=FALSE}
 # Load lab results
@@ -207,13 +204,19 @@ dictionary <- read.csv(
 )
 ```
 
-You may need to switch the function from `read.csv()` if you are using a different file format.
+You may need to switch the function from `read.csv()` if your files are in a different format.
 
-## 2) Edit Files
+## 2) Write and Edit
 
-### YAML
+Almost all Quarto report template files, images, style sheets, and example data that are bundled with the `soils` package should be edited for your project.
 
-The first place to start is the YAML (Yet Another Markup Language) header at the top of the `producer_report.qmd` file, sandwiched between three dashes (`---`). This contains document metadata, parameters, and customization options.
+### Report Metadata and Options
+
+The report metadata and options are controlled with the YAML and setup chunk in `producer_report.qmd`.
+
+#### YAML
+
+The first place to start is the YAML (Yet Another Markup Language). The YAML header is the content sandwiched between three dashes (`---`) at the top of the file. It contains document metadata, parameters, and customization options.
 
 The only fields you need to edit are:
 
@@ -231,11 +234,13 @@ params:
 ---
 ```
 
-You can ignore the other YAML fields and values until you would like to explore other ways of customizing your reports. Learn about the available YAML fields for [HTML documents](https://quarto.org/docs/reference/formats/html.html) and [MS Word documents](https://quarto.org/docs/reference/formats/docx.html).
+Ignore the other YAML fields and values until you would like to explore other ways of customizing your reports. Learn about the available YAML fields for [HTML documents](https://quarto.org/docs/reference/formats/html.html) and [MS Word documents](https://quarto.org/docs/reference/formats/docx.html).
 
-### Setup Chunk
+#### Setup Chunk
 
-You shouldn't need to modify this chunk unless you want to load additional libraries for your analyses or visualizations. This is where `data_wrangling.R` is sourced. The default `producerId` and `year` parameters must be valid values in your imported data. `out_type` is used for determining which chunks should be evaluated, depending on whether the report is being rendered to `.html` or `.docx`.
+You shouldn't need to modify this chunk unless you want to load additional libraries for your analyses or visualizations.
+
+Notice the use of `here::here()` to manage file paths.
 
 ```{r setup, eval=FALSE}
 library(extrafont) # Register Poppins and Lato fonts for use in R
@@ -253,33 +258,117 @@ if (!dir.exists(path)) {
   dir.create(path)
 }
 
-# Run data wrangling script
+# Run data wrangling script for current producer and year
+producerId <- params$producerId
+year <- params$year
 source(here::here("R/data_wrangling.R"))
 ```
 
-### Content
+`out_type` is used for determining which chunks should be evaluated, depending on whether the report is being rendered to `.html` or `.docx`.
 
-Edit/add/remove the child documents and images to suit your project. We included placeholder text to make it easier to find project-specific information. Use `CTRL + SHIFT + F` to search all files for `EDIT:` and `[INSERT`.
+`path` is where generated figures are stored and referenced into the report.
 
-`producer_report.qmd` has a section for `measurement_group` value, as defined in the `dataDictionary.csv`. These values are hard coded -- if your project uses different groupings, you will need to edit/remove each instance in the `.qmd` files accordingly.
+`data_wrangling.R` is sourced with the current `producerId` and `year` parameters in the `.qmd` environment. It will error if these parameters are not found in your data.
+
+### Report Content
+
+`producer_report.qmd` has a section for `measurement_group` value, as defined in the `dataDictionary.csv`. These values are hard coded -- if your project uses different groupings, edit or remove each instance in the `.qmd` files accordingly.
+
+Each measurement group has various chunks for generating static or interactive tables and plots, depending on whether the report is rendering to `.docx` or `.html`.
+
+These chunks have specific execution options:
+
+```` markdown
+`r ''````{r physical-plot-html}
+#| eval: !expr out_type == "html"
+make_plotly(groups$physical)
+```
+````
+
+Edit, add, or remove the child documents and images to suit your project. We included placeholder text to make it easier to find project-specific information.
+
+Use `Ctrl + Shift + F` to search all files for `EDIT:` and `[INSERT`.
 
 ### Theme
 
-Edit `styles.css` to `word-template.docx` to match your own branding. Learn more about [CSS](https://quarto.org/docs/visual-editor/content.html#css-styles) and [MS Word Style Templates](https://quarto.org/docs/output-formats/ms-word-templates.html).
+#### Style Sheets
 
-Edit `tables.R`, `plots.R`, and `map.R` from `washi` default fonts and colors to your own organization's. You can **modify these functions** to better suit your data and reporting needs. You will need to source the modified R scripts in the `producer_report.qmd` document. To avoid confusion, you should also rename your modified function in the R script and in the `.qmd` document.
+The style sheets can be found in the `inst/resources` directory and edited to customize the report appearance to match your own branding.
+
+##### HTML
+
+`styles.css` controls the appearance of HTML reports.
+
+```         
+/* Edit these :root variables */
+:root {
+    --primary-color: #023B2C;
+    --secondary-color: #335c67;
+    --link-color: #a60f2d;
+    --heading-font: "Lato"
+    --body-font: "Poppins"
+}
+```
+
+##### MS Word
+
+Open `word-template.docx` and modify the styles according to this [Microsoft documentation](https://support.microsoft.com/en-gb/office/customize-or-create-new-styles-d38d6e47-f6fc-48eb-a607-1eb120dec563).
+
+Learn more about [CSS](https://quarto.org/docs/visual-editor/content.html#css-styles) and [MS Word Style Templates](https://quarto.org/docs/output-formats/ms-word-templates.html).
+
+#### R Functions
+
+Edit `tables.R`, `plots.R`, and `map.R` from `washi` default fonts and colors to your own organization's. Modify these functions to better suit your data and reporting needs. You will need to source the modified R scripts in the `producer_report.qmd` document. To avoid confusion, you should also rename your modified function in the R script and in the `.qmd` document.
+
+For example, let's modify `make_texture_triangle()` to use different default fonts and colors:
+
+```{r, eval=FALSE}
+# In `plots.R`
+
+# `soils` default arguments:
+make_texture_triangle <- function(
+  df,
+  primary_color = washi::washi_pal[["standard"]][["red"]],
+  secondary_color = washi::washi_pal[["standard"]][["gray"]],
+  other_color = washi::washi_pal[["standard"]][["tan"]],
+  font_family = "Poppins"
+    )
+  ...
+}
+
+# Edit to:
+make_texture_triangle_custom <- function(
+  df,
+  primary_color = "blue",
+  secondary_color = "green",
+  other_color = "gray",
+  font_family = "Arial"
+    )
+  ...
+}
+    
+# In `producer_report.qmd`
+
+# Add this to your setup chunk
+source(here::here("R/plots.R"))
+
+# Ctrl + F to find and replace all instances of `make_texture_triangle(...)`
+# to `make_texture_triangle_custom(...)`.
+```
 
 ## 3) Render Your Reports
 
+You can render reports with the RStudio IDE or programmatically with the `render_report()` function.
+
 ### Using the RStudio IDE
 
-To generate and preview the report with the default parameters, use the `Render` button or keyboard shortcut (`CTRL + SHIFT + K`). This is the fastest way to render reports and is great for iterating on content and style. You can check the `Render on Save` option to automatically update the preview whenever you re-render the document. HTML reports will preview side-by-side with the `.qmd` file, whereas MS Word documents will open separately.
+To generate and preview the report with the default parameters, use the `Render` button or keyboard shortcut (`Ctrl + Shift + K`). This is the fastest way to render reports and is great for iterating on content and style. You can check the `Render on Save` option to automatically update the preview whenever you re-render the document. HTML reports will preview side-by-side with the `.qmd` file, whereas MS Word documents will open separately.
 
-![RStudio Quarto Render button with a dropdown for HTML and MS Word. The Render on Save option is checked.](images/render.png){style="max-width:80%"}
+![RStudio Quarto Render button with a dropdown for HTML and MS Word with Render on Save option checked](images/render.png){style="max-width:80%"}
 
-### Using a `soils` Function
+### Using `render_report()`
 
-You also can render the report programmatically with:
+You also can render the report programmatically:
 
 ```{r, eval=FALSE}
 # Get the first producer ID in 2023
@@ -299,7 +388,7 @@ render_report(
 
 The year and producer ID are incorporated in the file name. You can specify the output directory where you want the reports to be stored.
 
-When you're ready to render reports for all producers in your project, you should use the `render_report()` function with `purrr::walk()`.
+When you're ready to render reports for all producers in your project, use the `render_report()` function with `purrr::walk()`.
 
 To iterate through each producer ID and year to render all reports at once:
 
@@ -325,8 +414,8 @@ purrr::walk(
 
 ## 4) Final Edits and Sendoff
 
-All MS Word reports should be reviewed for final formatting before being sent out. We make manual formatting edits. See [Example .docx Report](https://wa-department-of-agriculture.github.io/soils/articles/docx.html) for details. Then we use Adobe Acrobat to convert to `.pdf` for smaller, more portable files to send to the producers.
+All MS Word reports should be reviewed for final formatting before sending. See the article [MS Word Reports](https://wa-department-of-agriculture.github.io/soils/articles/docx.html) for some of the manual edits we do. Then we use Adobe Acrobat to convert to `.pdf` for smaller, more portable files to send to the producers.
 
 In the future, we would like to create a template using `LaTex` to render `.pdf` reports that have better controls for floating images around text and fitting tables and plots to avoid the intermediate `.docx` step.
 
-See [Example .html Report](https://wa-department-of-agriculture.github.io/soils/articles/html.html) for additional notes on the `.html` reports and how report recipients should access them.
+See the article [HTML Reports](https://wa-department-of-agriculture.github.io/soils/articles/html.html) for additional notes on the `.html` reports and how report recipients should access them.

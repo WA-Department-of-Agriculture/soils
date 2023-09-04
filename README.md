@@ -2,6 +2,11 @@
 # soils <a href="https://wa-department-of-agriculture.github.io/soils/"><img src="man/figures/logo.svg" data-align="right" height="138" /></a>
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/soils)](https://CRAN.R-project.org/package=soils)
+[![R-CMD-check](https://github.com/WA-Department-of-Agriculture/soils/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/WA-Department-of-Agriculture/soils/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 ## Overview
@@ -50,8 +55,8 @@ After installing `soils`, you can use the RStudio IDE or the
 all the example data, Quarto files, style sheets, images, and R scripts
 needed to generate some example soil health reports.
 
-Read the [New Template Project
-article](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
+Read the article [Create New Template
+Project](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
 to learn what goodies are bundled within `soils`.
 
 To view the vignette within RStudio, run the command
@@ -63,7 +68,7 @@ This package can help you generate custom static `.docx` reports and
 interactive `.html` reports for every producer or land owner in your
 soil health survey project.
 
-Read the article on [Soil Health
+Read the article [Write Soil Health
 Reports](https://wa-department-of-agriculture.github.io/soils/articles/report.html)
 for a detailed walk through the project and workflow for adopting this
 template for your own project.
@@ -73,27 +78,26 @@ To view the vignette within RStudio, run the command
 
 Check out our example reports:
 
-- [`.docx`
-  link](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
+- [MS
+  Word](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
   or `vignette("docx", "soils")`
-- [`.html`
-  link](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
+- [HTML](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
   or `vignette("html", "soils")`
 
 <figure>
 <img src="man/figures/report_docx.png"
 data-fig-alt="First page of example .docx report"
-alt="First page of example .docx report" />
-<figcaption aria-hidden="true">First page of example <code>.docx</code>
+alt="First page of example MS Word report" />
+<figcaption aria-hidden="true">First page of example MS Word
 report</figcaption>
 </figure>
 
 <figure>
 <img src="man/figures/report_html.png"
 data-fig-alt="Screenshot of .html report"
-alt="The beginning of an example .html report" />
-<figcaption aria-hidden="true">The beginning of an example
-<code>.html</code> report</figcaption>
+alt="Beginning of an example HTML report" />
+<figcaption aria-hidden="true">Beginning of an example HTML
+report</figcaption>
 </figure>
 
 ## Acknowledgement and Citation

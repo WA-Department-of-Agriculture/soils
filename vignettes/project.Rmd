@@ -1,8 +1,8 @@
 ---
-title: "New Template Project"
+title: "Create a New Template Project"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{New Template Project}
+  %\VignetteIndexEntry{Create a New Template Project}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,6 +18,13 @@ knitr::opts_chunk$set(
 
 We assume you are working in RStudio Desktop. This workflow has not been tested in other IDEs such as Visual Studio Code.
 
+Install `soils` with:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("WA-Department-of-Agriculture/soils")
+```
+
 There are two ways to create the RStudio project.
 
 **Option 1**. `Open RStudio` \> `File` \> `New Project` \> `"Soil Health Quarto Report"`
@@ -32,7 +39,7 @@ soils::create_soils(path = "path/to/project")
 
 The following should print in your console:
 
-![Output from running `soils::create_soils()` in the RStudio console. `usethis::create_project()` prints the steps to creating the new project directory.](images/create_soils.png)
+![Output from running `soils::create_soils()` in the RStudio console](images/create_soils.png)
 
 ## Project Structure Overview
 
@@ -93,7 +100,7 @@ If you used `soils::create_soils()`, you will need to open the `inst` folder to 
 
 Once `producer_report.qmd` is open, click the `Render` button at the top of the file to generate either the `HTML` or `MS Word` report. You can check the `Render on Save` option to automatically update the preview whenever you re-render the document.
 
-![RStudio Quarto Render button with a dropdown for HTML and MS Word. The Render on Save option is checked.](images/render.png){style="max-width:80%"}
+![RStudio Quarto Render button with a dropdown for HTML and MS Word with Render on Save option checked](images/render.png){style="max-width:80%"}
 
 Hopefully this rendered the report in the `inst` directory with the file name matching the input `.qmd` name.
 

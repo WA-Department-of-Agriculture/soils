@@ -1,8 +1,14 @@
+/* Edit these :root variables */
 :root {
-    --green: #023B2C;
-    --blue: #335c67;
-    --red: #a60f2d;
+    --primary-color: #023B2C;
+    --secondary-color: #335c67;
+    --link-color: #a60f2d;
+    --heading-font: "Lato"
+    --body-font: "Poppins"
 }
+
+/* You don't need to edit the below content unless you want to
+further customize your HTML report style */
 
 p.subtitle {
     margin-top: 0.95em;
@@ -12,12 +18,12 @@ p.subtitle {
 .lead {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--blue);
+    color: var(--secondary-color);
     text-align: right;
 }
 
 p {
-    font-family: "Poppins";
+    font-family: var(--body);
 }
 
 .tab-pane>p {
@@ -25,26 +31,26 @@ p {
 }
 
 a {
-    color: var(--red);
+    color: var(--link-color);
 }
 
 a:hover {
-    color: var(--red);
+    color: var(--link-color);
 }
 
 .sidebar nav[role=doc-toc] ul>li>a.active {
-    border-left: 1px solid var(--red);
-    color: var(--red)!important;
+    border-left: 1px solid var(--link-color);
+    color: var(--link-color)!important;
 }
 
 .sidebar nav[role=doc-toc] ul>li>ul>li>a.active {
-    border-left: 1px solid var(--red);
-    color: var(--red)!important;
+    border-left: 1px solid var(--link-color);
+    color: var(--link-color)!important;
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: "Lato";
-    color: var(--green);
+    font-family: var(--heading);
+    color: var(--primary-color);
     font-weight: bold;
 }
 
@@ -57,12 +63,12 @@ div.callout-tip.callout {
 }
 
 div.callout-tip.callout {
-    font-family: "Poppins";
-    border-left-color: var(--green);
+    font-family: var(--body);
+    border-left-color: var(--primary-color);
 }
 
 div.callout-tip.callout-style-default>.callout-header {
-    background-color: var(--green);
+    background-color: var(--primary-color);
 }
 
 div.callout-tip.callout-style-default>.callout-header {
@@ -71,8 +77,8 @@ div.callout-tip.callout-style-default>.callout-header {
 
 .btn-success {
     color: white;
-    background-color: var(--green);
-    border-color: var(--green);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .js-plotly-plot .plotly .modebar-btn {

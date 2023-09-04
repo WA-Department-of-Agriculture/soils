@@ -6,6 +6,8 @@ output: github_document
 
 <!-- badges: start -->
 
+[![CRAN status](https://www.r-pkg.org/badges/version/soils)](https://CRAN.R-project.org/package=soils) [![R-CMD-check](https://github.com/WA-Department-of-Agriculture/soils/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/WA-Department-of-Agriculture/soils/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 ## Overview
@@ -40,7 +42,7 @@ To render `.docx` files, you must have Microsoft Word installed.
 
 After installing `soils`, you can use the RStudio IDE or the `soils::create_soils()` function to create a new RStudio project with all the example data, Quarto files, style sheets, images, and R scripts needed to generate some example soil health reports.
 
-Read the [New Template Project article](https://wa-department-of-agriculture.github.io/soils/articles/project.html) to learn what goodies are bundled within `soils`.
+Read the article [Create New Template Project](https://wa-department-of-agriculture.github.io/soils/articles/project.html) to learn what goodies are bundled within `soils`.
 
 To view the vignette within RStudio, run the command `vignette("project", "soils")`.
 
@@ -48,18 +50,18 @@ To view the vignette within RStudio, run the command `vignette("project", "soils
 
 This package can help you generate custom static `.docx` reports and interactive `.html` reports for every producer or land owner in your soil health survey project.
 
-Read the article on [Soil Health Reports](https://wa-department-of-agriculture.github.io/soils/articles/report.html) for a detailed walk through the project and workflow for adopting this template for your own project.
+Read the article [Write Soil Health Reports](https://wa-department-of-agriculture.github.io/soils/articles/report.html) for a detailed walk through the project and workflow for adopting this template for your own project.
 
 To view the vignette within RStudio, run the command `vignette("report", "soils")`.
 
 Check out our example reports:
 
--   [`.docx` link](https://wa-department-of-agriculture.github.io/soils/articles/docx.html) or `vignette("docx", "soils")`
--   [`.html` link](https://wa-department-of-agriculture.github.io/soils/articles/html.html) or `vignette("html", "soils")`
+-   [MS Word](https://wa-department-of-agriculture.github.io/soils/articles/docx.html) or `vignette("docx", "soils")`
+-   [HTML](https://wa-department-of-agriculture.github.io/soils/articles/html.html) or `vignette("html", "soils")`
 
-![First page of example `.docx` report](man/figures/report_docx.png){fig-alt="First page of example .docx report"}
+![First page of example MS Word report](man/figures/report_docx.png){fig-alt="First page of example .docx report"}
 
-![The beginning of an example `.html` report](man/figures/report_html.png){fig-alt="Screenshot of .html report"}
+![Beginning of an example HTML report](man/figures/report_html.png){fig-alt="Screenshot of .html report"}
 
 ## Acknowledgement and Citation
 
@@ -81,3 +83,4 @@ cat(acknowledgement, sep = "\n")
 -   [`ratlas`](https://github.com/atlas-aai/ratlas)
 -   [`quartotemplate`](https://github.com/Pecners/quartotemplate)
 -   [`golem`](https://github.com/ThinkR-open/golem/)
+

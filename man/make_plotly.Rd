@@ -6,8 +6,8 @@
 \usage{
 make_plotly(
   df,
-  panel.spacing.x = 6,
-  panel.spacing.y = 30,
+  panel_spacing_x = 6,
+  panel_spacing_y = 30,
   font_family = "Poppins",
   primary_color = washi::washi_pal[["standard"]][["red"]],
   secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
@@ -19,7 +19,7 @@ make_plotly(
 \item{df}{Dataframe containing columns: \code{category}, \code{abbr_unit}, \code{unit},
 \code{dummy}, and \code{sampleLabel}.}
 
-\item{panel.spacing.x, panel.spacing.y}{Spacing between facet panels in units
+\item{panel_spacing_x, panel_spacing_y}{Spacing between facet panels in units
 \code{line} when \code{output = "html"}. Defaults to \code{6} for \code{x} and \code{30} for \code{y} for
 rendering in producer reports. These default values seem to look the best
 with the dimensions of the plot outputs in the reports. This argument is
@@ -48,13 +48,12 @@ Wrapper of \code{make_strip_plot()} that adds \code{plotly} interactivity.
 NOTE: \code{plotly} has issues with overlapping axis labels when facetting (See
 this \href{https://github.com/plotly/plotly.R/issues/1224}{GitHub issue}). The
 somewhat hacky solution to getting these plots to look good involves tweaking
-the \code{panel.spacing} arguments in \code{ggplot2::theme()}.
+the \code{panel_spacing} arguments in \code{ggplot2::theme()}.
+
+If rendering from Mac OS, try setting the \code{panel_spacing_x = 0.01} and
+\code{panel_spacing_y = 3}.
 }
 \examples{
-# For Poppins font, must have it installed and registered in R with
-# the `{extrafont}` package.
-library(extrafont)
-
 # Read in wrangled plot data.
 # See `data_wrangling.R` for processing steps.
 path <- soils_example("dfPlot.csv")
@@ -89,13 +88,17 @@ class(df$category)
 levels(df$category)
 
 # This `plotly` does not look right when viewing outside the reports
-make_plotly(df)
-
-# Conversely, this `plotly` looks better in this example when
-# the `panel.spacing` arguments are modified
 make_plotly(
   df,
-  panel.spacing.x = 0.01,
-  panel.spacing.y = 4
+  font_family = "sans"
+)
+
+# Conversely, this `plotly` looks better in this example when
+# the `panel_spacing` arguments are modified
+make_plotly(
+  df,
+  panel_spacing_x = 0.01,
+  panel_spacing_y = 5,
+  font_family = "sans"
 )
 }

@@ -7,8 +7,8 @@
 make_strip_plot(
   df,
   output,
-  panel.spacing.x = 6,
-  panel.spacing.y = 30,
+  panel_spacing_x = 6,
+  panel_spacing_y = 30,
   font_family = "Poppins",
   primary_color = washi::washi_pal[["standard"]][["red"]],
   secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
@@ -22,7 +22,7 @@ make_strip_plot(
 
 \item{output}{Type of ouput: either \code{"static"} or \code{"html"}}
 
-\item{panel.spacing.x, panel.spacing.y}{Spacing between facet panels in units
+\item{panel_spacing_x, panel_spacing_y}{Spacing between facet panels in units
 \code{line} when \code{output = "html"}. Defaults to \code{6} for \code{x} and \code{30} for \code{y} for
 rendering in producer reports. These default values seem to look the best
 with the dimensions of the plot outputs in the reports. This argument is
@@ -49,9 +49,6 @@ Facetted \code{ggplot2.} strip plot
 \href{https://github.com/WA-Department-of-Agriculture/soils/blob/main/R/data_wrangling.R}{\code{data_wrangling.R}} wrangles the data into the specific structure shown in the below example. Currently, many variables and values are hard-coded into this function. In future work, we hope to broaden this function's flexibility. See the below example for what the input data structure must look like.
 }
 \examples{
-# Install and register Poppins font in R with the `{extrafont}` package.
-library(extrafont)
-
 # Read in wrangled plot data
 # See `data_wrangling.R` for processing steps
 path <- soils_example("dfPlot.csv")
@@ -86,6 +83,9 @@ class(df$category)
 levels(df$category)
 
 # Make the plot
-make_strip_plot(df, output = "static")
-
+make_strip_plot(
+  df,
+  output = "static",
+  font_family = "sans"
+)
 }

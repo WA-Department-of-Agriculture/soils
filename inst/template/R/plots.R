@@ -52,15 +52,18 @@
 #' levels(df$category)
 #'
 #' # Make the plot
-#' make_texture_triangle(df)
+#' make_texture_triangle(
+#'   df,
+#'   font_family = "sans"
+#' )
 #'
 make_texture_triangle <- function(
-  df,
-  primary_color = washi::washi_pal[["standard"]][["red"]],
-  secondary_color = washi::washi_pal[["standard"]][["gray"]],
-  other_color = washi::washi_pal[["standard"]][["tan"]],
-  font_family = "Poppins"
-    ) {
+    df,
+    primary_color = washi::washi_pal[["standard"]][["red"]],
+    secondary_color = washi::washi_pal[["standard"]][["gray"]],
+    other_color = washi::washi_pal[["standard"]][["tan"]],
+    font_family = "Poppins"
+) {
   suppressWarnings({
     ggplot2::ggplot(
       data = usdaTexture$polygons,
@@ -186,7 +189,7 @@ make_texture_triangle <- function(
 #' @param df Dataframe containing columns: `category`, `abbr_unit`, `unit`,
 #'   `dummy`, and `sampleLabel`.
 #' @param output Type of ouput: either `"static"` or `"html"`
-#' @param panel.spacing.x,panel.spacing.y Spacing between facet panels in units
+#' @param panel_spacing_x,panel_spacing_y Spacing between facet panels in units
 #'   `line` when `output = "html"`. Defaults to `6` for `x` and `30` for `y` for
 #'   rendering in producer reports. These default values seem to look the best
 #'   with the dimensions of the plot outputs in the reports. This argument is
@@ -199,9 +202,6 @@ make_texture_triangle <- function(
 #' @returns Facetted `ggplot2.` strip plot
 #'
 #' @examples
-#' # Install and register Poppins font in R with the `{extrafont}` package.
-#' library(extrafont)
-#'
 #' # Read in wrangled plot data
 #' # See `data_wrangling.R` for processing steps
 #' path <- soils_example("dfPlot.csv")
@@ -236,19 +236,22 @@ make_texture_triangle <- function(
 #' levels(df$category)
 #'
 #' # Make the plot
-#' make_strip_plot(df, output = "static")
-#'
+#' make_strip_plot(
+#'   df,
+#'   output = "static",
+#'   font_family = "sans"
+#' )
 make_strip_plot <- function(
-  df,
-  output,
-  panel.spacing.x = 6,
-  panel.spacing.y = 30,
-  font_family = "Poppins",
-  primary_color = washi::washi_pal[["standard"]][["red"]],
-  secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-  other_color = washi::washi_pal[["standard"]][["tan"]],
-  primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
-    ) {
+    df,
+    output,
+    panel_spacing_x = 6,
+    panel_spacing_y = 30,
+    font_family = "Poppins",
+    primary_color = washi::washi_pal[["standard"]][["red"]],
+    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
+    other_color = washi::washi_pal[["standard"]][["tan"]],
+    primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
+) {
   rlang::arg_match(output, c("static", "html"))
 
   # Subset data to just producer for labels
@@ -293,8 +296,8 @@ make_strip_plot <- function(
     theme <- theme +
       ggplot2::theme(
         # Panel spacing
-        panel.spacing.x = ggplot2::unit(panel.spacing.x, "line"),
-        panel.spacing.y = ggplot2::unit(panel.spacing.y, "line"),
+        panel.spacing.x = ggplot2::unit(panel_spacing_x, "line"),
+        panel.spacing.y = ggplot2::unit(panel_spacing_y, "line"),
         # Facet label formatting
         strip.text = ggtext::element_markdown(
           margin = ggplot2::margin(0.35, 0, 0.6, 0, "cm")
@@ -379,17 +382,16 @@ make_strip_plot <- function(
 #' NOTE: `plotly` has issues with overlapping axis labels when facetting (See
 #' this [GitHub issue](https://github.com/plotly/plotly.R/issues/1224)). The
 #' somewhat hacky solution to getting these plots to look good involves tweaking
-#' the `panel.spacing` arguments in `ggplot2::theme()`.
+#' the `panel_spacing` arguments in `ggplot2::theme()`.
+#'
+#' If rendering from Mac OS, try setting the `panel_spacing_x = 0.01` and
+#' `panel_spacing_y = 3`.
 #'
 #' @inheritParams make_strip_plot
 #' @export
 #' @returns Facetted `plotly` strip plot.
 #'
 #' @examples
-#' # For Poppins font, must have it installed and registered in R with
-#' # the `{extrafont}` package.
-#' library(extrafont)
-#'
 #' # Read in wrangled plot data.
 #' # See `data_wrangling.R` for processing steps.
 #' path <- soils_example("dfPlot.csv")
@@ -424,30 +426,34 @@ make_strip_plot <- function(
 #' levels(df$category)
 #'
 #' # This `plotly` does not look right when viewing outside the reports
-#' make_plotly(df)
-#'
-#' # Conversely, this `plotly` looks better in this example when
-#' # the `panel.spacing` arguments are modified
 #' make_plotly(
 #'   df,
-#'   panel.spacing.x = 0.01,
-#'   panel.spacing.y = 4
+#'   font_family = "sans"
+#' )
+#'
+#' # Conversely, this `plotly` looks better in this example when
+#' # the `panel_spacing` arguments are modified
+#' make_plotly(
+#'   df,
+#'   panel_spacing_x = 0.01,
+#'   panel_spacing_y = 5,
+#'   font_family = "sans"
 #' )
 make_plotly <- function(
-  df,
-  panel.spacing.x = 6,
-  panel.spacing.y = 30,
-  font_family = "Poppins",
-  primary_color = washi::washi_pal[["standard"]][["red"]],
-  secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-  other_color = washi::washi_pal[["standard"]][["tan"]],
-  primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
-    ) {
+    df,
+    panel_spacing_x = 6,
+    panel_spacing_y = 30,
+    font_family = "Poppins",
+    primary_color = washi::washi_pal[["standard"]][["red"]],
+    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
+    other_color = washi::washi_pal[["standard"]][["tan"]],
+    primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
+) {
   df_plotly <- make_strip_plot(
     df,
     output = "html",
-    panel.spacing.x = panel.spacing.x,
-    panel.spacing.y = panel.spacing.y
+    panel_spacing_x = panel_spacing_x,
+    panel_spacing_y = panel_spacing_y
   ) |>
     plotly::ggplotly(tooltip = "text") |>
     plotly::layout(
@@ -485,9 +491,11 @@ make_plotly <- function(
     is_first <- grepl("^\\(.*?,1", df_plotly$x$data[[i]]$name)
     # Extract the group identifier and assign it to the name and
     # legend group arguments
-    df_plotly$x$data[[i]]$name <- gsub("[[:punct:]0-9]|\\bNA\\b",
-                                       "\\1",
-                                       df_plotly$x$data[[i]]$name)
+    df_plotly$x$data[[i]]$name <- gsub(
+      "[[:punct:]0-9]|\\bNA\\b",
+      "\\1",
+      df_plotly$x$data[[i]]$name
+    )
 
     df_plotly$x$data[[i]]$legendgroup <- df_plotly$x$data[[i]]$name
     # Show the legend only for the first layer of the group
@@ -527,13 +535,13 @@ make_plotly <- function(
 #' # Delete plot file
 #' unlink(file)
 save_plot <- function(
-  plot,
-  path,
-  device = "png",
-  height = 4,
-  width = 6,
-  units = "in"
-    ) {
+    plot,
+    path,
+    device = "png",
+    height = 4,
+    width = 6,
+    units = "in"
+) {
   if (!dir.exists(path)) {
     dir.create(path)
   }

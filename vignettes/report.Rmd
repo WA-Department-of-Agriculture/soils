@@ -356,6 +356,8 @@ source(here::here("R/plots.R"))
 # to `make_texture_triangle_custom(...)`.
 ```
 
+Note for Mac OS users: facetted `{plotly}` strip plots have issues with the default theme settings. Try modifying the `panel_spacing` arguments as described in the `make_plotly()` [documentation](https://wa-department-of-agriculture.github.io/soils/reference/make_plotly.html).
+
 ## 3) Render Your Reports
 
 You can render reports with the RStudio IDE or programmatically with the `render_report()` function.

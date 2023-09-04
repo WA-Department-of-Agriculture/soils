@@ -67,6 +67,9 @@ class(df$category)
 levels(df$category)
 
 # Make the plot
-make_texture_triangle(df)
+make_texture_triangle(
+  df,
+  font_family = "sans"
+)
 
 }

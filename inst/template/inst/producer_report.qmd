@@ -7,12 +7,12 @@ execute:
   output: true
 format: 
   html:
-    link-external-newwindow: true
-    embed-resources: true
     page-layout: full
     toc: true
     toc-depth: 4
     toc-location: left
+    link-external-newwindow: true
+    embed-resources: true
     css: resources/styles.css
   docx:
     reference-doc: resources/word-template.docx
@@ -54,34 +54,15 @@ source(here::here("R/data_wrangling.R"))
 
 ## `r ifelse(!is.na(producer$info$farmName), producer$info$farmName, paste("Farm:", params$producerId))`
 
-{{< include 01_project_summary.qmd >}}
+{{< include _01_project_summary.qmd >}}
 
 \newpage
 
-{{< include 02_soil_health_background.qmd >}}
+{{< include _02_soil_health_background.qmd >}}
 
 \newpage
 
 ## Your Fields
-
-```{r gis}
-gis <- producer$data |>
-  subset(!duplicated(sampleId)) |>
-  dplyr::arrange(fieldId) |>
-  dplyr::mutate(dplyr::across(
-    dplyr::where(is.numeric),
-    \(x) round(x, 4)
-  )) |>
-  dplyr::select(c(
-    "Sample ID" = sampleId,
-    "Field ID" = fieldId,
-    "Field Name" = fieldName,
-    "Crop" = crop,
-    "Longitude" = longitude,
-    "Latitude" = latitude
-  )) |>
-  dplyr::mutate(`Field ID` = as.character(`Field ID`))
-```
 
 ```{r}
 washi::washi_flextable(gis, cols_bold = 1)
@@ -147,52 +128,6 @@ Below are tables and graphs describing the physical, biological, and chemical me
 ```{r physical-header}
 #| results: asis
 cat("### <span style='color:#a60f2d'>Physical Measurements</span> ![](images/physical.png){height='50px'}")
-```
-
-```{r texture-wrangle}
-# Wrangle physical data for the texture triangle
-texture <- groups$physical |>
-  subset(
-    measurement %in% c("sand_%", "silt_%", "clay_%")
-  ) |>
-  dplyr::select(
-    category,
-    sampleId,
-    Field = fieldName,
-    Texture = texture,
-    measurement,
-    value
-  ) |>
-  tidyr::pivot_wider(
-    id_cols = c(sampleId, category, Field, Texture),
-    names_from = measurement
-  ) |>
-  dplyr::rename(
-    Sand = `sand_%`,
-    Silt = `silt_%`,
-    Clay = `clay_%`
-  ) |>
-  dplyr::mutate(Field = as.character(Field))
-
-# Modify physical table to include texture of producer fields and
-# texture mode across county, crop, project
-tables$physical <- texture |>
-  subset(category == "Your fields") |>
-  dplyr::select(Field, Texture) |>
-  dplyr::full_join(
-    tables$physical,
-    by = c("Field" = "Field or Average")
-  ) |>
-  dplyr::mutate(
-    Texture = ifelse(
-      is.na(Texture.x),
-      Texture.y,
-      Texture.x
-    ),
-    .after = Field
-  ) |>
-  dplyr::rename(`Field or Average` = "Field") |>
-  dplyr::select(-c(Texture.x, Texture.y))
 ```
 
 ```{r texture-triangle}
@@ -423,11 +358,11 @@ if ("downloadthis" %in% rownames(installed.packages())) {
 
 ## Looking Forward
 
-{{< include 06_looking_forward.qmd >}}
+{{< include _06_looking_forward.qmd >}}
 
 ## Acknowledgement
 
-{{< include 07_acknowledgement.qmd >}}
+{{< include _07_acknowledgement.qmd >}}
 
 ```{js open-link-in-new-tab}
 

@@ -301,7 +301,7 @@ make_strip_plot <- function(
         ),
         # Legend formatting
         legend.text = ggplot2::element_text(
-          size = 10
+          size = 12
         )
       )
   }
@@ -431,7 +431,7 @@ make_strip_plot <- function(
 #' make_plotly(
 #'   df,
 #'   panel.spacing.x = 0.01,
-#'   panel.spacing.y = 3
+#'   panel.spacing.y = 4
 #' )
 make_plotly <- function(
   df,
@@ -455,7 +455,7 @@ make_plotly <- function(
       # It prevents the variable names from showing up though.
       legend = list(orientation = "h", title = "Legend"),
       margin = list(t = 100),
-      font = list(family = font_family, size = 12)
+      font = list(family = font_family, size = 15)
     ) |>
     plotly::style(hoverlabel = list(font = list(size = 15))) |>
     plotly::config(

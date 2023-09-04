@@ -1,9 +1,9 @@
 # Setup --------------------------------------------------------------
 
 # EDIT: You will need to add your own cleaned lab data to this data
-# folder, using 'example_data.csv' as a template.
+# folder, using 'exampleData.csv' as a template.
 #
-# 'data_dictionary.csv' must also be updated to match your own
+# 'dataDictionary.csv' must also be updated to match your own
 # data set.
 
 # Load lab results
@@ -342,6 +342,50 @@ headers <- results_long |>
   as.list() |>
   rlang::set_names() |>
   purrr::map(table_headers)
+
+# Wrangle physical data for the texture triangle ---------------------------
+texture <- groups$physical |>
+  subset(
+    measurement %in% c("sand_%", "silt_%", "clay_%")
+  ) |>
+  dplyr::select(
+    category,
+    sampleId,
+    Field = fieldName,
+    Texture = texture,
+    measurement,
+    value
+  ) |>
+  tidyr::pivot_wider(
+    id_cols = c(sampleId, category, Field, Texture),
+    names_from = measurement
+  ) |>
+  dplyr::rename(
+    Sand = `sand_%`,
+    Silt = `silt_%`,
+    Clay = `clay_%`
+  ) |>
+  dplyr::mutate(Field = as.character(Field))
+
+# Modify physical table to include texture of producer fields and
+# texture mode across county, crop, project
+tables$physical <- texture |>
+  subset(category == "Your fields") |>
+  dplyr::select(Field, Texture) |>
+  dplyr::full_join(
+    tables$physical,
+    by = c("Field" = "Field or Average")
+  ) |>
+  dplyr::mutate(
+    Texture = ifelse(
+      is.na(Texture.x),
+      Texture.y,
+      Texture.x
+    ),
+    .after = Field
+  ) |>
+  dplyr::rename(`Field or Average` = "Field") |>
+  dplyr::select(-c(Texture.x, Texture.y))
 
 # Set up data for leaflet function --------------------------------------
 

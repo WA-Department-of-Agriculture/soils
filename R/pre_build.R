@@ -19,9 +19,9 @@ fs::file_copy(
 
 # Remove intermediate files from testing template
 delete <- c(
-  "_producerReport.html",
-  "_producerReport.docx",
-  "_producerReport_files",
+  "producer_report.html",
+  "producer_report.docx",
+  "producer_report_files",
   "figure_output",
   "reports"
 )

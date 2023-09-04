@@ -34,15 +34,13 @@ The following should print in your console:
 
 ![Output from running `soils::create_soils()` in the RStudio console. `usethis::create_project()` prints the steps to creating the new project directory.](images/create_soils.png)
 
-## Project Structure
+## Project Structure Overview
 
 Both options will create and launch a new RStudio project with:
 
-1.  `inst` folder containing the Quarto template, child documents, example data, images, and style resources. Read the [Soil Health Report Article](https://wa-department-of-agriculture.github.io/soils/articles/report.html) for more information about each of these components and our recommended workflow for modifying them.
+1.  `inst` folder containing the Quarto template, child documents, example data, images, and style resources.
 
-2.  `R` folder with R scripts with the source code for most `soils` functions for customization.
-
-    -   Note: If you decide to change these functions, you will need to update `_producerReport.qmd`. For example, if you change the `make_ft()` function in the `tables.R` file, you should add `source(here::here("R/tables.R")` to the top `{r setup}` chunk. Read the [Visualization Functions Article](https://wa-department-of-agriculture.github.io/soils/articles/functions.html) for more details.
+2.  `R` folder with R scripts with the source code for most `soils` functions.
 
 <details open>
 
@@ -50,14 +48,14 @@ Both options will create and launch a new RStudio project with:
 
 ```         
 ├── inst
-│   ├── _producerReport.qmd
-│   ├── 01_project_summary.qmd
-│   ├── 02_soil_health_background.qmd
-│   ├── 03_physical_measurements.qmd
-│   ├── 04_biological_measurements.qmd
-│   ├── 05_chemical_measurements.qmd
-│   ├── 06_looking_forward.qmd
-│   ├── 07_acknowledgement.qmd
+│   ├── producer_report.qmd
+│   ├── _01_project_summary.qmd
+│   ├── _02_soil_health_background.qmd
+│   ├── _03_physical_measurements.qmd
+│   ├── _04_biological_measurements.qmd
+│   ├── _05_chemical_measurements.qmd
+│   ├── _06_looking_forward.qmd
+│   └── _07_acknowledgement.qmd
 │   ├── extdata
 │   │   ├── dataDictionary.csv
 │   │   ├── dfPlot.csv
@@ -73,27 +71,30 @@ Both options will create and launch a new RStudio project with:
 │   ├── resources
 │   │   ├── styles.css
 │   │   └── word-template.docx
-└── R
-    ├── data_wrangling.R
-    ├── helpers.R
-    ├── map.R
-    ├── plots.R
-    ├── render.R
-    └── tables.R
+├── R
+│   ├── data_wrangling.R
+│   ├── helpers.R
+│   ├── map.R
+│   ├── plots.R
+│   ├── render.R
+│   └── tables.R
+└── test.Rproj
 ```
 
 </details>
 
 ## Render the Report Template
 
-If you used the RStudio IDE to create the project, the main Quarto template `_producerReport.qmd` should automatically open in the new project session. If you used `soils::create_soils()`, you will need to open the `inst` folder to access this file in the `Files` pane.
+If you used the RStudio IDE to create the project, the main Quarto template `producer_report.qmd` should automatically open in the new project session. Make sure everything is set up correctly by rendering this template report right out of the package.
 
-![RStudio Files pane showing `.qmd` files and resources inside the `project` \> `inst` folder](images/files.png)
+If you used `soils::create_soils()`, you will need to open the `inst` folder to access this file in the `Files` pane.
 
-Once `_producerReport.qmd` is open, click the `Render` button at the top of the file to generate either the `HTML` or `MS Word` report.
+![RStudio Files pane showing .qmd files and resources inside the project \> inst folder](images/files.png){style="max-width:60%"}
 
-![RStudio Quarto render button with a dropdown for `HTML` and `MS Word`](images/render.png)
+Once `producer_report.qmd` is open, click the `Render` button at the top of the file to generate either the `HTML` or `MS Word` report. You can check the `Render on Save` option to automatically update the preview whenever you re-render the document.
 
-This renders the report in the `inst` directory and the file name will match the input `.qmd` name. This is the fastest way to render reports and is great for iterating on content and style.
+![RStudio Quarto Render button with a dropdown for HTML and MS Word. The Render on Save option is checked.](images/render.png){style="max-width:80%"}
 
-When you're ready to render reports for all producers in your project, you should use the `render_producer_report()` function. The year and producer ID are incorporated in the file name (ex. `2023_WUY05_Report.html`). You can specify the output directory where you want the reports to be stored. To iterate through each producer ID and year to render all reports at once, use `purrr::walk()`. See [example R code](https://wa-department-of-agriculture.github.io/soils/reference/render_producer_report.html#ref-examples) and read the article on [Soil Health Reports](https://wa-department-of-agriculture.github.io/soils/articles/report.html) for more details.
+Hopefully this rendered the report in the `inst` directory with the file name matching the input `.qmd` name.
+
+To learn how to customize the reports to suit your own project, head over to the article on [Soil Health Reports](https://wa-department-of-agriculture.github.io/soils/articles/report.html).

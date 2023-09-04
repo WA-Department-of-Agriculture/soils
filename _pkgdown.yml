@@ -30,7 +30,6 @@ articles:
   contents:
   - project
   - report
-  - functions
 - title: Examples
   navbar: Example Reports
   contents:
@@ -58,7 +57,7 @@ reference:
   - format_ft_colors
   - style_ft
 - title: Render reports
-  contents: render_producer_report
+  contents: render_report
 - title: Helpers
   contents:
   - calculate_mode

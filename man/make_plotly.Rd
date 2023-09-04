@@ -96,6 +96,6 @@ make_plotly(df)
 make_plotly(
   df,
   panel.spacing.x = 0.01,
-  panel.spacing.y = 3
+  panel.spacing.y = 4
 )
 }

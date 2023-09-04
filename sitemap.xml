@@ -13,9 +13,6 @@
     <loc>https://wa-department-of-agriculture.github.io/soils/articles/docx.html</loc>
   </url>
   <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/functions.html</loc>
-  </url>
-  <url>
     <loc>https://wa-department-of-agriculture.github.io/soils/articles/html.html</loc>
   </url>
   <url>
@@ -70,7 +67,7 @@
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/pull_unique.html</loc>
   </url>
   <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/render_producer_report.html</loc>
+    <loc>https://wa-department-of-agriculture.github.io/soils/reference/render_report.html</loc>
   </url>
   <url>
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/save_plot.html</loc>

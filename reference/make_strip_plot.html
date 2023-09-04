@@ -27,7 +27,6 @@
     <h6 class="dropdown-header" data-toc-skip>Get Started</h6>
     <a class="dropdown-item" href="../articles/project.html">New Template Project</a>
     <a class="dropdown-item" href="../articles/report.html">Soil Health Reports</a>
-    <a class="dropdown-item" href="../articles/functions.html">Visualization Functions</a>
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Example Reports</h6>
     <a class="dropdown-item" href="../articles/docx.html">Example .docx Report</a>
@@ -146,29 +145,29 @@ WaSHI blue.</p></dd>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ year                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2022, 2023, 2023, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ year                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2022, 2023, 2022, 2023</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ dummy                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "dummy", "dummy", "dummy", "dummy"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ category              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Other fields", "Same county", "Same crop", "You…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleLabel           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Result:", "County 9&lt;br&gt;Cereal Grain&lt;br&gt;Result:"…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleId              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "22-SNO01-02", "23-DJU01-03", "23-VQC06-01", "23…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ farmName              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 048", "Farm 148", "Farm 178", "Farm 150"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerName          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Josephine", "Raashid", "Allison", "Shanna"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerId            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "SNO01", "DJU01", "VQC06", "WUY05"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldName             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 02", "Field 03", "Field 01", "Field 03"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldId               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 3, 1, 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ county                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 10", "County 9", "County 14", "County 9"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ crop                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Native Land", "Cereal Grain", "Pasture, Seeded"…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ texture               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sandy Loam", "Loamy Sand", "Loam", "Sandy Loam"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ longitude             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -117, -120, -118, -119</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ latitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 48, 48, 47, 49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "silt_%", "silt_%", "clay_%", "sand_%"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ value                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 31, 10, 14, 64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleId              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "22-IDX04-04", "23-DJU01-03", "22-RUX09-01", "23…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ farmName              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 033", "Farm 148", "Farm 092", "Farm 150"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerName          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Henry", "Raashid", "Nika", "Shanna"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerId            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "IDX04", "DJU01", "RUX09", "WUY05"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldName             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 04", "Field 03", "Field 01", "Field 01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldId               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 4, 3, 1, 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ county                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 8", "County 9", "County 19", "County 9"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ crop                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Vegetable", "Cereal Grain", "Pasture, Seeded", …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ texture               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt Loam", "Loamy Sand", "Sandy Loam", "Loamy …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ longitude             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -123, -120, -122, -119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ latitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 47, 48, 49, 49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "silt_%", "sand_%", "clay_%", "WHC_in.ft"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ value                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 68.00, 84.00, 13.00, 1.01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement_group     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "physical", "physical", "physical", "physical"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ order                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 3, 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement_full_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt", "Silt", "Clay", "Sand"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt", "Silt", "Clay", "Sand"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ unit                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "%", "%", "%"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr_unit             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt &lt;br&gt;(%)", "Silt &lt;br&gt;(%)", "Clay &lt;br&gt;(%)", …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ order                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 3, 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ measurement_full_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt", "Sand", "Clay", "Water Holding Capacity"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt", "Sand", "Clay", "WHC"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ unit                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "%", "%", "in/ft"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ abbr_unit             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Silt &lt;br&gt;(%)", "Sand &lt;br&gt;(%)", "Clay &lt;br&gt;(%)", …</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Make sure class of `category` is `ordered factor` with `Your fields` at the</span></span></span>
 <span class="r-in"><span><span class="co"># end so it is plotted on top of the other points</span></span></span>

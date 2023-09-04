@@ -54,7 +54,6 @@
     <h6 class="dropdown-header" data-toc-skip>Get Started</h6>
     <a class="dropdown-item" href="../articles/project.html">New Template Project</a>
     <a class="dropdown-item" href="../articles/report.html">Soil Health Reports</a>
-    <a class="dropdown-item" href="../articles/functions.html">Visualization Functions</a>
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Example Reports</h6>
     <a class="dropdown-item" href="../articles/docx.html">Example .docx Report</a>
@@ -94,32 +93,511 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="quarto-and-markdown-basics">Quarto and Markdown Basics<a class="anchor" aria-label="anchor" href="#quarto-and-markdown-basics"></a>
+</h2>
+<p>If you’re new to Quarto, first check out these <a href="https://quarto.org/docs/get-started/hello/rstudio.html" class="external-link">tutorials</a>.
+Also, see this <a href="https://quarto.org/docs/authoring/markdown-basics.html" class="external-link">guide</a>
+for markdown basics.</p>
+</div>
+<div class="section level2">
+<h2 id="file-paths">File Paths<a class="anchor" aria-label="anchor" href="#file-paths"></a>
+</h2>
+<p>File paths can be tricky, especially when working in files that use
+or source other files in different folders. We use
+<code><a href="https://here.r-lib.org//reference/here.html" class="external-link">here::here()</a></code> to build the file path relative to the
+directory where the <code>.Rproj</code> file is located. We
+<strong>strongly</strong> recommend using the <a href="https://here.r-lib.org/" class="external-link"><code>here</code></a> package to avoid
+file path issues.</p>
+</div>
+<div class="section level2">
+<h2 id="washi-theme">
+<code>washi</code> Theme<a class="anchor" aria-label="anchor" href="#washi-theme"></a>
+</h2>
+<p>Default fonts and colors within <code>soils</code> come from the <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">Washington Soil
+Health Initiative</a> (WaSHI) branding package <a href="https://wa-department-of-agriculture.github.io/washi/" class="external-link"><code>washi</code></a>.
+This allows you to create beautiful plots, tables, and reports out of
+the box. You can customize the fonts and colors to match your own
+branding by modifying the <code>soils</code> functions, style sheets,
+and report templates.</p>
+<p>To install, import, and register the <code>washi</code> default
+fonts, follow these <a href="https://wa-department-of-agriculture.github.io/washi/#requirements." class="external-link">instructions</a>.
+<a href="https://fonts.google.com/specimen/Lato?query=lato" class="external-link">Lato</a> is
+used for headings and <a href="https://fonts.google.com/specimen/Poppins?query=poppins" class="external-link">Poppins</a>
+for body text.</p>
+</div>
+<div class="section level2">
+<h2 id="project-structure">Project Structure<a class="anchor" aria-label="anchor" href="#project-structure"></a>
+</h2>
+<p>Let’s begin by familiarizing ourselves with the project structure and
+which files to edit or add. Look for the <strong>bolded
+statements</strong> for where you will need to edit or add files. How
+you should add or edit files is described in the later sections:
+<strong>1)</strong> Import Data, <strong>2)</strong> Edit Files,
+<strong>3)</strong> Render Your Reports, and <strong>4)</strong> Final
+Edits and Sendoff.</p>
 <div class="section level3">
 <h3 id="inst">
 <code>inst</code><a class="anchor" aria-label="anchor" href="#inst"></a>
 </h3>
+<p>This folder contains all the Quarto report template files, images,
+style sheets, and example data that are bundled with the
+<code>soils</code> package.</p>
 <div class="section level4">
 <h4 id="qmd-files">
-<code>.qmd</code> Files<a class="anchor" aria-label="anchor" href="#qmd-files"></a>
+<code>.qmd</code> files<a class="anchor" aria-label="anchor" href="#qmd-files"></a>
 </h4>
+<p>At the top level, there are eight Quarto files. The first is the main
+document, called <code>producer_report.qmd</code>, which references
+child documents to be knitted and input in this main document. The child
+documents are prefixed with an underscore and named in sequential order
+to when they appear in the parent document. <strong>Edit each of these
+documents</strong> to suit your project.</p>
+<pre><code>├── inst
+│   ├── producer_report.qmd
+│   ├── _01_project_summary.qmd
+│   ├── _02_soil_health_background.qmd
+│   ├── _03_physical_measurements.qmd
+│   ├── _04_biological_measurements.qmd
+│   ├── _05_chemical_measurements.qmd
+│   ├── _06_looking_forward.qmd
+│   └── _07_acknowledgement.qmd</code></pre>
+<p>Child documents allow us to reuse content without copying and
+pasting. You could use the same project summary in other reports by
+using the <code>{{&lt; include &gt;}}</code> <a href="https://quarto.org/docs/authoring/includes.html" class="external-link">shortcode</a>.
+When it’s time to update the summary, you only have edit in one
+place.</p>
+<pre><code># Our Project Summary
+
+{{&lt; include _01_project_summary.qmd &gt;}}
+
+More content here...</code></pre>
 </div>
 <div class="section level4">
 <h4 id="extdata">
 <code>extdata</code><a class="anchor" aria-label="anchor" href="#extdata"></a>
 </h4>
+<p>This is where example data live, and where your data needs to go.
+<strong>Add your data set and data dictionary here</strong> for
+processing in the <code>data_wrangling.R</code> script (<strong>make
+sure the file names in <code>extdata</code> match the
+script</strong>).</p>
+<p>The files with <code>*</code> contain wrangled data used in the
+function <a href="https://wa-department-of-agriculture.github.io/soils/reference/make_plotly.html#ref-examples">examples</a>.
+They demonstrate what the input data must look like for
+<code>soils</code> visualization functions. You do not need to edit or
+add your own data to these files.</p>
+<pre><code>├── inst
+│   ├── extdata
+│   │   ├── dataDictionary.csv
+│   │   ├── dfPlot.csv*
+│   │   ├── dfTexture.csv*
+│   │   ├── exampleData.csv
+│   │   ├── headers.RDS*
+│   │   └── tables.RDS*</code></pre>
 </div>
 <div class="section level4">
 <h4 id="images">
 <code>images</code><a class="anchor" aria-label="anchor" href="#images"></a>
 </h4>
+<p>This folder contains images you want to include in your report. See
+more <a href="https://quarto.org/docs/authoring/figures.html" class="external-link">info</a>
+on including images in Quarto. You should <strong>replace the
+<code>logo.png</code> with your own</strong>.</p>
+<pre><code>├── inst
+│   ├── images
+│   │   ├── biological.png
+│   │   ├── chemical.png
+│   │   ├── logo.png
+│   │   └── physical.png</code></pre>
+<p>To include an image in the report, use the following syntax:</p>
+<pre><code>![](images/chemical.png){height="50px"}</code></pre>
 </div>
 <div class="section level4">
 <h4 id="resources">
 <code>resources</code><a class="anchor" aria-label="anchor" href="#resources"></a>
 </h4>
+<p>The style sheets that make the reports look pretty live in this
+folder. <code>styles.css</code> is for <code>.html</code> output and
+<code>word-template.docx</code> is for <code>.docx</code> output.</p>
+<pre><code>├── inst
+│   ├── resources
+│   │   ├── styles.css
+│   │   └── word-template.docx</code></pre>
+<p>You can <strong>open these files and modify the fonts and
+colors</strong> to match your own branding. Learn more about <a href="https://quarto.org/docs/visual-editor/content.html#css-styles" class="external-link">CSS</a>
+and <a href="https://quarto.org/docs/output-formats/ms-word-templates.html" class="external-link">MS
+Word Style Templates</a>.</p>
 </div>
+</div>
+<div class="section level3">
+<h3 id="r">
+<code>R</code><a class="anchor" aria-label="anchor" href="#r"></a>
+</h3>
+<p>The <code>R</code> folder holds the <code>data_wrangling.R</code>
+script that gets sourced in <code>producer_report.qmd</code>. The other
+scripts contain <code>soils</code> source code for the visualization
+functions. The data inputs to these functions require the processing
+from <code>data_wrangling.R</code>.</p>
+<pre><code>└── R
+    ├── data_wrangling.R
+    ├── helpers.R
+    ├── map.R
+    ├── plots.R
+    ├── render.R
+    └── tables.R</code></pre>
+<p>You can <strong>modify these functions</strong> to better suit your
+data and reporting needs. For example, you could change the font and
+color default arguments from the <a href="https://github.com/WA-Department-of-Agriculture/washi" class="external-link">washi</a> branding package
+to your own organization’s theme. <code>producer_report.qmd</code> uses
+the built-in <code>soils</code> functions, so you need to source the
+modified R scripts in the <code>.qmd</code> document. To avoid
+confusion, you should also rename your modified function in the R script
+and in the <code>.qmd</code> document.</p>
+<p>For example, if you modified <code>tables.R</code>:</p>
+<pre><code><span><span class="co"># Add this to your setup chunk</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"R/tables.R"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Replace make_ft(...) with:</span></span>
+<span><span class="fu">make_ft_custom</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+<div class="section level2">
+<h2 id="import-data">1) Import Data<a class="anchor" aria-label="anchor" href="#import-data"></a>
+</h2>
+<p><code>soils</code> includes an example data set and data dictionary
+(found in the <code>inst/extdata/</code> folder) for you to use as a
+template. These files are also automatically loaded when you call
+<code><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">library(soils)</a></code>. This allows you to try out the
+visualization functions and rendering the reports immediately after
+installing <code>soils</code> on your machine.</p>
+<div class="section level3">
+<h3 id="project-data">Project Data<a class="anchor" aria-label="anchor" href="#project-data"></a>
+</h3>
+<p>Glimpse at the example data structure:</p>
+<details open><summary>
+Example Data
+</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">exampleData</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 100</span></span>
+<span><span class="co">#&gt; Columns: 51</span></span>
+<span><span class="co">#&gt; $ year                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2023, 2022, 2022, 2022, 2023, 2022, 2023, 2022, …</span></span>
+<span><span class="co">#&gt; $ sampleId              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-WUY05-01", "22-RHM05-02", "22-ENR07-02", "22…</span></span>
+<span><span class="co">#&gt; $ farmName              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 150", "Farm 085", "Farm 058", "Farm 061", …</span></span>
+<span><span class="co">#&gt; $ producerName          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Shanna", "Warren", "Alecia", "Samantha", "Shann…</span></span>
+<span><span class="co">#&gt; $ producerId            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "WUY05", "RHM05", "ENR07", "ZTD04", "WUY05", "BK…</span></span>
+<span><span class="co">#&gt; $ fieldName             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 01", "Field 02", "Field 02", "Field 03", …</span></span>
+<span><span class="co">#&gt; $ fieldId               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "01", "02", "02", "03", "03", "02", "01", "02", …</span></span>
+<span><span class="co">#&gt; $ county                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 9", "County 18", "County 11", "County 13…</span></span>
+<span><span class="co">#&gt; $ crop                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Hay/Silage", "Green Manure", "Vegetable", "Herb…</span></span>
+<span><span class="co">#&gt; $ texture               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Loamy Sand", "Sandy Loam", "Silt Loam", "Silt L…</span></span>
+<span><span class="co">#&gt; $ `24hrminC_mgC.kg.day` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, 0.14, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ bd_g.cm3              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.30, 0.88, 1.21, 1.37, 1.22, 1.14, 1.44, 1.24, …</span></span>
+<span><span class="co">#&gt; $ pmN_lbs.ac            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 67.13, 129.97, 122.17, 95.24, 111.35, 61.92, -77…</span></span>
+<span><span class="co">#&gt; $ ammN_mg.kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.6, 21.6, 8.1, 13.8, 3.9, 12.4, 2.4, 12.4, 2.3,…</span></span>
+<span><span class="co">#&gt; $ nitrateN_mg.kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 9.2, 6.1, 25.3, 16.9, 6.7, 4.3, 21.5, 7.4, 2.3, …</span></span>
+<span><span class="co">#&gt; $ pmN_mg.kg             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 19.0, 54.1, 37.0, 25.6, 33.6, 20.0, -19.9, 33.6,…</span></span>
+<span><span class="co">#&gt; $ poxC_mg.kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 496, 571, 419, 424, 547, 235, 501, 480, 965, 105…</span></span>
+<span><span class="co">#&gt; $ pH                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.7, 5.9, 6.3, 6.8, 7.6, 5.5, 5.5, 5.9, 6.3, 6.0…</span></span>
+<span><span class="co">#&gt; $ EC_mmhos.cm           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.42, 0.05, 0.60, 2.18, 0.60, 0.81, 0.55, 0.34, …</span></span>
+<span><span class="co">#&gt; $ K_mg.kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 498, 198, 294, 229, 273, 372, 289, 355, 253, 733…</span></span>
+<span><span class="co">#&gt; $ Ca_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1380, 780, 1760, 3380, 2820, 1480, 1140, 2080, 2…</span></span>
+<span><span class="co">#&gt; $ Mg_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 145.2, 96.8, 266.2, 738.1, 193.6, 229.9, 133.1, …</span></span>
+<span><span class="co">#&gt; $ Na_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 16.1, 20.7, 20.7, 80.5, 13.8, 16.1, 23.0, 16.1, …</span></span>
+<span><span class="co">#&gt; $ CEC_meq.100g          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 7.8, 10.5, 13.0, 14.4, 10.1, 12.4, 12.9, 14.8, 1…</span></span>
+<span><span class="co">#&gt; $ B_mg.kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.22, 0.09, 0.41, 0.72, 0.25, 0.18, 0.12, 0.21, …</span></span>
+<span><span class="co">#&gt; $ Cu_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.6, 0.4, 4.2, 1.1, 0.7, 1.0, 0.5, 1.4, 1.1, 0.5…</span></span>
+<span><span class="co">#&gt; $ Fe_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 26, 28, 141, 37, 15, 64, 44, 85, 129, 31, 86, 38…</span></span>
+<span><span class="co">#&gt; $ Mn_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.5, 2.7, 4.1, 11.5, 1.7, 9.0, 4.4, 17.1, 9.9, 1…</span></span>
+<span><span class="co">#&gt; $ S_mg.kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.29, 9.41, 26.73, 51.70, 3.29, 4.51, 9.13, 8.26…</span></span>
+<span><span class="co">#&gt; $ Zn_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.7, 0.8, 4.2, 2.4, 0.8, 0.5, 34.0, 0.9, 7.8, 0.…</span></span>
+<span><span class="co">#&gt; $ `totalC_%`            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68, 1.40, 1.65, 1.55, 2.25, 2.37, …</span></span>
+<span><span class="co">#&gt; $ `totalN_%`            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.16, 0.18, 0.14, 0.12, 0.16, 0.13, 0.15, 0.17, …</span></span>
+<span><span class="co">#&gt; $ ace_g.protein.kg.soil <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.74, 21.50, 10.90, 5.53, 4.20, 10.30, 7.73, 6.8…</span></span>
+<span><span class="co">#&gt; $ `sand_%`              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 44, 69, 11, 36, 64, 24, 80, 22, 62, 48, 80, 69, …</span></span>
+<span><span class="co">#&gt; $ `silt_%`              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 23, 21, 79, 51, 33, 62, 16, 57, 26, 45, 14, 27, …</span></span>
+<span><span class="co">#&gt; $ `clay_%`              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 3, 10, 10, 13, 3, 14, 4, 21, 12, 7, 6, 4, 10, 13…</span></span>
+<span><span class="co">#&gt; $ `96hrminC_mgC.kg.day` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35.60, 30.00, 15.00, 67.50, 50.60, 25.50, 30.60,…</span></span>
+<span><span class="co">#&gt; $ olsenP_mg.kg          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 15, 37, 73, 30, 8, 33, 27, 29, 40, 16, 19, 11, 1…</span></span>
+<span><span class="co">#&gt; $ `wsa_%`               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 88.5, 92.6, 91.3, 94.3, 84.6, 86.6, 86.9, 82.5, …</span></span>
+<span><span class="co">#&gt; $ `OM_%`                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.5, 5.8, 2.4, 2.9, 6.7, 3.2, 27.0, 4.2, 7.9, 5.…</span></span>
+<span><span class="co">#&gt; $ `TOC_%`               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68, 1.40, 1.53, 1.55, 2.25, 2.37, …</span></span>
+<span><span class="co">#&gt; $ Ca_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.9, 3.9, 8.8, 16.9, 14.1, 7.4, 5.7, 10.4, 13.4,…</span></span>
+<span><span class="co">#&gt; $ Mg_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.2, 0.8, 2.2, 6.1, 1.6, 1.9, 1.1, 1.9, 3.5, 0.9…</span></span>
+<span><span class="co">#&gt; $ Na_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.07, 0.09, 0.09, 0.35, 0.06, 0.07, 0.10, 0.07, …</span></span>
+<span><span class="co">#&gt; $ WHC_in.ft             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.01, 1.08, 2.77, 1.93, 1.28, 2.25, 0.84, 2.14, …</span></span>
+<span><span class="co">#&gt; $ `moisture_%`          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 17.53, 33.10, 27.97, 25.27, 17.65, 25.97, 14.06,…</span></span>
+<span><span class="co">#&gt; $ `inorganicC_%`        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, NA, 0.12, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ `pmN_nitrateN _mg.kg` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 29.0, NA, NA, NA, 42.7, NA, 1.1, NA, 124.0, NA, …</span></span>
+<span><span class="co">#&gt; $ pmN_ammN_mg.kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.8, NA, NA, NA, 1.5, NA, 2.9, NA, 0.7, NA, 14.4…</span></span>
+<span><span class="co">#&gt; $ longitude             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -119, -123, -122, -120, -119, -117, -118, -117, …</span></span>
+<span><span class="co">#&gt; $ latitude              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 49, 47, 47, 46, 49, 47, 49, 47, 48, 48, 46, 47, …</span></span></code></pre></div>
+</details><p>All column names in your data, besides the measurements, must be
+exactly the same as above. If the column names differ, you will need to
+use <code>CTRL + SHIFT + F</code> to find and replace the hard-coded
+values throughout the <code>.qmd</code> files and <code>.R</code>
+scripts.</p>
+<p>Each measurement must be in its own column. These measurement column
+names must match the <code>column_name</code> in your data
+dictionary.</p>
+</div>
+<div class="section level3">
+<h3 id="data-dictionary">Data Dictionary<a class="anchor" aria-label="anchor" href="#data-dictionary"></a>
+</h3>
+<p>The data dictionary must have the exact same column names as the
+example:</p>
+<details open><summary>
+Example Data Dictionary
+</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataDictionary</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 32</span></span>
+<span><span class="co">#&gt; Columns: 7</span></span>
+<span><span class="co">#&gt; $ measurement_group     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "biological", "biological", "biological", "biolo…</span></span>
+<span><span class="co">#&gt; $ order                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, …</span></span>
+<span><span class="co">#&gt; $ column_name           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "OM_%", "96hrminC_mgC.kg.day", "poxC_mg.kg", "pm…</span></span>
+<span><span class="co">#&gt; $ measurement_full_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter", "Potentially Mineralizable Car…</span></span>
+<span><span class="co">#&gt; $ abbr                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter", "Min C", "POXC", "PMN", "ACE P…</span></span>
+<span><span class="co">#&gt; $ unit                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "mg/kg/day", "ppm", "lbs/ac", "g/kg", NA, "…</span></span>
+<span><span class="co">#&gt; $ abbr_unit             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter &lt;br&gt;(%)", "Min C &lt;br&gt;(mg/kg/day)…</span></span>
+<span></span>
+<span><span class="va">dataDictionary</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">measurement_full_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span></span>
+<span>    n <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>    by <span class="op">=</span> <span class="va">measurement_group</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 6</span></span></span>
+<span><span class="co">#&gt;    measurement_group order column_name         abbr           unit     abbr_unit</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> biological            1 OM_%                Organic Matter %        Organic …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> biological            2 96hrminC_mgC.kg.day Min C          mg/kg/d… Min C &lt;b…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> biological            3 poxC_mg.kg          POXC           ppm      POXC &lt;br…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chemical              1 pH                  pH             <span style="color: #BB0000;">NA</span>       pH&lt;br&gt;   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chemical              2 EC_mmhos.cm         EC             mmhos/cm EC &lt;br&gt;(…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chemical              3 CEC_meq.100g        CEC            cmolc/kg CEC &lt;br&gt;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> macro                 1 totalN_%            Total N        %        Total N …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> macro                 2 nitrateN_mg.kg      NO₃            ppm      NO₃&lt;br&gt;(…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> macro                 3 ammN_mg.kg          NH₄-N          ppm      NH₄-N &lt;b…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> micro                 1 B_mg.kg             B              ppm      B &lt;br&gt;(p…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> micro                 2 Fe_mg.kg            Fe             ppm      Fe &lt;br&gt;(…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> micro                 3 Mn_mg.kg            Mn             ppm      Mn &lt;br&gt;(…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> physical              1 texture             Texture        <span style="color: #BB0000;">NA</span>       Texture&lt;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> physical              1 sand_%              Sand           %        Sand &lt;br…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> physical              2 silt_%              Silt           %        Silt &lt;br…</span></span></code></pre></div>
+</details><ul>
+<li>
+<code>measurement_group</code> column determines how the
+measurements are grouped.</li>
+<li>
+<code>order</code> column specifies the order in which the
+measurements appear in each group’s tables and plots.</li>
+<li>
+<code>abbr</code> and <code>unit</code> columns are how the
+measurements are represented in <code>flextable</code> tables.</li>
+<li>
+<code>abbr_unit</code> is the abbreviation and unit, formatted with
+HTML line breaks for <code>ggplot2</code> plots.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="data_wrangling-r">
+<code>data_wrangling.R</code><a class="anchor" aria-label="anchor" href="#data_wrangling-r"></a>
+</h3>
+<p>Once you have added your project data and data dictionary files into
+the <code>inst/extdata</code> folder, edit <code>data_wrangling.R</code>
+with your file names:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load lab results</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/inst/extdata/YOUR-FILE-NAME.csv"</span><span class="op">)</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load data dictionary for pretty labels</span></span>
+<span><span class="va">dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/inst/extdata/YOUR-FILE-NAME.csv"</span><span class="op">)</span>,</span>
+<span>  <span class="co"># This encoding part is important for R to correctly read the</span></span>
+<span>  <span class="co"># subscripts and superscripts.</span></span>
+<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>You may need to switch the function from <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code> if
+you are using a different file format.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="edit-files">2) Edit Files<a class="anchor" aria-label="anchor" href="#edit-files"></a>
+</h2>
+<div class="section level3">
+<h3 id="yaml">YAML<a class="anchor" aria-label="anchor" href="#yaml"></a>
+</h3>
+<p>The first place to start is the YAML (Yet Another Markup Language)
+header at the top of the <code>producer_report.qmd</code> file,
+sandwiched between three dashes (<code>---</code>). This contains
+document metadata, parameters, and customization options.</p>
+<p>The only fields you need to edit are:</p>
+<ul>
+<li>
+<code>title</code>: The title of the report. Optionally include your
+logo above.</li>
+<li>
+<code>subtitle</code>: Subtitle appears below the title.</li>
+<li>
+<code>producerId</code> and <code>year</code>: Default parameter
+values that can be found in your data.</li>
+</ul>
+<pre><code>---
+title: "![](images/logo.png) Results from the State of the Soils"
+subtitle: "Fall 2023"
+params:
+  producerId: WUY05
+  year: 2023
+---</code></pre>
+<p>You can ignore the other YAML fields and values until you would like
+to explore other ways of customizing your reports. Learn about the
+available YAML fields for <a href="https://quarto.org/docs/reference/formats/html.html" class="external-link">HTML
+documents</a> and <a href="https://quarto.org/docs/reference/formats/docx.html" class="external-link">MS Word
+documents</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="setup-chunk">Setup Chunk<a class="anchor" aria-label="anchor" href="#setup-chunk"></a>
+</h3>
+<p>You shouldn’t need to modify this chunk unless you want to load
+additional libraries for your analyses or visualizations. This is where
+<code>data_wrangling.R</code> is sourced. The default
+<code>producerId</code> and <code>year</code> parameters must be valid
+values in your imported data. <code>out_type</code> is used for
+determining which chunks should be evaluated, depending on whether the
+report is being rendered to <code>.html</code> or
+<code>.docx</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wch/extrafont" class="external-link">extrafont</a></span><span class="op">)</span> <span class="co"># Register Poppins and Lato fonts for use in R</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/washi" class="external-link">washi</a></span><span class="op">)</span> <span class="co"># For flextable and ggplot styles</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get output file type</span></span>
+<span><span class="va">out_type</span> <span class="op">&lt;-</span> <span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_knit.html" class="external-link">opts_knit</a></span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"rmarkdown.pandoc.to"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Set path for saving figure output</span></span>
+<span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"inst/figure_output/"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create figure output directory if needed</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.exists</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Run data wrangling script</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"R/data_wrangling.R"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="content">Content<a class="anchor" aria-label="anchor" href="#content"></a>
+</h3>
+<p>Edit/add/remove the child documents and images to suit your project.
+We included placeholder text to make it easier to find project-specific
+information. Use <code>CTRL + SHIFT + F</code> to search all files for
+<code>EDIT:</code> and <code>[INSERT</code>.</p>
+<p><code>producer_report.qmd</code> has a section for
+<code>measurement_group</code> value, as defined in the
+<code>dataDictionary.csv</code>. These values are hard coded – if your
+project uses different groupings, you will need to edit/remove each
+instance in the <code>.qmd</code> files accordingly.</p>
+</div>
+<div class="section level3">
+<h3 id="theme">Theme<a class="anchor" aria-label="anchor" href="#theme"></a>
+</h3>
+<p>Edit <code>styles.css</code> to <code>word-template.docx</code> to
+match your own branding. Learn more about <a href="https://quarto.org/docs/visual-editor/content.html#css-styles" class="external-link">CSS</a>
+and <a href="https://quarto.org/docs/output-formats/ms-word-templates.html" class="external-link">MS
+Word Style Templates</a>.</p>
+<p>Edit <code>tables.R</code>, <code>plots.R</code>, and
+<code>map.R</code> from <code>washi</code> default fonts and colors to
+your own organization’s. You can <strong>modify these functions</strong>
+to better suit your data and reporting needs. You will need to source
+the modified R scripts in the <code>producer_report.qmd</code> document.
+To avoid confusion, you should also rename your modified function in the
+R script and in the <code>.qmd</code> document.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="render-your-reports">3) Render Your Reports<a class="anchor" aria-label="anchor" href="#render-your-reports"></a>
+</h2>
+<div class="section level3">
+<h3 id="using-the-rstudio-ide">Using the RStudio IDE<a class="anchor" aria-label="anchor" href="#using-the-rstudio-ide"></a>
+</h3>
+<p>To generate and preview the report with the default parameters, use
+the <code>Render</code> button or keyboard shortcut
+(<code>CTRL + SHIFT + K</code>). This is the fastest way to render
+reports and is great for iterating on content and style. You can check
+the <code>Render on Save</code> option to automatically update the
+preview whenever you re-render the document. HTML reports will preview
+side-by-side with the <code>.qmd</code> file, whereas MS Word documents
+will open separately.</p>
+<div class="figure">
+<img src="images/render.png" style="max-width:80%" alt=""><p class="caption">RStudio Quarto Render button with a dropdown for HTML
+and MS Word. The Render on Save option is checked.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="using-a-soils-function">Using a <code>soils</code> Function<a class="anchor" aria-label="anchor" href="#using-a-soils-function"></a>
+</h3>
+<p>You also can render the report programmatically with:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get the first producer ID in 2023</span></span>
+<span><span class="va">first_producer</span> <span class="op">&lt;-</span> <span class="va">exampleData</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2023</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Render html to the `/inst/reports/` directory</span></span>
+<span><span class="fu"><a href="../reference/render_report.html">render_report</a></span><span class="op">(</span></span>
+<span>  <span class="va">first_producer</span><span class="op">$</span><span class="va">producerId</span>,</span>
+<span>  year <span class="op">=</span> <span class="fl">2023</span>,</span>
+<span>  input <span class="op">=</span> <span class="st">"producer_report.qmd"</span>,</span>
+<span>  output <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/inst/reports/"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The year and producer ID are incorporated in the file name. You can
+specify the output directory where you want the reports to be
+stored.</p>
+<p>When you’re ready to render reports for all producers in your
+project, you should use the <code><a href="../reference/render_report.html">render_report()</a></code> function with
+<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk()</a></code>.</p>
+<p>To iterate through each producer ID and year to render all reports at
+once:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get all unique producer IDs in 2023</span></span>
+<span><span class="va">producers</span> <span class="op">&lt;-</span> <span class="va">exampleData</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2023</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">producerId</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Render docx for these 2023 producers to the `/inst/reports/` directory</span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
+<span>  <span class="va">producers</span><span class="op">$</span><span class="va">producerId</span>,</span>
+<span>  \<span class="op">(</span><span class="va">producerId</span><span class="op">)</span> <span class="fu"><a href="../reference/render_report.html">render_report</a></span><span class="op">(</span></span>
+<span>    <span class="va">producerId</span>,</span>
+<span>    year <span class="op">=</span> <span class="fl">2023</span>,</span>
+<span>    input <span class="op">=</span> <span class="st">"producer_report.qmd"</span>,</span>
+<span>    output <span class="op">=</span> <span class="st">"docx"</span>,</span>
+<span>    output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/inst/reports/"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  .progress <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="final-edits-and-sendoff">4) Final Edits and Sendoff<a class="anchor" aria-label="anchor" href="#final-edits-and-sendoff"></a>
+</h2>
+<p>All MS Word reports should be reviewed for final formatting before
+being sent out. We make manual formatting edits. See <a href="https://wa-department-of-agriculture.github.io/soils/articles/docx.html">Example
+.docx Report</a> for details. Then we use Adobe Acrobat to convert to
+<code>.pdf</code> for smaller, more portable files to send to the
+producers.</p>
+<p>In the future, we would like to create a template using
+<code>LaTex</code> to render <code>.pdf</code> reports that have better
+controls for floating images around text and fitting tables and plots to
+avoid the intermediate <code>.docx</code> step.</p>
+<p>See <a href="https://wa-department-of-agriculture.github.io/soils/articles/html.html">Example
+.html Report</a> for additional notes on the <code>.html</code> reports
+and how report recipients should access them.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

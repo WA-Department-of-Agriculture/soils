@@ -54,7 +54,6 @@
     <h6 class="dropdown-header" data-toc-skip>Get Started</h6>
     <a class="dropdown-item" href="../articles/project.html">New Template Project</a>
     <a class="dropdown-item" href="../articles/report.html">Soil Health Reports</a>
-    <a class="dropdown-item" href="../articles/functions.html">Visualization Functions</a>
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Example Reports</h6>
     <a class="dropdown-item" href="../articles/docx.html">Example .docx Report</a>
@@ -119,38 +118,26 @@ new project directory.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="project-structure">Project Structure<a class="anchor" aria-label="anchor" href="#project-structure"></a>
+<h2 id="project-structure-overview">Project Structure Overview<a class="anchor" aria-label="anchor" href="#project-structure-overview"></a>
 </h2>
 <p>Both options will create and launch a new RStudio project with:</p>
 <ol style="list-style-type: decimal">
 <li><p><code>inst</code> folder containing the Quarto template, child
-documents, example data, images, and style resources. Read the <a href="https://wa-department-of-agriculture.github.io/soils/articles/report.html">Soil
-Health Report Article</a> for more information about each of these
-components and our recommended workflow for modifying them.</p></li>
-<li>
-<p><code>R</code> folder with R scripts with the source code for
-most <code>soils</code> functions for customization.</p>
-<ul>
-<li>Note: If you decide to change these functions, you will need to
-update <code>_producerReport.qmd</code>. For example, if you change the
-<code><a href="../reference/make_ft.html">make_ft()</a></code> function in the <code>tables.R</code> file, you
-should add <code>source(here::here("R/tables.R")</code> to the top
-<code>{r setup}</code> chunk. Read the <a href="https://wa-department-of-agriculture.github.io/soils/articles/functions.html">Visualization
-Functions Article</a> for more details.</li>
-</ul>
-</li>
+documents, example data, images, and style resources.</p></li>
+<li><p><code>R</code> folder with R scripts with the source code for
+most <code>soils</code> functions.</p></li>
 </ol>
 <details open><summary>
 Project Structure
 </summary><pre><code>├── inst
-│   ├── _producerReport.qmd
-│   ├── 01_project_summary.qmd
-│   ├── 02_soil_health_background.qmd
-│   ├── 03_physical_measurements.qmd
-│   ├── 04_biological_measurements.qmd
-│   ├── 05_chemical_measurements.qmd
-│   ├── 06_looking_forward.qmd
-│   ├── 07_acknowledgement.qmd
+│   ├── producer_report.qmd
+│   ├── _01_project_summary.qmd
+│   ├── _02_soil_health_background.qmd
+│   ├── _03_physical_measurements.qmd
+│   ├── _04_biological_measurements.qmd
+│   ├── _05_chemical_measurements.qmd
+│   ├── _06_looking_forward.qmd
+│   └── _07_acknowledgement.qmd
 │   ├── extdata
 │   │   ├── dataDictionary.csv
 │   │   ├── dfPlot.csv
@@ -166,48 +153,44 @@ Project Structure
 │   ├── resources
 │   │   ├── styles.css
 │   │   └── word-template.docx
-└── R
-    ├── data_wrangling.R
-    ├── helpers.R
-    ├── map.R
-    ├── plots.R
-    ├── render.R
-    └── tables.R</code></pre>
+├── R
+│   ├── data_wrangling.R
+│   ├── helpers.R
+│   ├── map.R
+│   ├── plots.R
+│   ├── render.R
+│   └── tables.R
+└── test.Rproj</code></pre>
 </details>
 </div>
 <div class="section level2">
 <h2 id="render-the-report-template">Render the Report Template<a class="anchor" aria-label="anchor" href="#render-the-report-template"></a>
 </h2>
 <p>If you used the RStudio IDE to create the project, the main Quarto
-template <code>_producerReport.qmd</code> should automatically open in
-the new project session. If you used <code><a href="../reference/create_soils.html">soils::create_soils()</a></code>,
-you will need to open the <code>inst</code> folder to access this file
-in the <code>Files</code> pane.</p>
+template <code>producer_report.qmd</code> should automatically open in
+the new project session. Make sure everything is set up correctly by
+rendering this template report right out of the package.</p>
+<p>If you used <code><a href="../reference/create_soils.html">soils::create_soils()</a></code>, you will need to open
+the <code>inst</code> folder to access this file in the
+<code>Files</code> pane.</p>
 <div class="figure">
-<img src="images/files.png" alt=""><p class="caption">RStudio Files pane showing <code>.qmd</code> files
-and resources inside the <code>project</code> &gt; <code>inst</code>
-folder</p>
+<img src="images/files.png" style="max-width:60%" alt=""><p class="caption">RStudio Files pane showing .qmd files and resources
+inside the project &gt; inst folder</p>
 </div>
-<p>Once <code>_producerReport.qmd</code> is open, click the
+<p>Once <code>producer_report.qmd</code> is open, click the
 <code>Render</code> button at the top of the file to generate either the
-<code>HTML</code> or <code>MS Word</code> report.</p>
+<code>HTML</code> or <code>MS Word</code> report. You can check the
+<code>Render on Save</code> option to automatically update the preview
+whenever you re-render the document.</p>
 <div class="figure">
-<img src="images/render.png" alt=""><p class="caption">RStudio Quarto render button with a dropdown for
-<code>HTML</code> and <code>MS Word</code></p>
+<img src="images/render.png" style="max-width:80%" alt=""><p class="caption">RStudio Quarto Render button with a dropdown for HTML
+and MS Word. The Render on Save option is checked.</p>
 </div>
-<p>This renders the report in the <code>inst</code> directory and the
-file name will match the input <code>.qmd</code> name. This is the
-fastest way to render reports and is great for iterating on content and
-style.</p>
-<p>When you’re ready to render reports for all producers in your
-project, you should use the <code><a href="../reference/render_producer_report.html">render_producer_report()</a></code>
-function. The year and producer ID are incorporated in the file name
-(ex. <code>2023_WUY05_Report.html</code>). You can specify the output
-directory where you want the reports to be stored. To iterate through
-each producer ID and year to render all reports at once, use
-<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk()</a></code>. See <a href="https://wa-department-of-agriculture.github.io/soils/reference/render_producer_report.html#ref-examples">example
-R code</a> and read the article on <a href="https://wa-department-of-agriculture.github.io/soils/articles/report.html">Soil
-Health Reports</a> for more details.</p>
+<p>Hopefully this rendered the report in the <code>inst</code> directory
+with the file name matching the input <code>.qmd</code> name.</p>
+<p>To learn how to customize the reports to suit your own project, head
+over to the article on <a href="https://wa-department-of-agriculture.github.io/soils/articles/report.html">Soil
+Health Reports</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

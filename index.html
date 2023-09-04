@@ -56,7 +56,6 @@
     <h6 class="dropdown-header" data-toc-skip>Get Started</h6>
     <a class="dropdown-item" href="articles/project.html">New Template Project</a>
     <a class="dropdown-item" href="articles/report.html">Soil Health Reports</a>
-    <a class="dropdown-item" href="articles/functions.html">Visualization Functions</a>
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Example Reports</h6>
     <a class="dropdown-item" href="articles/docx.html">Example .docx Report</a>
@@ -94,7 +93,6 @@
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>As part of the <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">Washington Soil Health Initiative</a>, <a href="https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health" class="external-link">Washington State Department of Agriculture</a> and <a href="https://soilhealth.wsu.edu/" class="external-link">Washington State University</a> developed <code>soils</code> for soil health data visualization and reporting.</p>
-<p>Inspired by the <a href="https://github.com/atlas-aai/ratlas" class="external-link"><code>ratlas</code></a> package and Spencer Schien’s <a href="https://spencerschien.info/post/r_for_nonprofits/quarto_template/" class="external-link">blog post</a> on including a Quarto template within an R package, <code>soils</code> is intended to help you generate reports for each producer or land owner that participates in your soil sampling project.</p>
 </div>
 <div class="section level2">
 <h2 id="disclaimer">Disclaimer<a class="anchor" aria-label="anchor" href="#disclaimer"></a>
@@ -107,7 +105,10 @@
 <p>Install the development version of <code>soils</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"WA-Department-of-Agriculture/soils"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"WA-Department-of-Agriculture/soils"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load all the example data sets and functions</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
@@ -119,33 +120,30 @@
 <div class="section level2">
 <h2 id="creating-a-new-soils-project">Creating a New <code>soils</code> Project<a class="anchor" aria-label="anchor" href="#creating-a-new-soils-project"></a>
 </h2>
-<p>Read the <a href="https://wa-department-of-agriculture.github.io/soils/articles/project.html">New Template Project Article</a> for a detailed how-to.</p>
+<p>After installing <code>soils</code>, you can use the RStudio IDE or the <code><a href="reference/create_soils.html">soils::create_soils()</a></code> function to create a new RStudio project with all the example data, Quarto files, style sheets, images, and R scripts needed to generate some example soil health reports.</p>
+<p>Read the <a href="https://wa-department-of-agriculture.github.io/soils/articles/project.html">New Template Project article</a> to learn what goodies are bundled within <code>soils</code>.</p>
 <p>To view the vignette within RStudio, run the command <code><a href="articles/project.html">vignette("project", "soils")</a></code>.</p>
 </div>
 <div class="section level2">
-<h2 id="soil-health-reports">Soil Health Reports<a class="anchor" aria-label="anchor" href="#soil-health-reports"></a>
+<h2 id="parameterized-soil-health-reports">Parameterized Soil Health Reports<a class="anchor" aria-label="anchor" href="#parameterized-soil-health-reports"></a>
 </h2>
-<p>This package can generate static <code>.docx</code> reports and interactive <code>.html</code> reports.</p>
-<p>Read the article on <a href="https://wa-department-of-agriculture.github.io/soils/articles/report.html">Soil Health Reports</a> for a detailed how-to and to check out the example reports.</p>
+<p>This package can help you generate custom static <code>.docx</code> reports and interactive <code>.html</code> reports for every producer or land owner in your soil health survey project.</p>
+<p>Read the article on <a href="https://wa-department-of-agriculture.github.io/soils/articles/report.html">Soil Health Reports</a> for a detailed walk through the project and workflow for adopting this template for your own project.</p>
 <p>To view the vignette within RStudio, run the command <code><a href="articles/report.html">vignette("report", "soils")</a></code>.</p>
+<p>Check out our example reports:</p>
+<ul>
+<li>
+<a href="https://wa-department-of-agriculture.github.io/soils/articles/docx.html"><code>.docx</code> link</a> or <code><a href="articles/docx.html">vignette("docx", "soils")</a></code>
+</li>
+<li>
+<a href="https://wa-department-of-agriculture.github.io/soils/articles/html.html"><code>.html</code> link</a> or <code><a href="articles/html.html">vignette("html", "soils")</a></code>
+</li>
+</ul>
 <figure><img src="reference/figures/report_docx.png" data-fig-alt="First page of example .docx report" alt="First page of example .docx report"><figcaption aria-hidden="true">
 First page of example <code>.docx</code> report
 </figcaption></figure><figure><img src="reference/figures/report_html.png" data-fig-alt="Screenshot of .html report" alt="The beginning of an example .html report"><figcaption aria-hidden="true">
 The beginning of an example <code>.html</code> report
 </figcaption></figure>
-</div>
-<div class="section level2">
-<h2 id="r-scripts-and-visualization-functions">R Scripts and Visualization Functions<a class="anchor" aria-label="anchor" href="#r-scripts-and-visualization-functions"></a>
-</h2>
-<p>Read the <a href="https://wa-department-of-agriculture.github.io/soils/articles/functions.html">Visualization Functions Article</a> for more details.</p>
-<p>To view the vignette within RStudio, run the command <code><a href="articles/functions.html">vignette("functions", "soils")</a></code>.</p>
-</div>
-<div class="section level2">
-<h2 id="washi-theme">
-<code>washi</code> Theme<a class="anchor" aria-label="anchor" href="#washi-theme"></a>
-</h2>
-<p>Default fonts and colors within <code>soils</code> come from the Washington Soil Health Initiative (WaSHI) branding package <a href="https://wa-department-of-agriculture.github.io/washi/" class="external-link"><code>washi</code></a>. This allows you to create beautiful plots, tables, and reports out of the box. You can customize the fonts and colors to match your own branding by modifying the <code>soils</code> functions, style sheets, and report templates.</p>
-<p>To install, import, and register the default fonts (<a href="https://fonts.google.com/specimen/Lato?query=lato" class="external-link">Lato</a> for headings, <a href="https://fonts.google.com/specimen/Poppins?query=poppins" class="external-link">Poppins</a> for body text), follow these <a href="https://wa-department-of-agriculture.github.io/washi/#requirements." class="external-link">instructions</a></p>
 </div>
 <div class="section level2">
 <h2 id="acknowledgement-and-citation">Acknowledgement and Citation<a class="anchor" aria-label="anchor" href="#acknowledgement-and-citation"></a>
@@ -164,6 +162,17 @@ The beginning of an example <code>.html</code> report
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   year = {2023},</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   url = {https://washingtonsoilhealthinitiative.com/},</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="do">## }</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="credits">Credits<a class="anchor" aria-label="anchor" href="#credits"></a>
+</h2>
+<p><code>soils</code> adapts from existing R project templating resources and packages:</p>
+<ul>
+<li><a href="https://rstudio.github.io/rstudio-extensions/rstudio_project_templates.html" class="external-link">RStudio Project Templates</a></li>
+<li><a href="https://github.com/atlas-aai/ratlas" class="external-link"><code>ratlas</code></a></li>
+<li><a href="https://github.com/Pecners/quartotemplate" class="external-link"><code>quartotemplate</code></a></li>
+<li><a href="https://github.com/ThinkR-open/golem/" class="external-link"><code>golem</code></a></li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

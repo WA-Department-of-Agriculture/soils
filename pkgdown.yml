@@ -3,11 +3,10 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   docx: docx.html
-  functions: functions.html
   html: html.html
   project: project.html
   report: report.html
-last_built: 2023-09-03T21:23Z
+last_built: 2023-09-04T08:45Z
 urls:
   reference: https://wa-department-of-agriculture.github.io/soils/reference
   article: https://wa-department-of-agriculture.github.io/soils/articles

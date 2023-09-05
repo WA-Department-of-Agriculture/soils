@@ -13,16 +13,12 @@ Authors@R: c(
   )
 Description: Collection of soil health data visualization and reporting
     tools.
+License: MIT + file LICENSE
 URL: https://github.com/WA-Department-of-Agriculture/soils,
     https://wa-department-of-agriculture.github.io/soils/
 BugReports: https://github.com/WA-Department-of-Agriculture/soils/issues
-License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
 Depends: 
     R (>= 3.5.0)
-LazyData: true
 Imports: 
     colorspace,
     dplyr,
@@ -36,8 +32,7 @@ Imports:
     leaflet,
     officer,
     plotly,
-    quarto,
-    washi
+    quarto
 Suggests:
     cli,
     downloadthis,
@@ -49,5 +44,11 @@ Suggests:
     rmarkdown,
     rstudioapi,
     tidyr,
-    usethis
-VignetteBuilder: knitr
+    usethis,
+    washi
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

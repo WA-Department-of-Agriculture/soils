@@ -23,11 +23,35 @@ knitr::opts_chunk$set(
 
 </style>
 ```
+## Example Reports
+
+The below examples show the output with and without these edits.
+
+##  {.tabset .tabset-pills}
+
+### Manual Formatting Edits
+
+See this manually formatted report full screen in a [new tab](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report.pdf "See the manually edited .docx report without edits in full screen."){target="_blank"}.
+
+```{r}
+knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report.pdf", height = "500px")
+```
+
+### Without Edits
+
+See the original rendered report full screen in a [new tab](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report_noManualEdits.pdf "See the original .docx report without edits in full screen."){target="_blank"}.
+
+```{r}
+knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report_noManualEdits.pdf", height = "500px")
+```
+
+## Manual Formatting Edits
+
 After rendering to `.docx`, the reports were opened in MS Word for manual formatting edits:
 
--   Change images to float around text.
--   Some wide tables should be `autofit` by going to `Layout` \> `AutoFit` \> `AutoFit Window`.
--   Adjust plot sizes and page breaks.
+-   Changed images to float around text.
+-   Tables were `autofit` by going to `Layout` \> `AutoFit` \> `AutoFit Window`.
+-   Adjust plot sizes and page breaks so each measurement group's table and plot fit on one page.
 
 After manually adjusting each image to float around the text for the first report, we copied and pasted the static pages of project background to the other reports. This reduced some of the tedious point and click formatting.
 
@@ -46,23 +70,3 @@ Click in each table and use your new shortcut to autofit to the window.
 In the future, we would like to create a template using `LaTex` to render `.pdf` reports that have better controls for floating images around text and fitting tables and plots to avoid the intermediate `.docx` step.
 
 These example reports were rendered to `.docx` files and then converted to PDFs for web publishing.
-
-The below examples show the output with and without these edits.
-
-##  {.tabset .tabset-pills}
-
-### Manual Formatting Edits
-
-See this manually formatted report full screen in a [new tab](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report.pdf "See the manually edited .docx report without edits in full screen."){target="_blank"}.
-
-```{r}
-knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report.pdf", height = "500px")
-```
-
-### Without Edits
-
-See the original rendered report full screen in a [new tab](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report_notFormatted.pdf "See the original .docx report without edits in full screen."){target="_blank"}.
-
-```{r}
-knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/example_producer_report_notFormatted.pdf", height = "500px")
-```

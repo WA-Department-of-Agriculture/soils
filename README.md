@@ -59,7 +59,7 @@ Read the article [Create New Template
 Project](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
 to learn what goodies are bundled within `soils`.
 
-To view the vignette within RStudio, run the command
+To view the article within RStudio, run the command
 `vignette("project", "soils")`.
 
 ## Parameterized Soil Health Reports
@@ -70,10 +70,10 @@ soil health survey project.
 
 Read the article [Write Soil Health
 Reports](https://wa-department-of-agriculture.github.io/soils/articles/report.html)
-for a detailed walk through the project and workflow for adopting this
+for a detailed walk through the project and workflow for adapting this
 template for your own project.
 
-To view the vignette within RStudio, run the command
+To view the article within RStudio, run the command
 `vignette("report", "soils")`.
 
 Check out our example reports:

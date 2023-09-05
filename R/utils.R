@@ -1,26 +1,3 @@
-# Check packages are installed manually with rlang since they are used only in
-# Quarto
-
-rlang::check_installed(
-  "cli",
-  reason = "for pretty messages to be printed in the console."
-)
-
-rlang::check_installed(
-  "extrafont",
-  reason = "to use Poppins and Lato fonts in reports."
-)
-
-rlang::check_installed(
-  "purrr",
-  reason = "to map functions necessary for data wrangling."
-)
-
-rlang::check_installed(
-  "tidyr",
-  reason = "to pivot data for wrangling."
-)
-
 #' Get path to example data
 #'
 #' `soils` comes bundled with some example files in its `inst/extdata`

@@ -22,10 +22,3 @@ cat(header)
 ```{r, results='asis'}
 cat(">", text)
 ```
-
-BibTex entry:
-
-```{r}
-cat(bibtex)
-```
-

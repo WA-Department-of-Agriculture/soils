@@ -45,7 +45,8 @@ Suggests:
     rstudioapi,
     tidyr,
     usethis,
-    washi
+    washi,
+    webshot2
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

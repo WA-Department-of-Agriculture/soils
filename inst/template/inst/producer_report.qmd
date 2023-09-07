@@ -75,14 +75,17 @@ map <- make_leaflet(gis)
 ```
 
 ```{r save-map}
-invisible(htmlwidgets::saveWidget(
-  map,
-  file = paste0(path, "/map.html")
-))
-invisible(webshot::webshot(
-  url = paste0(path, "/map.html"),
-  file = paste0(path, "/map.png"),
-))
+if (requireNamespace("htmlwidgets", quietly = TRUE) &
+  requireNamespace("webshot2", quietly = TRUE)) {
+  invisible(htmlwidgets::saveWidget(
+    map,
+    file = paste0(path, "/map.html")
+  ))
+  invisible(webshot2::webshot(
+    url = paste0(path, "/map.html"),
+    file = paste0(path, "/map.png"),
+  ))
+}
 ```
 
 ```{r map-tip}
@@ -99,9 +102,11 @@ map
 ```{r map-static}
 #| eval: !expr out_type == "docx"
 #| out-width: 6in
-knitr::include_graphics(
-  paste0(path, "/map.png")
-)
+if (file.exists(paste0(path, "/map.png"))) {
+  knitr::include_graphics(
+    paste0(path, "/map.png")
+  )
+}
 ```
 
 ```{r line-break}
@@ -112,7 +117,8 @@ cat("<br>")
 
 ```{r map-download}
 #| eval: !expr out_type == "html"
-if ("downloadthis" %in% rownames(installed.packages())) {
+if (requireNamespace("downloadthis", quietly = TRUE) &
+  file.exists(paste0(path, "/map.png"))) {
   downloadthis::download_file(
     path = paste0(path, "/map.png"),
     button_label = "Download map as .png",
@@ -327,14 +333,14 @@ make_plotly(groups$micro)
 ```{r download-data-text}
 #| eval: !expr out_type == "html"
 #| results: asis
-if ("downloadthis" %in% rownames(installed.packages())) {
+if (requireNamespace("downloadthis", quietly = TRUE)) {
   cat("## Download your data")
 }
 ```
 
 ```{r download-data}
 #| eval: !expr out_type == "html"
-if ("downloadthis" %in% rownames(installed.packages())) {
+if (requireNamespace("downloadthis", quietly = TRUE)) {
   list(
     results = producer_samples,
     measurement_dictionary = dictionary[

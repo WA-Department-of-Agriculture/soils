@@ -66,19 +66,9 @@ render_report <- function(
   }
 
   quarto::quarto_render(
-    input = paste0(
-      here::here(),
-      "/inst/",
-      input
-    ),
+    input = paste0(here::here(), "/inst/", input),
     output_format = output,
-    output_file = paste0(
-      year,
-      "_",
-      producerId,
-      "_Report.",
-      output
-    ),
+    output_file = paste0(year, "_", producerId, "_Report.", output),
     execute_params = list(
       producerId = producerId,
       year = year

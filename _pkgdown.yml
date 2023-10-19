@@ -42,14 +42,23 @@ github:
 reference:
 - title: Copy template files
   contents: create_soils
+- title: Data wrangling
+  contents:
+  - get_n_texture_by_var
+  - summarize_by_project
+  - summarize_by_var
+  - get_table_headers
+  - prep_for_map
 - title: Map
   contents: make_leaflet
 - title: Plots
   contents:
   - make_texture_triangle
+  - add_texture_points
   - make_strip_plot
-  - make_plotly
-  - save_plot
+  - theme_facet_strip
+  - set_scales
+  - convert_ggiraph
 - title: Tables
   contents:
   - make_ft

@@ -489,12 +489,14 @@ convert_ggiraph <- function(
     height = 4
 ) {
   if (!ggiraph::font_family_exists(body_font)) {
-    cli::cli_abort(
+    cli::cli_inform(
       c(
         "Can't find font family `{body_font}` on your system.",
+        "i" = "Defaulting to a sans-serif font.",
         "i" = "See the {.href [`ggiraph book`](https://www.ardata.fr/ggiraph-book/fonts.html)} for help."
       )
     )
+    body_font <- ggiraph::validated_fonts()$sans
   }
 
   tooltip_css <- glue::glue(

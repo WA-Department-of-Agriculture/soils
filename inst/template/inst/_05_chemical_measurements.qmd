@@ -12,9 +12,19 @@ format: html
 
 ***Cation Exchange Capacity*** (CEC) describes the soil's ability to hold a slow-release reservoir of nutrients, as positively charged ions (e.g., NH^~4~+^, K^+^, Ca^2+^, Mg^2+^) in the soil are held by negatively charged sites on clay particles and SOM. While CEC is determined in part by soil texture, increasing SOM can greatly increase CEC. Sandy loam soils typically have CECs ranging from 1 to 10 meq/100 g, loam soils range from 5 to 15 meq/100 g, and clay soils have CECs greater than 30 meq/100 g. SOM can provide an additional 200 to 400 meq/100 g (note that CEC units may be reported differently, but 1 meq/100g = 1 cmolc/kg). Soil pH can also alter the CEC of organic matter and clay particles, further underscoring the impact of pH on other soil measurements.
 
+<!-- Image wrapped around text for HTML -->
+
+::: {.content-visible when-format="html"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/TN.png){width="3.5in" style="float:right" fig-alt="Total Nitrogen (TN) measures different forms of nitrogen in the soil and is closely related to soil productivity. There is a large circle with two smaller circles inside that are labeled Organic N pools (not available, but can be made available during the growing season through microbial processing) and Inorganic N pools (changes very quickly and should be measured often but plant available). Inside the Organic N pools circle are two more circles labeled potentially mineralizable nitrogen and ACE soil protein. Inside the Inorganic N pools circle are two more circles labeled nitrate and ammonium."}
+:::
+
 ***Total Nitrogen*** is a measurement of both inorganic (plant-available nitrate and ammonium) and organic (typically not plant-available) nitrogen in the soil. Having sufficient total nitrogen in the soil is key for promoting mineralization, or the process of changing the organic nitrogen to a form that plants can use.
 
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/TN.png){width="400"}
+<!-- Image below around text for docx -->
+
+::: {.content-visible unless-format="html"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/TN.png){height="3.5in" fig-alt="Total Nitrogen (TN) measures different forms of nitrogen in the soil and is closely related to soil productivity. There is a large circle with two smaller circles inside that are labeled Organic N pools (not available, but can be made available during the growing season through microbial processing) and Inorganic N pools (changes very quickly and should be measured often but plant available). Inside the Organic N pools circle are two more circles labeled potentially mineralizable nitrogen and ACE soil protein. Inside the Inorganic N pools circle are two more circles labeled nitrate and ammonium."}
+:::
 
 ***Inorganic Carbon***, frequently called carbonates, is present in some soils, mostly in arid environments. Carbonates can be an important source of nutrients and carbon storage in soils, but in excess can lead to challenges with salinity and poor infiltration. While some strategies can be employed to increase or decrease carbonates in soil, they are generally considered less sensitive to management than organic C. As such, most discussions of agricultural management focus only on organic C.
 

@@ -6,16 +6,16 @@
 \usage{
 format_ft_colors(
   ft,
-  lighter_col = washi::washi_pal[["standard"]][["cream"]],
-  darker_col = washi::washi_pal[["standard"]][["tan"]]
+  lighter_color = washi::washi_pal[["standard"]][["cream"]],
+  darker_color = washi::washi_pal[["standard"]][["tan"]]
 )
 }
 \arguments{
 \item{ft}{Flextable object}
 
-\item{lighter_col}{Lighter background color. Defaults to WaSHI cream.}
+\item{lighter_color}{Lighter background color. Defaults to WaSHI cream.}
 
-\item{darker_col}{Darker background color. Defaults to WaSHI tan.}
+\item{darker_color}{Darker background color. Defaults to WaSHI tan.}
 }
 \description{
 Color the background cells based on how the value compares to the project

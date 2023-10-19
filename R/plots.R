@@ -1,69 +1,24 @@
 #' Make a texture triangle
-#'
-#' ```{r child = "man/rmd/wrangle.Rmd"}
-#' ````
-#'
-#' @param df Data frame containing columns: `Sand`, `Clay`, `Silt`, `category`
-#' @param primary_color Color of producer's sample points Defaults to WaSHI
-#'   green.
-#' @param secondary_color Color of sample points with `"Same crop"` or `"Same
-#'   county"` values in the `category` column. Defaults to WaSHI gray.
-#' @param other_color Color of sample points with `"Other fields"` value in
-#'   `category` column. Defaults to WaSHI tan.
-#' @param font_family Font family to use throughout plot. Defaults to
+#' @param body_font Font family to use throughout plot. Defaults to
 #'   `"Poppins"`.
 #'
-#' @returns `ggplot2` texture triangle.
+#' @returns Blank `ggplot2` texture triangle with USDA textural classes.
 #'
 #' @export
 #'
 #' @examples
-#' # Install and register Poppins font in R with the `{extrafont}` package.
-#' library(extrafont)
-#'
-#' # Read in wrangled texture data
-#' # See `data_wrangling.R` for processing steps
-#' path <- soils_example("dfTexture.csv")
-#' df <- read.csv(path)
-#'
-#' # Glimpse at data structure
-#' dplyr::slice_sample(
-#'   df,
-#'   n = 1,
-#'   by = category
-#' ) |>
-#'   dplyr::glimpse()
-#'
-#' # Make sure class of `category` is `ordered factor` with `Your fields` at the
-#' # end so it is plotted on top of the other points
-#' df$category <- factor(
-#'   df$category,
-#'   levels = c(
-#'     "Other fields",
-#'     "Same county",
-#'     "Same crop",
-#'     "Your fields"
-#'   ),
-#'   ordered = TRUE
-#' )
-#'
-#' class(df$category)
-#'
-#' levels(df$category)
-#'
-#' # Make the plot
-#' make_texture_triangle(
-#'   df,
-#'   font_family = "sans"
-#' )
+#' # Blank texture triangle with just USDA classes
+#' make_texture_triangle(body_font = "sans")
 #'
 make_texture_triangle <- function(
-    df,
-    primary_color = washi::washi_pal[["standard"]][["red"]],
-    secondary_color = washi::washi_pal[["standard"]][["gray"]],
-    other_color = washi::washi_pal[["standard"]][["tan"]],
-    font_family = "Poppins"
-) {
+    body_font = "Poppins") {
+  if (!exists("usdaTexture")) {
+    cli::cli_abort(c(
+      "Can't find `usdaTexture`.",
+      "i" = "Run library(soils)."
+    ))
+  }
+
   suppressWarnings({
     ggplot2::ggplot(
       data = usdaTexture$polygons,
@@ -92,52 +47,7 @@ make_texture_triangle <- function(
           angle = angle
         ),
         color = "#201F1F",
-        size = 2
-      ) +
-      ggplot2::geom_point(
-        data = df,
-        mapping = ggplot2::aes(
-          x = Sand,
-          y = Clay,
-          z = Silt,
-          alpha = category,
-          color = category,
-          shape = category,
-          size = category
-        )
-      ) +
-      # Define scales for categories
-      ggplot2::scale_alpha_manual(
-        values = c(
-          "Your fields" = 0.8,
-          "Same county" = 0.8,
-          "Same crop" = 0.8,
-          "Other fields" = 0.6
-        )
-      ) +
-      ggplot2::scale_color_manual(
-        values = c(
-          "Your fields" = primary_color,
-          "Same county" = secondary_color,
-          "Same crop" = secondary_color,
-          "Other fields" = other_color
-        )
-      ) +
-      ggplot2::scale_shape_manual(
-        values = c(
-          "Your fields" = 15,
-          "Same county" = 17,
-          "Same crop" = 18,
-          "Other fields" = 19
-        )
-      ) +
-      ggplot2::scale_size_manual(
-        values = c(
-          "Your fields" = 3,
-          "Same county" = 2.2,
-          "Same crop" = 2.5,
-          "Other fields" = 2
-        )
+        size = 1.6
       ) +
       # Theme
       ggplot2::theme_minimal() +
@@ -149,20 +59,23 @@ make_texture_triangle <- function(
       # Tweak theme of plot
       ggplot2::theme(
         # Font
-        text = ggplot2::element_text(size = 12, family = font_family),
+        text = ggplot2::element_text(size = 10, family = body_font),
         # Triangle panel
         tern.panel.mask.show = FALSE,
         # Axes
         tern.axis.title.show = FALSE,
+        # clay
         tern.axis.text.T = ggplot2::element_text(
-          hjust = 0.5
+          hjust = -0.01
         ),
+        # sand
         tern.axis.text.L = ggplot2::element_text(
-          hjust = 0.5,
+          hjust = 0.8,
           angle = 60
         ),
+        # silt
         tern.axis.text.R = ggplot2::element_text(
-          vjust = 0.5,
+          vjust = 0.8,
           angle = -60
         ),
         tern.axis.ticks = ggplot2::element_line(color = "transparent"),
@@ -173,104 +86,132 @@ make_texture_triangle <- function(
         legend.title = ggplot2::element_blank(),
         # Arrows
         tern.axis.arrow.show = TRUE,
-        tern.axis.arrow.sep = 0.075,
-        tern.axis.arrow.text.T = ggplot2::element_text(vjust = -0.6),
+        tern.axis.arrow.sep = 0.1,
+        # clay
+        tern.axis.arrow.text.T = ggplot2::element_text(vjust = -1),
+        # sand
         tern.axis.arrow.text.L = ggplot2::element_text(vjust = -0.6),
+        # silt
         tern.axis.arrow.text.R = ggplot2::element_text(vjust = 1)
       )
   })
 }
-
-#' Make facetted strip plot
+#' Add `ggplot2::geom_point()` points to texture triangle
 #'
-#' ```{r child = "man/rmd/wrangle.Rmd"}
-#' ````
-#'
-#' @param df Dataframe containing columns: `category`, `abbr_unit`, `unit`,
-#'   `dummy`, and `sampleLabel`.
-#' @param output Type of ouput: either `"static"` or `"html"`
-#' @param panel_spacing_x,panel_spacing_y Spacing between facet panels in units
-#'   `line` when `output = "html"`. Defaults to `6` for `x` and `30` for `y` for
-#'   rendering in producer reports. These default values seem to look the best
-#'   with the dimensions of the plot outputs in the reports. This argument is
-#'   used to deal with `plotly` issues. See `make_plotly()` for examples.
-#' @inheritParams make_texture_triangle
-#' @param primary_accent_color Color of facet strip background. Defaults to
-#'   WaSHI blue.
-#'
+#' @param df Data frame containing columns for sand, silt, and clay.
+#' @param sand,silt,clay Column names in `df` for sand, silt, and clay % values.
+#' @param ... Other arguments to pass into `ggplot2::aes()`.
+#' @returns `ggplot2` texture triangle with points for all samples.
 #' @export
-#' @returns Facetted `ggplot2.` strip plot
 #'
 #' @examples
-#' # Read in wrangled plot data
-#' # See `data_wrangling.R` for processing steps
-#' path <- soils_example("dfPlot.csv")
-#' df <- read.csv(
-#'   path,
-#'   encoding = "UTF-8"
-#' )
+#' # Create a texture triangle with points colored by texture
+#' make_texture_triangle(body_font = "sans") +
+#'   add_texture_points(
+#'     df = exampleData,
+#'     sand = `sand_%`,
+#'     silt = `silt_%`,
+#'     clay = `clay_%`,
+#'     color = texture
+#'   ) +
+#'   ggplot2::scale_color_viridis_d()
 #'
-#' # The data structure necessary to render the df triangle
-#' dplyr::slice_sample(
-#'   df,
-#'   n = 1,
-#'   by = category
-#' ) |>
-#'   dplyr::glimpse()
 #'
-#' # Make sure class of `category` is `ordered factor` with `Your fields` at the
-#' # end so it is plotted on top of the other points
-#' df$category <- factor(
-#'   df$category,
-#'   levels = c(
-#'     "Other fields",
-#'     "Same county",
-#'     "Same crop",
-#'     "Your fields"
-#'   ),
-#'   ordered = TRUE
-#' )
-#'
-#' class(df$category)
-#'
-#' levels(df$category)
-#'
-#' # Make the plot
-#' make_strip_plot(
-#'   df,
-#'   output = "static",
-#'   font_family = "sans"
-#' )
-make_strip_plot <- function(
+#' # Remember these are `ggplot2` functions and require `+` instead of
+#' #  pipes (`|>` or `%>%`)
+#' try({
+#'   make_texture_triangle(body_font = "sans") +
+#'     add_texture_points(
+#'       df = exampleData,
+#'       sand = `sand_%`,
+#'       silt = `silt_%`,
+#'       clay = `clay_%`,
+#'       color = texture
+#'     ) |>
+#'     ggplot2::scale_color_viridis_d()
+#' })
+add_texture_points <- function(
     df,
-    output,
-    panel_spacing_x = 6,
-    panel_spacing_y = 30,
-    font_family = "Poppins",
-    primary_color = washi::washi_pal[["standard"]][["red"]],
-    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-    other_color = washi::washi_pal[["standard"]][["tan"]],
-    primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
+    sand,
+    silt,
+    clay,
+    ...
 ) {
-  rlang::arg_match(output, c("static", "html"))
-
-  # Subset data to just producer for labels
-  producer <- df[df$category == "Your fields", ]
-
-  # Set number of columns in facet
-  ncol <- ifelse(dplyr::n_distinct(df$abbr_unit) > 6, 4, 3)
-
-  # Find project average for each measurement
-  averages <- df |>
-    dplyr::group_by(abbr_unit, unit) |>
-    dplyr::summarize(
-      mean = mean(value, na.rm = TRUE),
-      .groups = "keep"
+  suppressWarnings({
+    ggplot2::geom_point(
+      data = df,
+      mapping = ggplot2::aes(
+        x = {{ sand }},
+        y = {{ clay }},
+        z = {{ silt }},
+        ...
+      )
     )
-
+  })
+}
+#' Theme for facetted strip plots
+#'
+#' @inheritParams make_texture_triangle
+#' @param strip_color Color of facet strip background. Defaults to WaSHI blue.
+#' @param strip_text_color Color of facet strip text. Defaults to white.
+#' @param ... Other arguments to pass into `ggplot2::theme()`.
+#'
+#' @export
+#'
+#' @examples
+#' # Read in wrangled example plot data
+#' # See `data_wrangling.R` for processing steps
+#' df_plot_path <- soils_example("df_plot.RDS")
+#' df_plot <- readRDS(df_plot_path)
+#'
+#' # Subset df to just biological measurement group
+#' df_plot_bio <- df_plot |>
+#'   subset(measurement_group == "biological")
+#'
+#' # Make strip plot with all measurements and set scales based on
+#' # the category column and then apply theme.
+#'
+#' # NOTE: the plot gets piped into the `set_scales()` function, which gets
+#' # added to `theme_facet_strip()`.
+#'
+#' make_strip_plot(
+#'   df_plot_bio,
+#'   x = dummy,
+#'   y = value,
+#'   id = sampleId,
+#'   group = abbr_unit,
+#'   tooltip = label,
+#'   color = category,
+#'   size = category,
+#'   alpha = category,
+#'   shape = category
+#' ) |>
+#'   set_scales() +
+#'   theme_facet_strip(body_font = "sans")
+#'
+#' # Example without setting theme
+#' make_strip_plot(
+#'   df_plot_bio,
+#'   x = dummy,
+#'   y = value,
+#'   id = sampleId,
+#'   group = abbr_unit,
+#'   tooltip = label,
+#'   color = category,
+#'   size = category,
+#'   alpha = category,
+#'   shape = category
+#' ) |>
+#'   set_scales()
+theme_facet_strip <- function(
+    ...,
+    body_font = "Poppins",
+    strip_color = washi::washi_pal[["standard"]][["blue"]],
+    strip_text_color = "white"
+) {
   theme <- ggplot2::theme(
     # Font family
-    text = ggplot2::element_text(family = font_family),
+    text = ggplot2::element_text(family = body_font),
     # Gridlines formatting
     panel.grid.major.x = ggplot2::element_blank(),
     # Axis formatting
@@ -279,61 +220,83 @@ make_strip_plot <- function(
     axis.text.x = ggplot2::element_blank(),
     # Facet label formatting
     strip.background = ggplot2::element_rect(
-      fill = primary_accent_color
+      fill = strip_color
     ),
     strip.text = ggtext::element_markdown(
-      color = "white",
       face = "bold",
-      size = 12
+      color = strip_text_color,
+      size = 8,
+      lineheight = 1.5
     ),
     # Legend formatting
     legend.title = ggplot2::element_blank(),
-    legend.position = "bottom"
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = ggplot2::unit(0, "pt"),
+    legend.spacing.x = ggplot2::unit(0, "pt"),
+    # Any other arguments
+    ...
   )
+}
 
-  # Adjust theme for plotly
-  if (output == "html") {
-    theme <- theme +
-      ggplot2::theme(
-        # Panel spacing
-        panel.spacing.x = ggplot2::unit(panel_spacing_x, "line"),
-        panel.spacing.y = ggplot2::unit(panel_spacing_y, "line"),
-        # Facet label formatting
-        strip.text = ggtext::element_markdown(
-          margin = ggplot2::margin(0.35, 0, 0.6, 0, "cm")
-        ),
-        # Legend formatting
-        legend.text = ggplot2::element_text(
-          size = 12
-        )
-      )
-  }
+#' Define styles for producer's samples versus all samples
+#'
+#' @param plot `ggplot` object to apply scales to.
+#' @param primary_color Color of producer's sample points. Defaults to WaSHI
+#'   green.
+#' @param secondary_color Color of sample points with `"Same crop"` or `"Same
+#'   county"` values in the `category` column. Defaults to WaSHI gray.
+#' @param other_color Color of sample points with `"Other fields"` value in
+#'   `category` column. Defaults to WaSHI tan.
+#'
+#' @returns `ggplot` object with manual alpha, color, shape, and size scales
+#'   applied.
+#' @export
+#'
+#' @examples
+#' # Read in wrangled example plot data
+#' # See `data_wrangling.R` for processing steps
+#' df_plot_path <- soils_example("df_plot.RDS")
+#' df_plot <- readRDS(df_plot_path)
 
-  plot <- ggplot2::ggplot(
-    data = df,
-    mapping = ggplot2::aes(
-      x = dummy,
-      y = value,
-      alpha = category,
-      color = category,
-      shape = category,
-      size = category,
-      text = paste(sampleLabel, round(value, 2), unit)
-    )
-  ) +
-    ggplot2::geom_hline(
-      data = averages,
-      mapping = ggplot2::aes(
-        yintercept = mean,
-        linetype = "Average"
-      )
-    ) +
-    ggplot2::geom_jitter(
-      width = 0.2,
-      height = 0,
-      na.rm = TRUE
-    ) +
-    # Define styles for producer's samples versus all samples
+#' # Subset df to just biological measurement group
+#' df_plot_bio <- df_plot |>
+#'   subset(measurement_group == "biological")
+#'
+#' # Make strip plot
+#'
+#' make_strip_plot(
+#'   df_plot_bio,
+#'   x = dummy,
+#'   y = value,
+#'   id = sampleId,
+#'   group = abbr_unit,
+#'   tooltip = label,
+#'   color = category,
+#'   size = category,
+#'   alpha = category,
+#'   shape = category
+#' ) |>
+#'   set_scales() +
+#'   theme_facet_strip(body_font = "sans")
+#'
+#' # Example without setting scales
+#' make_strip_plot(
+#'   df_plot_bio,
+#'   x = dummy,
+#'   y = value,
+#'   id = sampleId,
+#'   group = abbr_unit,
+#'   tooltip = label
+#' ) +
+#'   theme_facet_strip(body_font = "sans")
+set_scales <- function(
+    plot,
+    primary_color = washi::washi_pal[["standard"]][["red"]],
+    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
+    other_color = washi::washi_pal[["standard"]][["tan"]]
+) {
+  plot +
     ggplot2::scale_alpha_manual(values = c(
       "Your fields" = 0.8,
       "Same county" = 0.6,
@@ -353,208 +316,200 @@ make_strip_plot <- function(
       "Other fields" = 19
     )) +
     ggplot2::scale_size_manual(values = c(
-      "Your fields" = 4,
-      "Same county" = 2.2,
-      "Same crop" = 2.5,
-      "Other fields" = 2
-    )) +
-    ggplot2::scale_linetype_manual(
-      values = c("Average" = "dashed")
+      "Your fields" = 3,
+      "Same county" = 2.7,
+      "Same crop" = 2.7,
+      "Other fields" = 1.7
+    ))
+}
+
+#' Make a facetted strip plot
+#'
+#' @param df Data frame to plot.
+#' @param x Column for x-axis. For these strip plots, we recommend using a dummy
+#'   variable to act as a placeholder. Defaults to a column named `dummy` with
+#'   only one value ("dummy") for all rows.
+#' @param y Column for y-axis. Defaults to `value`.
+#' @param id Column with unique identifiers for each sample to use as `data_id`
+#'   for interactive plots. Defaults to `sampleId`.
+#' @param group Column to facet by. Defaults to `abbr_unit`.
+#' @param tooltip Column with tooltip labels for interactive plots.
+#' @inheritParams add_texture_points
+#' @returns Facetted `ggplot2` strip plots.
+#' @export
+#'
+#' @examples
+#' # Read in wrangled example plot data
+#' # See `data_wrangling.R` for processing steps
+#' df_plot_path <- soils_example("df_plot.RDS")
+#' df_plot <- readRDS(df_plot_path)
+#'
+#' # Subset df to just biological measurement group
+#' df_plot_bio <- df_plot |>
+#'   subset(measurement_group == "biological")
+#'
+#' # Make strip plot with all measurements and set scales based on
+#' # the category column and then apply theme.
+#'
+#' # NOTE: the plot gets piped into the `set_scales()` function, which gets
+#' # added to `theme_facet_strip()`.
+#'
+#' make_strip_plot(
+#'   df_plot_bio,
+#'   x = dummy,
+#'   y = value,
+#'   id = sampleId,
+#'   group = abbr_unit,
+#'   tooltip = label,
+#'   color = category,
+#'   size = category,
+#'   alpha = category,
+#'   shape = category
+#' ) |>
+#'   set_scales() +
+#'   theme_facet_strip(body_font = "sans")
+#'
+#' # Example of strip plot without scales or theme functions
+#' make_strip_plot(df_plot_bio)
+#'
+#' # Example of strip plot with `x` set to the facet group instead of a
+#' # dummy variable.
+#' make_strip_plot(df_plot_bio, x = abbr_unit) |>
+#'   set_scales() +
+#'   theme_facet_strip(body_font = "sans")
+make_strip_plot <- function(
+    df,
+    ...,
+    x = dummy,
+    y = value,
+    id = sampleId,
+    group = abbr_unit,
+    tooltip = label
+) {
+  # Set number of columns in facet
+  n_facets <- df |>
+    dplyr::select({{ group }}) |>
+    dplyr::n_distinct()
+
+  ncols <- ifelse(n_facets > 6, 4, 3)
+
+  # Find project average for each measurement
+  averages <- df |>
+    dplyr::summarize(
+      mean = mean({{ y }}, na.rm = TRUE),
+      .by = c({{ group }}, unit)
+    )
+
+  df |>
+    ggplot2::ggplot(
+      mapping = ggplot2::aes(
+        x = {{ x }},
+        y = {{ y }},
+        ...
+      )
     ) +
     ggplot2::facet_wrap(
-      ~abbr_unit,
-      ncol = ncol,
-      scales = "free_y"
+      ggplot2::vars({{ group }}),
+      scales = "free_y",
+      ncol = ncols,
+      labeller = ggplot2::label_wrap_gen()
     ) +
-    # Customize theme of plot
-    ggplot2::theme_bw() +
-    theme
-
-  return(plot)
+    ggiraph::geom_hline_interactive(
+      data = averages,
+      mapping = ggplot2::aes(
+        yintercept = mean,
+        linetype = "Project Average",
+        data_id = {{ group }},
+        tooltip = glue::glue("Avg: {round(mean, 2)} {unit}")
+      )
+    ) +
+    ggplot2::scale_linetype_manual(
+      values = c("Project Average" = "dashed")
+    ) +
+    ggiraph::geom_jitter_interactive(
+      mapping = ggplot2::aes(
+        data_id = {{ id }},
+        tooltip = {{ tooltip }},
+        hover_nearest = TRUE
+      )
+    ) +
+    ggplot2::theme_bw()
 }
 
-#' Make facetted strip plot interactive with `plotly`
+#' Convert a `ggplot2` plot to an interactive `ggiraph`.
 #'
-#' @description
+#' @param plot `ggplot2` plot to convert to interactive `ggiraph`. `plot` must
+#'   contain `ggiraph::geom_<plot_type>_interactive()`.
+#' @inheritParams make_texture_triangle
+#' @param width Width of SVG output in inches. Defaults to 6.
+#' @param height Height of SVG output in inches. Defaults to 4.
+#' @param ... Other arguments to pass into `ggiraph::girafe_options()`.
 #'
-#' Wrapper of `make_strip_plot()` that adds `plotly` interactivity.
-#'
-#' NOTE: `plotly` has issues with overlapping axis labels when facetting (See
-#' this [GitHub issue](https://github.com/plotly/plotly.R/issues/1224)). The
-#' somewhat hacky solution to getting these plots to look good involves tweaking
-#' the `panel_spacing` arguments in `ggplot2::theme()`.
-#'
-#' If rendering from Mac OS, try setting the `panel_spacing_x = 0.01` and
-#' `panel_spacing_y = 3`.
-#'
-#' @inheritParams make_strip_plot
+#' @returns Facetted strip plots with classes of `girafe` and `htmlwidget`.
 #' @export
-#' @returns Facetted `plotly` strip plot.
 #'
 #' @examples
-#' # Read in wrangled plot data.
-#' # See `data_wrangling.R` for processing steps.
-#' path <- soils_example("dfPlot.csv")
-#' df <- read.csv(
-#'   path,
-#'   encoding = "UTF-8"
-#' )
+#' # Read in wrangled example plot data
+#' # See `data_wrangling.R` for processing steps
+#' df_plot_path <- soils_example("df_plot.RDS")
+#' df_plot <- readRDS(df_plot_path)
 #'
-#' # The data structure necessary to render the df triangle
-#' dplyr::slice_sample(
-#'   df,
-#'   n = 1,
-#'   by = category
+#' # Make strip plot with all measurements and set scales based on
+#' # the category column and then apply theme.
+#'
+#' # Subset df to just biological measurement group
+#' df_plot_bio <- df_plot |>
+#'   subset(measurement_group == "biological")
+#'
+#' # NOTE: the plot gets piped into the `set_scales()` function, which gets
+#' # added to `theme_facet_strip()`.
+
+#' plot <- make_strip_plot(
+#'   df_plot_bio,
+#'   x = dummy,
+#'   y = value,
+#'   id = sampleId,
+#'   group = abbr_unit,
+#'   tooltip = label,
+#'   color = category,
+#'   size = category,
+#'   alpha = category,
+#'   shape = category
 #' ) |>
-#'   dplyr::glimpse()
+#'   set_scales() +
+#'   theme_facet_strip(body_font = "sans")
 #'
-#' # Make sure class of `category` is `ordered factor` with `Your fields`
-#' # at the end so it is plotted on top of the other points.
-#' df$category <- factor(
-#'   df$category,
-#'   levels = c(
-#'     "Other fields",
-#'     "Same county",
-#'     "Same crop",
-#'     "Your fields"
-#'   ),
-#'   ordered = TRUE
-#' )
-#'
-#' class(df$category)
-#'
-#' levels(df$category)
-#'
-#' # This `plotly` does not look right when viewing outside the reports
-#' make_plotly(
-#'   df,
-#'   font_family = "sans"
-#' )
-#'
-#' # Conversely, this `plotly` looks better in this example when
-#' # the `panel_spacing` arguments are modified
-#' make_plotly(
-#'   df,
-#'   panel_spacing_x = 0.01,
-#'   panel_spacing_y = 5,
-#'   font_family = "sans"
-#' )
-make_plotly <- function(
-    df,
-    panel_spacing_x = 6,
-    panel_spacing_y = 30,
-    font_family = "Poppins",
-    primary_color = washi::washi_pal[["standard"]][["red"]],
-    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-    other_color = washi::washi_pal[["standard"]][["tan"]],
-    primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
+#' # Convert static plot to interactive `ggiraph`
+#' convert_ggiraph(plot)
+convert_ggiraph <- function(
+    plot,
+    ...,
+    body_font = "Poppins",
+    width = 6,
+    height = 4
 ) {
-  df_plotly <- make_strip_plot(
-    df,
-    output = "html",
-    panel_spacing_x = panel_spacing_x,
-    panel_spacing_y = panel_spacing_y
-  ) |>
-    plotly::ggplotly(tooltip = "text") |>
-    plotly::layout(
-      # Legend title doesn't actually appear.
-      # It prevents the variable names from showing up though.
-      legend = list(orientation = "h", title = "Legend"),
-      margin = list(t = 100),
-      font = list(family = font_family, size = 15)
-    ) |>
-    plotly::style(hoverlabel = list(font = list(size = 15))) |>
-    plotly::config(
-      modeBarButtonsToRemove = c(
-        "zoom2d",
-        "pan2d",
-        "zoomIn2d",
-        "zoomOut2d",
-        "select2d",
-        "lasso2d",
-        "hoverClosestCartesian",
-        "hoverCompareCartesian",
-        "resetScale2d"
-      ),
-      displaylogo = FALSE,
-      displayModeBar = TRUE,
-      toImageButtonOptions = list(
-        filename = paste0("soil_", deparse(substitute(df)), "_plot")
+  if (!ggiraph::font_family_exists(body_font)) {
+    cli::cli_abort(
+      c(
+        "Can't find font family `{body_font}` on your system.",
+        "i" = "See the {.href [`ggiraph book`](https://www.ardata.fr/ggiraph-book/fonts.html)} for help."
       )
     )
+  }
 
-  # this gets rid of duplicate legend entries
-  # modified from SO source: https://stackoverflow.com/a/69035732
+  tooltip_css <- glue::glue(
+    "font-family:{body_font};font-size=1em;padding:5px;border-radius:6px;background-color:#1F1E1E;color:white;"
+  )
 
-  for (i in seq_along(df_plotly$x$data)) {
-    # Is the layer the first entry of the group?
-    is_first <- grepl("^\\(.*?,1", df_plotly$x$data[[i]]$name)
-    # Extract the group identifier and assign it to the name and
-    # legend group arguments
-    df_plotly$x$data[[i]]$name <- gsub(
-      "[[:punct:]0-9]|\\bNA\\b",
-      "\\1",
-      df_plotly$x$data[[i]]$name
+  ggiraph::girafe(
+    ggobj = plot,
+    width_svg = width,
+    height_svg = height,
+    options = list(
+      ggiraph::opts_tooltip(css = tooltip_css),
+      ggiraph::opts_toolbar(saveaspng = FALSE),
+      ggiraph::opts_hover(css = "fill-opacity:1;stroke:#1F1E1E"),
+      ...
     )
-
-    df_plotly$x$data[[i]]$legendgroup <- df_plotly$x$data[[i]]$name
-    # Show the legend only for the first layer of the group
-    if (!is_first) df_plotly$x$data[[i]]$showlegend <- FALSE
-  }
-
-  return(df_plotly)
-}
-
-#' `ggplot2::ggsave()` with default arguments
-#'
-#' Wrapper of `ggplot2::ggsave()` to save a plot to the specified directory with
-#' default settings of `.png` output with dimensions of 6" x 4".
-#'
-#' @inheritParams ggplot2::ggsave
-#' @param path Path of the directory to save plot to. File name is determined by
-#'   name of plot and file extension.
-#'
-#' @returns Side effects of saving plot.
-#'
-#' @export
-#'
-#' @examples
-#' library(ggplot2)
-#'
-#' plot <- exampleData |>
-#'   ggplot(aes(crop)) +
-#'   geom_bar() +
-#'   coord_flip()
-#'
-#' # Create temp file to save plot
-#' file <- tempfile()
-#'
-#' # Save plot
-#' save_plot(plot, path = file)
-#'
-#' # Delete plot file
-#' unlink(file)
-save_plot <- function(
-    plot,
-    path,
-    device = "png",
-    height = 4,
-    width = 6,
-    units = "in"
-) {
-  if (!dir.exists(path)) {
-    dir.create(path)
-  }
-
-  ggplot2::ggsave(
-    plot = plot,
-    filename = paste0(deparse(substitute(plot)), ".", device),
-    path = path,
-    dpi = 300,
-    scale = 1,
-    height = height,
-    width = width,
-    units = units,
-    device = device
   )
 }

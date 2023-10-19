@@ -14,8 +14,7 @@
 #'   \item{other columns}{Column name includes measurement and units; value is the measurement results}
 #'   ...
 #' }
-#' @source [WaSHI State of the
-#'   Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
+#' @source [WaSHI State of the Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
 "exampleData"
 
 #' Data dictionary
@@ -26,16 +25,16 @@
 #' @format ## `dataDictionary` A data frame with 32 rows and 7 columns. columns:
 #' \describe{
 #'   \item{measurement_group}{Name to group measurements by}
-#'   \item{order}{Order of how measurements are presented within each measurement_group}
+#'   \item{measurement_group_label}{Label of measurement group to be used as heading}
 #'   \item{column_name}{Name of column in data set, used for joining}
 #'   \item{measurement_full_name}{Measurement fully spelled out}
+#'   \item{order}{Order of how measurements are presented within each measurement_group}
 #'   \item{abbr}{Abbreviated measurement name for labels}
 #'   \item{unit}{Measurement unit}
 #'   \item{abbr_unit}{HTML formatted abbreviation with unit for plots and tables}
 #'   ...
 #' }
-#' @source [WaSHI State of the
-#'   Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
+#' @source [WaSHI State of the Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
 "dataDictionary"
 
 #' USDA texture data

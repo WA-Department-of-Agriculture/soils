@@ -5,8 +5,8 @@
 #' added to the table describing what the dark and light colors mean.
 #'
 #' @param ft Flextable object
-#' @param lighter_col Lighter background color. Defaults to WaSHI cream.
-#' @param darker_col Darker background color. Defaults to WaSHI tan.
+#' @param lighter_color Lighter background color. Defaults to WaSHI cream.
+#' @param darker_color Darker background color. Defaults to WaSHI tan.
 #'
 #' @export
 #'
@@ -24,8 +24,8 @@
 #' format_ft_colors(ft)
 format_ft_colors <- function(
   ft,
-  lighter_col = washi::washi_pal[["standard"]][["cream"]],
-  darker_col = washi::washi_pal[["standard"]][["tan"]]
+  lighter_color = washi::washi_pal[["standard"]][["cream"]],
+  darker_color = washi::washi_pal[["standard"]][["tan"]]
     ) {
   # Color formatter function
   ft <- flextable::bg(
@@ -33,8 +33,8 @@ format_ft_colors <- function(
     bg = function(x) {
       dplyr::case_when(
         is.character(x) ~ "white",
-        x < tail(x, n = 1) ~ lighter_col,
-        x >= tail(x, n = 1) ~ darker_col,
+        x < tail(x, n = 1) ~ lighter_color,
+        x >= tail(x, n = 1) ~ darker_color,
         TRUE ~ "white"
       )
     }
@@ -53,12 +53,12 @@ format_ft_colors <- function(
       "Values \U2265 project average have ",
       flextable::as_highlight(
         "darker backgrounds. \n",
-        darker_col
+        darker_color
       ),
       "Values < project average have ",
       flextable::as_highlight(
         "lighter backgrounds. ",
-        lighter_col
+        lighter_color
       )
     )
   )
@@ -67,15 +67,13 @@ format_ft_colors <- function(
 
 #' Style a flextable
 #'
+#' @param ft Flextable object.
 #' @param header_font Font of header text. Defaults to `"Lato"`.
 #' @param body_font Font of body text. Defaults to `"Poppins"`.
 #' @param header_color Background color of header cells. Defaults to WaSHI
 #'   green.
-#' @param border_color Color of border lines. Defaults to WaSHI tan. Uses
-#'   `{colorspace}` to programatically darken the given color since the default
-#'   border color is the same as the darker background color in
-#'   `format_ft_colors()`.
-#' @param ft Flextable object.
+#' @param header_text_color Color of header text. Defaults to white.
+#' @param border_color Color of border lines. Defaults to WaSHI gray.
 #'
 #' @returns Styled flextable object.
 #'
@@ -98,7 +96,8 @@ style_ft <- function(
   header_font = "Lato",
   body_font = "Poppins",
   header_color = washi::washi_pal[["standard"]][["green"]],
-  border_color = washi::washi_pal[["standard"]][["tan"]]
+  header_text_color = "white",
+  border_color = washi::washi_pal[["standard"]][["gray"]]
     ) {
   flextable::set_flextable_defaults(
     font.family = body_font,
@@ -112,7 +111,7 @@ style_ft <- function(
     font.family = header_font,
     font.size = 11,
     bold = TRUE,
-    color = "white"
+    color = header_text_color
   )
 
   ft <- flextable::style(
@@ -124,21 +123,69 @@ style_ft <- function(
     flextable::bold(j = 1, bold = TRUE, part = "body") |>
     flextable::hline(
       border = officer::fp_border(
-        color = colorspace::darken(
-          border_color,
-          amount = 0.3,
-          space = "HCL",
-        )
+        color = border_color
       ),
       part = "body"
     ) |>
-    flextable::merge_h(part = "header") |>
     flextable::align(align = "center", part = "header") |>
-    flextable::line_spacing(space = 1.3, part = "all") |>
-    flextable::width(j = 1, width = 0.75) |>
-    flextable::autofit()
+    flextable::line_spacing(space = 1.3, part = "all")
 
   return(ft)
+}
+
+#' Add bottom border to specific columns in flextable
+#'
+#' Use when columns with the same units are merged together to add a bottom
+#' border to make it more obvious those columns share units.
+#'
+#' @param ft flextable object
+#' @inheritParams make_ft
+#'
+#' @returns Flextable object with bottom borders added.
+#' @export
+#'
+#' @examples
+#' # Read in wrangled table data
+#' # See `data_wrangling.R` for processing steps
+#' headers_path <- soils_example("headers.RDS")
+#' headers <- readRDS(headers_path)
+#'
+#' tables_path <- soils_example("tables.RDS")
+#' tables <- readRDS(tables_path)
+#'
+#' # Input dataframes
+#' headers$chemical
+#'
+#' tables$chemical
+#'
+#' # Make the flextable
+#' make_ft(
+#'   table = tables$chemical,
+#'   header = headers$chemical
+#' ) |>
+#' # Style the flextable
+#' style_ft() |>
+#' # Add the white line under the columns with the same units
+#' unit_hline(header = headers$chemical)
+#'
+#' # Example without `unit_hline()`
+#' make_ft(
+#'   table = tables$chemical,
+#'   header = headers$chemical
+#' ) |>
+#' # Style the flextable
+#' style_ft()
+unit_hline <- function(ft, header) {
+  # Get row index of first duplicated unit for unit_hline
+  dupe_row <- which(duplicated(header$unit)) |> utils::head(1)
+  ft |>
+    flextable::merge_h(part = "header") |>
+    flextable::hline(
+      i = 1,
+      j = dupe_row,
+      part = "header",
+      border = officer::fp_border(color = "white")
+    )
 }
 
 #' Make a flextable with column names from another dataframe
@@ -167,62 +214,24 @@ style_ft <- function(
 #' tables$chemical
 #'
 #' # Make the flextable
-#' # See `unit_hline()` example for adding a bottom border for merged headers
 #' make_ft(
 #'   table = tables$chemical,
 #'   header = headers$chemical
-#' )
+#' ) |>
+#' # Style the flextable
+#' style_ft() |>
+#' # Add the white line under the columns with the same units
+#' unit_hline(header = headers$chemical)
 #'
 make_ft <- function(table, header) {
+  # Get row index of first duplicated unit for unit_hline
+  dupe_row <- which(duplicated(header$unit)) |>
+    utils::head(1)
+
   table |>
     flextable::flextable() |>
     flextable::set_header_df(
       mapping = header,
       key = "key"
-    ) |>
-    format_ft_colors() |>
-    style_ft()
-}
-
-#' Add bottom border to specific columns in flextable
-#'
-#' Use when columns with the same units are merged together to add a bottom
-#' border to make it more obvious those columns share units.
-#'
-#' @param ft flextable object
-#' @param columns Indices of columns that were merged.
-#'
-#' @returns Flextable object with bottom borders added.
-#' @export
-#'
-#' @examples
-#' # Read in wrangled table data
-#' # See `data_wrangling.R` for processing steps.
-#' headers_path <- soils_example("headers.RDS")
-#' headers <- readRDS(headers_path)
-#'
-#' tables_path <- soils_example("tables.RDS")
-#' tables <- readRDS(tables_path)
-#'
-#' # Make the table
-#' ft <- make_ft(
-#'   table = tables$chemical,
-#'   header = headers$chemical
-#' )
-#'
-#' ft
-#'
-#' # Add a line under the merged columns with the same units
-#' unit_hline(
-#'   ft,
-#'   columns = 5
-#' )
-unit_hline <- function(ft, columns) {
-  flextable::hline(
-    ft,
-    i = 1,
-    j = columns,
-    part = "header",
-    border = officer::fp_border(color = "white")
-  )
+    )
 }

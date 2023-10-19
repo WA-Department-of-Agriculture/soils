@@ -4,12 +4,17 @@
 \alias{unit_hline}
 \title{Add bottom border to specific columns in flextable}
 \usage{
-unit_hline(ft, columns)
+unit_hline(ft, header)
 }
 \arguments{
 \item{ft}{flextable object}
 
-\item{columns}{Indices of columns that were merged.}
+\item{header}{Another dataframe with three columns:
+\itemize{
+\item First column contains what the top header row. In our template, this is the abbreviation of the measurement (i.e. \verb{Organic Matter}).
+\item Second column, called \code{"key"}, contains the join key. In our template, this is the same as the first column.
+\item Third column contains the second header row. In our template, this is the unit (i.e. \verb{\%}).
+}}
 }
 \value{
 Flextable object with bottom borders added.
@@ -20,24 +25,33 @@ border to make it more obvious those columns share units.
 }
 \examples{
 # Read in wrangled table data
-# See `data_wrangling.R` for processing steps.
+# See `data_wrangling.R` for processing steps
 headers_path <- soils_example("headers.RDS")
 headers <- readRDS(headers_path)
 
 tables_path <- soils_example("tables.RDS")
 tables <- readRDS(tables_path)
 
-# Make the table
-ft <- make_ft(
+# Input dataframes
+headers$chemical
+
+tables$chemical
+
+# Make the flextable
+make_ft(
   table = tables$chemical,
   header = headers$chemical
-)
+) |>
+# Style the flextable
+style_ft() |>
+# Add the white line under the columns with the same units
+unit_hline(header = headers$chemical)
 
-ft
-
-# Add a line under the merged columns with the same units
-unit_hline(
-  ft,
-  columns = 5
-)
+# Example without `unit_hline()`
+make_ft(
+  table = tables$chemical,
+  header = headers$chemical
+) |>
+# Style the flextable
+style_ft()
 }

@@ -4,9 +4,19 @@ format: html
 
 ## [**Biological**]{style="color: #335c67"} ![](images/biological.png){height="50px"}\newline\newline
 
+<!-- Image wrapped around text for HTML -->
+
+::: {.content-visible when-format="html"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){width="3.5in" style="float:right" fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
+:::
+
 ***Soil Organic Matter*** (SOM) is the portion of soils not made up of minerals, air, and water, but is instead composed of animal, plant, and microbial matter in various stages of decomposition. SOM is comprised of approximately 58% organic carbon (to convert total organic carbon (TOC) to SOM, an easy rule of thumb is to simply multiply by 2). The remaining portion of SOM includes other essential plant nutrients such as nitrogen, phosphorous, and sulfur. SOM varies by inherent soil and landscape properties such as texture, mineralogy, precipitation, and temperature. It is also greatly impacted by management. To learn more about how to increase SOM, read about the [NRCS principles of building soil health](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health "NRCS principles of building soil health"). SOM underlies many of the benefits and ecosystem services that soils provide. It has a large impact on almost all other soil properties and is often used as a primary indicator of soil health. However, SOM can be slow to change as the result of management. Because of this, many other indicators have been developed to detect more sensitive components in SOM. Keep reading to learn more.
 
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){width="400"}
+<!-- Image below around text for docx -->
+
+::: {.content-visible unless-format="html"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){height="3.5in" fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
+:::
 
 ***Potentially Mineralizable Carbon*** (MinC, frequently referred to as "Soil Respiration") measures the release of carbon dioxide (CO₂) from soil. This measurement is done in a laboratory incubation under controlled conditions "ideal" for microbes. The term mineralization refers to the process in which soil microbes produce CO₂ as they decompose SOM and plant residues. This process also releases other nutrients, like nitrogen, which can be taken up by crops. Higher MinC represents greater potential biological activity. Soils with lower SOM will have inherently lower MinC, while compacted soils may not provide adequate aeration for the mineralization process.
 

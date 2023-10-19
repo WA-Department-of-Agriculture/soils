@@ -9,9 +9,10 @@
 
 \describe{
 \item{measurement_group}{Name to group measurements by}
-\item{order}{Order of how measurements are presented within each measurement_group}
+\item{measurement_group_label}{Label of measurement group to be used as heading}
 \item{column_name}{Name of column in data set, used for joining}
 \item{measurement_full_name}{Measurement fully spelled out}
+\item{order}{Order of how measurements are presented within each measurement_group}
 \item{abbr}{Abbreviated measurement name for labels}
 \item{unit}{Measurement unit}
 \item{abbr_unit}{HTML formatted abbreviation with unit for plots and tables}

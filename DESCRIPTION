@@ -20,23 +20,23 @@ BugReports: https://github.com/WA-Department-of-Agriculture/soils/issues
 Depends: 
     R (>= 3.5.0)
 Imports: 
-    colorspace,
     dplyr,
     flextable,
+    ggiraph,
     ggplot2,
     ggtern,
     ggtext,
+    glue,
     here,
     htmltools,
     htmlwidgets,
     leaflet,
     officer,
-    plotly,
-    quarto
+    quarto,
+    utils
 Suggests:
     cli,
     downloadthis,
-    extrafont,
     fs,
     knitr,
     purrr,

@@ -1,0 +1,63 @@
+```{r}
+# Get measurement group label for section header
+header <- dictionary |>
+  subset(measurement_group == group) |>
+  pull_unique(measurement_group_label)
+
+# Get path of measurement group image
+image_path <- glue::glue("images/{group}.png")
+
+# Insert image into header if image exists for that measurement group
+image <- ifelse(
+  fs::file_exists(image_path),
+  glue::glue("![]({image_path}){{height='50px'}}"),
+  ""
+)
+```
+
+### `r glue::glue("{header} {image}")`
+
+```{r}
+# Include texture triangle for physical group
+if (group == "physical") {
+  texture_triangle
+}
+```
+
+```{r, results='asis'}
+# Include pagebreak after texture triangle
+if (group == "physical") {
+  cat("\\newpage")
+}
+```
+
+```{r}
+# Print the table
+table_list |>
+  purrr::pluck(group)
+```
+
+\newline
+
+::: {.content-visible when-format="html"}
+```{r}
+# If HTML, convert the strip plot to interactive ggiraph
+plot_list |>
+  purrr::pluck(group) |>
+  convert_ggiraph(
+    plot,
+    plot_name = group,
+    body_font = body_font
+  )
+```
+:::
+
+::: {.content-visible unless-format="html"}
+```{r}
+# If not HTML, just print the plot
+plot_list |>
+  purrr::pluck(group)
+```
+:::
+
+{{< pagebreak >}}

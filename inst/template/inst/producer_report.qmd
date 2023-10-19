@@ -5,9 +5,13 @@ execute:
   echo: false
   warning: false
   output: true
+knitr: 
+  opts_chunk:
+    dev: "ragg_png"
+    tbl.cap: NULL
+    ft.align: "left"
 format: 
   html:
-    page-layout: full
     toc: true
     toc-depth: 4
     toc-location: left
@@ -20,6 +24,8 @@ resource-path:
   - inst
 format-links: false
 fig-align: left
+fig-width: 6
+fig-height: 3.5
 fig-dpi: 300
 params:
   producerId: WUY05
@@ -27,15 +33,7 @@ params:
 ---
 
 ```{r setup}
-library(extrafont)
-library(washi)
 library(soils)
-
-# Global chunk options
-knitr::opts_chunk$set(
-  ft.align = "left",
-  tbl.cap = NULL
-)
 
 # Get output file type
 out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
@@ -51,27 +49,33 @@ if (!dir.exists(path)) {
 # Run data wrangling script for current producer and year
 pid <- params$producerId
 yr <- params$year
+source(here::here("R/tables.R"))
+source(here::here("R/helpers.R"))
+source(here::here("R/plots.R"))
+source(here::here("R/map.R"))
 source(here::here("R/data_wrangling.R"))
+
+# EDIT: set order of measurement_groups
+measurement_groups <- c("physical", "biological", "chemical", "macro", "micro")
 ```
 
-## `r ifelse(!is.na(producer$info$farmName), producer$info$farmName, paste("Farm:", params$producerId))`
+## `r ifelse(!is.na(producer$farmName), producer$farmName, paste("Farm:", params$producerId))`
 
 {{< include _01_project_summary.qmd >}}
 
-\newpage
-
 {{< include _02_soil_health_background.qmd >}}
 
-\newpage
+{{< pagebreak >}}
 
 ## Your Fields
 
 ```{r}
-washi::washi_flextable(gis, cols_bold = 1)
+# do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
+table_gis
 ```
 
 ```{r create-map}
-map <- make_leaflet(gis)
+map <- make_leaflet(gis_df)
 ```
 
 ```{r save-map}
@@ -88,12 +92,6 @@ if (requireNamespace("htmlwidgets", quietly = TRUE) &
 }
 ```
 
-```{r map-tip}
-#| eval: !expr out_type == "html"
-#| results: asis
-cat("**Map Tip:** Click on the points to see the field ID, field name, and crop.")
-```
-
 ```{r map-html}
 #| eval: !expr out_type == "html"
 map
@@ -102,232 +100,30 @@ map
 ```{r map-static}
 #| eval: !expr out_type == "docx"
 #| out-width: 6in
-if (file.exists(paste0(path, "/map.png"))) {
+if (fs::file_exists(glue::glue("{path}/map.png"))) {
   knitr::include_graphics(
-    paste0(path, "/map.png")
+    glue::glue("{path}/map.png")
   )
 }
 ```
 
-```{r line-break}
-#| eval: !expr out_type == "html"
-#| results: asis
-cat("<br>")
-```
-
-```{r map-download}
-#| eval: !expr out_type == "html"
-if (requireNamespace("downloadthis", quietly = TRUE) &
-  file.exists(paste0(path, "/map.png"))) {
-  downloadthis::download_file(
-    path = paste0(path, "/map.png"),
-    button_label = "Download map as .png",
-    button_type = "success"
-  )
-}
-```
-
-\newpage
+{{< pagebreak >}}
 
 ## Project Results
 
 Below are tables and graphs describing the physical, biological, and chemical measurements from your soils. Each point represents a sample we collected. Take a look to see how your fields compare to others in the project. All samples were collected from \[INSERT SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
 
-```{r physical-header}
-#| results: asis
-cat("### <span style='color:#a60f2d'>Physical Measurements</span> ![](images/physical.png){height='50px'}")
-```
+```{r create-measurement-group-sections}
+#| output: asis
+sections <- purrr::map_chr(measurement_groups, \(group) {
+  knitr::knit_child(
+    input = "section_template.qmd",
+    envir = environment(),
+    quiet = TRUE
+  )
+})
 
-```{r texture-triangle}
-make_texture_triangle(texture)
-```
-
-\newpage
-
-```{r}
-# do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-make_ft(table = tables$physical, header = headers$physical) |>
-  # EDIT: adds border above merged unit cells.
-  # may need to adjust column index
-  unit_hline(3)
-```
-
-```{r physical-plot-static}
-#| eval: !expr out_type == "docx"
-physical_plot <- make_strip_plot(
-  groups$physical,
-  output = "static"
-)
-
-save_plot(physical_plot, path = path)
-
-knitr::include_graphics(
-  paste0(path, "/physical_plot.png")
-)
-```
-
-```{r plot-tips}
-#| eval: !expr out_type == "html"
-#| results: asis
-cat("<span style='color:black'>**Plot Tips:** Hover over a point to see its value. Zoom in by drawing a box within a plot. Click on a legend item to show or hide those points.</span>")
-```
-
-```{r physical-plot-html}
-#| eval: !expr out_type == "html"
-#| fig-height: 6
-make_plotly(groups$physical)
-```
-
-\newpage
-
-```{r biological-header}
-#| results: asis
-cat("### <span style='color:#335c67'>Biological Measurements</span> ![](images/biological.png){height='50px'}")
-```
-
-```{r}
-# do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-make_ft(table = tables$biological, header = headers$biological)
-```
-
-```{r biological-plot-static}
-#| eval: !expr out_type == "docx"
-biological_plot <- make_strip_plot(
-  groups$biological,
-  output = "static"
-)
-
-save_plot(
-  biological_plot,
-  path = path
-)
-
-knitr::include_graphics(
-  paste0(path, "/biological_plot.png")
-)
-```
-
-```{r biological-plot-tips, ref.label=I("plot-tips")}
-```
-
-```{r biological-plot-html}
-#| eval: !expr out_type == "html"
-#| fig-height: 6
-make_plotly(groups$biological)
-```
-
-```{r chemical-header}
-#| results: asis
-cat("### <span style='color:#824d00'>Chemical Measurements</span> ![](images/chemical){height='50px'}")
-```
-
-```{r}
-# do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-make_ft(table = tables$chemical, header = headers$chemical) |>
-  # EDIT: adds border above merged unit cells.
-  # may need to adjust column index
-  unit_hline(c(5))
-```
-
-```{r chemical-plot-static}
-#| eval: !expr out_type == "docx"
-chemical_plot <- make_strip_plot(
-  groups$chemical,
-  output = "static"
-)
-
-save_plot(
-  chemical_plot,
-  path = path
-)
-
-knitr::include_graphics(
-  paste0(path, "/chemical_plot.png")
-)
-```
-
-```{r chemical-plot-tips, ref.label=I("plot-tips")}
-```
-
-```{r chemical-plot-html}
-#| eval: !expr out_type == "html"
-#| fig-height: 6
-make_plotly(groups$chemical)
-```
-
-```{r macro-header}
-#| results: asis
-cat("#### <span style='color:#824d00'>Plant Essential Macro Nutrients</span>")
-```
-
-```{r}
-# do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-make_ft(table = tables$macro, header = headers$macro) |>
-  # EDIT: adds border above merged unit cells.
-  # may need to adjust column index
-  unit_hline(c(3))
-```
-
-```{r macro-plot-static}
-#| eval: !expr out_type == "docx"
-macro_plot <- make_strip_plot(
-  groups$macro,
-  output = "static"
-)
-
-save_plot(macro_plot, path = path)
-
-knitr::include_graphics(
-  paste0(path, "/macro_plot.png")
-)
-```
-
-```{r macro-plot-tips, ref.label=I("plot-tips")}
-```
-
-```{r macro-plot-html}
-#| eval: !expr out_type == "html"
-#| fig-height: 6
-make_plotly(groups$macro)
-```
-
-```{r micro-header}
-#| results: asis
-cat("#### <span style='color:#824d00'>Plant Essential Micro Nutrients</span>")
-```
-
-```{r}
-# do not add chunk label due to bug https://github.com/quarto-dev/quarto-cli/issues/3603
-make_ft(table = tables$micro, header = headers$micro) |>
-  # EDIT: adds border above merged unit cells.
-  # may need to adjust column index
-  unit_hline(c(2))
-```
-
-```{r micro-plot-static}
-#| eval: !expr out_type == "docx"
-micro_plot <- make_strip_plot(
-  groups$micro,
-  output = "static"
-)
-
-save_plot(
-  micro_plot,
-  path = path
-)
-
-knitr::include_graphics(
-  paste0(path, "/micro_plot.png")
-)
-```
-
-```{r micro-plot-tips, ref.label=I("plot-tips")}
-```
-
-```{r micro-plot-html}
-#| eval: !expr out_type == "html"
-#| fig-height: 6
-make_plotly(groups$micro)
+cat(sections, sep = "\n")
 ```
 
 ```{r download-data-text}
@@ -342,7 +138,7 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
 #| eval: !expr out_type == "html"
 if (requireNamespace("downloadthis", quietly = TRUE)) {
   list(
-    results = producer_samples,
+    results = subset(data, producerId == pid),
     measurement_dictionary = dictionary[
       ,
       c(
@@ -354,15 +150,13 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
     ]
   ) |>
     downloadthis::download_this(
-      output_name = "soils_data",
+      output_name = glue::glue("{params$year}_soils_data"),
       output_extension = ".xlsx",
       button_label = "Download as Excel spreadsheet",
       button_type = "success"
     )
 }
 ```
-
-\newpage
 
 ## Looking Forward
 
@@ -371,17 +165,3 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
 ## Acknowledgement
 
 {{< include _07_acknowledgement.qmd >}}
-
-```{js open-link-in-new-tab}
-
-// https://yihui.org/en/2018/09/target-blank/
-
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.leng; i) {
-    if (/^(https?:)?\/\//.st(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-```

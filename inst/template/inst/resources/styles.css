@@ -76,17 +76,8 @@ div.callout-tip.callout-style-default>.callout-header {
 }
 
 .btn-success {
+    margin-top: 1em;
     color: white;
     background-color: var(--primary-color);
     border-color: var(--primary-color);
-}
-
-.js-plotly-plot .plotly .modebar-btn {
-    position: relative;
-    font-size: 25px;
-    padding: 3px 4px;
-    height: 22px;
-    cursor: pointer;
-    line-height: normal;
-    box-sizing: border-box;
 }

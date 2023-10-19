@@ -4,72 +4,20 @@
 \alias{make_texture_triangle}
 \title{Make a texture triangle}
 \usage{
-make_texture_triangle(
-  df,
-  primary_color = washi::washi_pal[["standard"]][["red"]],
-  secondary_color = washi::washi_pal[["standard"]][["gray"]],
-  other_color = washi::washi_pal[["standard"]][["tan"]],
-  font_family = "Poppins"
-)
+make_texture_triangle(body_font = "Poppins")
 }
 \arguments{
-\item{df}{Data frame containing columns: \code{Sand}, \code{Clay}, \code{Silt}, \code{category}}
-
-\item{primary_color}{Color of producer's sample points Defaults to WaSHI
-green.}
-
-\item{secondary_color}{Color of sample points with \code{"Same crop"} or \code{"Same county"} values in the \code{category} column. Defaults to WaSHI gray.}
-
-\item{other_color}{Color of sample points with \code{"Other fields"} value in
-\code{category} column. Defaults to WaSHI tan.}
-
-\item{font_family}{Font family to use throughout plot. Defaults to
+\item{body_font}{Font family to use throughout plot. Defaults to
 \code{"Poppins"}.}
 }
 \value{
-\code{ggplot2} texture triangle.
+Blank \code{ggplot2} texture triangle with USDA textural classes.
 }
 \description{
-\href{https://github.com/WA-Department-of-Agriculture/soils/blob/main/R/data_wrangling.R}{\code{data_wrangling.R}} wrangles the data into the specific structure shown in the below example. Currently, many variables and values are hard-coded into this function. In future work, we hope to broaden this function's flexibility. See the below example for what the input data structure must look like.
+Make a texture triangle
 }
 \examples{
-# Install and register Poppins font in R with the `{extrafont}` package.
-library(extrafont)
-
-# Read in wrangled texture data
-# See `data_wrangling.R` for processing steps
-path <- soils_example("dfTexture.csv")
-df <- read.csv(path)
-
-# Glimpse at data structure
-dplyr::slice_sample(
-  df,
-  n = 1,
-  by = category
-) |>
-  dplyr::glimpse()
-
-# Make sure class of `category` is `ordered factor` with `Your fields` at the
-# end so it is plotted on top of the other points
-df$category <- factor(
-  df$category,
-  levels = c(
-    "Other fields",
-    "Same county",
-    "Same crop",
-    "Your fields"
-  ),
-  ordered = TRUE
-)
-
-class(df$category)
-
-levels(df$category)
-
-# Make the plot
-make_texture_triangle(
-  df,
-  font_family = "sans"
-)
+# Blank texture triangle with just USDA classes
+make_texture_triangle(body_font = "sans")
 
 }

@@ -37,10 +37,13 @@ headers$chemical
 tables$chemical
 
 # Make the flextable
-# See `unit_hline()` example for adding a bottom border for merged headers
 make_ft(
   table = tables$chemical,
   header = headers$chemical
-)
+) |>
+# Style the flextable
+style_ft() |>
+# Add the white line under the columns with the same units
+unit_hline(header = headers$chemical)
 
 }

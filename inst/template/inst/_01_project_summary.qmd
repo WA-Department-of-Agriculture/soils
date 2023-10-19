@@ -8,6 +8,12 @@ EXAMPLE: Thank you for being a participant in our [State of the Soils Assessment
 
 The goals of our project are to:
 
+<!-- Image wrapped around text for HTML -->
+
+::: {.content-visible when-format="html"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/sampling_scene.png){height="3in" style="float:right" fig-alt="Photo of two men collecting soil samples in rangeland."}
+:::
+
 **1)** Assess baseline soil health in Washington;
 
 **2)** Understand how climate, crop type, and management impact soil health;
@@ -18,8 +24,8 @@ The goals of our project are to:
 
 To date, the Washington State Department of Agriculture (WSDA), Washington State University (WSU), conservation districts, and agricultural professionals across Washington have sampled from nearly **900** fields planted in more than **60** crop types or land uses. We are excited to share with you some preliminary results with data from your fields.
 
-\[INSERT IMAGE OF YOUR TEAM OR A SCENE FROM YOUR SAMPLING PROJECT\]
+<!-- Image below around text for docx -->
 
-EXAMPLE:
-
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/sampling_scene.png){width="4in"}
+::: {.content-visible unless-format="html"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/sampling_scene.png){height="2in" fig-alt="Photo of two men collecting soil samples in rangeland."}
+:::

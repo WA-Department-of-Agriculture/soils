@@ -2,90 +2,79 @@
 % Please edit documentation in R/plots.R
 \name{make_strip_plot}
 \alias{make_strip_plot}
-\title{Make facetted strip plot}
+\title{Make a facetted strip plot}
 \usage{
 make_strip_plot(
   df,
-  output,
-  panel_spacing_x = 6,
-  panel_spacing_y = 30,
-  font_family = "Poppins",
-  primary_color = washi::washi_pal[["standard"]][["red"]],
-  secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-  other_color = washi::washi_pal[["standard"]][["tan"]],
-  primary_accent_color = washi::washi_pal[["standard"]][["blue"]]
+  ...,
+  x = dummy,
+  y = value,
+  id = sampleId,
+  group = abbr_unit,
+  tooltip = label
 )
 }
 \arguments{
-\item{df}{Dataframe containing columns: \code{category}, \code{abbr_unit}, \code{unit},
-\code{dummy}, and \code{sampleLabel}.}
+\item{df}{Data frame to plot.}
 
-\item{output}{Type of ouput: either \code{"static"} or \code{"html"}}
+\item{...}{Other arguments to pass into \code{ggplot2::aes()}.}
 
-\item{panel_spacing_x, panel_spacing_y}{Spacing between facet panels in units
-\code{line} when \code{output = "html"}. Defaults to \code{6} for \code{x} and \code{30} for \code{y} for
-rendering in producer reports. These default values seem to look the best
-with the dimensions of the plot outputs in the reports. This argument is
-used to deal with \code{plotly} issues. See \code{make_plotly()} for examples.}
+\item{x}{Column for x-axis. For these strip plots, we recommend using a dummy
+variable to act as a placeholder. Defaults to a column named \code{dummy} with
+only one value ("dummy") for all rows.}
 
-\item{font_family}{Font family to use throughout plot. Defaults to
-\code{"Poppins"}.}
+\item{y}{Column for y-axis. Defaults to \code{value}.}
 
-\item{primary_color}{Color of producer's sample points Defaults to WaSHI
-green.}
+\item{id}{Column with unique identifiers for each sample to use as \code{data_id}
+for interactive plots. Defaults to \code{sampleId}.}
 
-\item{secondary_color}{Color of sample points with \code{"Same crop"} or \code{"Same county"} values in the \code{category} column. Defaults to WaSHI gray.}
+\item{group}{Column to facet by. Defaults to \code{abbr_unit}.}
 
-\item{other_color}{Color of sample points with \code{"Other fields"} value in
-\code{category} column. Defaults to WaSHI tan.}
-
-\item{primary_accent_color}{Color of facet strip background. Defaults to
-WaSHI blue.}
+\item{tooltip}{Column with tooltip labels for interactive plots.}
 }
 \value{
-Facetted \code{ggplot2.} strip plot
+Facetted \code{ggplot2} strip plots.
 }
 \description{
-\href{https://github.com/WA-Department-of-Agriculture/soils/blob/main/R/data_wrangling.R}{\code{data_wrangling.R}} wrangles the data into the specific structure shown in the below example. Currently, many variables and values are hard-coded into this function. In future work, we hope to broaden this function's flexibility. See the below example for what the input data structure must look like.
+Make a facetted strip plot
 }
 \examples{
-# Read in wrangled plot data
+# Read in wrangled example plot data
 # See `data_wrangling.R` for processing steps
-path <- soils_example("dfPlot.csv")
-df <- read.csv(
-  path,
-  encoding = "UTF-8"
-)
+df_plot_path <- soils_example("df_plot.RDS")
+df_plot <- readRDS(df_plot_path)
 
-# The data structure necessary to render the df triangle
-dplyr::slice_sample(
-  df,
-  n = 1,
-  by = category
-) |>
-  dplyr::glimpse()
+# Subset df to just biological measurement group
+df_plot_bio <- df_plot |>
+  subset(measurement_group == "biological")
 
-# Make sure class of `category` is `ordered factor` with `Your fields` at the
-# end so it is plotted on top of the other points
-df$category <- factor(
-  df$category,
-  levels = c(
-    "Other fields",
-    "Same county",
-    "Same crop",
-    "Your fields"
-  ),
-  ordered = TRUE
-)
+# Make strip plot with all measurements and set scales based on
+# the category column and then apply theme.
 
-class(df$category)
+# NOTE: the plot gets piped into the `set_scales()` function, which gets
+# added to `theme_facet_strip()`.
 
-levels(df$category)
-
-# Make the plot
 make_strip_plot(
-  df,
-  output = "static",
-  font_family = "sans"
-)
+  df_plot_bio,
+  x = dummy,
+  y = value,
+  id = sampleId,
+  group = abbr_unit,
+  tooltip = label,
+  color = category,
+  size = category,
+  alpha = category,
+  shape = category
+) |>
+  set_scales() +
+  theme_facet_strip(body_font = "sans")
+
+# Example of strip plot without scales or theme functions
+make_strip_plot(df_plot_bio)
+
+# Example of strip plot with `x` set to the facet group instead of a
+# dummy variable.
+make_strip_plot(df_plot_bio, x = abbr_unit) |>
+  set_scales() +
+  theme_facet_strip(body_font = "sans")
 }

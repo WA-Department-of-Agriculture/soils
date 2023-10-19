@@ -1,10 +1,35 @@
+#' Prep data to gis df
+#'
+#' @param df Dataframe containing columns: `longitude`, `latitude`, and two
+#'   columns with values you want to appear in the map label and popup.
+#' @param label_heading Column in `df` that you want to appear as the bold point
+#'   label on your map, as well as the first line of the popup when the user
+#'   clicks a point.
+#' @param label_body Column in `df` that you want to appear as body text below
+#'   the `label_heading` in the popup.
+#' @returns Dataframe to be input into `make_leaflet()`.
+#' @export
+#'
+#' @examples
+#' exampleData |>
+#'   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
+#'   head(3) |>
+#'   prep_for_map(label_heading = fieldName, label_body = crop)
+prep_for_map <- function(df, label_heading, label_body) {
+  df |>
+    subset(!duplicated(sampleId)) |>
+    dplyr::arrange(fieldId) |>
+    dplyr::mutate(
+      dplyr::across(dplyr::where(is.numeric), \(x) round(x, 4)),
+      label = paste0("<strong>", {{ label_heading }}, "</strong>"),
+      popup = paste0(label, "<br>", {{ label_body }})
+    )
+}
+
 #' Make leaflet map
 #'
-#' ```{r child = "man/rmd/wrangle.Rmd"}
-#' ````
-#'
-#' @param df Dataframe containing columns: `Field ID`, `Field Name`, `Crop`,
-#'   `Latitude`, `Longitdude`.
+#' @param df Dataframe containing columns: `longitude`, `latitude`, `label`,
+#'   `popup`. See `prep_for_leaflet()` for details.
 #' @param primary_color Color of points. Defaults to WaSHI red.
 #'
 #' @source JavaScript code adapted from
@@ -15,32 +40,15 @@
 #' @export
 #'
 #' @examples
-#' # Just for this example: remove duplicate coordinates
-#' df <- exampleData |>
-#'   dplyr::distinct(latitude, longitude, .keep_all = TRUE)
+#' gis_df <- exampleData |>
+#'   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
+#'   head(3) |>
+#'   prep_for_map(label_heading = fieldName, label_body = crop)
 #'
-#' # Set up df for leaflet
-#' df <- df |>
-#'   subset(!duplicated(sampleId)) |>
-#'   dplyr::arrange(fieldId) |>
-#'   dplyr::select(c(
-#'     "Sample ID" = sampleId,
-#'     "Field ID" = fieldId,
-#'     "Field Name" = fieldName,
-#'     "Crop" = crop,
-#'     "Longitude" = longitude,
-#'     "Latitude" = latitude
-#'   )) |>
-#'   dplyr::mutate(`Field ID` = as.character(`Field ID`))
-#'
-#' # Glimpse data structure
-#' dplyr::glimpse(df)
+#' dplyr::glimpse(gis_df)
 #'
 #' # Make leaflet
-#'
-#' # Remember this is a dummy dataset with truncated coordinates, so many
-#' # points overlap and some may be displayed in water bodies
-#' make_leaflet(df)
+#' make_leaflet(gis_df)
 make_leaflet <- function(
   df,
   primary_color = washi::washi_pal[["standard"]][["red"]]
@@ -57,23 +65,15 @@ make_leaflet <- function(
       group = "Topographic"
     ) |>
     leaflet::addCircleMarkers(
-      ~Longitude,
-      ~Latitude,
-      label = ~ lapply(paste(`Field ID`), htmltools::HTML),
+      ~longitude,
+      ~latitude,
+      label = ~ purrr::map(label, \(x) htmltools::HTML(x)),
       labelOptions = leaflet::labelOptions(
         noHide = TRUE,
         style = list("font-size" = "15px"),
         direction = "auto"
       ),
-      popup = ~ lapply(
-        paste(
-          `Field ID`,
-          `Field Name`,
-          Crop,
-          sep = "<br>"
-        ),
-        htmltools::HTML
-      ),
+      popup = ~ purrr::map(popup, \(x) htmltools::HTML(x)),
       popupOptions = leaflet::popupOptions(closeOnClick = TRUE),
       options = leaflet::markerOptions(riseOnHover = TRUE),
       radius = 10,

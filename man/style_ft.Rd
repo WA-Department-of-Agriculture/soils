@@ -9,7 +9,8 @@ style_ft(
   header_font = "Lato",
   body_font = "Poppins",
   header_color = washi::washi_pal[["standard"]][["green"]],
-  border_color = washi::washi_pal[["standard"]][["tan"]]
+  header_text_color = "white",
+  border_color = washi::washi_pal[["standard"]][["gray"]]
 )
 }
 \arguments{
@@ -22,10 +23,9 @@ style_ft(
 \item{header_color}{Background color of header cells. Defaults to WaSHI
 green.}
 
-\item{border_color}{Color of border lines. Defaults to WaSHI tan. Uses
-\code{{colorspace}} to programatically darken the given color since the default
-border color is the same as the darker background color in
-\code{format_ft_colors()}.}
+\item{header_text_color}{Color of header text. Defaults to white.}
+
+\item{border_color}{Color of border lines. Defaults to WaSHI gray.}
 }
 \value{
 Styled flextable object.

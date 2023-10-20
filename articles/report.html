@@ -637,7 +637,7 @@ described in the function <a href="https://wa-department-of-agriculture.github.i
 <h2 id="render-your-reports">3) Render Your Reports<a class="anchor" aria-label="anchor" href="#render-your-reports"></a>
 </h2>
 <p>You can render reports with the RStudio IDE or programmatically with
-the <code><a href="../reference/render_report.html">render_report()</a></code> function.</p>
+the <code>render_report()</code> function.</p>
 <div class="section level3">
 <h3 id="using-the-rstudio-ide">Using the RStudio IDE<a class="anchor" aria-label="anchor" href="#using-the-rstudio-ide"></a>
 </h3>
@@ -665,7 +665,7 @@ and MS Word with Render on Save option checked</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Render html to the `/inst/reports/` directory</span></span>
-<span><span class="fu"><a href="../reference/render_report.html">render_report</a></span><span class="op">(</span></span>
+<span><span class="fu">render_report</span><span class="op">(</span></span>
 <span>  <span class="va">first_producer</span><span class="op">$</span><span class="va">producerId</span>,</span>
 <span>  year <span class="op">=</span> <span class="fl">2023</span>,</span>
 <span>  input <span class="op">=</span> <span class="st">"producer_report.qmd"</span>,</span>
@@ -676,7 +676,7 @@ and MS Word with Render on Save option checked</p>
 specify the output directory where you want the reports to be
 stored.</p>
 <p>When you’re ready to render reports for all producers in your
-project, use the <code><a href="../reference/render_report.html">render_report()</a></code> function with
+project, use the <code>render_report()</code> function with
 <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk()</a></code>.</p>
 <p>To iterate through each producer ID and year to render all reports at
 once:</p>
@@ -689,7 +689,7 @@ once:</p>
 <span><span class="co"># Render docx for these 2023 producers to the `/inst/reports/` directory</span></span>
 <span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
 <span>  <span class="va">producers</span><span class="op">$</span><span class="va">producerId</span>,</span>
-<span>  \<span class="op">(</span><span class="va">producerId</span><span class="op">)</span> <span class="fu"><a href="../reference/render_report.html">render_report</a></span><span class="op">(</span></span>
+<span>  \<span class="op">(</span><span class="va">producerId</span><span class="op">)</span> <span class="fu">render_report</span><span class="op">(</span></span>
 <span>    <span class="va">producerId</span>,</span>
 <span>    year <span class="op">=</span> <span class="fl">2023</span>,</span>
 <span>    input <span class="op">=</span> <span class="st">"producer_report.qmd"</span>,</span>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{convert_ggiraph}
 \alias{convert_ggiraph}
-\title{Convert a \code{ggplot2} plot to an interactive \code{ggiraph}.}
+\title{Convert a \code{ggplot2} plot to an interactive \code{ggiraph}}
 \usage{
 convert_ggiraph(plot, ..., body_font = "Poppins", width = 6, height = 4)
 }
@@ -23,11 +23,10 @@ contain \verb{ggiraph::geom_<plot_type>_interactive()}.}
 Facetted strip plots with classes of \code{girafe} and \code{htmlwidget}.
 }
 \description{
-Convert a \code{ggplot2} plot to an interactive \code{ggiraph}.
+Convert a \code{ggplot2} plot to an interactive \code{ggiraph}
 }
 \examples{
 # Read in wrangled example plot data
-# See `data_wrangling.R` for processing steps
 df_plot_path <- soils_example("df_plot.RDS")
 df_plot <- readRDS(df_plot_path)
 

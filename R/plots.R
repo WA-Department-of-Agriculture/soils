@@ -160,7 +160,6 @@ add_texture_points <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' # See `data_wrangling.R` for processing steps
 #' df_plot_path <- soils_example("df_plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'
@@ -255,7 +254,6 @@ theme_facet_strip <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' # See `data_wrangling.R` for processing steps
 #' df_plot_path <- soils_example("df_plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 
@@ -340,7 +338,6 @@ set_scales <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' # See `data_wrangling.R` for processing steps
 #' df_plot_path <- soils_example("df_plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'
@@ -436,7 +433,7 @@ make_strip_plot <- function(
     ggplot2::theme_bw()
 }
 
-#' Convert a `ggplot2` plot to an interactive `ggiraph`.
+#' Convert a `ggplot2` plot to an interactive `ggiraph`
 #'
 #' @param plot `ggplot2` plot to convert to interactive `ggiraph`. `plot` must
 #'   contain `ggiraph::geom_<plot_type>_interactive()`.
@@ -450,7 +447,6 @@ make_strip_plot <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' # See `data_wrangling.R` for processing steps
 #' df_plot_path <- soils_example("df_plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'

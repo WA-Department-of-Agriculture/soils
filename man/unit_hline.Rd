@@ -25,7 +25,6 @@ border to make it more obvious those columns share units.
 }
 \examples{
 # Read in wrangled table data
-# See `data_wrangling.R` for processing steps
 headers_path <- soils_example("headers.RDS")
 headers <- readRDS(headers_path)
 

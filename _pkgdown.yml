@@ -65,8 +65,6 @@ reference:
   - unit_hline
   - format_ft_colors
   - style_ft
-- title: Render reports
-  contents: render_report
 - title: Helpers
   contents:
   - calculate_mode

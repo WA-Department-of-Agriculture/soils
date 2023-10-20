@@ -12,7 +12,6 @@
 #'
 #' @examples
 #' # Read in wrangled example table data
-#' # See `data_wrangling.R` for processing steps
 #' tables_path <- soils_example("tables.RDS")
 #' tables <- readRDS(tables_path)
 #'
@@ -81,7 +80,6 @@ format_ft_colors <- function(
 #'
 #' @examples
 #' # Read in wrangled example table data
-#' # See `data_wrangling.R` for processing steps
 #' tables_path <- soils_example("tables.RDS")
 #' tables <- readRDS(tables_path)
 #'
@@ -146,7 +144,6 @@ style_ft <- function(
 #'
 #' @examples
 #' # Read in wrangled table data
-#' # See `data_wrangling.R` for processing steps
 #' headers_path <- soils_example("headers.RDS")
 #' headers <- readRDS(headers_path)
 #'
@@ -201,7 +198,6 @@ unit_hline <- function(ft, header) {
 #'
 #' @examples
 #' # Read in wrangled table data
-#' # See `data_wrangling.R` for processing steps
 #' headers_path <- soils_example("headers.RDS")
 #' headers <- readRDS(headers_path)
 #'

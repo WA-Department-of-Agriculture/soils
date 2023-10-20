@@ -24,7 +24,6 @@ Make a flextable with column names from another dataframe
 }
 \examples{
 # Read in wrangled table data
-# See `data_wrangling.R` for processing steps
 headers_path <- soils_example("headers.RDS")
 headers <- readRDS(headers_path)
 

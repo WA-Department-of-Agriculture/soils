@@ -35,7 +35,6 @@ Style a flextable
 }
 \examples{
 # Read in wrangled example table data
-# See `data_wrangling.R` for processing steps
 tables_path <- soils_example("tables.RDS")
 tables <- readRDS(tables_path)
 

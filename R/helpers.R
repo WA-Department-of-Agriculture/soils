@@ -35,7 +35,8 @@ pull_unique <- function(df, target) {
     unique()
 }
 
-# These functions are used in data_wrangling.R ------------------------------
+# These functions are used to wrangle data for the table and plot functions in
+# producer_report.qmd ---------------------------------------------------------
 
 #' Calculate n samples and most frequent texture by a grouping variable
 #'
@@ -45,6 +46,8 @@ pull_unique <- function(df, target) {
 #'   `texture`.
 #' @param producer_info Vector of producer's values for the grouping variable.
 #' @param var Variable to group and summarize by.
+#'
+#' @export
 get_n_texture_by_var <- function(results_long, producer_info, var) {
   results_long |>
     dplyr::filter({{ var }} %in% producer_info) |>
@@ -62,6 +65,8 @@ get_n_texture_by_var <- function(results_long, producer_info, var) {
 #' @param producer_samples Dataframe in tidy, long format with columns:
 #'   `measurement_group`, `abbr`, `value`.
 #' @param var Variable to summarize by.
+#'
+#' @export
 summarize_by_var <- function(results_long, producer_samples, var) {
   producer_info <- producer_samples |>
     pull_unique({{ var }})
@@ -86,6 +91,8 @@ summarize_by_var <- function(results_long, producer_samples, var) {
 #'
 #' @param results_long Dataframe in tidy, long format with columns: `sampleId`,
 #'   `texture`, `measurement_group`, `abbr`, `value`.
+#'
+#' @export
 summarize_by_project <- function(results_long) {
   n <- dplyr::n_distinct(results_long$sampleId)
 
@@ -110,6 +117,8 @@ summarize_by_project <- function(results_long) {
 #' @param dictionary Dataframe containing columns `measurement_group`, `abbr`,
 #'   `unit`.
 #' @param group Character `measurement_group` value.
+#'
+#' @export
 get_table_headers <- function(dictionary, group) {
   dictionary |>
     subset(measurement_group == group) |>

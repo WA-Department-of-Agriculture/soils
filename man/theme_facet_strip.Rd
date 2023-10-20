@@ -26,7 +26,6 @@ Theme for facetted strip plots
 }
 \examples{
 # Read in wrangled example plot data
-# See `data_wrangling.R` for processing steps
 df_plot_path <- soils_example("df_plot.RDS")
 df_plot <- readRDS(df_plot_path)
 

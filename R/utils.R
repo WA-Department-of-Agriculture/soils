@@ -12,9 +12,9 @@
 #' soils_example("dfPlot.csv")
 soils_example <- function(file = NULL) {
   if (is.null(file)) {
-    dir(soils_sys("template/inst/extdata"))
+    dir(soils_sys("template/extdata"))
   } else {
-    soils_sys(paste0("template/inst/extdata/", file))
+    soils_sys(paste0("template/extdata/", file))
   }
 }
 

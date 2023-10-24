@@ -3,6 +3,10 @@
     --bs-link-hover-color: #36616D
 }
 
+.page-header {
+  border: 0px;
+}
+
 .caption {
   font-style: italic;
 }

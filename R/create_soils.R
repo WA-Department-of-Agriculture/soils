@@ -1,8 +1,7 @@
 #' Create a project directory for generating soil health reports
 #'
 #' Creates an RStudio project containing Quarto template and resources (images,
-#' style sheets, etc.) and R scripts with functions used in the Quarto template
-#' for your modification. See `vignettes("project", "soils")` for more details.
+#' style sheets, render.R script).
 #'
 #' @param path Name of project directory to be created.
 #' @param overwrite Boolean. Overwrite the existing project?
@@ -29,6 +28,13 @@ create_soils <- function(
   overwrite = FALSE,
   open = TRUE
     ) {
+  if (missing(path)) {
+    cli::cli_abort(c(
+      "!" = "`path` is missing.",
+      "i" = "Where do you want to create this project?"
+    ))
+  }
+
   path <- normalizePath(
     path,
     mustWork = FALSE
@@ -36,12 +42,11 @@ create_soils <- function(
 
   if (fs::dir_exists(path)) {
     if (!isTRUE(overwrite)) {
-      stop(
-        paste(
-          "Project directory already exists.\n",
-          "Set `create_soils(overwrite = TRUE)` to overwrite anyway."
-        ),
-        call. = FALSE
+      cli::cli_abort(
+        c(
+          "!" = "{path} already exists.",
+          "i" = "Set `create_soils(overwrite = TRUE)` to overwrite anyway."
+        )
       )
     } else {
       cat_red_bullet("Overwriting existing project.")

@@ -1,6 +1,6 @@
 ---
-title: "![](images/logo.png) Results from [INSERT PROJECT NAME]"
-subtitle: "[INSERT DATE]"
+title: "![](images/logo.png) Results from [EDIT: PROJECT NAME]"
+subtitle: "[EDIT: DATE]"
 execute:
   echo: false
   warning: false
@@ -75,7 +75,13 @@ dictionary <- read.csv(
 
 # EDIT: set order of measurement_groups
 # this specifies the order of the sections in the report
-measurement_groups <- c("physical", "biological", "chemical", "macro", "micro")
+measurement_groups <- c(
+  "physical",
+  "biological",
+  "chemical",
+  "macro",
+  "micro"
+)
 ```
 
 <!-- Set styling variables -->
@@ -99,7 +105,7 @@ lighter_color <- "#F2F0E6"
 # border color
 border_color <- "#3E3D3D"
 
-# Plot colors -----------------------------------------------------
+# Map and plot colors -----------------------------------------------------
 
 # point color for producer samples
 primary_color <- "#a60f2d"
@@ -410,9 +416,9 @@ plot_list <- df_plot |>
 
 ## `r ifelse(!is.na(producer$farmName), producer$farmName, paste("Farm:", params$producerId))`
 
-{{< include _01_project_summary.qmd >}}
+{{< include 03_project_summary.qmd >}}
 
-{{< include _02_soil_health_background.qmd >}}
+{{< include 04_soil_health_background.qmd >}}
 
 {{< pagebreak >}}
 
@@ -435,7 +441,10 @@ gis_df |>
 ```
 
 ```{r create-map}
-map <- soils::make_leaflet(gis_df)
+map <- soils::make_leaflet(
+  gis_df,
+  primary_color = primary_color
+)
 ```
 
 ```{r save-map}
@@ -471,13 +480,13 @@ if (fs::file_exists(glue::glue("{path}/map.png"))) {
 
 ## Project Results
 
-Below are tables and graphs describing the physical, biological, and chemical measurements from your soils. Each point represents a sample we collected. Take a look to see how your fields compare to others in the project. All samples were collected from \[INSERT SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
+Below are tables and graphs describing the physical, biological, and chemical measurements from your soils. Each point represents a sample we collected. Take a look to see how your fields compare to others in the project. All samples were collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
 
 ```{r create-measurement-group-sections}
 #| output: asis
 sections <- purrr::map_chr(measurement_groups, \(group) {
   knitr::knit_child(
-    input = "section_template.qmd",
+    input = "02_section_template.qmd",
     envir = environment(),
     quiet = TRUE
   )
@@ -520,8 +529,10 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
 
 ## Looking Forward
 
-{{< include _06_looking_forward.qmd >}}
+{{< include 08_looking_forward.qmd >}}
+
+<!-- Please do not remove the acknowledgement. -->
 
 ## Acknowledgement
 
-{{< include _07_acknowledgement.qmd >}}
+{{< include 09_acknowledgement.qmd >}}

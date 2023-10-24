@@ -30,4 +30,4 @@ format: html
 
 ***Water Holding Capacity*** (WHC) is the amount of water a soil can hold. WHC describes how the soil will store and supply water during high rainfall events and times of drought. WHC varies by soil texture and bulk density, and can be greatly impacted by management. Generally, soils with finer textures, high organic matter, and low bulk density have higher WHC.
 
-\[INSERT A DESCRIPTION OF ANY OTHER PHYSICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]
+\[EDIT: ADD A DESCRIPTION OF ANY OTHER PHYSICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]

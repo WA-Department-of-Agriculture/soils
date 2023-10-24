@@ -62,20 +62,20 @@ To learn more about management practices that support healthy soil, check out th
 
 ::: {.content-visible when-format="html"}
 ::: panel-tabset
-{{< include _03_physical_measurements.qmd >}}
+{{< include 05_physical_measurements.qmd >}}
 
-{{< include _04_biological_measurements.qmd >}}
+{{< include 06_biological_measurements.qmd >}}
 
-{{< include _05_chemical_measurements.qmd >}}
+{{< include 07_chemical_measurements.qmd >}}
 :::
 :::
 
 ::: {.content-visible unless-format="html"}
-{{< include _03_physical_measurements.qmd >}}
+{{< include 05_physical_measurements.qmd >}}
 
-{{< include _04_biological_measurements.qmd >}}
+{{< include 06_biological_measurements.qmd >}}
 
-{{< include _05_chemical_measurements.qmd >}}
+{{< include 07_chemical_measurements.qmd >}}
 :::
 
 ## Soil Health Indicators

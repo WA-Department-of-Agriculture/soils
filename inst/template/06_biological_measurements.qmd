@@ -26,4 +26,4 @@ format: html
 
 ***ACE Soil Protein*** is the fraction of SOM comprised of proteins from soil microorganisms. Proteins contain nitrogen that can be mineralized for plant uptake, and are therefore an important contributor to crop growth. ACE stands for autoclaved citrate-extractable, which is the laboratory method for extracting the proteins. ACE soil protein is related to aggregate stability as it partly measures proteins that are physically sticky and hold soil particles together. ACE is also sensitive to management changes, so can be a valuable indicator for evaluating relatively short-term changes in soil health.
 
-\[INSERT A DESCRIPTION OF ANY OTHER BIOLOGICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]
+\[EDIT: ADD A DESCRIPTION OF ANY OTHER BIOLOGICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]

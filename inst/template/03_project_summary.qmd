@@ -2,17 +2,17 @@
 format: html
 ---
 
-\[INSERT DESCRIPTION OF YOUR PROJECT\] *Thank the participating farmer. Consider including information related to how many samples you've taken, in how many crops and regions. Consider identifying members of the project team and acknowledging support from your funders and collaborators. Emphasize the objectives of the project, and include links for more information.*
+\[EDIT: DESCRIPTION OF YOUR PROJECT\] *Thank the participating farmer. Consider including information related to how many samples you've taken, in how many crops and regions. Consider identifying members of the project team and acknowledging support from your funders and collaborators. Emphasize the objectives of the project, and include links for more information. See the example below.*
 
-EXAMPLE: Thank you for being a participant in our [State of the Soils Assessment](https://washingtonsoilhealthinitiative.com/state-of-the-soils/ "State of the Soils Assessment Webpage"). This work would not be possible without your collaboration and input.
+::: {.content-visible when-format="html"}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/sampling_scene.png){height="2in" style="float:right" fig-alt="Photo of two men collecting soil samples in rangeland."}
+:::
+
+Thank you for being a participant in our [State of the Soils Assessment](https://washingtonsoilhealthinitiative.com/state-of-the-soils/ "State of the Soils Assessment Webpage"). This work would not be possible without your collaboration and input.
 
 The goals of our project are to:
 
 <!-- Image wrapped around text for HTML -->
-
-::: {.content-visible when-format="html"}
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/sampling_scene.png){height="3in" style="float:right" fig-alt="Photo of two men collecting soil samples in rangeland."}
-:::
 
 **1)** Assess baseline soil health in Washington;
 

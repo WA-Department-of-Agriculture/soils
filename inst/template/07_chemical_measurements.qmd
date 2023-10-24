@@ -28,4 +28,4 @@ format: html
 
 ***Inorganic Carbon***, frequently called carbonates, is present in some soils, mostly in arid environments. Carbonates can be an important source of nutrients and carbon storage in soils, but in excess can lead to challenges with salinity and poor infiltration. While some strategies can be employed to increase or decrease carbonates in soil, they are generally considered less sensitive to management than organic C. As such, most discussions of agricultural management focus only on organic C.
 
-\[INSERT A DESCRIPTION OF ANY OTHER CHEMICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]
+\[EDIT: ADD A DESCRIPTION OF ANY OTHER CHEMICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]

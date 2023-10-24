@@ -1,4 +1,4 @@
-Title: Soil Health Quarto Report
+Title: Quarto Soil Health Report
 Binding: create_soils_gui
-OpenFiles: inst/producer_report.qmd
+OpenFiles: 01_producer_report.qmd, R/render_reports.R
 Icon: logo.png

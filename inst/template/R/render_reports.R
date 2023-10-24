@@ -35,18 +35,19 @@ reports_docx <- reports_html |>
 ## Bind HTML and docx report dfs together
 reports <- rbind(reports_html, reports_docx)
 
-# Render all reports to the `/inst/reports/` directory
+# Render all reports to the project directory -----------------------
 reports_html |>
   purrr::pwalk(
     quarto::quarto_render,
-    input = "producer_report.qmd"
+    input = "01_producer_report.qmd",
+    .progress = TRUE
   )
 
 # Move rendered reports to a different directory ----------------------------
 
 # EDIT: set out_dir to where you want the reports moved to
 
-out_dir <- here::here("/reports")
+output_dir <- paste0(here::here(), "/reports")
 
 # List files with names that end in _Report and have docx or html extensions.
 files <- list.files(

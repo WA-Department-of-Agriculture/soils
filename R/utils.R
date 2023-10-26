@@ -4,17 +4,23 @@
 #' directory. This function make them easy to access.
 #'
 #' @param file Name of file. If `NULL`, the example files will be listed.
-#' @export
 #' @source Adapted from `readxl::readxl_example()`.
+#'
+#' @export
+#'
 #' @examples
 #' soils_example()
 #'
-#' soils_example("dfPlot.csv")
+#' soils_example("df_plot.RDS")
 soils_example <- function(file = NULL) {
   if (is.null(file)) {
-    dir(soils_sys("template/extdata"))
+    dir(system.file("extdata", package = "soils"))
   } else {
-    soils_sys(paste0("template/extdata/", file))
+    system.file(
+      "extdata", file,
+      package = "soils",
+      mustWork = TRUE
+    )
   }
 }
 

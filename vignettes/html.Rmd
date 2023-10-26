@@ -13,6 +13,6 @@ These reports can be distributed with cloud storage (Google Drive, Box.com, Drop
 
 See this report full screen in a [new tab](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/producer_report.html "See the .html report in full screen."){target="_blank"}.
 
-```{r echo=FALSE, out.width="150%"}
-knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/producer_report.html", height = "700px")
+```{r echo=FALSE, out.width="100%"}
+knitr::include_url("https://raw.githack.com/WA-Department-of-Agriculture/soils/main/inst/example_reports/producer_report.html", height = "500px")
 ```

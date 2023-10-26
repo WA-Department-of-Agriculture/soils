@@ -27,5 +27,6 @@ Prep data to gis df
 exampleData |>
   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
   head(3) |>
-  prep_for_map(label_heading = fieldName, label_body = crop)
+  prep_for_map(label_heading = fieldName, label_body = crop) |>
+  dplyr::glimpse()
 }

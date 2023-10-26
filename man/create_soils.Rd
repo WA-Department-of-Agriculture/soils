@@ -21,8 +21,7 @@ A new project directory containing template and resources.
 }
 \description{
 Creates an RStudio project containing Quarto template and resources (images,
-style sheets, etc.) and R scripts with functions used in the Quarto template
-for your modification. See \code{vignettes("project", "soils")} for more details.
+style sheets, render.R script).
 }
 \examples{
 \dontrun{

@@ -8,17 +8,3 @@ knitr::opts_chunk$set(
 ```
 
 The Soil Health Report Template used to generate this report was developed by Washington State Department of Agriculture and Washington State University (WSU) as part of the Washington Soil Health Initiative. Text and figures were adapted from [WSU Extension publication #FS378E Soil Health in Washington Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards "WSU Extension publication").
-
-```{r, results='asis'}
-citation <- citation("soils")
-
-header <- format(citation, style = "citation")[[1]]
-text <- format(citation, style = "textVersion")
-bibtex <- format(citation, style = "bibTex")
-
-cat(header)
-```
-
-```{r, results='asis'}
-cat(">", text)
-```

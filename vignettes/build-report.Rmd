@@ -1,0 +1,283 @@
+---
+title: "Build a Report"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Build a Report}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+resource-files:
+  - "../man/figures/agg.png"
+  - "../man/figures/utf-8.png"
+  - "../man/figures/render.png"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(soils)
+```
+
+## Quarto and Markdown Basics
+
+If you're new to Quarto or markdown, first check out these [tutorials](https://quarto.org/docs/get-started/hello/rstudio.html) and [markdown basics guide](https://quarto.org/docs/authoring/markdown-basics.html).
+
+## File Paths
+
+File paths can be tricky, especially when working in files that use or source other files in different folders. We use `here::here()` to build the file path relative to the directory where the `.Rproj` file is located. We **strongly** recommend using the [{here}](https://here.r-lib.org/) package to avoid file path issues.
+
+# Workflow
+
+Sections you will need to change are marked with the text `EDIT:`. Follow along with these edits below. Or, you can search all files in a RStudio project with `Ctrl + Shift + F` to find all the files that contain `EDIT:`.
+
+## 1) Import Data
+
+{soils} includes an example data set and data dictionary to use as templates. These files are automatically loaded when you call `library(soils)`, and also are found in the `data` folder. They allow you to try out the visualization functions and report rendering immediately after installing {soils} on your machine.
+
+### Example Data
+
+Glimpse at the example data structure:
+
+<details open>
+
+<summary>Example Data</summary>
+
+```{r}
+library(soils)
+dplyr::glimpse(exampleData)
+```
+
+</details>
+
+All column names in your data, besides measurements, must be exactly the same as above.
+
+Each measurement must be in its own column and have the format of `measurement_unit` (i.e. `Ca_mg.kg`). These measurement column names must match the `column_name` in your data dictionary.
+
+### Data Dictionary
+
+The data dictionary is used to group and order the measurements. It is also used to make nicely formatted labels for display in tables and plots. The example data dictionary contains `UTF-8` encoded superscripts and subscripts.
+
+Save your data dictionary to the `data` folder as `CSV UTF-8 (Comma delimited) (*.csv)` in MS Excel:
+
+![](../man/figures/utf-8.png){fig-alt="Data dictionary is saved as CSV UTF-8 (Comma delimited) (*.csv) in MS Excel."}
+
+Your data dictionary must have the exact same column names as the example:
+
+<details open>
+
+<summary>Example Data Dictionary</summary>
+
+```{r}
+dplyr::glimpse(dataDictionary)
+```
+
+</details>
+
+-   `measurement_group` determines how the measurements are grouped.
+-   `order` column specifies the order in which the measurements appear in each measurement group's tables and plots.
+-   `column_name` is the join key for joining with your project data.
+-   `abbr` and `unit` are how the measurements are represented in `flextable` tables.
+-   `abbr_unit` is formatted with HTML line breaks for `ggplot2` plots.
+
+### Your Data
+
+Once your project data and data dictionary files match the structure of the above examples, place them in the `data` folder. Then make the following changes in the `load-data` chunk in `01_producer_report.qmd`:
+
+-   Change `exampleData.csv` to the name of your data file.
+-   Change `dataDictionary.csv` to the name of your data dictionary.
+-   Set the order of the `measurement_groups` to how you would like them to appear in the report. These group names must match your data dictionary.
+
+```{r load-data, eval=FALSE}
+# EDIT: You will need to add your own cleaned lab data to the data
+# folder, using 'exampleData.csv' as a template.
+#
+# 'dataDictionary.csv' must also be updated to match your own
+# data set.
+
+# Load lab results
+data <- read.csv(
+  paste0(here::here(), "/data/exampleData.csv"),
+  check.names = FALSE,
+  encoding = "UTF-8"
+)
+
+# Load data dictionary
+dictionary <- read.csv(
+  paste0(here::here(), "/data/dataDictionary.csv"),
+  check.names = FALSE,
+  # set encoding for using subscripts and superscripts
+  encoding = "UTF-8"
+)
+
+# EDIT: set order of measurement_groups
+# this specifies the order of the sections in the report
+measurement_groups <- c(
+  "physical",
+  "biological",
+  "chemical",
+  "macro",
+  "micro"
+)
+```
+
+## 2) Customize and Write
+
+{soils} was developed to work 'out of the box' so you can immediately install and render an example report. However, this means it will require customization and content editing to fit your project.
+
+### Report Metadata and Options
+
+The report metadata and options are controlled with the YAML and setup chunk in `01_producer_report.qmd`.
+
+The first place to start is the YAML (Yet Another Markup Language). The YAML header is the content sandwiched between three dashes (`---`) at the top of the file. It contains document metadata, parameters, and customization options.
+
+The only fields you need to edit are:
+
+-   `title`: The title of the report. Optionally include your logo above.
+-   `subtitle`: Subtitle appears below the title.
+-   `producerId` and `year`: Default parameter values that can be found in your data.
+
+```         
+---
+title: "![](images/logo.png) Results from the State of the Soils"
+subtitle: "Fall 2023"
+params:
+  producerId: WUY05
+  year: 2023
+---
+```
+
+Ignore the other YAML fields and values until you would like to explore other ways of customizing your reports. Learn about the available YAML fields for [HTML documents](https://quarto.org/docs/reference/formats/html.html) and [MS Word documents](https://quarto.org/docs/reference/formats/docx.html).
+
+### Logo and Images
+
+The logo that appears at the top of each report is found in the `images` subfolder and should be replaced with your organization's logo.
+
+Add or change the measurement group icons (i.e., `biological.png`). These icons appear in the section headers.
+
+### Report Content
+
+`01_producer_report.qmd` uses the Quarto [`{{< include >}}`](https://quarto.org/docs/authoring/includes.html) shortcode to embed static content within the main parameterized reports.
+
+Edit the content of the following Quarto files to fit your project and what measurements were taken:
+
+```         
+├── 03_project_summary.qmd
+├── 04_soil_health_background.qmd
+├── 05_physical_measurements.qmd
+├── 06_biological_measurements.qmd
+├── 07_chemical_measurements.qmd
+├── 08_looking_forward.qmd
+```
+
+Under the `Project Results` heading in `01_producer_report.qmd`, update the sample depth:
+
+> All samples were collected from [EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)].
+
+`01_producer_report.qmd` calls `02_secion_template.qmd` as a child document to generate a section for each `measurement_group` defined in the `dataDictionary.csv`. You shouldn't need to edit `02_secion_template.qmd` unless you want more advanced customization.
+
+### Style and Theme
+
+The look and feel of your reports can be customized by changing the fonts and colors to match your branding. The plot and table outputs are controlled by the `set-fonts-colors` chunk in `01_producer_report.qmd`. The HTML reports are styled by the `styles.css` file and the MS Word reports are styled using the `word-template.docx` template file.
+
+#### Set Fonts and Colors
+
+The third chunk in `01_producer_report.qmd` sets the fonts and colors to be used in the tables and plots of the report.
+
+<details open>
+
+<summary>`set-fonts-colors` chunk</summary>
+
+```{r set-fonts-colors, eval=FALSE}
+# EDIT: Replace any font names and colors to match your branding.
+
+header_font <- "Lato"
+body_font <- "Poppins"
+
+# Flextable colors -----------------------------------------------------
+
+# header background color
+header_color <- "#023B2C"
+# header text color
+header_text_color <- "white"
+# body darker background color
+darker_color <- "#ccc29c"
+# body lighter background color
+lighter_color <- "#F2F0E6"
+# border color
+border_color <- "#3E3D3D"
+
+# Map and plot colors -----------------------------------------------------
+
+# point color for producer samples
+primary_color <- "#a60f2d"
+# point color for samples in same categories as producer
+secondary_color <- "#3E3D3D"
+# point color for all other samples in project
+other_color <- "#ccc29c"
+
+# facet strip background color
+strip_color <- "#335c67"
+# facet strip text color
+strip_text_color <- "white"
+```
+
+</details>
+
+#### Style Sheets
+
+The style sheets can be found in the `resources` directory and edited to customize the report appearance to match your own branding.
+
+##### HTML
+
+`styles.css` controls the appearance of HTML reports.
+
+```         
+/* Edit these :root variables */
+:root {
+    --primary-color: #023B2C;
+    --secondary-color: #335c67;
+    --link-color: #a60f2d;
+    --heading-font: "Lato"
+    --body-font: "Poppins"
+}
+```
+
+##### MS Word
+
+Open `word-template.docx` and modify the styles according to this [Microsoft documentation](https://support.microsoft.com/en-gb/office/customize-or-create-new-styles-d38d6e47-f6fc-48eb-a607-1eb120dec563).
+
+Learn more about [CSS](https://quarto.org/docs/visual-editor/content.html#css-styles) and [MS Word Style Templates](https://quarto.org/docs/output-formats/ms-word-templates.html).
+
+## 3) Render Your Reports
+
+You can render reports with the RStudio IDE or programmatically with the `render_report()` function.
+
+### Using the RStudio IDE
+
+To generate and preview the report with the default parameters, use the `Render` button or keyboard shortcut (`Ctrl + Shift + K`). This is the fastest way to render reports and is great for iterating on content and style. You can check the `Render on Save` option to automatically update the preview whenever you re-render the document. HTML reports will preview side-by-side with the `.qmd` file, whereas MS Word documents will open separately.
+
+![](../man/figures/render.png){style="max-width:80%" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."}
+
+### Using `render_reports.R`
+
+You also can render all reports at once programmatically by editing `render_reports.R` to use the same dataset in the `load-data` chunk of `01_producer_report.qmd`.
+
+```{r, eval=FALSE}
+# EDIT: Read in the same dataset used in producer_report.qmd.
+data <- read.csv(
+  paste0(here::here(), "/data/exampleData.csv"),
+  check.names = FALSE,
+  encoding = "UTF-8"
+)
+```
+
+This script creates a dataframe for `purrr::pwalk()` iteration to render all reports in both HTML and MS Word formats and moves them to a folder called `reports`.
+
+## Example Reports
+
+See demo reports rendered directly from this template project:
+
+### [MS Word Example](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
+
+### [HTML Example](https://wa-department-of-agriculture.github.io/soils/articles/html.html)

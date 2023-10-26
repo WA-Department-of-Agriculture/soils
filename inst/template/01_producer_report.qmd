@@ -52,7 +52,7 @@ if (!dir.exists(path)) {
 <!-- Load data and dictionary -->
 
 ```{r load-data}
-# EDIT: You will need to add your own cleaned lab data to this data
+# EDIT: You will need to add your own cleaned lab data to the data
 # folder, using 'exampleData.csv' as a template.
 #
 # 'dataDictionary.csv' must also be updated to match your own
@@ -60,16 +60,16 @@ if (!dir.exists(path)) {
 
 # Load lab results
 data <- read.csv(
-  paste0(here::here(), "/extdata/exampleData.csv"),
+  paste0(here::here(), "/data/exampleData.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
 )
 
-# Load data dictionary for pretty labels
+# Load data dictionary
 dictionary <- read.csv(
-  paste0(here::here(), "/extdata/dataDictionary.csv"),
+  paste0(here::here(), "/data/dataDictionary.csv"),
   check.names = FALSE,
-  # setting encoding is important for using subscripts and superscripts
+  # set encoding for using subscripts and superscripts
   encoding = "UTF-8"
 )
 

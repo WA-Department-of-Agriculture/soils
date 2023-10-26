@@ -25,11 +25,11 @@ template:
         text: Reference
         href: reference/index.html
 articles:
-- title: Get Started
-  navbar: Get Started
+- title: Building Reports
+  navbar: ~
   contents:
-  - project
-  - report
+  - get-started
+  - build-report
 - title: Examples
   navbar: Example Reports
   contents:

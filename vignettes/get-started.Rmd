@@ -1,0 +1,112 @@
+---
+title: "Get Started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+resource_files:
+  - "../man/figures/project_wizard.png"
+  - "../man/figures/new_project.png"
+  - "..../man/figures/create_soils.png"
+  - "../man/figures/render.png"
+---
+
+```{r options, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Installation
+
+Install the development version of {soils} from our [r-universe](https://wa-department-of-agriculture.r-universe.dev/) with:
+
+```{r install-r-universe, eval=FALSE}
+install.packages(
+  "soils",
+  repos = c(
+    "https://wa-department-of-agriculture.r-universe.dev",
+    "https://cloud.r-project.org"
+  )
+)
+```
+
+## Create the Project
+
+There are two ways to create the {soils} project in RStudio.
+
+### Option 1. RStudio Project Wizard
+
+This is the easiest and recommended way.
+
+`Open RStudio` \> `File` \> `New Project` \> **`Quarto Soil Health Report`**
+
+![](../man/figures/project_wizard.png){width="60%" fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."}
+
+A new RStudio project will open with the template Quarto report and a script to render all reports. Other documents and resources will appear in the files pane.
+
+![](../man/figures/new_project.png){fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called producer_report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data."}
+
+### Option 2. RStudio Console
+
+In the console, replace the path with where you would like the project directory to be created:
+
+```{r, eval=FALSE}
+soils::create_soils(path = here::here("soils-demo"))
+```
+
+The following will print in your console:
+
+![](../man/figures/create_soils.png){fig-alt="Output from running soils::create_soils(path = here::here('soils-demo')) in the RStudio console"}
+
+This option populates your project directory with all the template files; however, it doesn't open the main template Quarto file `01_producer_report.qmd` or R script `render_reports.R`.
+
+## Project Structure
+
+Both options will create and launch a new RStudio project with the following files:
+
+<details open>
+
+<summary>Project Directory and Files</summary>
+
+```         
+├── 01_producer_report.qmd
+├── 02_section_template.qmd
+├── 03_project_summary.qmd
+├── 04_soil_health_background.qmd
+├── 05_physical_measurements.qmd
+├── 06_biological_measurements.qmd
+├── 07_chemical_measurements.qmd
+├── 08_looking_forward.qmd
+├── 09_acknowledgement.qmd
+├── data
+│   ├── dataDictionary.csv
+│   └── exampleData.csv
+├── images
+│   ├── biological.png
+│   ├── chemical.png
+│   ├── logo.png
+│   └── physical.png
+├── R
+│   └── render_reports.R
+├── resources
+│   ├── styles.css
+│   └── word-template.docx
+└── soils-demo.Rproj
+```
+
+</details>
+
+## Render the Report Template
+
+Open `01_producer_report.qmd` and click the `Render` button at the top of the file to generate either the HTML or MS Word report.
+
+If rendering to HTML, you can check the `Render on Save` option to automatically update the preview whenever you save the document.
+
+![](../man/figures/render.png){style="max-width:80%" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."}
+
+This will render the [MS Word Example](https://wa-department-of-agriculture.github.io/soils/articles/docx.html) or [HTML Example](https://wa-department-of-agriculture.github.io/soils/articles/html.html), depending on which render option you selected.
+
+To learn how to customize the reports to suit your own project, head over to the article on [Customize the Template](https://wa-department-of-agriculture.github.io/soils/articles/customize-template.html).

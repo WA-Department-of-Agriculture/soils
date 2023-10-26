@@ -20,35 +20,15 @@ badge](https://wa-department-of-agriculture.r-universe.dev/badges/soils)](https:
 ## Overview
 
 As part of the [Washington Soil Health
-Initiative](https://washingtonsoilhealthinitiative.com/), [Washington
-State Department of
+Initiative](https://washingtonsoilhealthinitiative.com/), the
+[Washington State Department of
 Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health)
 and [Washington State University](https://soilhealth.wsu.edu/) developed
-`soils` for soil health data visualization and reporting.
+{soils} for soil health data visualization and reporting.
 
-`soils` gives you an RStudio project template with everything you need
-to generate custom HTML and Word doc reports for each participant in
+{soils} gives you a RStudio project template with everything you need to
+generate custom HTML and Microsoft Word reports for each participant in
 your soil health survey.
-
-## Disclaimer
-
-This repository and package are a **work in progress**.
-
-## Installation
-
-Install the development version of `soils` from our
-[r-universe](https://wa-department-of-agriculture.r-universe.dev/) with:
-
-``` r
-install.packages('soils', 
-                 repos = c(
-                   'https://wa-department-of-agriculture.r-universe.dev',
-                   'https://cloud.r-project.org')
-                 )
-
-# Load all the example data sets and functions
-library(soils)
-```
 
 ## Requirements
 
@@ -64,54 +44,75 @@ release](https://posit.co/download/rstudio-desktop/) of RStudio.
 
 To render `.docx` files, you must have Microsoft Word installed.
 
-## Creating a New `soils` Project
+## Installation
 
-After installing `soils`, you can use the RStudio IDE or the
-`soils::create_soils()` function to create a new RStudio project with
-all the example data, Quarto files, style sheets, images, and R scripts
-needed to generate some example soil health reports.
+Install the development version of {soils} from our
+[r-universe](https://wa-department-of-agriculture.r-universe.dev/) with:
 
-Read the article [Create New Template
-Project](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
-to learn what goodies are bundled within `soils`.
+``` r
+install.packages(
+  "soils",
+  repos = c(
+    "https://wa-department-of-agriculture.r-universe.dev",
+    "https://cloud.r-project.org"
+  )
+)
+```
 
-## Parameterized Soil Health Reports
+``` r
+# Load all the example data sets and functions
+library(soils)
+```
 
-This package can help you generate custom static `.docx` reports and
-interactive `.html` reports for every producer or land owner in your
-soil health survey project.
+## Creating a New {soils} Project
 
-Read the article [Write Soil Health
-Reports](https://wa-department-of-agriculture.github.io/soils/articles/report.html)
-for a detailed walk through the project and workflow for adapting this
-template for your own project.
+Use the RStudio IDE to create a new {soils} RStudio project.
 
-Check out our example reports:
+`Open RStudio` \> `File` \> `New Project` \>
+**`Quarto Soil Health Report`**
 
-- [MS
-  Word](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
-- [HTML](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
+<img src="man/figures/project_wizard.png" style="width:60.0%"
+data-fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected." />
 
-<figure>
-<img src="man/figures/report_docx.png"
-data-fig-alt="First page of example .docx report"
-alt="First page of example MS Word report" />
-<figcaption aria-hidden="true">First page of example MS Word
-report</figcaption>
-</figure>
+A new RStudio project will open with the template Quarto report and a
+script to render all reports. Other documents and resources will appear
+in the files pane.
 
-<figure>
-<img src="man/figures/report_html.png"
+<img src="man/figures/new_project.png"
+data-fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called producer_report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data." />
+
+**Read the article [Get
+Started](https://wa-department-of-agriculture.github.io/soils/articles/get-started.html)
+to learn what goodies are bundled within {soils}.**
+
+## Example Soil Health Reports
+
+{soils} helps you generate custom static `.docx` reports and interactive
+`.html` reports for every producer or land owner in your soil health
+survey project.
+
+See demo reports rendered directly from this template project:
+
+### [MS Word Example](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
+
+[<img src="man/figures/report_docx.png"
+data-fig-alt="First page of example .docx report" height="500"
+alt="First page of example MS Word report" />](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
+
+### [HTML Example](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
+
+[<img src="man/figures/report_html.png"
 data-fig-alt="Screenshot of .html report"
-alt="Beginning of an example HTML report" />
-<figcaption aria-hidden="true">Beginning of an example HTML
-report</figcaption>
-</figure>
+alt="Beginning of an example HTML report" />](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
+
+**Read the article [Build a
+Report](https://wa-department-of-agriculture.github.io/soils/articles/build-report.html)
+for a detailed walk-through of the project and workflow for adapting
+this template for your own project.**
 
 ## Acknowledgement and Citation
 
-The below acknowledgement and citation are automatically embedded in
-each report.
+The below acknowledgement is automatically embedded in each report:
 
 The Soil Health Report Template used to generate this report was
 developed by Washington State Department of Agriculture and Washington
@@ -129,11 +130,11 @@ To cite {soils} in publications, please use:
 
 ## Credits
 
-`soils` adapts from existing R project templating resources and
+{soils} adapts from existing R project templating resources and
 packages:
 
 - [RStudio Project
   Templates](https://rstudio.github.io/rstudio-extensions/rstudio_project_templates.html)
-- [`ratlas`](https://github.com/atlas-aai/ratlas)
-- [`quartotemplate`](https://github.com/Pecners/quartotemplate)
-- [`golem`](https://github.com/ThinkR-open/golem/)
+- [{ratlas}](https://github.com/atlas-aai/ratlas)
+- [{quartotemplate}](https://github.com/Pecners/quartotemplate)
+- [{golem}](https://github.com/ThinkR-open/golem/)

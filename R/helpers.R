@@ -47,7 +47,6 @@ pull_unique <- function(df, target) {
 #' @param producer_info Vector of producer's values for the grouping variable.
 #' @param var Variable to group and summarize by.
 #'
-#' @export
 get_n_texture_by_var <- function(results_long, producer_info, var) {
   results_long |>
     dplyr::filter({{ var }} %in% producer_info) |>

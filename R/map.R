@@ -14,7 +14,8 @@
 #' exampleData |>
 #'   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
 #'   head(3) |>
-#'   prep_for_map(label_heading = fieldName, label_body = crop)
+#'   prep_for_map(label_heading = fieldName, label_body = crop) |>
+#'   dplyr::glimpse()
 prep_for_map <- function(df, label_heading, label_body) {
   df |>
     subset(!duplicated(sampleId)) |>

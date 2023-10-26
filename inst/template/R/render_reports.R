@@ -4,7 +4,7 @@
 
 # EDIT: Read in the same dataset used in producer_report.qmd.
 data <- read.csv(
-  paste0(here::here(), "/extdata/exampleData.csv"),
+  paste0(here::here(), "/data/exampleData.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
 )
@@ -45,7 +45,7 @@ reports_html |>
 
 # Move rendered reports to a different directory ----------------------------
 
-# EDIT: set out_dir to where you want the reports moved to
+# OPTIONAL EDIT: set out_dir to where you want the reports moved to
 
 output_dir <- paste0(here::here(), "/reports")
 

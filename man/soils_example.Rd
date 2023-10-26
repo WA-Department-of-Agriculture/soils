@@ -19,5 +19,5 @@ directory. This function make them easy to access.
 \examples{
 soils_example()
 
-soils_example("dfPlot.csv")
+soils_example("df_plot.RDS")
 }

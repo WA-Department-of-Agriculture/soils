@@ -24,9 +24,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <h6 class="dropdown-header" data-toc-skip>Get Started</h6>
-    <a class="dropdown-item" href="../articles/project.html">Create a New Template Project</a>
-    <a class="dropdown-item" href="../articles/report.html">Write Soil Health Reports</a>
+    <a class="dropdown-item" href="../articles/get-started.html">Get Started</a>
+    <a class="dropdown-item" href="../articles/build-report.html">Build a Report</a>
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Example Reports</h6>
     <a class="dropdown-item" href="../articles/docx.html">MS Word Reports</a>
@@ -93,43 +92,63 @@ the <code>label_heading</code> in the popup.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">exampleData</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">latitude</span>, <span class="va">longitude</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">prep_for_map</span><span class="op">(</span>label_heading <span class="op">=</span> <span class="va">fieldName</span>, label_body <span class="op">=</span> <span class="va">crop</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   year    sampleId farmName producerName producerId fieldName fieldId    county</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2023 23-WUY05-01 Farm 150       Shanna      WUY05  Field 01       1  County 9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2022 22-RHM05-02 Farm 085       Warren      RHM05  Field 02       2 County 18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2022 22-ENR07-02 Farm 058       Alecia      ENR07  Field 02       2 County 11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           crop    texture 24hrminC_mgC.kg.day bd_g.cm3 pmN_lbs.ac ammN_mg.kg</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Hay/Silage Loamy Sand                  NA     1.30      67.13        1.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Green Manure Sandy Loam                  NA     0.88     129.97       21.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    Vegetable  Silt Loam                  NA     1.21     122.17        8.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   nitrateN_mg.kg pmN_mg.kg poxC_mg.kg  pH EC_mmhos.cm K_mg.kg Ca_mg.kg Mg_mg.kg</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            9.2      19.0        496 6.7        0.42     498     1380    145.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            6.1      54.1        571 5.9        0.05     198      780     96.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           25.3      37.0        419 6.3        0.60     294     1760    266.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Na_mg.kg CEC_meq.100g B_mg.kg Cu_mg.kg Fe_mg.kg Mn_mg.kg S_mg.kg Zn_mg.kg</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     16.1          7.8    0.22      0.6       26      1.5    4.29      1.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     20.7         10.5    0.09      0.4       28      2.7    9.41      0.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     20.7         13.0    0.41      4.2      141      4.1   26.73      4.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   totalC_% totalN_% ace_g.protein.kg.soil sand_% silt_% clay_%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     1.85     0.16                  6.74     44     23      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     2.88     0.18                 21.50     69     21     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     1.68     0.14                 10.90     11     79     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   96hrminC_mgC.kg.day olsenP_mg.kg wsa_% OM_% TOC_% Ca_cmolc.kg Mg_cmolc.kg</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                35.6           15  88.5  4.5  1.85         6.9         1.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                30.0           37  92.6  5.8  2.88         3.9         0.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                15.0           73  91.3  2.4  1.68         8.8         2.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Na_cmolc.kg WHC_in.ft moisture_% inorganicC_% pmN_nitrateN _mg.kg</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        0.07      1.01      17.53           NA                  29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        0.09      1.08      33.10           NA                  NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        0.09      2.77      27.97           NA                  NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   pmN_ammN_mg.kg longitude latitude                     label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            0.8      -119       49 &lt;strong&gt;Field 01&lt;/strong&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             NA      -123       47 &lt;strong&gt;Field 02&lt;/strong&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             NA      -122       47 &lt;strong&gt;Field 02&lt;/strong&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                       popup</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   &lt;strong&gt;Field 01&lt;/strong&gt;&lt;br&gt;Hay/Silage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 &lt;strong&gt;Field 02&lt;/strong&gt;&lt;br&gt;Green Manure</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    &lt;strong&gt;Field 02&lt;/strong&gt;&lt;br&gt;Vegetable</span>
+<span class="r-in"><span>  <span class="fu">prep_for_map</span><span class="op">(</span>label_heading <span class="op">=</span> <span class="va">fieldName</span>, label_body <span class="op">=</span> <span class="va">crop</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 53</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ year                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2023, 2022, 2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ sampleId              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-WUY05-01", "22-RHM05-02", "22-ENR07-02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ farmName              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 150", "Farm 085", "Farm 058"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerName          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Shanna", "Warren", "Alecia"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ producerId            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "WUY05", "RHM05", "ENR07"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldName             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 01", "Field 02", "Field 02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ fieldId               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 2, 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ county                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 9", "County 18", "County 11"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ crop                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Hay/Silage", "Green Manure", "Vegetable"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ texture               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Loamy Sand", "Sandy Loam", "Silt Loam"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `24hrminC_mgC.kg.day` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ bd_g.cm3              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.30, 0.88, 1.21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ pmN_lbs.ac            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 67.13, 129.97, 122.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ammN_mg.kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.6, 21.6, 8.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ nitrateN_mg.kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 9.2, 6.1, 25.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ pmN_mg.kg             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 19.0, 54.1, 37.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ poxC_mg.kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 496, 571, 419</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ pH                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.7, 5.9, 6.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ EC_mmhos.cm           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.42, 0.05, 0.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ K_mg.kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 498, 198, 294</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Ca_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1380, 780, 1760</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Mg_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 145.2, 96.8, 266.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Na_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 16.1, 20.7, 20.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ CEC_meq.100g          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 7.8, 10.5, 13.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ B_mg.kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.22, 0.09, 0.41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Cu_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.6, 0.4, 4.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Fe_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 26, 28, 141</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Mn_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.5, 2.7, 4.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ S_mg.kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.29, 9.41, 26.73</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Zn_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.7, 0.8, 4.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `totalC_%`            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `totalN_%`            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.16, 0.18, 0.14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ace_g.protein.kg.soil <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.74, 21.50, 10.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `sand_%`              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 44, 69, 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `silt_%`              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 23, 21, 79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `clay_%`              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 3, 10, 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `96hrminC_mgC.kg.day` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35.6, 30.0, 15.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ olsenP_mg.kg          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 15, 37, 73</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `wsa_%`               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 88.5, 92.6, 91.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `OM_%`                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.5, 5.8, 2.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `TOC_%`               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Ca_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.9, 3.9, 8.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Mg_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.2, 0.8, 2.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ Na_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.07, 0.09, 0.09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ WHC_in.ft             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.01, 1.08, 2.77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `moisture_%`          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 17.53, 33.10, 27.97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `inorganicC_%`        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ `pmN_nitrateN _mg.kg` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 29, NA, NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ pmN_ammN_mg.kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.8, NA, NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ longitude             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -119, -123, -122</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ latitude              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 49, 47, 47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ label                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "&lt;strong&gt;Field 01&lt;/strong&gt;", "&lt;strong&gt;Field 02&lt;/…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ popup                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "&lt;strong&gt;Field 01&lt;/strong&gt;&lt;br&gt;Hay/Silage", "&lt;str…</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

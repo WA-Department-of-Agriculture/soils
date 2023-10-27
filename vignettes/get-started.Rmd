@@ -25,10 +25,12 @@ Install the development version of {soils} from our [r-universe](https://wa-depa
 
 ```{r install-r-universe, eval=FALSE}
 install.packages(
-  "soils",
+  "usethis",
   repos = c(
     "https://wa-department-of-agriculture.r-universe.dev",
-    "https://cloud.r-project.org"
+    "https://cloud.r-project.org",
+    "https://ftp.osuosl.org/pub/cran/",
+    "https://mirrors.dotsrc.org/cran/"
   )
 )
 ```
@@ -41,7 +43,7 @@ There are two ways to create the {soils} project in RStudio.
 
 This is the easiest and recommended way.
 
-`Open RStudio` \> `File` \> `New Project` \> **`Quarto Soil Health Report`**
+`Open RStudio` \> `File` \> `New Project` \> `New Directory` \> **`Quarto Soil Health Report`**
 
 ![](../man/figures/project_wizard.png){width="60%" fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."}
 

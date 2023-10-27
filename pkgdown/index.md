@@ -80,10 +80,11 @@ Install the development version of {soils} from our
 
 ``` r
 install.packages(
-  "soils",
+  "usethis",
   repos = c(
     "https://wa-department-of-agriculture.r-universe.dev",
-    "https://cloud.r-project.org"
+    "https://cloud.r-project.org",
+    "https://ftp.osuosl.org/pub/cran/"
   )
 )
 ```
@@ -97,7 +98,7 @@ library(soils)
 
 Use the RStudio IDE to create a new {soils} RStudio project.
 
-`Open RStudio` \> `File` \> `New Project` \>
+`Open RStudio` \> `File` \> `New Project` \> `New Directory` \>
 **`Quarto Soil Health Report`**
 
 <img src="man/figures/project_wizard.png" style="width:60.0%"

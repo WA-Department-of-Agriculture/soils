@@ -255,7 +255,7 @@ You can render reports with the RStudio IDE or programmatically with the `render
 
 ### Using the RStudio IDE
 
-To generate and preview the report with the default parameters, use the `Render` button or keyboard shortcut (`Ctrl + Shift + K`). This is the fastest way to render reports and is great for iterating on content and style. You can check the `Render on Save` option to automatically update the preview whenever you re-render the document. HTML reports will preview side-by-side with the `.qmd` file, whereas MS Word documents will open separately.
+To generate and preview the report with the default parameters, use the `Render` button or keyboard shortcut (`Ctrl + Shift + K`). This is the fastest way to render reports and is great for iterating on content and style. You can check the `Render on Save` option to automatically update the preview whenever you save the document. HTML reports will preview side-by-side with the `.qmd` file, whereas MS Word documents will open separately.
 
 ![](../man/figures/render.png){style="max-width:80%" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."}
 

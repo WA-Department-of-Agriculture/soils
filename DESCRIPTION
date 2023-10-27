@@ -34,8 +34,10 @@ Imports:
     leaflet,
     officer,
     purrr,
+    rstudioapi,
     tidyr,
-    utils
+    utils,
+    usethis
 Suggests:
     downloadthis,
     here,
@@ -43,8 +45,6 @@ Suggests:
     quarto,
     rlang,
     rmarkdown,
-    rstudioapi,
-    usethis,
     washi,
     webshot2
 VignetteBuilder: 

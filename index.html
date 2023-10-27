@@ -144,10 +144,11 @@
 <p>Install the development version of {soils} from our <a href="https://wa-department-of-agriculture.r-universe.dev/" class="external-link">r-universe</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
-<span>  <span class="st">"soils"</span>,</span>
+<span>  <span class="st">"usethis"</span>,</span>
 <span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"https://wa-department-of-agriculture.r-universe.dev"</span>,</span>
-<span>    <span class="st">"https://cloud.r-project.org"</span></span>
+<span>    <span class="st">"https://cloud.r-project.org"</span>,</span>
+<span>    <span class="st">"https://ftp.osuosl.org/pub/cran/"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -158,7 +159,7 @@
 <h2 id="creating-a-new-soils-project">Creating a New {soils} Project<a class="anchor" aria-label="anchor" href="#creating-a-new-soils-project"></a>
 </h2>
 <p>Use the RStudio IDE to create a new {soils} RStudio project.</p>
-<p><code>Open RStudio</code> &gt; <code>File</code> &gt; <code>New Project</code> &gt; <strong><code>Quarto Soil Health Report</code></strong></p>
+<p><code>Open RStudio</code> &gt; <code>File</code> &gt; <code>New Project</code> &gt; <code>New Directory</code> &gt; <strong><code>Quarto Soil Health Report</code></strong></p>
 <p><img src="reference/figures/project_wizard.png" style="width:60.0%" data-fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."></p>
 <p>A new RStudio project will open with the template Quarto report and a script to render all reports. Other documents and resources will appear in the files pane.</p>
 <p><img src="reference/figures/new_project.png" data-fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called producer_report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data."></p>

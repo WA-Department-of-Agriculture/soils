@@ -30,6 +30,24 @@ and [Washington State University](https://soilhealth.wsu.edu/) developed
 generate custom HTML and Microsoft Word reports for each participant in
 your soil health survey.
 
+## Quick Video Demos
+
+### Create a {soils} Project
+
+[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/a4d96ee9-f325-426f-9e42-99a3abbd89a1)
+
+### Render a MS Word Report
+
+[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/47aa1926-1d67-4c54-907e-df1c8b2be4a0)
+
+### Render a HTML Report
+
+[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/5a93f976-e4b7-48f8-9c16-4fe81471911d)
+
+### Programmatically Render Multiple Reports at Once
+
+[render_reports.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/2394af24-54ec-4769-9794-38f7d862a93d)
+
 ## Requirements
 
 The report template uses [Quarto](https://quarto.org/docs/get-started/),

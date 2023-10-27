@@ -14,11 +14,21 @@ output: github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
+  fig.path = "man/figures/",
   fig.align = "left",
   dpi = 300
 )
 ```
 
+```{=html}
+<style>
+.iframe {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: 100%;
+}
+</style>
+```
 ## Overview
 
 As part of the [Washington Soil Health Initiative](https://washingtonsoilhealthinitiative.com/), the [Washington State Department of Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health) and [Washington State University](https://soilhealth.wsu.edu/) developed {soils} for soil health data visualization and reporting.
@@ -29,19 +39,27 @@ As part of the [Washington Soil Health Initiative](https://washingtonsoilhealthi
 
 ### Create a {soils} Project
 
-[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/a4d96ee9-f325-426f-9e42-99a3abbd89a1)
+<iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
+
+</iframe>
 
 ### Render a MS Word Report
 
-[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/47aa1926-1d67-4c54-907e-df1c8b2be4a0)
+<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
+
+</iframe>
 
 ### Render a HTML Report
 
-[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/5a93f976-e4b7-48f8-9c16-4fe81471911d)
+<iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
 
-### Programmatically Render Multiple Reports at Once
+</iframe>
 
-[render_reports.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/2394af24-54ec-4769-9794-38f7d862a93d)
+### Render all Reports at Once
+
+<iframe src="https://drive.google.com/file/d/1XGfplRUrLb0jiWIElQejHLZ9ig2WfEal/preview" width="640" height="360" allow="autoplay;fullscreen;">
+
+</iframe>
 
 ## Requirements
 

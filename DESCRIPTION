@@ -2,7 +2,7 @@ Package: soils
 Title: Visualize and Report Soil Health Data
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Jadey N", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut")),
+    person("Jadey", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut")),
     person("Molly", "McIlquham", role = "aut"),
     person("Kwabena A", "Sarpong", role = "aut"),
     person("Leslie", "Michel", role = "aut"),

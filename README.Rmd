@@ -29,19 +29,19 @@ As part of the [Washington Soil Health Initiative](https://washingtonsoilhealthi
 
 ### Create a {soils} Project
 
-[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/a4d96ee9-f325-426f-9e42-99a3abbd89a1)
+[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/7e8c650c-362c-4f81-9e24-3fb4b21f9d35)
 
 ### Render a MS Word Report
 
-[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/47aa1926-1d67-4c54-907e-df1c8b2be4a0)
+[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/b769f797-a390-4834-ac40-ab65cea7ef5f)
 
 ### Render a HTML Report
 
-[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/5a93f976-e4b7-48f8-9c16-4fe81471911d)
+[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/13d33152-b509-4651-a48d-e490be3c9464)
 
 ### Programmatically Render Multiple Reports at Once
 
-[render_reports.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/2394af24-54ec-4769-9794-38f7d862a93d)
+[render_reports.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/fdb93fed-6c83-40fa-beac-1f3e352ce472)
 
 ## Requirements
 

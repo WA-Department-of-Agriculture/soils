@@ -16,6 +16,13 @@ badge](https://wa-department-of-agriculture.r-universe.dev/badges/soils)](https:
 [![R-CMD-check](https://github.com/WA-Department-of-Agriculture/soils/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/WA-Department-of-Agriculture/soils/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
+<style>
+.iframe {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: 100%;
+}
+</style>
 
 ## Overview
 
@@ -29,6 +36,26 @@ and [Washington State University](https://soilhealth.wsu.edu/) developed
 {soils} gives you a RStudio project template with everything you need to
 generate custom HTML and Microsoft Word reports for each participant in
 your soil health survey.
+
+### Create a {soils} Project
+
+<iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
+</iframe>
+
+### Render an HTML Report
+
+<iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
+</iframe>
+
+### Render an MS Word Report
+
+<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
+</iframe>
+
+### Render all Reports at Once
+
+<iframe src="https://drive.google.com/file/d/1XGfplRUrLb0jiWIElQejHLZ9ig2WfEal/preview" width="640" height="360" allow="autoplay;fullscreen;">
+</iframe>
 
 ## Requirements
 

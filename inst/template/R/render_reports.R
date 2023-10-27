@@ -36,7 +36,7 @@ reports_docx <- reports_html |>
 reports <- rbind(reports_html, reports_docx)
 
 # Render all reports to the project directory -----------------------
-reports_html |>
+reports |>
   purrr::pwalk(
     quarto::quarto_render,
     input = "01_producer_report.qmd",

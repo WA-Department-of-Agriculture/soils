@@ -80,7 +80,7 @@ Install the development version of {soils} from our
 
 ``` r
 install.packages(
-  "usethis",
+  "soils",
   repos = c(
     "https://wa-department-of-agriculture.r-universe.dev",
     "https://cloud.r-project.org",

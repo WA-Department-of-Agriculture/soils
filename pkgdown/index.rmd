@@ -75,7 +75,7 @@ Install the development version of {soils} from our [r-universe](https://wa-depa
 
 ```{r install-r-universe, eval=FALSE}
 install.packages(
-  "usethis",
+  "soils",
   repos = c(
     "https://wa-department-of-agriculture.r-universe.dev",
     "https://cloud.r-project.org",

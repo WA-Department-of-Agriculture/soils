@@ -115,11 +115,16 @@ with:</p>
 <div class="section level3">
 <h3 id="option-1--rstudio-project-wizard">Option 1. RStudio Project Wizard<a class="anchor" aria-label="anchor" href="#option-1--rstudio-project-wizard"></a>
 </h3>
-<p>This is the easiest and recommended way.</p>
+<p>The easiest and recommended way is to use the RStudio IDE to create a
+new {soils} RStudio project.</p>
 <p><code>Open RStudio</code> &gt; <code>File</code> &gt;
 <code>New Project</code> &gt; <code>New Directory</code> &gt;
 <strong><code>Quarto Soil Health Report</code></strong></p>
-<p><img src="../reference/figures/project_wizard.png" style="width:60.0%" fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."></p>
+<p><img src="../reference/figures/project_wizard-1.png" fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."></p>
+<p>Enter your desired directory name, browse to where you want the
+project to live, and check whether you want the project to open in a new
+RStudio session.</p>
+<p><img src="../reference/figures/project_wizard-2.png" fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session."></p>
 <p>A new RStudio project will open with the template Quarto report and a
 script to render all reports. Other documents and resources will appear
 in the files pane.</p>
@@ -181,10 +186,14 @@ HTML or MS Word report.</p>
 <p>If rendering to HTML, you can check the <code>Render on Save</code>
 option to automatically update the preview whenever you save the
 document.</p>
-<p><img src="../reference/figures/render.png" style="max-width:80%" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."></p>
+<p><img src="../reference/figures/render.png" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."></p>
 <p>This will render the <a href="https://wa-department-of-agriculture.github.io/soils/articles/docx.html">MS
 Word Example</a> or <a href="https://wa-department-of-agriculture.github.io/soils/articles/html.html">HTML
 Example</a>, depending on which render option you selected.</p>
+<p>If the rendered report doesn’t immediately open, you can find it in
+your project directory with the same name as the main Quarto
+<code>.qmd</code> file (<code>01_producer_report.qmd</code>.</p>
+<p><img src="../reference/figures/rendered_report_location.png" fig-alt="RStudio screenshot of files pane with boxes around the project directory and the two rendered producer reports titled 01_producer_report.html and 01_producer_report.docx."></p>
 <p>To learn how to customize the reports to suit your own project, head
 over to the article on <a href="https://wa-department-of-agriculture.github.io/soils/articles/customize-template.html">Customize
 the Template</a>.</p>

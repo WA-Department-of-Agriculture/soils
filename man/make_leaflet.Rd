@@ -8,7 +8,7 @@ JavaScript code adapted from
 \href{https://github.com/bhaskarvk/leaflet.extras/tree/master}{\code{leaflet.extras}}.
 }
 \usage{
-make_leaflet(df, primary_color = washi::washi_pal[["standard"]][["red"]])
+make_leaflet(df, primary_color = "#a60f2d")
 }
 \arguments{
 \item{df}{Dataframe containing columns: \code{longitude}, \code{latitude}, \code{label},

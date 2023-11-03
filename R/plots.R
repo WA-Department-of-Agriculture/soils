@@ -105,6 +105,7 @@ make_texture_triangle <- function(
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
 #' # Create a texture triangle with points colored by texture
 #' make_texture_triangle(body_font = "sans") +
 #'   add_texture_points(
@@ -112,10 +113,13 @@ make_texture_triangle <- function(
 #'     sand = `sand_%`,
 #'     silt = `silt_%`,
 #'     clay = `clay_%`,
-#'     color = texture
+#'     color = "#a60f2d",
+#'     alpha = 0.6
 #'   ) +
-#'   ggplot2::scale_color_viridis_d()
-#'
+#'   # if you are setting a color to a constant, you must call
+#'   # scale_*_identity().
+#'   scale_color_identity() +
+#'   scale_alpha_identity()
 #'
 #' # Remember these are `ggplot2` functions and require `+` instead of
 #' #  pipes (`|>` or `%>%`)
@@ -127,8 +131,8 @@ make_texture_triangle <- function(
 #'       silt = `silt_%`,
 #'       clay = `clay_%`,
 #'       color = texture
-#'     ) |>
-#'     ggplot2::scale_color_viridis_d()
+#'     ) +
+#'     scale_color_viridis_d()
 #' })
 add_texture_points <- function(
     df,
@@ -205,7 +209,7 @@ add_texture_points <- function(
 theme_facet_strip <- function(
     ...,
     body_font = "Poppins",
-    strip_color = washi::washi_pal[["standard"]][["blue"]],
+    strip_color = "#335c67",
     strip_text_color = "white"
 ) {
   theme <- ggplot2::theme(
@@ -290,9 +294,9 @@ theme_facet_strip <- function(
 #'   theme_facet_strip(body_font = "sans")
 set_scales <- function(
     plot,
-    primary_color = washi::washi_pal[["standard"]][["red"]],
-    secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-    other_color = washi::washi_pal[["standard"]][["tan"]]
+    primary_color = "#a60f2d",
+    secondary_color = "#3E3D3D",
+    other_color = "#ccc29c"
 ) {
   plot +
     ggplot2::scale_alpha_manual(values = c(

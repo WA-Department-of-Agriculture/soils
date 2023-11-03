@@ -23,8 +23,8 @@
 #' format_ft_colors(ft)
 format_ft_colors <- function(
   ft,
-  lighter_color = washi::washi_pal[["standard"]][["cream"]],
-  darker_color = washi::washi_pal[["standard"]][["tan"]]
+  lighter_color = "#F2F0E6",
+  darker_color = "#ccc29c"
     ) {
   # Color formatter function
   ft <- flextable::bg(
@@ -93,9 +93,9 @@ style_ft <- function(
   ft,
   header_font = "Lato",
   body_font = "Poppins",
-  header_color = washi::washi_pal[["standard"]][["green"]],
+  header_color = "#023B2C",
   header_text_color = "white",
-  border_color = washi::washi_pal[["standard"]][["gray"]]
+  border_color = "#3E3D3D"
     ) {
   flextable::set_flextable_defaults(
     font.family = body_font,

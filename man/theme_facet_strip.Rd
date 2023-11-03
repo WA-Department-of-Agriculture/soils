@@ -7,7 +7,7 @@
 theme_facet_strip(
   ...,
   body_font = "Poppins",
-  strip_color = washi::washi_pal[["standard"]][["blue"]],
+  strip_color = "#335c67",
   strip_text_color = "white"
 )
 }

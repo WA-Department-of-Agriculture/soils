@@ -20,6 +20,7 @@ add_texture_points(df, sand, silt, clay, ...)
 Add \code{ggplot2::geom_point()} points to texture triangle
 }
 \examples{
+library(ggplot2)
 # Create a texture triangle with points colored by texture
 make_texture_triangle(body_font = "sans") +
   add_texture_points(
@@ -27,10 +28,13 @@ make_texture_triangle(body_font = "sans") +
     sand = `sand_\%`,
     silt = `silt_\%`,
     clay = `clay_\%`,
-    color = texture
+    color = "#a60f2d",
+    alpha = 0.6
   ) +
-  ggplot2::scale_color_viridis_d()
-
+  # if you are setting a color to a constant, you must call
+  # scale_*_identity().
+  scale_color_identity() +
+  scale_alpha_identity()
 
 # Remember these are `ggplot2` functions and require `+` instead of
 #  pipes (`|>` or `\%>\%`)
@@ -42,7 +46,7 @@ try({
       silt = `silt_\%`,
       clay = `clay_\%`,
       color = texture
-    ) |>
-    ggplot2::scale_color_viridis_d()
+    ) +
+    scale_color_viridis_d()
 })
 }

@@ -3,8 +3,10 @@
     --primary-color: #023B2C;
     --secondary-color: #335c67;
     --link-color: #a60f2d;
-    --heading-font: "Lato"
-    --body-font: "Poppins"
+    --light-color: #F2F0E6;
+    --fg-color: white; /* color for text with colored background*/
+    --heading-font: "Georgia";
+    --body-font: "Arial";
 }
 
 /* You don't need to edit the below content unless you want to
@@ -16,6 +18,7 @@ p.subtitle {
 }
 
 .lead {
+    font-family: var(--heading-font);
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--secondary-color);
@@ -23,7 +26,7 @@ p.subtitle {
 }
 
 p {
-    font-family: var(--body);
+    font-family: var(--body-font);
 }
 
 .tab-pane>p {
@@ -31,6 +34,7 @@ p {
 }
 
 a {
+    font-family: var(--body-font);
     color: var(--link-color);
 }
 
@@ -49,9 +53,19 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: var(--heading);
+    font-family: var(--heading-font);
     color: var(--primary-color);
     font-weight: bold;
+}
+
+.sidebar nav[role=doc-toc]>h2 {
+    font-family: var(--heading-font);
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.nav-tabs .nav-link {
+    font-family: var(--heading-font);
 }
 
 caption, .table-caption {
@@ -59,25 +73,22 @@ caption, .table-caption {
 }
 
 div.callout-tip.callout {
-    background: #F2F0E6;
+    background: var(--light-color);
 }
 
 div.callout-tip.callout {
-    font-family: var(--body);
+    font-family: var(--body-font);
     border-left-color: var(--primary-color);
 }
 
 div.callout-tip.callout-style-default>.callout-header {
     background-color: var(--primary-color);
-}
-
-div.callout-tip.callout-style-default>.callout-header {
-    color: white;!important
+    color: var(--fg-color);
 }
 
 .btn-success {
     margin-top: 1em;
-    color: white;
+    color: var(--fg-color);
     background-color: var(--primary-color);
     border-color: var(--primary-color);
 }

@@ -191,8 +191,8 @@ The third chunk in `01_producer_report.qmd` sets the fonts and colors to be used
 ```{r set-fonts-colors, eval=FALSE}
 # EDIT: Replace any font names and colors to match your branding.
 
-header_font <- "Lato"
-body_font <- "Poppins"
+header_font <- "Georgia"
+body_font <- "Arial"
 
 # Flextable colors -----------------------------------------------------
 
@@ -238,8 +238,10 @@ The style sheets can be found in the `resources` directory and edited to customi
     --primary-color: #023B2C;
     --secondary-color: #335c67;
     --link-color: #a60f2d;
-    --heading-font: "Lato"
-    --body-font: "Poppins"
+    --light-color: #F2F0E6;
+    --fg-color: white; /* color for text with colored background*/
+    --heading-font: "Georgia";
+    --body-font: "Arial";
 }
 ```
 

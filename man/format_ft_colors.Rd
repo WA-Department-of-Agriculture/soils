@@ -4,11 +4,7 @@
 \alias{format_ft_colors}
 \title{Conditional formatting of flextable background cell colors}
 \usage{
-format_ft_colors(
-  ft,
-  lighter_color = washi::washi_pal[["standard"]][["cream"]],
-  darker_color = washi::washi_pal[["standard"]][["tan"]]
-)
+format_ft_colors(ft, lighter_color = "#F2F0E6", darker_color = "#ccc29c")
 }
 \arguments{
 \item{ft}{Flextable object}

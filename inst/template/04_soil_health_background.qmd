@@ -37,13 +37,13 @@ df <- data.frame("Qualities of a Healthy Agricultural Soil" = c(
   "•   Resistance to degradation such as from erosion or surface runoff"
 ), check.names = FALSE)
 
-green <- washi::washi_pal[["standard"]][["green"]]
-
-washi::washi_flextable(df, border_color = NA) |>
-  flextable::vline_left(border = officer::fp_border(color = green, width = 3)) |>
-  flextable::vline_right(border = officer::fp_border(color = green, width = 1)) |>
-  flextable::hline_bottom(border = officer::fp_border(color = green, width = 1)) |>
-  flextable::bg(bg = "#F2F0E6") |>
+flextable::flextable(df) |>
+  flextable::color(color = header_text_color, part = "header") |> 
+  flextable::bg(bg = header_color, part = "header") |>
+  flextable::vline_left(border = officer::fp_border(color = header_color, width = 3)) |>
+  flextable::vline_right(border = officer::fp_border(color = header_color, width = 1)) |>
+  flextable::hline_bottom(border = officer::fp_border(color = header_color, width = 1)) |>
+  flextable::bg(bg = lighter_color, part = "body") |>
   flextable::align(align = "left", part = "all") |> 
   flextable::fontsize(size = 10) |> 
   flextable::line_spacing(space = 1.5, part = "header") |> 

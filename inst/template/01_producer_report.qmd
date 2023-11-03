@@ -89,8 +89,8 @@ measurement_groups <- c(
 ```{r set-fonts-colors}
 # EDIT: Replace any font names and colors to match your branding.
 
-header_font <- "Lato"
-body_font <- "Poppins"
+header_font <- "Georgia"
+body_font <- "Arial"
 
 # Flextable colors -----------------------------------------------------
 
@@ -436,7 +436,10 @@ gis_df |>
     Latitude = latitude
   ) |>
   flextable::flextable() |>
-  soils::style_ft() |>
+  soils::style_ft(
+    header_font = header_font,
+    body_font = body_font,
+  ) |>
   flextable::set_table_properties(layout = "autofit")
 ```
 
@@ -508,15 +511,12 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
 if (requireNamespace("downloadthis", quietly = TRUE)) {
   list(
     results = subset(data, producerId == params$producerId),
-    measurement_dictionary = dictionary[
-      ,
-      c(
+    measurement_dictionary = dictionary[, c(
         "column_name",
         "measurement_full_name",
         "abbr",
         "unit"
-      )
-    ]
+      )]
   ) |>
     downloadthis::download_this(
       output_name = glue::glue("{params$year}_soils_data"),

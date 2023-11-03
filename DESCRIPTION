@@ -45,7 +45,6 @@ Suggests:
     quarto,
     rlang,
     rmarkdown,
-    washi,
     webshot2
 VignetteBuilder: 
     knitr

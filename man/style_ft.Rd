@@ -8,9 +8,9 @@ style_ft(
   ft,
   header_font = "Lato",
   body_font = "Poppins",
-  header_color = washi::washi_pal[["standard"]][["green"]],
+  header_color = "#023B2C",
   header_text_color = "white",
-  border_color = washi::washi_pal[["standard"]][["gray"]]
+  border_color = "#3E3D3D"
 )
 }
 \arguments{

@@ -90,8 +90,15 @@ Use the RStudio IDE to create a new {soils} RStudio project.
 `Open RStudio` \> `File` \> `New Project` \> `New Directory` \>
 **`Quarto Soil Health Report`**
 
-<img src="man/figures/project_wizard.png" style="width:60.0%"
+<img src="man/figures/project_wizard-1.png"
 data-fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected." />
+
+Enter your desired directory name, browse to where you want the project
+to live, and check whether you want the project to open in a new RStudio
+session.
+
+<img src="man/figures/project_wizard-2.png"
+data-fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session." />
 
 A new RStudio project will open with the template Quarto report and a
 script to render all reports. Other documents and resources will appear

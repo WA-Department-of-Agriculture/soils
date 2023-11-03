@@ -52,7 +52,7 @@ prep_for_map <- function(df, label_heading, label_body) {
 #' make_leaflet(gis_df)
 make_leaflet <- function(
   df,
-  primary_color = washi::washi_pal[["standard"]][["red"]]
+  primary_color = "#a60f2d"
     ) {
   agol <- "https://server.arcgisonline.com/ArcGIS/rest/services/"
 

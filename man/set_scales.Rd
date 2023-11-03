@@ -6,9 +6,9 @@
 \usage{
 set_scales(
   plot,
-  primary_color = washi::washi_pal[["standard"]][["red"]],
-  secondary_color = washi::washi_pal[["standard"]][["ltgray"]],
-  other_color = washi::washi_pal[["standard"]][["tan"]]
+  primary_color = "#a60f2d",
+  secondary_color = "#3E3D3D",
+  other_color = "#ccc29c"
 )
 }
 \arguments{

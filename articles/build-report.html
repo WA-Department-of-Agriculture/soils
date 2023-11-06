@@ -253,7 +253,9 @@ dictionary.</li>
 would like them to appear in the report. These group names must match
 your data dictionary.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<details open><summary>
+Load Data Chunk
+</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># EDIT: You will need to add your own cleaned lab data to the data</span></span>
 <span><span class="co"># folder, using 'exampleData.csv' as a template.</span></span>
 <span><span class="co">#</span></span>
@@ -267,12 +269,40 @@ your data dictionary.</li>
 <span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/verify.html" class="external-link">verify</a></span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/has_all_names.html" class="external-link">has_all_names</a></span><span class="op">(</span></span>
+<span>    <span class="st">"year"</span>,</span>
+<span>    <span class="st">"sampleId"</span>,</span>
+<span>    <span class="st">"farmName"</span>,</span>
+<span>    <span class="st">"producerName"</span>,</span>
+<span>    <span class="st">"producerId"</span>,</span>
+<span>    <span class="st">"fieldName"</span>,</span>
+<span>    <span class="st">"fieldId"</span>,</span>
+<span>    <span class="st">"county"</span>,</span>
+<span>    <span class="st">"crop"</span>,</span>
+<span>    <span class="st">"texture"</span>,</span>
+<span>    <span class="st">"longitude"</span>,</span>
+<span>    <span class="st">"latitude"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  description <span class="op">=</span> <span class="st">"`data` is missing required columns."</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Load data dictionary</span></span>
 <span><span class="va">dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/data/dataDictionary.csv"</span><span class="op">)</span>,</span>
 <span>  check.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="co"># set encoding for using subscripts and superscripts</span></span>
 <span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check that the `column_names` column of your dictionary match your data column</span></span>
+<span><span class="co"># names</span></span>
+<span><span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/assert.html" class="external-link">assert</a></span><span class="op">(</span></span>
+<span>  <span class="va">dictionary</span>,</span>
+<span>  <span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/in_set.html" class="external-link">in_set</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="va">column_name</span>,</span>
+<span>  description <span class="op">=</span> <span class="st">"Values in `column_name` of `dictionary` must match the column names of `data`."</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># EDIT: set order of measurement_groups</span></span>
@@ -283,7 +313,48 @@ your data dictionary.</li>
 <span>  <span class="st">"chemical"</span>,</span>
 <span>  <span class="st">"macro"</span>,</span>
 <span>  <span class="st">"micro"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check that the above measurement_groups are in the dictionary.</span></span>
+<span><span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/assert.html" class="external-link">assert</a></span><span class="op">(</span><span class="va">dictionary</span>, </span>
+<span>                <span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/in_set.html" class="external-link">in_set</a></span><span class="op">(</span><span class="va">measurement_groups</span><span class="op">)</span>,</span>
+<span>                <span class="va">measurement_group</span>,</span>
+<span>                description <span class="op">=</span> <span class="st">"`dictionary` contains measurement group that isn't defined."</span><span class="op">)</span></span></code></pre></div>
+</details>
+</div>
+<div class="section level4">
+<h4 id="checking-data-with-assertr">Checking Data with <code>assertr</code><a class="anchor" aria-label="anchor" href="#checking-data-with-assertr"></a>
+</h4>
+<p>The <code>assertr</code> functions check that your data and
+dictionary have the required columns and are consistent with each
+other.</p>
+<p>To demonstrate troubleshooting with data and dictionary mismatches, I
+changed <code>totalN_%</code> to <code>totalN%</code> in the dictionary
+<code>column_name</code>. Rendering the report will fail because there
+is no column name in <code>data</code> that matches
+<code>totalN%</code>:</p>
+<pre><code>Quitting from lines 55-119 [load-data] (01_producer_report.qmd)
+Error:
+! assertr stopped execution
+Backtrace:
+ 1. assertr::assert(...)
+ 2. assertr (local) error_fun(errors, data = data)
+Execution halted</code></pre>
+<p>Unfortunately this error message in the Background Jobs tab is not
+very helpful. It tells us that the error occurred in lines 55-119 in the
+[load-data] chunk.</p>
+<p>If we run that chunk in <code>01_producer_report.qmd</code>, we get a
+more helpful error message:</p>
+<pre><code>Column 'column_name' violates assertion 'assertr::in_set(names(data))' 1 time
+    verb redux_fn                    predicate      column index   value
+1 assert       NA assertr::in_set(names(data)) column_name    12 totalN%
+
+Error: assertr stopped execution</code></pre>
+<p>We can see that the error occurred in
+<code>assertr::in_set(names(data))</code> and the problematic value is
+<code>totalN%</code>. We could then look at the columns in
+<code>data</code> and realize that it should be <code>totalN_%</code>
+and correct that value in our <code>dictionary</code>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -377,7 +448,7 @@ the <code>word-template.docx</code> template file.</p>
 <p>The third chunk in <code>01_producer_report.qmd</code> sets the fonts
 and colors to be used in the tables and plots of the report.</p>
 <details open><summary><code>set-fonts-colors</code> chunk
-</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># EDIT: Replace any font names and colors to match your branding.</span></span>
 <span></span>
 <span><span class="va">header_font</span> <span class="op">&lt;-</span> <span class="st">"Georgia"</span></span>
@@ -469,7 +540,7 @@ will open separately.</p>
 <p>You also can render all reports at once programmatically by editing
 <code>render_reports.R</code> to use the same dataset in the
 <code>load-data</code> chunk of <code>01_producer_report.qmd</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># EDIT: Read in the same dataset used in producer_report.qmd.</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/data/exampleData.csv"</span><span class="op">)</span>,</span>

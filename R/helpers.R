@@ -49,6 +49,7 @@ pull_unique <- function(df, target) {
 #'
 get_n_texture_by_var <- function(results_long, producer_info, var) {
   results_long |>
+    assertr::verify(assertr::has_all_names("sampleId", "texture")) |>
     dplyr::filter({{ var }} %in% producer_info) |>
     dplyr::summarize(
       n = dplyr::n_distinct(sampleId),
@@ -68,11 +69,19 @@ get_n_texture_by_var <- function(results_long, producer_info, var) {
 #' @export
 summarize_by_var <- function(results_long, producer_samples, var) {
   producer_info <- producer_samples |>
+    assertr::verify(assertr::has_all_names("measurement_group", "abbr", "value")) |>
     pull_unique({{ var }})
 
   n_texture <- get_n_texture_by_var(results_long, producer_info, {{ var }})
 
   results_long |>
+    assertr::verify(assertr::has_all_names(
+      "sampleId",
+      "texture",
+      "measurement_group",
+      "abbr",
+      "value"
+    )) |>
     dplyr::summarize(
       value = mean(value, na.rm = TRUE),
       .by = c(measurement_group, abbr, {{ var }})
@@ -98,6 +107,13 @@ summarize_by_project <- function(results_long) {
   texture <- calculate_mode(results_long$texture)
 
   results_long |>
+    assertr::verify(assertr::has_all_names(
+      "sampleId",
+      "texture",
+      "measurement_group",
+      "abbr",
+      "value"
+    )) |>
     dplyr::summarize(
       value = mean(value, na.rm = TRUE),
       .by = c(measurement_group, abbr)
@@ -120,6 +136,11 @@ summarize_by_project <- function(results_long) {
 #' @export
 get_table_headers <- function(dictionary, group) {
   dictionary |>
+    assertr::verify(assertr::has_all_names(
+      "measurement_group",
+      "abbr",
+      "unit"
+    )) |>
     subset(measurement_group == group) |>
     dplyr::select(abbr, unit) |>
     dplyr::mutate(key = abbr, .after = abbr) |>

@@ -18,6 +18,10 @@
 #'   dplyr::glimpse()
 prep_for_map <- function(df, label_heading, label_body) {
   df |>
+    assertr::verify(assertr::has_all_names(
+      "longitude",
+      "latitude"
+    )) |>
     subset(!duplicated(sampleId)) |>
     dplyr::arrange(fieldId) |>
     dplyr::mutate(
@@ -30,7 +34,7 @@ prep_for_map <- function(df, label_heading, label_body) {
 #' Make leaflet map
 #'
 #' @param df Dataframe containing columns: `longitude`, `latitude`, `label`,
-#'   `popup`. See `prep_for_leaflet()` for details.
+#'   `popup`. See `prep_for_map()` for details.
 #' @param primary_color Color of points. Defaults to WaSHI red.
 #'
 #' @source JavaScript code adapted from
@@ -56,7 +60,17 @@ make_leaflet <- function(
     ) {
   agol <- "https://server.arcgisonline.com/ArcGIS/rest/services/"
 
-  leaflet::leaflet(df) |>
+  assertr::verify(
+    df,
+    assertr::has_all_names(
+      "longitude",
+      "latitude",
+      "label",
+      "popup"
+    )
+  )
+
+    leaflet::leaflet(df) |>
     leaflet::addTiles(
       urlTemplate = paste0(agol, "World_Imagery/MapServer/tile/{z}/{y}/{x}"),
       group = "Satellite"

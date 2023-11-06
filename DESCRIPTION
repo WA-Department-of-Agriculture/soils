@@ -39,7 +39,8 @@ Imports:
     rstudioapi,
     tidyr,
     utils,
-    usethis
+    usethis,
+    assertr
 Suggests:
     downloadthis,
     here,

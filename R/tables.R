@@ -189,7 +189,7 @@ unit_hline <- function(ft, header) {
 #'
 #' @param table A dataframe with the contents of the desired flextable output.
 #' @param header Another dataframe with three columns:
-#'  * First column contains what the top header row. In our template, this is the abbreviation of the measurement (i.e. `Organic Matter`).
+#'  * First column contains what the top header row should be. In our template, this is the abbreviation of the measurement (i.e. `Organic Matter`).
 #'  * Second column, called `"key"`, contains the join key. In our template, this is the same as the first column.
 #' * Third column contains the second header row. In our template, this is the unit (i.e. `%`).
 #'

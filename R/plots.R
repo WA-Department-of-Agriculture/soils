@@ -11,7 +11,7 @@
 #' make_texture_triangle(body_font = "sans")
 #'
 make_texture_triangle <- function(
-    body_font = "Poppins") {
+  body_font = "Poppins") {
   if (!exists("usdaTexture")) {
     cli::cli_abort(c(
       "Can't find `usdaTexture`.",
@@ -135,12 +135,12 @@ make_texture_triangle <- function(
 #'     scale_color_viridis_d()
 #' })
 add_texture_points <- function(
-    df,
-    sand,
-    silt,
-    clay,
-    ...
-) {
+  df,
+  sand,
+  silt,
+  clay,
+  ...
+    ) {
   suppressWarnings({
     ggplot2::geom_point(
       data = df,
@@ -207,11 +207,11 @@ add_texture_points <- function(
 #' ) |>
 #'   set_scales()
 theme_facet_strip <- function(
-    ...,
-    body_font = "Poppins",
-    strip_color = "#335c67",
-    strip_text_color = "white"
-) {
+  ...,
+  body_font = "Poppins",
+  strip_color = "#335c67",
+  strip_text_color = "white"
+    ) {
   theme <- ggplot2::theme(
     # Font family
     text = ggplot2::element_text(family = body_font),
@@ -293,11 +293,11 @@ theme_facet_strip <- function(
 #' ) +
 #'   theme_facet_strip(body_font = "sans")
 set_scales <- function(
-    plot,
-    primary_color = "#a60f2d",
-    secondary_color = "#3E3D3D",
-    other_color = "#ccc29c"
-) {
+  plot,
+  primary_color = "#a60f2d",
+  secondary_color = "#3E3D3D",
+  other_color = "#ccc29c"
+    ) {
   plot +
     ggplot2::scale_alpha_manual(values = c(
       "Your fields" = 0.8,
@@ -379,14 +379,14 @@ set_scales <- function(
 #'   set_scales() +
 #'   theme_facet_strip(body_font = "sans")
 make_strip_plot <- function(
-    df,
-    ...,
-    x = dummy,
-    y = value,
-    id = sampleId,
-    group = abbr_unit,
-    tooltip = label
-) {
+  df,
+  ...,
+  x = dummy,
+  y = value,
+  id = sampleId,
+  group = abbr_unit,
+  tooltip = label
+    ) {
   # Set number of columns in facet
   n_facets <- df |>
     dplyr::select({{ group }}) |>
@@ -482,12 +482,12 @@ make_strip_plot <- function(
 #' # Convert static plot to interactive `ggiraph`
 #' convert_ggiraph(plot)
 convert_ggiraph <- function(
-    plot,
-    ...,
-    body_font = "Poppins",
-    width = 6,
-    height = 4
-) {
+  plot,
+  ...,
+  body_font = "Poppins",
+  width = 6,
+  height = 4
+    ) {
   if (!ggiraph::font_family_exists(body_font)) {
     cli::cli_inform(
       c(

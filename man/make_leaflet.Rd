@@ -12,7 +12,7 @@ make_leaflet(df, primary_color = "#a60f2d")
 }
 \arguments{
 \item{df}{Dataframe containing columns: \code{longitude}, \code{latitude}, \code{label},
-\code{popup}. See \code{prep_for_leaflet()} for details.}
+\code{popup}. See \code{prep_for_map()} for details.}
 
 \item{primary_color}{Color of points. Defaults to WaSHI red.}
 }

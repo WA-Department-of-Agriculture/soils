@@ -88,6 +88,10 @@ Once your project data and data dictionary files match the structure of the abov
 -   Change `dataDictionary.csv` to the name of your data dictionary.
 -   Set the order of the `measurement_groups` to how you would like them to appear in the report. These group names must match your data dictionary.
 
+<details open>
+
+<summary>Load Data Chunk</summary>
+
 ```{r load-data, eval=FALSE}
 # EDIT: You will need to add your own cleaned lab data to the data
 # folder, using 'exampleData.csv' as a template.
@@ -102,12 +106,40 @@ data <- read.csv(
   encoding = "UTF-8"
 )
 
+assertr::verify(
+  data,
+  assertr::has_all_names(
+    "year",
+    "sampleId",
+    "farmName",
+    "producerName",
+    "producerId",
+    "fieldName",
+    "fieldId",
+    "county",
+    "crop",
+    "texture",
+    "longitude",
+    "latitude"
+  ),
+  description = "`data` is missing required columns."
+)
+
 # Load data dictionary
 dictionary <- read.csv(
   paste0(here::here(), "/data/dataDictionary.csv"),
   check.names = FALSE,
   # set encoding for using subscripts and superscripts
   encoding = "UTF-8"
+)
+
+# Check that the `column_names` column of your dictionary match your data column
+# names
+assertr::assert(
+  dictionary,
+  assertr::in_set(names(data)),
+  column_name,
+  description = "Values in `column_name` of `dictionary` must match the column names of `data`."
 )
 
 # EDIT: set order of measurement_groups
@@ -119,7 +151,45 @@ measurement_groups <- c(
   "macro",
   "micro"
 )
+
+# Check that the above measurement_groups are in the dictionary.
+assertr::assert(dictionary, 
+                assertr::in_set(measurement_groups),
+                measurement_group,
+                description = "`dictionary` contains measurement group that isn't defined.")
 ```
+
+</details>
+
+### Checking Data with `assertr`
+
+The `assertr` functions check that your data and dictionary have the required columns and are consistent with each other.
+
+To demonstrate troubleshooting with data and dictionary mismatches, I changed `totalN_%` to `totalN%` in the dictionary `column_name`. Rendering the report will fail because there is no column name in `data` that matches `totalN%`:
+
+```         
+Quitting from lines 55-119 [load-data] (01_producer_report.qmd)
+Error:
+! assertr stopped execution
+Backtrace:
+ 1. assertr::assert(...)
+ 2. assertr (local) error_fun(errors, data = data)
+Execution halted
+```
+
+Unfortunately this error message in the Background Jobs tab is not very helpful. It tells us that the error occurred in lines 55-119 in the [load-data] chunk.
+
+If we run that chunk in `01_producer_report.qmd`, we get a more helpful error message:
+
+```         
+Column 'column_name' violates assertion 'assertr::in_set(names(data))' 1 time
+    verb redux_fn                    predicate      column index   value
+1 assert       NA assertr::in_set(names(data)) column_name    12 totalN%
+
+Error: assertr stopped execution
+```
+
+We can see that the error occurred in `assertr::in_set(names(data))` and the problematic value is `totalN%`. We could then look at the columns in `data` and realize that it should be `totalN_%` and correct that value in our `dictionary`.
 
 ## 2) Customize and Write
 

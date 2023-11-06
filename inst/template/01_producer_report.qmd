@@ -51,7 +51,7 @@ if (!dir.exists(path)) {
 
 <!-- Load data and dictionary -->
 
-```{r load-data}
+```{r load-data, include=FALSE}
 # EDIT: You will need to add your own cleaned lab data to the data
 # folder, using 'exampleData.csv' as a template.
 #
@@ -65,12 +65,40 @@ data <- read.csv(
   encoding = "UTF-8"
 )
 
+assertr::verify(
+  data,
+  assertr::has_all_names(
+    "year",
+    "sampleId",
+    "farmName",
+    "producerName",
+    "producerId",
+    "fieldName",
+    "fieldId",
+    "county",
+    "crop",
+    "texture",
+    "longitude",
+    "latitude"
+  ),
+  description = "`data` is missing required columns."
+)
+
 # Load data dictionary
 dictionary <- read.csv(
   paste0(here::here(), "/data/dataDictionary.csv"),
   check.names = FALSE,
   # set encoding for using subscripts and superscripts
   encoding = "UTF-8"
+)
+
+# Check that the `column_names` column of your dictionary match your data column
+# names
+assertr::assert(
+  dictionary,
+  assertr::in_set(names(data)),
+  column_name,
+  description = "Values in `column_name` of `dictionary` must match the column names of `data`."
 )
 
 # EDIT: set order of measurement_groups
@@ -82,6 +110,12 @@ measurement_groups <- c(
   "macro",
   "micro"
 )
+
+# Check that the above measurement_groups are in the dictionary.
+assertr::assert(dictionary, 
+                assertr::in_set(measurement_groups),
+                measurement_group,
+                description = "`dictionary` contains measurement group that isn't defined.")
 ```
 
 <!-- Set styling variables -->
@@ -511,12 +545,15 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
 if (requireNamespace("downloadthis", quietly = TRUE)) {
   list(
     results = subset(data, producerId == params$producerId),
-    measurement_dictionary = dictionary[, c(
+    measurement_dictionary = dictionary[
+      ,
+      c(
         "column_name",
         "measurement_full_name",
         "abbr",
         "unit"
-      )]
+      )
+    ]
   ) |>
     downloadthis::download_this(
       output_name = glue::glue("{params$year}_soils_data"),

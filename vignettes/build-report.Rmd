@@ -5,10 +5,6 @@ vignette: >
   %\VignetteIndexEntry{Build a Report}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-resource-files:
-  - "../man/figures/agg.png"
-  - "../man/figures/utf-8.png"
-  - "../man/figures/render.png"
 ---
 
 ```{r, include = FALSE}
@@ -209,11 +205,16 @@ The only fields you need to edit are:
 
 ```         
 ---
-title: "![](images/logo.png) Results from the State of the Soils"
+# EDIT: Replace logo.png in images folder with your own and add project name.
+title: "![](images/logo.png) Results from PROJECT NAME"
+# EDIT: Subtitle right aligned below title.
 subtitle: "Fall 2023"
+# EDIT: producerId and year must be a valid combo that exists in your dataset
 params:
   producerId: WUY05
   year: 2023
+
+# Shouldn't need to edit the below values unless you want to customize.
 ---
 ```
 

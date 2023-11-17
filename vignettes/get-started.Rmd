@@ -5,11 +5,6 @@ vignette: >
   %\VignetteIndexEntry{Get Started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-resource_files:
-  - "../man/figures/project_wizard.png"
-  - "../man/figures/new_project.png"
-  - "..../man/figures/create_soils.png"
-  - "../man/figures/render.png"
 ---
 
 ```{r options, include = FALSE}
@@ -105,9 +100,9 @@ Both options will create and launch a new RStudio project with the following fil
 
 </details>
 
-## Render the Report Template
+## Render the Example Report
 
-Open `01_producer_report.qmd` and click the `Render` button at the top of the file to generate either the HTML or MS Word report.
+Let's render the example report with the dummy built-in data without making any changes just to make sure your system is set up correctly. Open `01_producer_report.qmd` and click the `Render` button at the top of the file to generate either the HTML or MS Word report.
 
 If rendering to HTML, you can check the `Render on Save` option to automatically update the preview whenever you save the document.
 
@@ -119,4 +114,22 @@ If the rendered report doesn't immediately open, you can find it in your project
 
 ![](../man/figures/rendered_report_location.png){fig-alt="RStudio screenshot of files pane with boxes around the project directory and the two rendered producer reports titled 01_producer_report.html and 01_producer_report.docx."}
 
-To learn how to customize the reports to suit your own project, head over to the article on [Customize the Template](https://wa-department-of-agriculture.github.io/soils/articles/customize-template.html).
+## Render a Report with Your Data
+
+Now try rendering the report with your own data.
+
+1.  Open the `data` folder and look at the `exampleData.csv` and `dataDictionary.csv`.
+
+2.  Use these as templates to replicate the column names and structure of these CSV files with your own data. All column names besides the measurements columns must be exactly the same. The measurement column names in your data must match the values in the `column_name` column in your data dictionary.
+
+3.  Update the load data chunk with the names of your data and data dictionary CSV files.
+
+![](../man/figures/load-data.png){fig-alt="Lines 59-71 and 92-98 of 01_producer_report.qmd with boxes and arrows pointing at read.csv functions to import the data and dictionary. A text box says 'replace with your file names'."}
+
+4.  At the top of `01_producer_report.qmd`, update the `producerId` and `year` to a valid combination that exists in your own data.
+
+![](../man/figures/params.png){fig-alt="Lines 6-9 of 01_producer_report.qmd showing the params, producerId, and year key-value pairs to change in the YAML."}
+
+5.  Click `Render` in RStudio.
+
+For more details on customizing the report template for your own project, head over to the article [Customize the Template](https://wa-department-of-agriculture.github.io/soils/articles/customize-template.html).

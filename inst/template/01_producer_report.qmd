@@ -1,6 +1,14 @@
 ---
-title: "![](images/logo.png) Results from [EDIT: PROJECT NAME]"
-subtitle: "[EDIT: DATE]"
+# EDIT: Replace logo.png in images folder with your own and add project name.
+title: "![](images/logo.png) Results from PROJECT NAME"
+# EDIT: Subtitle right aligned below title.
+subtitle: "Fall 2023"
+# EDIT: producerId and year must be a valid combo that exists in your dataset
+params:
+  producerId: WUY05
+  year: 2023
+
+# Shouldn't need to edit the below values unless you want to customize.
 execute:
   echo: false
   warning: false
@@ -27,9 +35,6 @@ fig-align: left
 fig-width: 6
 fig-height: 3.5
 fig-dpi: 300
-params:
-  producerId: WUY05
-  year: 2023
 ---
 
 <!-- Attach soils package, set up paths -->

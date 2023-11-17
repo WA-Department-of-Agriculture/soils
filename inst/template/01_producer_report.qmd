@@ -204,7 +204,7 @@ producer <- list("sampleId", "crop", "county", "farmName", "measurement") |>
   ))
 
 # In case of multiple farm names, grab first one
-producer$farmName <- producer$farmName[[1]]
+producer$farmName <- if (producer$farmName > 1) producer$farmName[[1]]
 
 # Remove measurements that producer did not have tested
 results_long <- results_long |>

@@ -178,9 +178,11 @@ Project Directory and Files
 </details>
 </div>
 <div class="section level2">
-<h2 id="render-the-report-template">Render the Report Template<a class="anchor" aria-label="anchor" href="#render-the-report-template"></a>
+<h2 id="render-the-example-report">Render the Example Report<a class="anchor" aria-label="anchor" href="#render-the-example-report"></a>
 </h2>
-<p>Open <code>01_producer_report.qmd</code> and click the
+<p>Let’s render the example report with the dummy built-in data without
+making any changes just to make sure your system is set up correctly.
+Open <code>01_producer_report.qmd</code> and click the
 <code>Render</code> button at the top of the file to generate either the
 HTML or MS Word report.</p>
 <p>If rendering to HTML, you can check the <code>Render on Save</code>
@@ -194,8 +196,35 @@ Example</a>, depending on which render option you selected.</p>
 your project directory with the same name as the main Quarto
 <code>.qmd</code> file (<code>01_producer_report.qmd</code>.</p>
 <p><img src="../reference/figures/rendered_report_location.png" fig-alt="RStudio screenshot of files pane with boxes around the project directory and the two rendered producer reports titled 01_producer_report.html and 01_producer_report.docx."></p>
-<p>To learn how to customize the reports to suit your own project, head
-over to the article on <a href="https://wa-department-of-agriculture.github.io/soils/articles/customize-template.html">Customize
+</div>
+<div class="section level2">
+<h2 id="render-a-report-with-your-data">Render a Report with Your Data<a class="anchor" aria-label="anchor" href="#render-a-report-with-your-data"></a>
+</h2>
+<p>Now try rendering the report with your own data.</p>
+<ol style="list-style-type: decimal">
+<li><p>Open the <code>data</code> folder and look at the
+<code>exampleData.csv</code> and
+<code>dataDictionary.csv</code>.</p></li>
+<li><p>Use these as templates to replicate the column names and
+structure of these CSV files with your own data. All column names
+besides the measurements columns must be exactly the same. The
+measurement column names in your data must match the values in the
+<code>column_name</code> column in your data dictionary.</p></li>
+<li><p>Update the load data chunk with the names of your data and data
+dictionary CSV files.</p></li>
+</ol>
+<p><img src="../reference/figures/load-data.png" fig-alt="Lines 59-71 and 92-98 of 01_producer_report.qmd with boxes and arrows pointing at read.csv functions to import the data and dictionary. A text box says 'replace with your file names'."></p>
+<ol start="4" style="list-style-type: decimal">
+<li>At the top of <code>01_producer_report.qmd</code>, update the
+<code>producerId</code> and <code>year</code> to a valid combination
+that exists in your own data.</li>
+</ol>
+<p><img src="../reference/figures/params.png" fig-alt="Lines 6-9 of 01_producer_report.qmd showing the params, producerId, and year key-value pairs to change in the YAML."></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Click <code>Render</code> in RStudio.</li>
+</ol>
+<p>For more details on customizing the report template for your own
+project, head over to the article <a href="https://wa-department-of-agriculture.github.io/soils/articles/customize-template.html">Customize
 the Template</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

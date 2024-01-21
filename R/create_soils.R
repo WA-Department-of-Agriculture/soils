@@ -30,8 +30,9 @@ create_soils <- function(
     ) {
   if (missing(path)) {
     cli::cli_abort(c(
-      "!" = "`path` is missing.",
-      "i" = "Where do you want to create this project?"
+      "!" = "{.path path} must be provided.",
+      "i" = "Where do you want to create this project?",
+      "i" = "For example, {.code create_soils(path = 'path/to/my/directory')}"
     ))
   }
 
@@ -40,27 +41,34 @@ create_soils <- function(
     mustWork = FALSE
   )
 
-  if (fs::dir_exists(path)) {
-    if (!isTRUE(overwrite)) {
+  dir_exists <- fs::dir_exists(path)
+  overwriting <- isTRUE(overwrite)
+
+  if (dir_exists && !overwriting) {
       cli::cli_abort(
         c(
-          "!" = "{path} already exists.",
-          "i" = "Set `create_soils(overwrite = TRUE)` to overwrite anyway."
+          "!" = "{.path {path}} already exists.",
+          "i" = "To always overwrite: \\
+          {.code create_soils({.path {path}} overwrite = TRUE)}"
         )
       )
-    } else {
+    }
+
+  if (dir_exists && overwriting) {
       cat_red_bullet("Overwriting existing project.")
       if (rstudioapi::isAvailable() & isTRUE(open)) {
         rstudioapi::openProject(path, newSession = TRUE)
       }
-    }
-  } else {
+  }
+
+  if (!dir_exists) {
     cli::cat_rule("Creating directory")
     usethis::create_project(
       path = path,
       open = open
     )
   }
+
   cat_green_tick("Created project directory")
 
   invisible({

@@ -30,7 +30,7 @@ create_soils <- function(
     ) {
   if (missing(path)) {
     cli::cli_abort(c(
-      "!" = "{.path path} must be provided.",
+      "!" = "{.arg path} must be provided.",
       "i" = "Where do you want to create this project?",
       "i" = "For example, {.code create_soils(path = 'path/to/my/directory')}"
     ))

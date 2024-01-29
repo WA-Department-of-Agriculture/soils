@@ -89,17 +89,17 @@
 <span class="r-in"><span><span class="co"># Create a texture triangle with points colored by texture</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="make_texture_triangle.html">make_texture_triangle</a></span><span class="op">(</span>body_font <span class="op">=</span> <span class="st">"sans"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">add_texture_points</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    df <span class="op">=</span> <span class="va">exampleData</span>,</span></span>
-<span class="r-in"><span>    sand <span class="op">=</span> <span class="va">`sand_%`</span>,</span></span>
-<span class="r-in"><span>    silt <span class="op">=</span> <span class="va">`silt_%`</span>,</span></span>
-<span class="r-in"><span>    clay <span class="op">=</span> <span class="va">`clay_%`</span>,</span></span>
+<span class="r-in"><span>    df <span class="op">=</span> <span class="va">washi_data</span>,</span></span>
+<span class="r-in"><span>    sand <span class="op">=</span> <span class="va">sand_percent</span>,</span></span>
+<span class="r-in"><span>    silt <span class="op">=</span> <span class="va">silt_percent</span>,</span></span>
+<span class="r-in"><span>    clay <span class="op">=</span> <span class="va">clay_percent</span>,</span></span>
 <span class="r-in"><span>    color <span class="op">=</span> <span class="st">"#a60f2d"</span>,</span></span>
 <span class="r-in"><span>    alpha <span class="op">=</span> <span class="fl">0.6</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="co"># if you are setting a color to a constant, you must call</span></span></span>
 <span class="r-in"><span>  <span class="co"># scale_*_identity().</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_color_identity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_alpha_identity</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_color_identity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_alpha_identity</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 methods overwritten by 'ggtern':</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   method           from   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   grid.draw.ggplot ggplot2</span>
@@ -112,13 +112,13 @@
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="make_texture_triangle.html">make_texture_triangle</a></span><span class="op">(</span>body_font <span class="op">=</span> <span class="st">"sans"</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>    <span class="fu">add_texture_points</span><span class="op">(</span></span></span>
-<span class="r-in"><span>      df <span class="op">=</span> <span class="va">exampleData</span>,</span></span>
-<span class="r-in"><span>      sand <span class="op">=</span> <span class="va">`sand_%`</span>,</span></span>
-<span class="r-in"><span>      silt <span class="op">=</span> <span class="va">`silt_%`</span>,</span></span>
-<span class="r-in"><span>      clay <span class="op">=</span> <span class="va">`clay_%`</span>,</span></span>
+<span class="r-in"><span>      df <span class="op">=</span> <span class="va">washi_data</span>,</span></span>
+<span class="r-in"><span>      sand <span class="op">=</span> <span class="va">sand_percent</span>,</span></span>
+<span class="r-in"><span>      silt <span class="op">=</span> <span class="va">silt_percent</span>,</span></span>
+<span class="r-in"><span>      clay <span class="op">=</span> <span class="va">clay_percent</span>,</span></span>
 <span class="r-in"><span>      color <span class="op">=</span> <span class="va">texture</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="add_texture_points-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>

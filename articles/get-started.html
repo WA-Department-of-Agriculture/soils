@@ -162,8 +162,8 @@ Project Directory and Files
 ├── 08_looking_forward.qmd
 ├── 09_acknowledgement.qmd
 ├── data
-│   ├── dataDictionary.csv
-│   └── exampleData.csv
+│   ├── data-dictionary.csv
+│   └── washi-data.csv
 ├── images
 │   ├── biological.png
 │   ├── chemical.png
@@ -203,8 +203,8 @@ your project directory with the same name as the main Quarto
 <p>Now try rendering the report with your own data.</p>
 <ol style="list-style-type: decimal">
 <li><p>Open the <code>data</code> folder and look at the
-<code>exampleData.csv</code> and
-<code>dataDictionary.csv</code>.</p></li>
+<code>washi-data.csv</code> and
+<code>data-dictionary.csv</code>.</p></li>
 <li><p>Use these as templates to replicate the column names and
 structure of these CSV files with your own data. All column names
 besides the measurements columns must be exactly the same. The
@@ -216,10 +216,10 @@ dictionary CSV files.</p></li>
 <p><img src="../reference/figures/load-data.png" fig-alt="Lines 59-71 and 92-98 of 01_producer_report.qmd with boxes and arrows pointing at read.csv functions to import the data and dictionary. A text box says 'replace with your file names'."></p>
 <ol start="4" style="list-style-type: decimal">
 <li>At the top of <code>01_producer_report.qmd</code>, update the
-<code>producerId</code> and <code>year</code> to a valid combination
+<code>producer_id</code> and <code>year</code> to a valid combination
 that exists in your own data.</li>
 </ol>
-<p><img src="../reference/figures/params.png" fig-alt="Lines 6-9 of 01_producer_report.qmd showing the params, producerId, and year key-value pairs to change in the YAML."></p>
+<p><img src="../reference/figures/params.png" fig-alt="Lines 6-9 of 01_producer_report.qmd showing the params, producer_id, and year key-value pairs to change in the YAML."></p>
 <ol start="5" style="list-style-type: decimal">
 <li>Click <code>Render</code> in RStudio.</li>
 </ol>

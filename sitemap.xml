@@ -43,10 +43,7 @@
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/create_soils.html</loc>
   </url>
   <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/dataDictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/exampleData.html</loc>
+    <loc>https://wa-department-of-agriculture.github.io/soils/reference/data_dictionary.html</loc>
   </url>
   <url>
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/format_ft_colors.html</loc>
@@ -82,6 +79,9 @@
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/set_scales.html</loc>
   </url>
   <url>
+    <loc>https://wa-department-of-agriculture.github.io/soils/reference/soils-package.html</loc>
+  </url>
+  <url>
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/soils_example.html</loc>
   </url>
   <url>
@@ -100,6 +100,9 @@
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/unit_hline.html</loc>
   </url>
   <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/usdaTexture.html</loc>
+    <loc>https://wa-department-of-agriculture.github.io/soils/reference/usda_texture.html</loc>
+  </url>
+  <url>
+    <loc>https://wa-department-of-agriculture.github.io/soils/reference/washi_data.html</loc>
   </url>
 </urlset>

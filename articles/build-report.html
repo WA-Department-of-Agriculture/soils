@@ -132,60 +132,60 @@ rendering immediately after installing {soils} on your machine.</p>
 Example Data
 </summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">exampleData</span><span class="op">)</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">washi_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 100</span></span>
 <span><span class="co">#&gt; Columns: 51</span></span>
-<span><span class="co">#&gt; $ year                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2023, 2022, 2022, 2022, 2023, 2022, 2023, 2022, …</span></span>
-<span><span class="co">#&gt; $ sampleId              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-WUY05-01", "22-RHM05-02", "22-ENR07-02", "22…</span></span>
-<span><span class="co">#&gt; $ farmName              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 150", "Farm 085", "Farm 058", "Farm 061", …</span></span>
-<span><span class="co">#&gt; $ producerName          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Shanna", "Warren", "Alecia", "Samantha", "Shann…</span></span>
-<span><span class="co">#&gt; $ producerId            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "WUY05", "RHM05", "ENR07", "ZTD04", "WUY05", "BK…</span></span>
-<span><span class="co">#&gt; $ fieldName             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 01", "Field 02", "Field 02", "Field 03", …</span></span>
-<span><span class="co">#&gt; $ fieldId               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 2, 3, 3, 2, 1, 2, 1, 1, 1, 1, 2, 8, 2, 1, …</span></span>
-<span><span class="co">#&gt; $ county                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 9", "County 18", "County 11", "County 13…</span></span>
-<span><span class="co">#&gt; $ crop                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Hay/Silage", "Green Manure", "Vegetable", "Herb…</span></span>
-<span><span class="co">#&gt; $ texture               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Loamy Sand", "Sandy Loam", "Silt Loam", "Silt L…</span></span>
-<span><span class="co">#&gt; $ `24hrminC_mgC.kg.day` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, 0.14, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ bd_g.cm3              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.30, 0.88, 1.21, 1.37, 1.22, 1.14, 1.44, 1.24, …</span></span>
-<span><span class="co">#&gt; $ pmN_lbs.ac            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 67.13, 129.97, 122.17, 95.24, 111.35, 61.92, -77…</span></span>
-<span><span class="co">#&gt; $ ammN_mg.kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.6, 21.6, 8.1, 13.8, 3.9, 12.4, 2.4, 12.4, 2.3,…</span></span>
-<span><span class="co">#&gt; $ nitrateN_mg.kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 9.2, 6.1, 25.3, 16.9, 6.7, 4.3, 21.5, 7.4, 2.3, …</span></span>
-<span><span class="co">#&gt; $ pmN_mg.kg             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 19.0, 54.1, 37.0, 25.6, 33.6, 20.0, -19.9, 33.6,…</span></span>
-<span><span class="co">#&gt; $ poxC_mg.kg            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 496, 571, 419, 424, 547, 235, 501, 480, 965, 105…</span></span>
-<span><span class="co">#&gt; $ pH                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.7, 5.9, 6.3, 6.8, 7.6, 5.5, 5.5, 5.9, 6.3, 6.0…</span></span>
-<span><span class="co">#&gt; $ EC_mmhos.cm           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.42, 0.05, 0.60, 2.18, 0.60, 0.81, 0.55, 0.34, …</span></span>
-<span><span class="co">#&gt; $ K_mg.kg               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 498, 198, 294, 229, 273, 372, 289, 355, 253, 733…</span></span>
-<span><span class="co">#&gt; $ Ca_mg.kg              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1380, 780, 1760, 3380, 2820, 1480, 1140, 2080, 2…</span></span>
-<span><span class="co">#&gt; $ Mg_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 145.2, 96.8, 266.2, 738.1, 193.6, 229.9, 133.1, …</span></span>
-<span><span class="co">#&gt; $ Na_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 16.1, 20.7, 20.7, 80.5, 13.8, 16.1, 23.0, 16.1, …</span></span>
-<span><span class="co">#&gt; $ CEC_meq.100g          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 7.8, 10.5, 13.0, 14.4, 10.1, 12.4, 12.9, 14.8, 1…</span></span>
-<span><span class="co">#&gt; $ B_mg.kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.22, 0.09, 0.41, 0.72, 0.25, 0.18, 0.12, 0.21, …</span></span>
-<span><span class="co">#&gt; $ Cu_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.6, 0.4, 4.2, 1.1, 0.7, 1.0, 0.5, 1.4, 1.1, 0.5…</span></span>
-<span><span class="co">#&gt; $ Fe_mg.kg              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 26, 28, 141, 37, 15, 64, 44, 85, 129, 31, 86, 38…</span></span>
-<span><span class="co">#&gt; $ Mn_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.5, 2.7, 4.1, 11.5, 1.7, 9.0, 4.4, 17.1, 9.9, 1…</span></span>
-<span><span class="co">#&gt; $ S_mg.kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.29, 9.41, 26.73, 51.70, 3.29, 4.51, 9.13, 8.26…</span></span>
-<span><span class="co">#&gt; $ Zn_mg.kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.7, 0.8, 4.2, 2.4, 0.8, 0.5, 34.0, 0.9, 7.8, 0.…</span></span>
-<span><span class="co">#&gt; $ `totalC_%`            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68, 1.40, 1.65, 1.55, 2.25, 2.37, …</span></span>
-<span><span class="co">#&gt; $ `totalN_%`            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.16, 0.18, 0.14, 0.12, 0.16, 0.13, 0.15, 0.17, …</span></span>
-<span><span class="co">#&gt; $ ace_g.protein.kg.soil <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.74, 21.50, 10.90, 5.53, 4.20, 10.30, 7.73, 6.8…</span></span>
-<span><span class="co">#&gt; $ `sand_%`              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 44, 69, 11, 36, 64, 24, 80, 22, 62, 48, 80, 69, …</span></span>
-<span><span class="co">#&gt; $ `silt_%`              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 23, 21, 79, 51, 33, 62, 16, 57, 26, 45, 14, 27, …</span></span>
-<span><span class="co">#&gt; $ `clay_%`              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 3, 10, 10, 13, 3, 14, 4, 21, 12, 7, 6, 4, 10, 13…</span></span>
-<span><span class="co">#&gt; $ `96hrminC_mgC.kg.day` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35.60, 30.00, 15.00, 67.50, 50.60, 25.50, 30.60,…</span></span>
-<span><span class="co">#&gt; $ olsenP_mg.kg          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 15, 37, 73, 30, 8, 33, 27, 29, 40, 16, 19, 11, 1…</span></span>
-<span><span class="co">#&gt; $ `wsa_%`               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 88.5, 92.6, 91.3, 94.3, 84.6, 86.6, 86.9, 82.5, …</span></span>
-<span><span class="co">#&gt; $ `OM_%`                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.5, 5.8, 2.4, 2.9, 6.7, 3.2, 27.0, 4.2, 7.9, 5.…</span></span>
-<span><span class="co">#&gt; $ `TOC_%`               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68, 1.40, 1.53, 1.55, 2.25, 2.37, …</span></span>
-<span><span class="co">#&gt; $ Ca_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.9, 3.9, 8.8, 16.9, 14.1, 7.4, 5.7, 10.4, 13.4,…</span></span>
-<span><span class="co">#&gt; $ Mg_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.2, 0.8, 2.2, 6.1, 1.6, 1.9, 1.1, 1.9, 3.5, 0.9…</span></span>
-<span><span class="co">#&gt; $ Na_cmolc.kg           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.07, 0.09, 0.09, 0.35, 0.06, 0.07, 0.10, 0.07, …</span></span>
-<span><span class="co">#&gt; $ WHC_in.ft             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.01, 1.08, 2.77, 1.93, 1.28, 2.25, 0.84, 2.14, …</span></span>
-<span><span class="co">#&gt; $ `moisture_%`          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 17.53, 33.10, 27.97, 25.27, 17.65, 25.97, 14.06,…</span></span>
-<span><span class="co">#&gt; $ `inorganicC_%`        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, NA, 0.12, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ `pmN_nitrateN _mg.kg` <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 29.0, NA, NA, NA, 42.7, NA, 1.1, NA, 124.0, NA, …</span></span>
-<span><span class="co">#&gt; $ pmN_ammN_mg.kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.8, NA, NA, NA, 1.5, NA, 2.9, NA, 0.7, NA, 14.4…</span></span>
-<span><span class="co">#&gt; $ longitude             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -119, -123, -122, -120, -119, -117, -118, -117, …</span></span>
-<span><span class="co">#&gt; $ latitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 49, 47, 47, 46, 49, 47, 49, 47, 48, 48, 46, 47, …</span></span></code></pre></div>
+<span><span class="co">#&gt; $ year                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2023, 2022, 2022, 2022, 2023, 2022, 2023, 2022,…</span></span>
+<span><span class="co">#&gt; $ sample_id              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-WUY05-01", "22-RHM05-02", "22-ENR07-02", "2…</span></span>
+<span><span class="co">#&gt; $ farm_name              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 150", "Farm 085", "Farm 058", "Farm 061",…</span></span>
+<span><span class="co">#&gt; $ producer_name          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Shanna", "Warren", "Alecia", "Samantha", "Shan…</span></span>
+<span><span class="co">#&gt; $ producer_id            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "WUY05", "RHM05", "ENR07", "ZTD04", "WUY05", "B…</span></span>
+<span><span class="co">#&gt; $ field_name             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 01", "Field 02", "Field 02", "Field 03",…</span></span>
+<span><span class="co">#&gt; $ field_id               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 2, 3, 3, 2, 1, 2, 1, 1, 1, 1, 2, 8, 2, 1,…</span></span>
+<span><span class="co">#&gt; $ county                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 9", "County 18", "County 11", "County 1…</span></span>
+<span><span class="co">#&gt; $ crop                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Hay/Silage", "Green Manure", "Vegetable", "Her…</span></span>
+<span><span class="co">#&gt; $ texture                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Loamy Sand", "Sandy Loam", "Silt Loam", "Silt …</span></span>
+<span><span class="co">#&gt; $ min_c_24hr_mg_c_kg_day <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, 0.14, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span><span class="co">#&gt; $ bd_g_cm3               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.30, 0.88, 1.21, 1.37, 1.22, 1.14, 1.44, 1.24,…</span></span>
+<span><span class="co">#&gt; $ pmn_lb_ac              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 67.13, 129.97, 122.17, 95.24, 111.35, 61.92, -7…</span></span>
+<span><span class="co">#&gt; $ nh4_n_mg_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.6, 21.6, 8.1, 13.8, 3.9, 12.4, 2.4, 12.4, 2.3…</span></span>
+<span><span class="co">#&gt; $ no3_n_mg_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 9.2, 6.1, 25.3, 16.9, 6.7, 4.3, 21.5, 7.4, 2.3,…</span></span>
+<span><span class="co">#&gt; $ pmn_mg_kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 19.0, 54.1, 37.0, 25.6, 33.6, 20.0, -19.9, 33.6…</span></span>
+<span><span class="co">#&gt; $ poxc_mg_kg             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 496, 571, 419, 424, 547, 235, 501, 480, 965, 10…</span></span>
+<span><span class="co">#&gt; $ ph                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.7, 5.9, 6.3, 6.8, 7.6, 5.5, 5.5, 5.9, 6.3, 6.…</span></span>
+<span><span class="co">#&gt; $ ec_mmhos_cm            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.42, 0.05, 0.60, 2.18, 0.60, 0.81, 0.55, 0.34,…</span></span>
+<span><span class="co">#&gt; $ k_mg_kg                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 498, 198, 294, 229, 273, 372, 289, 355, 253, 73…</span></span>
+<span><span class="co">#&gt; $ ca_mg_kg               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1380, 780, 1760, 3380, 2820, 1480, 1140, 2080, …</span></span>
+<span><span class="co">#&gt; $ mg_mg_kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 145.2, 96.8, 266.2, 738.1, 193.6, 229.9, 133.1,…</span></span>
+<span><span class="co">#&gt; $ na_mg_kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 16.1, 20.7, 20.7, 80.5, 13.8, 16.1, 23.0, 16.1,…</span></span>
+<span><span class="co">#&gt; $ cec_meq_100g           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 7.8, 10.5, 13.0, 14.4, 10.1, 12.4, 12.9, 14.8, …</span></span>
+<span><span class="co">#&gt; $ b_mg_kg                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.22, 0.09, 0.41, 0.72, 0.25, 0.18, 0.12, 0.21,…</span></span>
+<span><span class="co">#&gt; $ cu_mg_kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.6, 0.4, 4.2, 1.1, 0.7, 1.0, 0.5, 1.4, 1.1, 0.…</span></span>
+<span><span class="co">#&gt; $ fe_mg_kg               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 26, 28, 141, 37, 15, 64, 44, 85, 129, 31, 86, 3…</span></span>
+<span><span class="co">#&gt; $ mn_mg_kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.5, 2.7, 4.1, 11.5, 1.7, 9.0, 4.4, 17.1, 9.9, …</span></span>
+<span><span class="co">#&gt; $ s_mg_kg                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.29, 9.41, 26.73, 51.70, 3.29, 4.51, 9.13, 8.2…</span></span>
+<span><span class="co">#&gt; $ zn_mg_kg               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.7, 0.8, 4.2, 2.4, 0.8, 0.5, 34.0, 0.9, 7.8, 0…</span></span>
+<span><span class="co">#&gt; $ total_c_percent        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68, 1.40, 1.65, 1.55, 2.25, 2.37,…</span></span>
+<span><span class="co">#&gt; $ total_n_percent        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.16, 0.18, 0.14, 0.12, 0.16, 0.13, 0.15, 0.17,…</span></span>
+<span><span class="co">#&gt; $ ace_g_protein_kg_soil  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.74, 21.50, 10.90, 5.53, 4.20, 10.30, 7.73, 6.…</span></span>
+<span><span class="co">#&gt; $ sand_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 44, 69, 11, 36, 64, 24, 80, 22, 62, 48, 80, 69,…</span></span>
+<span><span class="co">#&gt; $ silt_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 23, 21, 79, 51, 33, 62, 16, 57, 26, 45, 14, 27,…</span></span>
+<span><span class="co">#&gt; $ clay_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 3, 10, 10, 13, 3, 14, 4, 21, 12, 7, 6, 4, 10, 1…</span></span>
+<span><span class="co">#&gt; $ min_c_96hr_mg_c_kg_day <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35.60, 30.00, 15.00, 67.50, 50.60, 25.50, 30.60…</span></span>
+<span><span class="co">#&gt; $ p_olsen_mg_kg          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 15, 37, 73, 30, 8, 33, 27, 29, 40, 16, 19, 11, …</span></span>
+<span><span class="co">#&gt; $ wsa_percent            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 88.5, 92.6, 91.3, 94.3, 84.6, 86.6, 86.9, 82.5,…</span></span>
+<span><span class="co">#&gt; $ om_percent             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.5, 5.8, 2.4, 2.9, 6.7, 3.2, 27.0, 4.2, 7.9, 5…</span></span>
+<span><span class="co">#&gt; $ toc_percent            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68, 1.40, 1.53, 1.55, 2.25, 2.37,…</span></span>
+<span><span class="co">#&gt; $ ca_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.9, 3.9, 8.8, 16.9, 14.1, 7.4, 5.7, 10.4, 13.4…</span></span>
+<span><span class="co">#&gt; $ mg_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.2, 0.8, 2.2, 6.1, 1.6, 1.9, 1.1, 1.9, 3.5, 0.…</span></span>
+<span><span class="co">#&gt; $ na_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.07, 0.09, 0.09, 0.35, 0.06, 0.07, 0.10, 0.07,…</span></span>
+<span><span class="co">#&gt; $ whc_in_ft              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.01, 1.08, 2.77, 1.93, 1.28, 2.25, 0.84, 2.14,…</span></span>
+<span><span class="co">#&gt; $ moisture_percent       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 17.53, 33.10, 27.97, 25.27, 17.65, 25.97, 14.06…</span></span>
+<span><span class="co">#&gt; $ inorganic_c_percent    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, NA, 0.12, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span><span class="co">#&gt; $ pmn_no3_n_mg_kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 29.0, NA, NA, NA, 42.7, NA, 1.1, NA, 124.0, NA,…</span></span>
+<span><span class="co">#&gt; $ pmn_nh4_n_mg_kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.8, NA, NA, NA, 1.5, NA, 2.9, NA, 0.7, NA, 14.…</span></span>
+<span><span class="co">#&gt; $ longitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -119, -123, -122, -120, -119, -117, -118, -117,…</span></span>
+<span><span class="co">#&gt; $ latitude               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 49, 47, 47, 46, 49, 47, 49, 47, 48, 48, 46, 47,…</span></span></code></pre></div>
 </details><p>All column names in your data, besides measurements, must be exactly
 the same as above.</p>
 <p>Each measurement must be in its own column and have the format of
@@ -208,12 +208,12 @@ example:</p>
 <details open><summary>
 Example Data Dictionary
 </summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataDictionary</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">data_dictionary</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 32</span></span>
 <span><span class="co">#&gt; Columns: 8</span></span>
 <span><span class="co">#&gt; $ measurement_group       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "biological", "biological", "biological", "bio…</span></span>
 <span><span class="co">#&gt; $ measurement_group_label <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Biological", "Biological", "Biological", "Bio…</span></span>
-<span><span class="co">#&gt; $ column_name             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "OM_%", "96hrminC_mgC.kg.day", "poxC_mg.kg", "…</span></span>
+<span><span class="co">#&gt; $ column_name             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "om_percent", "min_c_96hr_mg_c_kg_day", "poxc_…</span></span>
 <span><span class="co">#&gt; $ measurement_full_name   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter", "Potentially Mineralizable C…</span></span>
 <span><span class="co">#&gt; $ order                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5…</span></span>
 <span><span class="co">#&gt; $ abbr                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter", "Min C", "POXC", "PMN", "ACE…</span></span>
@@ -245,9 +245,9 @@ of the above examples, place them in the <code>data</code> folder. Then
 make the following changes in the <code>load-data</code> chunk in
 <code>01_producer_report.qmd</code>:</p>
 <ul>
-<li>Change <code>exampleData.csv</code> to the name of your data
+<li>Change <code>washi-data.csv</code> to the name of your data
 file.</li>
-<li>Change <code>dataDictionary.csv</code> to the name of your data
+<li>Change <code>data-dictionary.csv</code> to the name of your data
 dictionary.</li>
 <li>Set the order of the <code>measurement_groups</code> to how you
 would like them to appear in the report. These group names must match
@@ -257,14 +257,14 @@ your data dictionary.</li>
 Load Data Chunk
 </summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># EDIT: You will need to add your own cleaned lab data to the data</span></span>
-<span><span class="co"># folder, using 'exampleData.csv' as a template.</span></span>
+<span><span class="co"># folder, using 'washi-data.csv' as a template.</span></span>
 <span><span class="co">#</span></span>
-<span><span class="co"># 'dataDictionary.csv' must also be updated to match your own</span></span>
+<span><span class="co"># 'data-dictionary.csv' must also be updated to match your own</span></span>
 <span><span class="co"># data set.</span></span>
 <span></span>
 <span><span class="co"># Load lab results</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/data/exampleData.csv"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/data/washi-data.csv"</span><span class="op">)</span>,</span>
 <span>  check.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
 <span><span class="op">)</span></span>
@@ -273,12 +273,12 @@ Load Data Chunk
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/has_all_names.html" class="external-link">has_all_names</a></span><span class="op">(</span></span>
 <span>    <span class="st">"year"</span>,</span>
-<span>    <span class="st">"sampleId"</span>,</span>
-<span>    <span class="st">"farmName"</span>,</span>
-<span>    <span class="st">"producerName"</span>,</span>
-<span>    <span class="st">"producerId"</span>,</span>
-<span>    <span class="st">"fieldName"</span>,</span>
-<span>    <span class="st">"fieldId"</span>,</span>
+<span>    <span class="st">"sample_id"</span>,</span>
+<span>    <span class="st">"farm_name"</span>,</span>
+<span>    <span class="st">"producer_name"</span>,</span>
+<span>    <span class="st">"producer_id"</span>,</span>
+<span>    <span class="st">"field_name"</span>,</span>
+<span>    <span class="st">"field_id"</span>,</span>
 <span>    <span class="st">"county"</span>,</span>
 <span>    <span class="st">"crop"</span>,</span>
 <span>    <span class="st">"texture"</span>,</span>
@@ -290,7 +290,7 @@ Load Data Chunk
 <span></span>
 <span><span class="co"># Load data dictionary</span></span>
 <span><span class="va">dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/data/dataDictionary.csv"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/data/data-dictionary.csv"</span><span class="op">)</span>,</span>
 <span>  check.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="co"># set encoding for using subscripts and superscripts</span></span>
 <span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
@@ -302,7 +302,8 @@ Load Data Chunk
 <span>  <span class="va">dictionary</span>,</span>
 <span>  <span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/in_set.html" class="external-link">in_set</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="va">column_name</span>,</span>
-<span>  description <span class="op">=</span> <span class="st">"Values in `column_name` of `dictionary` must match the column names of `data`."</span></span>
+<span>  description <span class="op">=</span> <span class="st">"Values in `column_name` of `dictionary` must match the\\</span></span>
+<span><span class="st">  column names of `data`."</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># EDIT: set order of measurement_groups</span></span>
@@ -319,7 +320,8 @@ Load Data Chunk
 <span><span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/assert.html" class="external-link">assert</a></span><span class="op">(</span><span class="va">dictionary</span>, </span>
 <span>                <span class="fu">assertr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/assertr/reference/in_set.html" class="external-link">in_set</a></span><span class="op">(</span><span class="va">measurement_groups</span><span class="op">)</span>,</span>
 <span>                <span class="va">measurement_group</span>,</span>
-<span>                description <span class="op">=</span> <span class="st">"`dictionary` contains measurement group that isn't defined."</span><span class="op">)</span></span></code></pre></div>
+<span>                description <span class="op">=</span> <span class="st">"`dictionary` contains measurement group that\\</span></span>
+<span><span class="st">                isn't defined."</span><span class="op">)</span></span></code></pre></div>
 </details>
 </div>
 <div class="section level4">
@@ -380,7 +382,7 @@ logo above.</li>
 <li>
 <code>subtitle</code>: Subtitle appears below the title.</li>
 <li>
-<code>producerId</code> and <code>year</code>: Default parameter
+<code>producer_id</code> and <code>year</code>: Default parameter
 values that can be found in your data.</li>
 </ul>
 <pre><code>---
@@ -388,9 +390,9 @@ values that can be found in your data.</li>
 title: "![](images/logo.png) Results from PROJECT NAME"
 # EDIT: Subtitle right aligned below title.
 subtitle: "Fall 2023"
-# EDIT: producerId and year must be a valid combo that exists in your dataset
+# EDIT: producer_id and year must be a valid combo that exists in your dataset
 params:
-  producerId: WUY05
+  producer_id: WUY05
   year: 2023
 
 # Shouldn't need to edit the below values unless you want to customize.
@@ -434,7 +436,7 @@ or 0-30 cm)].</p>
 <p><code>01_producer_report.qmd</code> calls
 <code>02_secion_template.qmd</code> as a child document to generate a
 section for each <code>measurement_group</code> defined in the
-<code>dataDictionary.csv</code>. You shouldn’t need to edit
+<code>data-dictionary.csv</code>. You shouldn’t need to edit
 <code>02_secion_template.qmd</code> unless you want more advanced
 customization.</p>
 </div>
@@ -548,7 +550,7 @@ will open separately.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># EDIT: Read in the same dataset used in producer_report.qmd.</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/data/exampleData.csv"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/data/washi-data.csv"</span><span class="op">)</span>,</span>
 <span>  check.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
 <span><span class="op">)</span></span></code></pre></div>

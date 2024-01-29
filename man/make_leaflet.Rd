@@ -5,7 +5,7 @@
 \title{Make leaflet map}
 \source{
 JavaScript code adapted from
-\href{https://github.com/bhaskarvk/leaflet.extras/tree/master}{\code{leaflet.extras}}.
+\href{https://github.com/bhaskarvk/leaflet.extras/tree/master}{leaflet.extras}.
 }
 \usage{
 make_leaflet(df, primary_color = "#a60f2d")
@@ -23,10 +23,10 @@ Leaflet map.
 Make leaflet map
 }
 \examples{
-gis_df <- exampleData |>
+gis_df <- washi_data |>
   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
   head(3) |>
-  prep_for_map(label_heading = fieldName, label_body = crop)
+  prep_for_map(label_heading = field_name, label_body = crop)
 
 dplyr::glimpse(gis_df)
 

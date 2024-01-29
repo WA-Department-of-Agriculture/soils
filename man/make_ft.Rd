@@ -11,9 +11,12 @@ make_ft(table, header)
 
 \item{header}{Another dataframe with three columns:
 \itemize{
-\item First column contains what the top header row should be. In our template, this is the abbreviation of the measurement (i.e. \verb{Organic Matter}).
-\item Second column, called \code{"key"}, contains the join key. In our template, this is the same as the first column.
-\item Third column contains the second header row. In our template, this is the unit (i.e. \verb{\%}).
+\item First column contains what the top header row should be. In our template,
+this is the abbreviation of the measurement (i.e. \verb{Organic Matter}).
+\item Second column, called \code{"key"}, contains the join key. In our template,
+this is the same as the first column.
+\item Third column contains the second header row. In our template, this is
+the unit (i.e. \verb{\%}).
 }}
 }
 \value{
@@ -40,9 +43,9 @@ make_ft(
   table = tables$chemical,
   header = headers$chemical
 ) |>
-# Style the flextable
-style_ft() |>
-# Add the white line under the columns with the same units
-unit_hline(header = headers$chemical)
+  # Style the flextable
+  style_ft() |>
+  # Add the white line under the columns with the same units
+  unit_hline(header = headers$chemical)
 
 }

@@ -24,29 +24,29 @@ library(ggplot2)
 # Create a texture triangle with points colored by texture
 make_texture_triangle(body_font = "sans") +
   add_texture_points(
-    df = exampleData,
-    sand = `sand_\%`,
-    silt = `silt_\%`,
-    clay = `clay_\%`,
+    df = washi_data,
+    sand = sand_percent,
+    silt = silt_percent,
+    clay = clay_percent,
     color = "#a60f2d",
     alpha = 0.6
   ) +
   # if you are setting a color to a constant, you must call
   # scale_*_identity().
-  scale_color_identity() +
-  scale_alpha_identity()
+  ggplot2::scale_color_identity() +
+  ggplot2::scale_alpha_identity()
 
 # Remember these are `ggplot2` functions and require `+` instead of
 #  pipes (`|>` or `\%>\%`)
 try({
   make_texture_triangle(body_font = "sans") +
     add_texture_points(
-      df = exampleData,
-      sand = `sand_\%`,
-      silt = `silt_\%`,
-      clay = `clay_\%`,
+      df = washi_data,
+      sand = sand_percent,
+      silt = silt_percent,
+      clay = clay_percent,
       color = texture
     ) +
-    scale_color_viridis_d()
+    ggplot2::scale_color_viridis_d()
 })
 }

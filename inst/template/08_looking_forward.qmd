@@ -1,7 +1,0 @@
----
-format: html
----
-
-\[EDIT: SUMMARY INFORMATION AND A CALL TO ACTION\] *Consider describing how this data will be used. Are you building decision support tools? Publications? Will you be speaking at upcoming field days or conferences about this work? Soils data can be confusing... let your audience know that this is just the start of the conversation! Thank participating producers once again.*
-
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/soil.png){width="4in" fig-alt="Photo of soil in hands."}

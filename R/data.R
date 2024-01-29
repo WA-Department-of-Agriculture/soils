@@ -1,47 +1,54 @@
-#' Example data
+#' Example WaSHI data
 #'
 #' A subset of the Washington Soil Health Initiative (WaSHI) State of the Soils
 #' Assessment anonymized data. This data set presents each sample in its own
 #' row, with columns for each measurement.
 #'
-#' @format ## `exampleData` A data frame with 100 rows and 51 columns:
+#' @format ## `washi_data` A data frame with 100 rows and 51 columns:
 #' \describe{
 #'   \item{year}{Year of sample}
-#'   \item{sampleId, producerId, fieldId}{Anonymized IDs}
-#'   \item{farmName, producerName, fieldName}{Anonymized names}
+#'   \item{sample_id, producer_id, field_id}{Anonymized IDs}
+#'   \item{farm_name, producer_name, field_name}{Anonymized names}
 #'   \item{longitude, latitude}{Truncated coordinates}
 #'   \item{texture}{Measured soil texture}
-#'   \item{other columns}{Column name includes measurement and units; value is the measurement results}
+#'   \item{other columns}{Column name includes measurement and units;
+#'   value is the measurement results}
 #'   ...
 #' }
-#' @source [WaSHI State of the Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
-"exampleData"
+#' @source
+#' [WaSHI State of the Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
+"washi_data"
 
 #' Data dictionary
 #'
 #' An example data dictionary for the Washington Soil Health Initiative (WaSHI)
 #' State of the Soils Assessment anonymized data.
 #'
-#' @format ## `dataDictionary` A data frame with 32 rows and 7 columns. columns:
+#' @format ## `data_dictionary` A data frame with 32 rows and 7 columns.
 #' \describe{
 #'   \item{measurement_group}{Name to group measurements by}
-#'   \item{measurement_group_label}{Label of measurement group to be used as heading}
+#'   \item{measurement_group_label}{Label of measurement group to be used as
+#'   heading}
 #'   \item{column_name}{Name of column in data set, used for joining}
 #'   \item{measurement_full_name}{Measurement fully spelled out}
-#'   \item{order}{Order of how measurements are presented within each measurement_group}
+#'   \item{order}{Order of how measurements are presented within each
+#'   measurement_group}
 #'   \item{abbr}{Abbreviated measurement name for labels}
 #'   \item{unit}{Measurement unit}
-#'   \item{abbr_unit}{HTML formatted abbreviation with unit for plots and tables}
+#'   \item{abbr_unit}{HTML formatted abbreviation with unit for plots and
+#'   tables}
 #'   ...
 #' }
-#' @source [WaSHI State of the Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
-"dataDictionary"
+#' @source
+#' [WaSHI State of the Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
+"data_dictionary"
 
 #' USDA texture data
 #'
 #' US Department of Agriculture textural classes
 #'
-#' @format ## `usdaTexture` A list of two data frames: `polygons` contains 53 rows and 4 columns and `labels` contains 12 rows and 5 columns.
+#' @format ## `usda_texture` A list of two data frames: `polygons`
+#' contains 53 rows and 4 columns and `labels` contains 12 rows and 5 columns.
 #' \describe{
 #'   \item{clay}{Percentage of clay content}
 #'   \item{sand}{Percentage of sand content}
@@ -51,4 +58,4 @@
 #'   ...
 #' }
 #' @source Adapted from `data(USDA, package = "ggtern")`.
-"usdaTexture"
+"usda_texture"

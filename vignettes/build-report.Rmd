@@ -41,7 +41,7 @@ Glimpse at the example data structure:
 
 ```{r}
 library(soils)
-dplyr::glimpse(exampleData)
+dplyr::glimpse(washi_data)
 ```
 
 </details>
@@ -65,7 +65,7 @@ Your data dictionary must have the exact same column names as the example:
 <summary>Example Data Dictionary</summary>
 
 ```{r}
-dplyr::glimpse(dataDictionary)
+dplyr::glimpse(data_dictionary)
 ```
 
 </details>
@@ -80,8 +80,8 @@ dplyr::glimpse(dataDictionary)
 
 Once your project data and data dictionary files match the structure of the above examples, place them in the `data` folder. Then make the following changes in the `load-data` chunk in `01_producer_report.qmd`:
 
--   Change `exampleData.csv` to the name of your data file.
--   Change `dataDictionary.csv` to the name of your data dictionary.
+-   Change `washi-data.csv` to the name of your data file.
+-   Change `data-dictionary.csv` to the name of your data dictionary.
 -   Set the order of the `measurement_groups` to how you would like them to appear in the report. These group names must match your data dictionary.
 
 <details open>
@@ -90,14 +90,14 @@ Once your project data and data dictionary files match the structure of the abov
 
 ```{r load-data, eval=FALSE}
 # EDIT: You will need to add your own cleaned lab data to the data
-# folder, using 'exampleData.csv' as a template.
+# folder, using 'washi-data.csv' as a template.
 #
-# 'dataDictionary.csv' must also be updated to match your own
+# 'data-dictionary.csv' must also be updated to match your own
 # data set.
 
 # Load lab results
 data <- read.csv(
-  paste0(here::here(), "/data/exampleData.csv"),
+  paste0(here::here(), "/data/washi-data.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
 )
@@ -106,12 +106,12 @@ assertr::verify(
   data,
   assertr::has_all_names(
     "year",
-    "sampleId",
-    "farmName",
-    "producerName",
-    "producerId",
-    "fieldName",
-    "fieldId",
+    "sample_id",
+    "farm_name",
+    "producer_name",
+    "producer_id",
+    "field_name",
+    "field_id",
     "county",
     "crop",
     "texture",
@@ -123,7 +123,7 @@ assertr::verify(
 
 # Load data dictionary
 dictionary <- read.csv(
-  paste0(here::here(), "/data/dataDictionary.csv"),
+  paste0(here::here(), "/data/data-dictionary.csv"),
   check.names = FALSE,
   # set encoding for using subscripts and superscripts
   encoding = "UTF-8"
@@ -135,7 +135,8 @@ assertr::assert(
   dictionary,
   assertr::in_set(names(data)),
   column_name,
-  description = "Values in `column_name` of `dictionary` must match the column names of `data`."
+  description = "Values in `column_name` of `dictionary` must match the\\
+  column names of `data`."
 )
 
 # EDIT: set order of measurement_groups
@@ -152,7 +153,8 @@ measurement_groups <- c(
 assertr::assert(dictionary, 
                 assertr::in_set(measurement_groups),
                 measurement_group,
-                description = "`dictionary` contains measurement group that isn't defined.")
+                description = "`dictionary` contains measurement group that\\
+                isn't defined.")
 ```
 
 </details>
@@ -201,7 +203,7 @@ The only fields you need to edit are:
 
 -   `title`: The title of the report. Optionally include your logo above.
 -   `subtitle`: Subtitle appears below the title.
--   `producerId` and `year`: Default parameter values that can be found in your data.
+-   `producer_id` and `year`: Default parameter values that can be found in your data.
 
 ```         
 ---
@@ -209,9 +211,9 @@ The only fields you need to edit are:
 title: "![](images/logo.png) Results from PROJECT NAME"
 # EDIT: Subtitle right aligned below title.
 subtitle: "Fall 2023"
-# EDIT: producerId and year must be a valid combo that exists in your dataset
+# EDIT: producer_id and year must be a valid combo that exists in your dataset
 params:
-  producerId: WUY05
+  producer_id: WUY05
   year: 2023
 
 # Shouldn't need to edit the below values unless you want to customize.
@@ -245,7 +247,7 @@ Under the `Project Results` heading in `01_producer_report.qmd`, update the samp
 
 > All samples were collected from [EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)].
 
-`01_producer_report.qmd` calls `02_secion_template.qmd` as a child document to generate a section for each `measurement_group` defined in the `dataDictionary.csv`. You shouldn't need to edit `02_secion_template.qmd` unless you want more advanced customization.
+`01_producer_report.qmd` calls `02_secion_template.qmd` as a child document to generate a section for each `measurement_group` defined in the `data-dictionary.csv`. You shouldn't need to edit `02_secion_template.qmd` unless you want more advanced customization.
 
 ### Style and Theme
 
@@ -339,7 +341,7 @@ You also can render all reports at once programmatically by editing `render_repo
 ```{r, eval=FALSE}
 # EDIT: Read in the same dataset used in producer_report.qmd.
 data <- read.csv(
-  paste0(here::here(), "/data/exampleData.csv"),
+  paste0(here::here(), "/data/washi-data.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
 )

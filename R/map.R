@@ -11,10 +11,10 @@
 #' @export
 #'
 #' @examples
-#' exampleData |>
+#' washi_data |>
 #'   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
 #'   head(3) |>
-#'   prep_for_map(label_heading = fieldName, label_body = crop) |>
+#'   prep_for_map(label_heading = field_name, label_body = crop) |>
 #'   dplyr::glimpse()
 prep_for_map <- function(df, label_heading, label_body) {
   df |>
@@ -22,8 +22,8 @@ prep_for_map <- function(df, label_heading, label_body) {
       "longitude",
       "latitude"
     )) |>
-    subset(!duplicated(sampleId)) |>
-    dplyr::arrange(fieldId) |>
+    dplyr::filter(!duplicated(sample_id)) |>
+    dplyr::arrange(field_id) |>
     dplyr::mutate(
       dplyr::across(dplyr::where(is.numeric), \(x) round(x, 4)),
       label = paste0("<strong>", {{ label_heading }}, "</strong>"),
@@ -38,17 +38,17 @@ prep_for_map <- function(df, label_heading, label_body) {
 #' @param primary_color Color of points. Defaults to WaSHI red.
 #'
 #' @source JavaScript code adapted from
-#'   [`leaflet.extras`](https://github.com/bhaskarvk/leaflet.extras/tree/master).
+#'   [leaflet.extras](https://github.com/bhaskarvk/leaflet.extras/tree/master).
 #'
 #' @returns Leaflet map.
 #'
 #' @export
 #'
 #' @examples
-#' gis_df <- exampleData |>
+#' gis_df <- washi_data |>
 #'   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
 #'   head(3) |>
-#'   prep_for_map(label_heading = fieldName, label_body = crop)
+#'   prep_for_map(label_heading = field_name, label_body = crop)
 #'
 #' dplyr::glimpse(gis_df)
 #'
@@ -70,7 +70,7 @@ make_leaflet <- function(
     )
   )
 
-    leaflet::leaflet(df) |>
+  leaflet::leaflet(df) |>
     leaflet::addTiles(
       urlTemplate = paste0(agol, "World_Imagery/MapServer/tile/{z}/{y}/{x}"),
       group = "Satellite"

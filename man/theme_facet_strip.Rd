@@ -26,12 +26,12 @@ Theme for facetted strip plots
 }
 \examples{
 # Read in wrangled example plot data
-df_plot_path <- soils_example("df_plot.RDS")
+df_plot_path <- soils_example("df-plot.RDS")
 df_plot <- readRDS(df_plot_path)
 
 # Subset df to just biological measurement group
 df_plot_bio <- df_plot |>
-  subset(measurement_group == "biological")
+  dplyr::filter(measurement_group == "biological")
 
 # Make strip plot with all measurements and set scales based on
 # the category column and then apply theme.
@@ -43,7 +43,7 @@ make_strip_plot(
   df_plot_bio,
   x = dummy,
   y = value,
-  id = sampleId,
+  id = sample_id,
   group = abbr_unit,
   tooltip = label,
   color = category,
@@ -59,7 +59,7 @@ make_strip_plot(
   df_plot_bio,
   x = dummy,
   y = value,
-  id = sampleId,
+  id = sample_id,
   group = abbr_unit,
   tooltip = label,
   color = category,

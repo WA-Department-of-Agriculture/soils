@@ -7,7 +7,7 @@
 get_n_texture_by_var(results_long, producer_info, var)
 }
 \arguments{
-\item{results_long}{Dataframe in tidy, long format with columns: \code{sampleId},
+\item{results_long}{Dataframe in tidy, long format with columns: \code{sample_id},
 \code{texture}.}
 
 \item{producer_info}{Vector of producer's values for the grouping variable.}

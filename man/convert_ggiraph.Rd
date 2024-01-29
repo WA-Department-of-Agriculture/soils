@@ -27,7 +27,7 @@ Convert a \code{ggplot2} plot to an interactive \code{ggiraph}
 }
 \examples{
 # Read in wrangled example plot data
-df_plot_path <- soils_example("df_plot.RDS")
+df_plot_path <- soils_example("df-plot.RDS")
 df_plot <- readRDS(df_plot_path)
 
 # Make strip plot with all measurements and set scales based on
@@ -35,7 +35,7 @@ df_plot <- readRDS(df_plot_path)
 
 # Subset df to just biological measurement group
 df_plot_bio <- df_plot |>
-  subset(measurement_group == "biological")
+  dplyr::filter(measurement_group == "biological")
 
 # NOTE: the plot gets piped into the `set_scales()` function, which gets
 # added to `theme_facet_strip()`.
@@ -43,7 +43,7 @@ plot <- make_strip_plot(
   df_plot_bio,
   x = dummy,
   y = value,
-  id = sampleId,
+  id = sample_id,
   group = abbr_unit,
   tooltip = label,
   color = category,

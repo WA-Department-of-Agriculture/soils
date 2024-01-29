@@ -7,7 +7,7 @@
 summarize_by_var(results_long, producer_samples, var)
 }
 \arguments{
-\item{results_long}{Dataframe in tidy, long format with columns: \code{sampleId},
+\item{results_long}{Dataframe in tidy, long format with columns: \code{sample_id},
 \code{texture}, \code{measurement_group}, \code{abbr}, \code{value}.}
 
 \item{producer_samples}{Dataframe in tidy, long format with columns:

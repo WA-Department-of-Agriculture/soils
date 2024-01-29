@@ -19,7 +19,7 @@ Vector of unique values from target column.
 Pull unique values from one column of dataframe
 }
 \examples{
-exampleData |>
+washi_data |>
   pull_unique(crop)
 
 }

@@ -24,9 +24,9 @@ Dataframe to be input into \code{make_leaflet()}.
 Prep data to gis df
 }
 \examples{
-exampleData |>
+washi_data |>
   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
   head(3) |>
-  prep_for_map(label_heading = fieldName, label_body = crop) |>
+  prep_for_map(label_heading = field_name, label_body = crop) |>
   dplyr::glimpse()
 }

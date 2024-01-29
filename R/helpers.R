@@ -5,7 +5,7 @@
 #' @returns The value that occurred most often.
 #'
 #' @examples
-#' calculate_mode(exampleData$crop)
+#' calculate_mode(washi_data$crop)
 #'
 #' @export
 #'
@@ -23,7 +23,7 @@ calculate_mode <- function(x) {
 #'
 #' @returns Vector of unique values from target column.
 #' @examples
-#' exampleData |>
+#' washi_data |>
 #'   pull_unique(crop)
 #'
 #' @export
@@ -42,17 +42,17 @@ pull_unique <- function(df, target) {
 #'
 #' This function is used in `summarize_by_var`.
 #'
-#' @param results_long Dataframe in tidy, long format with columns: `sampleId`,
+#' @param results_long Dataframe in tidy, long format with columns: `sample_id`,
 #'   `texture`.
 #' @param producer_info Vector of producer's values for the grouping variable.
 #' @param var Variable to group and summarize by.
 #'
 get_n_texture_by_var <- function(results_long, producer_info, var) {
   results_long |>
-    assertr::verify(assertr::has_all_names("sampleId", "texture")) |>
+    assertr::verify(assertr::has_all_names("sample_id", "texture")) |>
     dplyr::filter({{ var }} %in% producer_info) |>
     dplyr::summarize(
-      n = dplyr::n_distinct(sampleId),
+      n = dplyr::n_distinct(sample_id),
       Texture = calculate_mode(texture),
       .by = {{ var }}
     )
@@ -60,7 +60,7 @@ get_n_texture_by_var <- function(results_long, producer_info, var) {
 
 #' Summarize producer's samples with averages by grouping variable
 #'
-#' @param results_long Dataframe in tidy, long format with columns: `sampleId`,
+#' @param results_long Dataframe in tidy, long format with columns: `sample_id`,
 #'   `texture`, `measurement_group`, `abbr`, `value`.
 #' @param producer_samples Dataframe in tidy, long format with columns:
 #'   `measurement_group`, `abbr`, `value`.
@@ -69,14 +69,16 @@ get_n_texture_by_var <- function(results_long, producer_info, var) {
 #' @export
 summarize_by_var <- function(results_long, producer_samples, var) {
   producer_info <- producer_samples |>
-    assertr::verify(assertr::has_all_names("measurement_group", "abbr", "value")) |>
+    assertr::verify(
+      assertr::has_all_names("measurement_group", "abbr", "value")
+    ) |>
     pull_unique({{ var }})
 
   n_texture <- get_n_texture_by_var(results_long, producer_info, {{ var }})
 
   results_long |>
     assertr::verify(assertr::has_all_names(
-      "sampleId",
+      "sample_id",
       "texture",
       "measurement_group",
       "abbr",
@@ -92,23 +94,27 @@ summarize_by_var <- function(results_long, producer_samples, var) {
       "Field or Average" = glue::glue("Average \n({n} Fields)")
     ) |>
     dplyr::select(-n) |>
-    tidyr::unite("Field or Average", c({{ var }}, `Field or Average`), sep = " ")
+    tidyr::unite(
+      "Field or Average",
+      c({{ var }}, `Field or Average`),
+      sep = " "
+    )
 }
 
 #' Summarize samples across the project
 #'
-#' @param results_long Dataframe in tidy, long format with columns: `sampleId`,
+#' @param results_long Dataframe in tidy, long format with columns: `sample_id`,
 #'   `texture`, `measurement_group`, `abbr`, `value`.
 #'
 #' @export
 summarize_by_project <- function(results_long) {
-  n <- dplyr::n_distinct(results_long$sampleId)
+  n <- dplyr::n_distinct(results_long$sample_id)
 
   texture <- calculate_mode(results_long$texture)
 
   results_long |>
     assertr::verify(assertr::has_all_names(
-      "sampleId",
+      "sample_id",
       "texture",
       "measurement_group",
       "abbr",
@@ -141,7 +147,7 @@ get_table_headers <- function(dictionary, group) {
       "abbr",
       "unit"
     )) |>
-    subset(measurement_group == group) |>
+    dplyr::filter(measurement_group == group) |>
     dplyr::select(abbr, unit) |>
     dplyr::mutate(key = abbr, .after = abbr) |>
     rbind(c("Field or Average", "Field or Average", ""))

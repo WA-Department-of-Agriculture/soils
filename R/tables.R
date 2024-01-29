@@ -160,18 +160,18 @@ style_ft <- function(
 #'   table = tables$chemical,
 #'   header = headers$chemical
 #' ) |>
-#' # Style the flextable
-#' style_ft() |>
-#' # Add the white line under the columns with the same units
-#' unit_hline(header = headers$chemical)
+#'   # Style the flextable
+#'   style_ft() |>
+#'   # Add the white line under the columns with the same units
+#'   unit_hline(header = headers$chemical)
 #'
 #' # Example without `unit_hline()`
 #' make_ft(
 #'   table = tables$chemical,
 #'   header = headers$chemical
 #' ) |>
-#' # Style the flextable
-#' style_ft()
+#'   # Style the flextable
+#'   style_ft()
 unit_hline <- function(ft, header) {
   # Get row index of first duplicated unit for unit_hline
   dupe_row <- which(duplicated(header$unit)) |> utils::head(1)
@@ -189,9 +189,12 @@ unit_hline <- function(ft, header) {
 #'
 #' @param table A dataframe with the contents of the desired flextable output.
 #' @param header Another dataframe with three columns:
-#'  * First column contains what the top header row should be. In our template, this is the abbreviation of the measurement (i.e. `Organic Matter`).
-#'  * Second column, called `"key"`, contains the join key. In our template, this is the same as the first column.
-#' * Third column contains the second header row. In our template, this is the unit (i.e. `%`).
+#'  * First column contains what the top header row should be. In our template,
+#'  this is the abbreviation of the measurement (i.e. `Organic Matter`).
+#'  * Second column, called `"key"`, contains the join key. In our template,
+#'  this is the same as the first column.
+#' * Third column contains the second header row. In our template, this is
+#' the unit (i.e. `%`).
 #'
 #' @export
 #' @returns Formatted flextable object.
@@ -214,10 +217,10 @@ unit_hline <- function(ft, header) {
 #'   table = tables$chemical,
 #'   header = headers$chemical
 #' ) |>
-#' # Style the flextable
-#' style_ft() |>
-#' # Add the white line under the columns with the same units
-#' unit_hline(header = headers$chemical)
+#'   # Style the flextable
+#'   style_ft() |>
+#'   # Add the white line under the columns with the same units
+#'   unit_hline(header = headers$chemical)
 #'
 make_ft <- function(table, header) {
   # Get row index of first duplicated unit for unit_hline

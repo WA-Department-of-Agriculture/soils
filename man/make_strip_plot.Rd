@@ -9,7 +9,7 @@ make_strip_plot(
   ...,
   x = dummy,
   y = value,
-  id = sampleId,
+  id = sample_id,
   group = abbr_unit,
   tooltip = label
 )
@@ -26,7 +26,7 @@ only one value ("dummy") for all rows.}
 \item{y}{Column for y-axis. Defaults to \code{value}.}
 
 \item{id}{Column with unique identifiers for each sample to use as \code{data_id}
-for interactive plots. Defaults to \code{sampleId}.}
+for interactive plots. Defaults to \code{sample_id}.}
 
 \item{group}{Column to facet by. Defaults to \code{abbr_unit}.}
 
@@ -40,12 +40,12 @@ Make a facetted strip plot
 }
 \examples{
 # Read in wrangled example plot data
-df_plot_path <- soils_example("df_plot.RDS")
+df_plot_path <- soils_example("df-plot.RDS")
 df_plot <- readRDS(df_plot_path)
 
 # Subset df to just biological measurement group
 df_plot_bio <- df_plot |>
-  subset(measurement_group == "biological")
+  dplyr::filter(measurement_group == "biological")
 
 # Make strip plot with all measurements and set scales based on
 # the category column and then apply theme.
@@ -57,7 +57,7 @@ make_strip_plot(
   df_plot_bio,
   x = dummy,
   y = value,
-  id = sampleId,
+  id = sample_id,
   group = abbr_unit,
   tooltip = label,
   color = category,

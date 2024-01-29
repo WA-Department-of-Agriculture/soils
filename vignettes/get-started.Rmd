@@ -83,8 +83,8 @@ Both options will create and launch a new RStudio project with the following fil
 ├── 08_looking_forward.qmd
 ├── 09_acknowledgement.qmd
 ├── data
-│   ├── dataDictionary.csv
-│   └── exampleData.csv
+│   ├── data-dictionary.csv
+│   └── washi-data.csv
 ├── images
 │   ├── biological.png
 │   ├── chemical.png
@@ -118,7 +118,7 @@ If the rendered report doesn't immediately open, you can find it in your project
 
 Now try rendering the report with your own data.
 
-1.  Open the `data` folder and look at the `exampleData.csv` and `dataDictionary.csv`.
+1.  Open the `data` folder and look at the `washi-data.csv` and `data-dictionary.csv`.
 
 2.  Use these as templates to replicate the column names and structure of these CSV files with your own data. All column names besides the measurements columns must be exactly the same. The measurement column names in your data must match the values in the `column_name` column in your data dictionary.
 
@@ -126,9 +126,9 @@ Now try rendering the report with your own data.
 
 ![](../man/figures/load-data.png){fig-alt="Lines 59-71 and 92-98 of 01_producer_report.qmd with boxes and arrows pointing at read.csv functions to import the data and dictionary. A text box says 'replace with your file names'."}
 
-4.  At the top of `01_producer_report.qmd`, update the `producerId` and `year` to a valid combination that exists in your own data.
+4.  At the top of `01_producer_report.qmd`, update the `producer_id` and `year` to a valid combination that exists in your own data.
 
-![](../man/figures/params.png){fig-alt="Lines 6-9 of 01_producer_report.qmd showing the params, producerId, and year key-value pairs to change in the YAML."}
+![](../man/figures/params.png){fig-alt="Lines 6-9 of 01_producer_report.qmd showing the params, producer_id, and year key-value pairs to change in the YAML."}
 
 5.  Click `Render` in RStudio.
 

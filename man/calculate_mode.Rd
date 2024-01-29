@@ -16,6 +16,6 @@ The value that occurred most often.
 Calculate the mode of categorical variable
 }
 \examples{
-calculate_mode(exampleData$crop)
+calculate_mode(washi_data$crop)
 
 }

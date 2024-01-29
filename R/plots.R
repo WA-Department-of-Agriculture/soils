@@ -12,16 +12,16 @@
 #'
 make_texture_triangle <- function(
   body_font = "Poppins") {
-  if (!exists("usdaTexture")) {
+  if (!exists("usda_texture")) {
     cli::cli_abort(c(
-      "Can't find `usdaTexture`.",
+      "Can't find {.code usda_texture}.",
       "i" = "Run library(soils)."
     ))
   }
 
   suppressWarnings({
     ggplot2::ggplot(
-      data = usdaTexture$polygons,
+      data = usda_texture$polygons,
       mapping = ggplot2::aes(
         x = sand,
         y = clay,
@@ -41,7 +41,7 @@ make_texture_triangle <- function(
       ) +
       # USDA texture labels
       ggplot2::geom_text(
-        data = usdaTexture$labels,
+        data = usda_texture$labels,
         mapping = ggplot2::aes(
           label = label,
           angle = angle
@@ -109,30 +109,30 @@ make_texture_triangle <- function(
 #' # Create a texture triangle with points colored by texture
 #' make_texture_triangle(body_font = "sans") +
 #'   add_texture_points(
-#'     df = exampleData,
-#'     sand = `sand_%`,
-#'     silt = `silt_%`,
-#'     clay = `clay_%`,
+#'     df = washi_data,
+#'     sand = sand_percent,
+#'     silt = silt_percent,
+#'     clay = clay_percent,
 #'     color = "#a60f2d",
 #'     alpha = 0.6
 #'   ) +
 #'   # if you are setting a color to a constant, you must call
 #'   # scale_*_identity().
-#'   scale_color_identity() +
-#'   scale_alpha_identity()
+#'   ggplot2::scale_color_identity() +
+#'   ggplot2::scale_alpha_identity()
 #'
 #' # Remember these are `ggplot2` functions and require `+` instead of
 #' #  pipes (`|>` or `%>%`)
 #' try({
 #'   make_texture_triangle(body_font = "sans") +
 #'     add_texture_points(
-#'       df = exampleData,
-#'       sand = `sand_%`,
-#'       silt = `silt_%`,
-#'       clay = `clay_%`,
+#'       df = washi_data,
+#'       sand = sand_percent,
+#'       silt = silt_percent,
+#'       clay = clay_percent,
 #'       color = texture
 #'     ) +
-#'     scale_color_viridis_d()
+#'     ggplot2::scale_color_viridis_d()
 #' })
 add_texture_points <- function(
   df,
@@ -164,12 +164,12 @@ add_texture_points <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' df_plot_path <- soils_example("df_plot.RDS")
+#' df_plot_path <- soils_example("df-plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'
 #' # Subset df to just biological measurement group
 #' df_plot_bio <- df_plot |>
-#'   subset(measurement_group == "biological")
+#'   dplyr::filter(measurement_group == "biological")
 #'
 #' # Make strip plot with all measurements and set scales based on
 #' # the category column and then apply theme.
@@ -181,7 +181,7 @@ add_texture_points <- function(
 #'   df_plot_bio,
 #'   x = dummy,
 #'   y = value,
-#'   id = sampleId,
+#'   id = sample_id,
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
@@ -197,7 +197,7 @@ add_texture_points <- function(
 #'   df_plot_bio,
 #'   x = dummy,
 #'   y = value,
-#'   id = sampleId,
+#'   id = sample_id,
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
@@ -258,12 +258,12 @@ theme_facet_strip <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' df_plot_path <- soils_example("df_plot.RDS")
+#' df_plot_path <- soils_example("df-plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 
 #' # Subset df to just biological measurement group
 #' df_plot_bio <- df_plot |>
-#'   subset(measurement_group == "biological")
+#'   dplyr::filter(measurement_group == "biological")
 #'
 #' # Make strip plot
 #'
@@ -271,7 +271,7 @@ theme_facet_strip <- function(
 #'   df_plot_bio,
 #'   x = dummy,
 #'   y = value,
-#'   id = sampleId,
+#'   id = sample_id,
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
@@ -287,7 +287,7 @@ theme_facet_strip <- function(
 #'   df_plot_bio,
 #'   x = dummy,
 #'   y = value,
-#'   id = sampleId,
+#'   id = sample_id,
 #'   group = abbr_unit,
 #'   tooltip = label
 #' ) +
@@ -333,7 +333,7 @@ set_scales <- function(
 #'   only one value ("dummy") for all rows.
 #' @param y Column for y-axis. Defaults to `value`.
 #' @param id Column with unique identifiers for each sample to use as `data_id`
-#'   for interactive plots. Defaults to `sampleId`.
+#'   for interactive plots. Defaults to `sample_id`.
 #' @param group Column to facet by. Defaults to `abbr_unit`.
 #' @param tooltip Column with tooltip labels for interactive plots.
 #' @inheritParams add_texture_points
@@ -342,12 +342,12 @@ set_scales <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' df_plot_path <- soils_example("df_plot.RDS")
+#' df_plot_path <- soils_example("df-plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'
 #' # Subset df to just biological measurement group
 #' df_plot_bio <- df_plot |>
-#'   subset(measurement_group == "biological")
+#'   dplyr::filter(measurement_group == "biological")
 #'
 #' # Make strip plot with all measurements and set scales based on
 #' # the category column and then apply theme.
@@ -359,7 +359,7 @@ set_scales <- function(
 #'   df_plot_bio,
 #'   x = dummy,
 #'   y = value,
-#'   id = sampleId,
+#'   id = sample_id,
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
@@ -383,7 +383,7 @@ make_strip_plot <- function(
   ...,
   x = dummy,
   y = value,
-  id = sampleId,
+  id = sample_id,
   group = abbr_unit,
   tooltip = label
     ) {
@@ -451,7 +451,7 @@ make_strip_plot <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' df_plot_path <- soils_example("df_plot.RDS")
+#' df_plot_path <- soils_example("df-plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'
 #' # Make strip plot with all measurements and set scales based on
@@ -459,7 +459,7 @@ make_strip_plot <- function(
 #'
 #' # Subset df to just biological measurement group
 #' df_plot_bio <- df_plot |>
-#'   subset(measurement_group == "biological")
+#'   dplyr::filter(measurement_group == "biological")
 #'
 #' # NOTE: the plot gets piped into the `set_scales()` function, which gets
 #' # added to `theme_facet_strip()`.
@@ -468,7 +468,7 @@ make_strip_plot <- function(
 #'   df_plot_bio,
 #'   x = dummy,
 #'   y = value,
-#'   id = sampleId,
+#'   id = sample_id,
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
@@ -491,9 +491,11 @@ convert_ggiraph <- function(
   if (!ggiraph::font_family_exists(body_font)) {
     cli::cli_inform(
       c(
-        "Can't find font family `{body_font}` on your system.",
+        "Can't find font family {.arg {body_font}} on your system.",
         "i" = "Defaulting to a sans-serif font.",
-        "i" = "See the {.href [`ggiraph book`](https://www.ardata.fr/ggiraph-book/fonts.html)} for help."
+        "i" = "See the \\
+        {.href [ggiraph book](https://www.ardata.fr/ggiraph-book/fonts.html)} \\
+        for help."
       )
     )
     body_font <- ggiraph::validated_fonts()$sans

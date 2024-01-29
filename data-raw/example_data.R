@@ -1,44 +1,44 @@
 # data dictionary
-dataDictionary <- read.csv(
-  here::here("inst/template/inst/extdata/dataDictionary.csv"),
+data_dictionary <- read.csv(
+  here::here("inst/template/data/data-dictionary.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
   )
 
-usethis::use_data(dataDictionary, overwrite = TRUE)
+usethis::use_data(data_dictionary, overwrite = TRUE)
 
 # example data
-exampleData <- read.csv(
-  here::here("inst/template/inst/extdata/exampleData.csv"),
+washi_data <- read.csv(
+  here::here("inst/template/data/washi-data.csv"),
   check.names = FALSE)
 
-usethis::use_data(exampleData, overwrite = TRUE)
+usethis::use_data(washi_data, overwrite = TRUE)
 
 # wrangling for example data for plot example
 
 # get producer info
-producer <- exampleData |>
-  subset(producerId == "WUY05")
+producer <- washi_data |>
+  dplyr::filter(producer_id == "WUY05")
 
 # Tidy data into long format and join with data dictionary
-results_long <- exampleData |>
-  dplyr::mutate(dplyr::across(dplyr::contains("_"), as.numeric)) |>
+results_long <- washi_data |>
+  dplyr::mutate(dplyr::across(11:49, as.numeric)) |>
   tidyr::pivot_longer(
-    cols = dplyr::matches("_|pH"),
+    cols = 11:49,
     names_to = "measurement"
   ) |>
-  dplyr::inner_join(dataDictionary, by = c("measurement" = "column_name")) |>
+  dplyr::inner_join(data_dictionary, by = c("measurement" = "column_name")) |>
   dplyr::arrange(measurement_group, order) |>
   dplyr::mutate(
     abbr = factor(
       abbr,
-      levels = dataDictionary$abbr,
-      ordered = is.ordered(dataDictionary$order)
+      levels = data_dictionary$abbr,
+      ordered = is.ordered(data_dictionary$order)
     ),
     abbr_unit = factor(
       abbr_unit,
-      levels = dataDictionary$abbr_unit,
-      ordered = is.ordered(dataDictionary$order)
+      levels = data_dictionary$abbr_unit,
+      ordered = is.ordered(data_dictionary$order)
     )
   ) |>
   dplyr::filter(!is.na(value))
@@ -49,7 +49,7 @@ df_plot <- results_long |>
     dummy = "dummy",
     # Set category to group samples
     category = dplyr::case_when(
-      sampleId %in% producer$sampleId ~ "Your fields",
+      sample_id %in% producer$sample_id ~ "Your fields",
       crop %in% producer$crop ~ "Same crop",
       county %in% producer$county ~ "Same county",
       .default = "Other fields"
@@ -62,7 +62,7 @@ df_plot <- results_long |>
     # Label for tooltip
     label = dplyr::case_when(
       category == "Your fields" ~ glue::glue(
-        "{fieldName}<br>{crop}<br>{value} {unit}"
+        "{field_name}<br>{crop}<br>{value} {unit}"
       ),
       .default = glue::glue(
         "{county}<br>",
@@ -75,4 +75,4 @@ df_plot <- results_long |>
 # Order the df so producer's points are plotted on top
 df_plot <- df_plot[order(df_plot$category, decreasing = TRUE), ]
 
-saveRDS(df_plot, here::here("inst/template/inst/extdata/df_plot.RDS"))
+saveRDS(df_plot, here::here("inst/extdata/df-plot.RDS"))

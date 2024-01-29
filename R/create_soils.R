@@ -49,7 +49,7 @@ create_soils <- function(
         c(
           "!" = "{.path {path}} already exists.",
           "i" = "To always overwrite: \\
-          {.code create_soils({.path {path}} overwrite = TRUE)}"
+          {.code create_soils({.str {path}} overwrite = TRUE)}"
         )
       )
     }

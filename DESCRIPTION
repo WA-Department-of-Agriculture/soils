@@ -40,12 +40,12 @@ Imports:
     tidyr,
     utils,
     usethis,
-    assertr
+    assertr,
+    quarto
 Suggests:
     downloadthis,
     here,
     knitr,
-    quarto,
     rlang,
     rmarkdown,
     testthat (>= 3.0.0),

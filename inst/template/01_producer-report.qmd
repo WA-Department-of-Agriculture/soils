@@ -28,8 +28,6 @@ format:
     css: resources/styles.css
   docx:
     reference-doc: resources/word-template.docx
-resource-path: 
-  - inst
 format-links: false
 fig-align: left
 fig-width: 6
@@ -68,9 +66,33 @@ data <- read.csv(
   encoding = "UTF-8"
 )
 
-assertr::verify(
-  data,
-  assertr::has_all_names(
+# Load data dictionary
+dictionary <- read.csv(
+  here::here("data/data-dictionary.csv"),
+  check.names = FALSE,
+  # set encoding for using subscripts and superscripts
+  encoding = "UTF-8"
+)
+
+# OPTIONAL EDIT: rearrange order of measurement_groups in the below vector. This
+# vector determines the order that the measurement groups appear in the results
+# section of the report. Each measurement group must be included in the
+# dictionary.
+measurement_groups <- c(
+  "physical",
+  "biological",
+  "chemical",
+  "macro",
+  "micro"
+)
+```
+
+```{r data-validation}
+# Check that data contains the required columns and there is a column_name entry
+# in the data dictionary for each measurement column.
+testthat::expect_in(
+  names(data),
+  c(
     "year",
     "sample_id",
     "farm_name",
@@ -82,47 +104,13 @@ assertr::verify(
     "crop",
     "texture",
     "longitude",
-    "latitude"
-  ),
-  description = "`data` is missing required columns."
+    "latitude",
+    dictionary$column_name
+  )
 )
 
-# Load data dictionary
-dictionary <- read.csv(
-  paste0(here::here(), "/data/data-dictionary.csv"),
-  check.names = FALSE,
-  # set encoding for using subscripts and superscripts
-  encoding = "UTF-8"
-)
-
-# Check that the `column_names` column of your dictionary match your data column
-# names
-assertr::assert(
-  dictionary,
-  assertr::in_set(names(data)),
-  column_name,
-  description = "Values in `column_name` of `dictionary` must match the\\
-  column names of `data`."
-)
-
-# EDIT: set order of measurement_groups
-# this specifies the order of the sections in the report
-measurement_groups <- c(
-  "physical",
-  "biological",
-  "chemical",
-  "macro",
-  "micro"
-)
-
-# Check that the above measurement_groups are in the dictionary.
-assertr::assert(
-  dictionary,
-  assertr::in_set(measurement_groups),
-  measurement_group,
-  description = "`dictionary` contains measurement group\\
-                that isn't defined."
-)
+# Check that the measurement_groups are in the dictionary.
+testthat::expect_in(dictionary$measurement_group, measurement_groups)
 ```
 
 <!-- Set styling variables -->
@@ -164,24 +152,22 @@ strip_text_color <- "white"
 <!-- Pivot data longer and join with data dictionary -->
 
 ```{r tidy-long}
-
-# EDIT: Replace the below indices with the column range containing soil health 
-# results in your own dataset.
-# 
-# For example, the results in `washi_data` are located in columns 11 through 49.
+# EDIT: Replace the below indices with the column range containing soil health
+# measurement results in your own dataset. For example, washi_data.csv has
+# measurement results in columns 13 - 43.
 
 # Tidy data into long format and join with data dictionary
 results_long <- data |>
   dplyr::mutate(
     dplyr::across(
-      # EDIT: column index range
-      11:49,
+      # EDIT: replace with the column range of your measurement results
+      13:43,
       as.numeric
     )
   ) |>
   tidyr::pivot_longer(
-      # EDIT: column index range
-    cols = 11:49,
+    # EDIT: replace with the column range of your measurement results
+    cols = 13:43,
     names_to = "measurement"
   ) |>
   dplyr::inner_join(dictionary, by = c("measurement" = "column_name")) |>
@@ -233,6 +219,13 @@ producer <- list("sample_id", "crop", "county", "farm_name", "measurement") |>
 
 # In case of multiple farm names, grab first one
 producer$farm_name <- if (producer$farm_name > 1) producer$farm_name[[1]]
+
+# In case there is no farm name, use producer ID
+producer$farm_name <- ifelse(
+  !is.na(producer$farm_name),
+  producer$farm_name,
+  glue::glue("Farm: {params$producer_id}")
+)
 
 # Remove measurements that producer did not have tested
 results_long <- results_long |>
@@ -476,7 +469,7 @@ plot_list <- df_plot |>
   })
 ```
 
-## `r ifelse(!is.na(producer$farm_name), producer$farm_name, paste("Farm:", params$producer_id))`
+## `r producer$farm_name`
 
 {{< include 03_project-summary.qmd >}}
 
@@ -518,11 +511,11 @@ if (requireNamespace("htmlwidgets", quietly = TRUE) &
   requireNamespace("webshot2", quietly = TRUE)) {
   invisible(htmlwidgets::saveWidget(
     map,
-    file = paste0(path, "/map.html")
+    file = glue::glue("{path}/map.html")
   ))
   invisible(webshot2::webshot(
-    url = paste0(path, "/map.html"),
-    file = paste0(path, "/map.png"),
+    url = glue::glue("{path}/map.html"),
+    file = glue::glue("{path}/map.png"),
   ))
 }
 ```

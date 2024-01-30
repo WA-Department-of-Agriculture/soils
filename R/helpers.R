@@ -48,8 +48,9 @@ pull_unique <- function(df, target) {
 #' @param var Variable to group and summarize by.
 #'
 get_n_texture_by_var <- function(results_long, producer_info, var) {
+  testthat::expect_contains(names(results_long), c("sample_id", "texture"))
+
   results_long |>
-    assertr::verify(assertr::has_all_names("sample_id", "texture")) |>
     dplyr::filter({{ var }} %in% producer_info) |>
     dplyr::summarize(
       n = dplyr::n_distinct(sample_id),
@@ -68,22 +69,22 @@ get_n_texture_by_var <- function(results_long, producer_info, var) {
 #'
 #' @export
 summarize_by_var <- function(results_long, producer_samples, var) {
+  testthat::expect_contains(
+    names(producer_samples),
+    c("measurement_group", "abbr", "value")
+  )
+
+  testthat::expect_contains(
+    names(results_long),
+    c("sample_id", "texture", "measurement_group", "abbr", "value")
+  )
+
   producer_info <- producer_samples |>
-    assertr::verify(
-      assertr::has_all_names("measurement_group", "abbr", "value")
-    ) |>
     pull_unique({{ var }})
 
   n_texture <- get_n_texture_by_var(results_long, producer_info, {{ var }})
 
   results_long |>
-    assertr::verify(assertr::has_all_names(
-      "sample_id",
-      "texture",
-      "measurement_group",
-      "abbr",
-      "value"
-    )) |>
     dplyr::summarize(
       value = mean(value, na.rm = TRUE),
       .by = c(measurement_group, abbr, {{ var }})
@@ -108,18 +109,16 @@ summarize_by_var <- function(results_long, producer_samples, var) {
 #'
 #' @export
 summarize_by_project <- function(results_long) {
+  testthat::expect_contains(
+    names(results_long),
+    c("sample_id", "texture", "measurement_group", "abbr", "value")
+  )
+
   n <- dplyr::n_distinct(results_long$sample_id)
 
   texture <- calculate_mode(results_long$texture)
 
   results_long |>
-    assertr::verify(assertr::has_all_names(
-      "sample_id",
-      "texture",
-      "measurement_group",
-      "abbr",
-      "value"
-    )) |>
     dplyr::summarize(
       value = mean(value, na.rm = TRUE),
       .by = c(measurement_group, abbr)
@@ -141,12 +140,12 @@ summarize_by_project <- function(results_long) {
 #'
 #' @export
 get_table_headers <- function(dictionary, group) {
+  testthat::expect_contains(
+    names(dictionary),
+    c("measurement_group", "abbr", "unit")
+  )
+
   dictionary |>
-    assertr::verify(assertr::has_all_names(
-      "measurement_group",
-      "abbr",
-      "unit"
-    )) |>
     dplyr::filter(measurement_group == group) |>
     dplyr::select(abbr, unit) |>
     dplyr::mutate(key = abbr, .after = abbr) |>

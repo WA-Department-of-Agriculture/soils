@@ -1,8 +1,9 @@
-# Use this script to render all reports at once #######################
+# Use this script to render all reports at once ################################
+
 # After editing the dataset and optionally the location to move the
 # rendered reports, click the `Source` button in RStudio.
 
-# Read in data --------------------------------------------------------------
+# Read in data =================================================================
 
 # EDIT: Read in the same dataset used in producer_report.qmd.
 data <- read.csv(
@@ -11,7 +12,7 @@ data <- read.csv(
   encoding = "UTF-8"
 )
 
-# Create a df with inputs for quarto::quarto_render() -----------------------
+# Create a df with inputs for quarto::quarto_render() ==========================
 
 # This creates a new df called `reports_html` with a row for every unique year
 # and producer combo for the entire dataset.
@@ -43,7 +44,7 @@ reports_docx <- reports_html |>
 ## Bind HTML and docx report dfs together
 reports <- dplyr::bind_rows(reports_html, reports_docx)
 
-# Render all reports to the project directory -----------------------
+# Render all reports to the project directory ==================================
 reports |>
   purrr::pwalk(
     quarto::quarto_render,
@@ -51,7 +52,7 @@ reports |>
     .progress = TRUE
   )
 
-# Move rendered reports to a different directory ----------------------------
+# Move rendered reports to a different directory ===============================
 
 # OPTIONAL EDIT: set out_dir to where you want the reports moved to
 output_dir <- here::here("reports")

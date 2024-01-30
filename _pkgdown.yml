@@ -4,7 +4,7 @@ template:
   theme: a11y-light
   bslib:
     bg: '#faf9f6'
-    fg: black
+    fg: white
     primary: '#023b2c'
     light: '#023b2c'
     success: '#335c67'

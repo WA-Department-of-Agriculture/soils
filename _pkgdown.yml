@@ -13,7 +13,8 @@ template:
     base_font:
       google: Poppins
   navbar:
-    type: dark
+    bg: primary
+    fg: white
     structure:
       left:
       - reference

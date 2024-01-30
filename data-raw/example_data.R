@@ -1,4 +1,4 @@
-# data dictionary
+# data_dictionary ==============================================================
 data_dictionary <- read.csv(
   here::here("inst/template/data/data-dictionary.csv"),
   check.names = FALSE,
@@ -7,14 +7,14 @@ data_dictionary <- read.csv(
 
 usethis::use_data(data_dictionary, overwrite = TRUE)
 
-# example data
+# washi_data ===================================================================
 washi_data <- read.csv(
   here::here("inst/template/data/washi-data.csv"),
   check.names = FALSE)
 
 usethis::use_data(washi_data, overwrite = TRUE)
 
-# wrangling for example data for plot example
+# df_plot ======================================================================
 
 # get producer info
 producer <- washi_data |>
@@ -22,9 +22,9 @@ producer <- washi_data |>
 
 # Tidy data into long format and join with data dictionary
 results_long <- washi_data |>
-  dplyr::mutate(dplyr::across(11:49, as.numeric)) |>
+  dplyr::mutate(dplyr::across(13:43, as.numeric)) |>
   tidyr::pivot_longer(
-    cols = 11:49,
+    cols = 13:43,
     names_to = "measurement"
   ) |>
   dplyr::inner_join(data_dictionary, by = c("measurement" = "column_name")) |>
@@ -75,4 +75,93 @@ df_plot <- results_long |>
 # Order the df so producer's points are plotted on top
 df_plot <- df_plot[order(df_plot$category, decreasing = TRUE), ]
 
-saveRDS(df_plot, here::here("inst/extdata/df-plot.RDS"))
+saveRDS(df_plot, here::here("inst/extdata/df_plot.RDS"))
+
+# tables =======================================================================
+
+producer_samples <- results_long |>
+  dplyr::filter(producer_id == "WUY05" & year == 2023)
+
+# Calculate averages by crop, county, and project
+crop_summary <- soils::summarize_by_var(
+  results_long,
+  producer_samples,
+  var = crop
+)
+
+county_summary <- soils::summarize_by_var(
+  results_long,
+  producer_samples,
+  var = county
+)
+
+project_summary <- soils::summarize_by_project(results_long)
+
+producer_table <- producer_samples |>
+  dplyr::select(
+    measurement_group,
+    abbr,
+    value,
+    "Field or Average" = field_name,
+    Texture = texture
+  )
+
+# Bind together into one df and round values to 2 digits
+df_table <- dplyr::bind_rows(
+  producer_table,
+  crop_summary,
+  county_summary,
+  project_summary
+) |>
+  dplyr::mutate(
+    value = as.numeric(formatC(value, 2, drop0trailing = TRUE))
+  )
+
+# Split into list with each measurement group as its own df and pivot wider
+groups <- df_table |>
+  split(df_table$measurement_group) |>
+  purrr::map(\(x) {
+    tidyr::pivot_wider(
+      x,
+      id_cols = c("Field or Average", Texture),
+      names_from = abbr
+    )
+  })
+
+# Special wrangling for texture
+
+# Extract physical df from averages list
+physical <- list(physical = groups$physical)
+
+# Remove texture from all dataframes except physical
+groups <- purrr::map(
+  subset(
+    groups,
+    !(names(groups) == "physical")
+  ),
+  \(x) dplyr::select(x, -Texture)
+)
+
+# Add physical df back to the averages list
+groups <- c(groups, physical)
+
+# Delete any county or crop averages where n = 1
+tables <- groups |>
+  purrr::map(
+    subset,
+    !grepl("(1 Fields)", `Field or Average`)
+  )
+
+saveRDS(tables, here::here("inst/extdata/tables.RDS"))
+
+# headers ======================================================================
+
+# Map function to each measurement group, resulting in a new df with
+# abbreviations and units in a list for make_ft()
+headers <- results_long |>
+  soils::pull_unique(target = measurement_group) |>
+  as.list() |>
+  rlang::set_names() |>
+  purrr::map(\(group) get_table_headers(data_dictionary, group))
+
+saveRDS(headers, here::here("inst/extdata/headers.RDS"))

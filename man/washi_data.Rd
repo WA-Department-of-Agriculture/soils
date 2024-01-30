@@ -5,7 +5,7 @@
 \alias{washi_data}
 \title{Example WaSHI data}
 \format{
-\subsection{\code{washi_data} A data frame with 100 rows and 51 columns:}{
+\subsection{\code{washi_data} A data frame with 100 rows and 43 columns:}{
 
 \describe{
 \item{year}{Year of sample}

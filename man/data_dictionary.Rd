@@ -5,7 +5,7 @@
 \alias{data_dictionary}
 \title{Data dictionary}
 \format{
-\subsection{\code{data_dictionary} A data frame with 32 rows and 7 columns.}{
+\subsection{\code{data_dictionary} A data frame with 32 rows and 8 columns.}{
 
 \describe{
 \item{measurement_group}{Name to group measurements by}

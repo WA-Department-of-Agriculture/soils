@@ -31,7 +31,7 @@ Define styles for producer's samples versus all samples
 }
 \examples{
 # Read in wrangled example plot data
-df_plot_path <- soils_example("df-plot.RDS")
+df_plot_path <- soils_example("df_plot.RDS")
 df_plot <- readRDS(df_plot_path)
 # Subset df to just biological measurement group
 df_plot_bio <- df_plot |>

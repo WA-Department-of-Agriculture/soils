@@ -164,7 +164,7 @@ add_texture_points <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' df_plot_path <- soils_example("df-plot.RDS")
+#' df_plot_path <- soils_example("df_plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'
 #' # Subset df to just biological measurement group
@@ -258,7 +258,7 @@ theme_facet_strip <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' df_plot_path <- soils_example("df-plot.RDS")
+#' df_plot_path <- soils_example("df_plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 
 #' # Subset df to just biological measurement group
@@ -342,7 +342,7 @@ set_scales <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' df_plot_path <- soils_example("df-plot.RDS")
+#' df_plot_path <- soils_example("df_plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'
 #' # Subset df to just biological measurement group
@@ -451,7 +451,7 @@ make_strip_plot <- function(
 #'
 #' @examples
 #' # Read in wrangled example plot data
-#' df_plot_path <- soils_example("df-plot.RDS")
+#' df_plot_path <- soils_example("df_plot.RDS")
 #' df_plot <- readRDS(df_plot_path)
 #'
 #' # Make strip plot with all measurements and set scales based on

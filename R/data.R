@@ -4,7 +4,7 @@
 #' Assessment anonymized data. This data set presents each sample in its own
 #' row, with columns for each measurement.
 #'
-#' @format ## `washi_data` A data frame with 100 rows and 51 columns:
+#' @format ## `washi_data` A data frame with 100 rows and 43 columns:
 #' \describe{
 #'   \item{year}{Year of sample}
 #'   \item{sample_id, producer_id, field_id}{Anonymized IDs}
@@ -24,7 +24,7 @@
 #' An example data dictionary for the Washington Soil Health Initiative (WaSHI)
 #' State of the Soils Assessment anonymized data.
 #'
-#' @format ## `data_dictionary` A data frame with 32 rows and 7 columns.
+#' @format ## `data_dictionary` A data frame with 32 rows and 8 columns.
 #' \describe{
 #'   \item{measurement_group}{Name to group measurements by}
 #'   \item{measurement_group_label}{Label of measurement group to be used as
@@ -53,7 +53,7 @@
 #'   \item{clay}{Percentage of clay content}
 #'   \item{sand}{Percentage of sand content}
 #'   \item{silt}{Percentage of silt content}
-#'   \item{label}{Texture class}
+#'   \item{label}{Texture class, factor with 12 levels}
 #'   \item{angle}{Angle to rotate the label in the texture triangle}
 #'   ...
 #' }

@@ -11,7 +11,7 @@
 #' @examples
 #' soils_example()
 #'
-#' soils_example("df-plot.RDS")
+#' soils_example("df_plot.RDS")
 soils_example <- function(file = NULL) {
   if (is.null(file)) {
     dir(system.file("extdata", package = "soils"))

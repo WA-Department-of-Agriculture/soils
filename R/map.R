@@ -17,17 +17,19 @@
 #'   prep_for_map(label_heading = field_name, label_body = crop) |>
 #'   dplyr::glimpse()
 prep_for_map <- function(df, label_heading, label_body) {
+  testthat::expect_contains(names(df), c("longitude", "latitude"))
+
   df |>
-    assertr::verify(assertr::has_all_names(
-      "longitude",
-      "latitude"
-    )) |>
     dplyr::filter(!duplicated(sample_id)) |>
     dplyr::arrange(field_id) |>
     dplyr::mutate(
       dplyr::across(dplyr::where(is.numeric), \(x) round(x, 4)),
-      label = paste0("<strong>", {{ label_heading }}, "</strong>"),
-      popup = paste0(label, "<br>", {{ label_body }})
+      label = glue::glue(
+        "<strong>{eval(rlang::expr({{ label_heading }}))}</strong>"
+      ),
+      popup = glue::glue(
+        "{label}<br>{eval(rlang::expr({{ label_body }}))}"
+      )
     )
 }
 
@@ -59,24 +61,24 @@ make_leaflet <- function(
   primary_color = "#a60f2d"
     ) {
   agol <- "https://server.arcgisonline.com/ArcGIS/rest/services/"
-
-  assertr::verify(
-    df,
-    assertr::has_all_names(
-      "longitude",
-      "latitude",
-      "label",
-      "popup"
-    )
+  testthat::expect_contains(
+    names(df),
+    c("longitude", "latitude", "label", "popup")
   )
 
   leaflet::leaflet(df) |>
     leaflet::addTiles(
-      urlTemplate = paste0(agol, "World_Imagery/MapServer/tile/{z}/{y}/{x}"),
+      urlTemplate = glue::glue(
+        "{{agol}World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        .open = "{{"
+      ),
       group = "Satellite"
     ) |>
     leaflet::addTiles(
-      urlTemplate = paste0(agol, "/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"),
+      urlTemplate = glue::glue(
+        "{{agol}/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        .open = "{{"
+      ),
       group = "Topographic"
     ) |>
     leaflet::addCircleMarkers(

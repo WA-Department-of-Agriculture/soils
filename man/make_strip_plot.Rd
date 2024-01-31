@@ -40,7 +40,7 @@ Make a facetted strip plot
 }
 \examples{
 # Read in wrangled example plot data
-df_plot_path <- soils_example("df-plot.RDS")
+df_plot_path <- soils_example("df_plot.RDS")
 df_plot <- readRDS(df_plot_path)
 
 # Subset df to just biological measurement group

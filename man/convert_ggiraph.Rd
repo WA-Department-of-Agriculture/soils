@@ -27,7 +27,7 @@ Convert a \code{ggplot2} plot to an interactive \code{ggiraph}
 }
 \examples{
 # Read in wrangled example plot data
-df_plot_path <- soils_example("df-plot.RDS")
+df_plot_path <- soils_example("df_plot.RDS")
 df_plot <- readRDS(df_plot_path)
 
 # Make strip plot with all measurements and set scales based on

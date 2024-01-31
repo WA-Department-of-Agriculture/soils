@@ -37,10 +37,10 @@ Imports:
     officer,
     purrr,
     rstudioapi,
+    testthat (>= 3.0.0),
     tidyr,
     utils,
     usethis,
-    assertr,
     quarto
 Suggests:
     downloadthis,
@@ -48,7 +48,6 @@ Suggests:
     knitr,
     rlang,
     rmarkdown,
-    testthat (>= 3.0.0),
     webshot2
 VignetteBuilder: 
     knitr

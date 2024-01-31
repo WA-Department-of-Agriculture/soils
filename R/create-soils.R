@@ -74,7 +74,7 @@ create_soils <- function(
     # Copy over whole directory
     fs::dir_copy(
       path = template,
-      new_path = paste0(path),
+      new_path = path,
       overwrite = TRUE
     )
   })

@@ -12,7 +12,7 @@ contains 53 rows and 4 columns and \code{labels} contains 12 rows and 5 columns.
 \item{clay}{Percentage of clay content}
 \item{sand}{Percentage of sand content}
 \item{silt}{Percentage of silt content}
-\item{label}{Texture class}
+\item{label}{Texture class, factor with 12 levels}
 \item{angle}{Angle to rotate the label in the texture triangle}
 ...
 }

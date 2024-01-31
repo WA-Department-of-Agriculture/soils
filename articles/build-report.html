@@ -134,7 +134,7 @@ Example Data
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">washi_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 100</span></span>
-<span><span class="co">#&gt; Columns: 51</span></span>
+<span><span class="co">#&gt; Columns: 43</span></span>
 <span><span class="co">#&gt; $ year                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2023, 2022, 2022, 2022, 2023, 2022, 2023, 2022,…</span></span>
 <span><span class="co">#&gt; $ sample_id              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-WUY05-01", "22-RHM05-02", "22-ENR07-02", "2…</span></span>
 <span><span class="co">#&gt; $ farm_name              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 150", "Farm 085", "Farm 058", "Farm 061",…</span></span>
@@ -144,13 +144,13 @@ Example Data
 <span><span class="co">#&gt; $ field_id               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 2, 3, 3, 2, 1, 2, 1, 1, 1, 1, 2, 8, 2, 1,…</span></span>
 <span><span class="co">#&gt; $ county                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 9", "County 18", "County 11", "County 1…</span></span>
 <span><span class="co">#&gt; $ crop                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Hay/Silage", "Green Manure", "Vegetable", "Her…</span></span>
+<span><span class="co">#&gt; $ longitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -119, -123, -122, -120, -119, -117, -118, -117,…</span></span>
+<span><span class="co">#&gt; $ latitude               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 49, 47, 47, 46, 49, 47, 49, 47, 48, 48, 46, 47,…</span></span>
 <span><span class="co">#&gt; $ texture                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Loamy Sand", "Sandy Loam", "Silt Loam", "Silt …</span></span>
-<span><span class="co">#&gt; $ min_c_24hr_mg_c_kg_day <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, 0.14, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
 <span><span class="co">#&gt; $ bd_g_cm3               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.30, 0.88, 1.21, 1.37, 1.22, 1.14, 1.44, 1.24,…</span></span>
 <span><span class="co">#&gt; $ pmn_lb_ac              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 67.13, 129.97, 122.17, 95.24, 111.35, 61.92, -7…</span></span>
 <span><span class="co">#&gt; $ nh4_n_mg_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.6, 21.6, 8.1, 13.8, 3.9, 12.4, 2.4, 12.4, 2.3…</span></span>
 <span><span class="co">#&gt; $ no3_n_mg_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 9.2, 6.1, 25.3, 16.9, 6.7, 4.3, 21.5, 7.4, 2.3,…</span></span>
-<span><span class="co">#&gt; $ pmn_mg_kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 19.0, 54.1, 37.0, 25.6, 33.6, 20.0, -19.9, 33.6…</span></span>
 <span><span class="co">#&gt; $ poxc_mg_kg             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 496, 571, 419, 424, 547, 235, 501, 480, 965, 10…</span></span>
 <span><span class="co">#&gt; $ ph                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.7, 5.9, 6.3, 6.8, 7.6, 5.5, 5.5, 5.9, 6.3, 6.…</span></span>
 <span><span class="co">#&gt; $ ec_mmhos_cm            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.42, 0.05, 0.60, 2.18, 0.60, 0.81, 0.55, 0.34,…</span></span>
@@ -176,16 +176,8 @@ Example Data
 <span><span class="co">#&gt; $ wsa_percent            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 88.5, 92.6, 91.3, 94.3, 84.6, 86.6, 86.9, 82.5,…</span></span>
 <span><span class="co">#&gt; $ om_percent             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.5, 5.8, 2.4, 2.9, 6.7, 3.2, 27.0, 4.2, 7.9, 5…</span></span>
 <span><span class="co">#&gt; $ toc_percent            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68, 1.40, 1.53, 1.55, 2.25, 2.37,…</span></span>
-<span><span class="co">#&gt; $ ca_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.9, 3.9, 8.8, 16.9, 14.1, 7.4, 5.7, 10.4, 13.4…</span></span>
-<span><span class="co">#&gt; $ mg_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.2, 0.8, 2.2, 6.1, 1.6, 1.9, 1.1, 1.9, 3.5, 0.…</span></span>
-<span><span class="co">#&gt; $ na_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.07, 0.09, 0.09, 0.35, 0.06, 0.07, 0.10, 0.07,…</span></span>
 <span><span class="co">#&gt; $ whc_in_ft              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.01, 1.08, 2.77, 1.93, 1.28, 2.25, 0.84, 2.14,…</span></span>
-<span><span class="co">#&gt; $ moisture_percent       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 17.53, 33.10, 27.97, 25.27, 17.65, 25.97, 14.06…</span></span>
-<span><span class="co">#&gt; $ inorganic_c_percent    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, NA, 0.12, NA, NA, NA, NA, NA, NA, N…</span></span>
-<span><span class="co">#&gt; $ pmn_no3_n_mg_kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 29.0, NA, NA, NA, 42.7, NA, 1.1, NA, 124.0, NA,…</span></span>
-<span><span class="co">#&gt; $ pmn_nh4_n_mg_kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.8, NA, NA, NA, 1.5, NA, 2.9, NA, 0.7, NA, 14.…</span></span>
-<span><span class="co">#&gt; $ longitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -119, -123, -122, -120, -119, -117, -118, -117,…</span></span>
-<span><span class="co">#&gt; $ latitude               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 49, 47, 47, 46, 49, 47, 49, 47, 48, 48, 46, 47,…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ inorganic_c_percent    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, NA, 0.12, NA, NA, NA, NA, NA, NA, N…</span></span></code></pre></div>
 </details><p>All column names in your data, besides measurements, must be exactly
 the same as above.</p>
 <p>Each measurement must be in its own column and have the format of
@@ -217,7 +209,7 @@ Example Data Dictionary
 <span><span class="co">#&gt; $ measurement_full_name   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter", "Potentially Mineralizable C…</span></span>
 <span><span class="co">#&gt; $ order                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5…</span></span>
 <span><span class="co">#&gt; $ abbr                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter", "Min C", "POXC", "PMN", "ACE…</span></span>
-<span><span class="co">#&gt; $ unit                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "mg/kg/day", "ppm", "lbs/ac", "g/kg", "",…</span></span>
+<span><span class="co">#&gt; $ unit                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "mg/kg/day", "ppm", "lb/ac", "g/kg", "", …</span></span>
 <span><span class="co">#&gt; $ abbr_unit               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter&lt;br&gt;(%)", "Min C&lt;br&gt;(mg/kg/day)…</span></span></code></pre></div>
 </details><ul>
 <li>

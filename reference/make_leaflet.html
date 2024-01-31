@@ -94,7 +94,7 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">gis_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 53</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 45</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ year                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2023, 2022, 2022</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ sample_id              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-WUY05-01", "22-RHM05-02", "22-ENR07-02"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ farm_name              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 150", "Farm 085", "Farm 058"</span>
@@ -104,13 +104,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ field_id               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 2, 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ county                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 9", "County 18", "County 11"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ crop                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Hay/Silage", "Green Manure", "Vegetable"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ longitude              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -119, -123, -122</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ latitude               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 49, 47, 47</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ texture                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Loamy Sand", "Sandy Loam", "Silt Loam"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ min_c_24hr_mg_c_kg_day <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ bd_g_cm3               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.30, 0.88, 1.21</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ pmn_lb_ac              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 67.13, 129.97, 122.17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ nh4_n_mg_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.6, 21.6, 8.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ no3_n_mg_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 9.2, 6.1, 25.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ pmn_mg_kg              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 19.0, 54.1, 37.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ poxc_mg_kg             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 496, 571, 419</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ph                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.7, 5.9, 6.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ec_mmhos_cm            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.42, 0.05, 0.60</span>
@@ -136,18 +136,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ wsa_percent            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 88.5, 92.6, 91.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ om_percent             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4.5, 5.8, 2.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ toc_percent            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85, 2.88, 1.68</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ ca_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.9, 3.9, 8.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ mg_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.2, 0.8, 2.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ na_cmolc_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.07, 0.09, 0.09</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ whc_in_ft              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.01, 1.08, 2.77</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ moisture_percent       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 17.53, 33.10, 27.97</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ inorganic_c_percent    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ pmn_no3_n_mg_kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 29, NA, NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ pmn_nh4_n_mg_kg        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.8, NA, NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ longitude              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -119, -123, -122</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ latitude               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 49, 47, 47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ label                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "&lt;strong&gt;Field 01&lt;/strong&gt;", "&lt;strong&gt;Field 02&lt;…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ popup                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "&lt;strong&gt;Field 01&lt;/strong&gt;&lt;br&gt;Hay/Silage", "&lt;st…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ label                  <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span> "&lt;strong&gt;Field 01&lt;/strong&gt;", "&lt;strong&gt;Field 02&lt;…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ popup                  <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span> "&lt;strong&gt;Field 01&lt;/strong&gt;&lt;br&gt;Hay/Silage", "&lt;st…</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Make leaflet</span></span></span>
 <span class="r-in"><span><span class="fu">make_leaflet</span><span class="op">(</span><span class="va">gis_df</span><span class="op">)</span></span></span>

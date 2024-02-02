@@ -14,11 +14,11 @@ bibentry(
     as.person("Washington State Department of Agriculture")
   ),
   journal  = "Washington Soil Health Initiative",
-  year     = "2023",
+  year     = "2024",
   url      = "https://github.com/WA-Department-of-Agriculture/soils",
   textVersion =
-    paste("Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL.",
-    "2023. Visualize and Report Soil Health Survey Data with {soils}.",
+    paste("Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue D, Gelardi DL.",
+    "2024. Visualize and Report Soil Health Survey Data with {soils}.",
     "Washington Soil Health Initiative.",
     "https://github.com/WA-Department-of-Agriculture/soils")
 )

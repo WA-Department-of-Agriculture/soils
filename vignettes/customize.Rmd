@@ -1,0 +1,146 @@
+---
+title: "Customize & write"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Customize & write}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Report metadata and options
+
+The report metadata and options are controlled with the YAML and setup chunk in `01_producer_report.qmd`.
+
+The first place to start is the YAML (Yet Another Markup Language). The YAML header is the content sandwiched between three dashes (`---`) at the top of the file. It contains document metadata, parameters, and customization options.
+
+The only fields you need to edit are:
+
+-   `title`: The title of the report. Optionally include your logo above.
+-   `subtitle`: Subtitle appears below the title.
+-   `producer_id` and `year`: Default parameter values that can be found in your data.
+
+```         
+---
+# EDIT: Replace logo.png in images folder with your own and add project name.
+title: "![](images/logo.png) Results from PROJECT NAME"
+# EDIT: Subtitle right aligned below title.
+subtitle: "Fall 2023"
+# EDIT: producer_id and year must be a valid combo that exists in your dataset
+params:
+  producer_id: WUY05
+  year: 2023
+
+# Shouldn't need to edit the below values unless you want to customize.
+---
+```
+
+Ignore the other YAML fields and values until you would like to explore other ways of customizing your reports. Learn about the available YAML fields for [HTML documents](https://quarto.org/docs/reference/formats/html.html) and [MS Word documents](https://quarto.org/docs/reference/formats/docx.html).
+
+### Logo and images
+
+The logo that appears at the top of each report is found in the `images` subfolder and should be replaced with your organization's logo.
+
+Add or change the measurement group icons (i.e., `biological.png`). These icons appear in the section headers.
+
+### Report content
+
+`01_producer_report.qmd` uses the Quarto [`{{< include >}}`](https://quarto.org/docs/authoring/includes.html) shortcode to embed static content within the main parameterized reports.
+
+Edit the content of the following Quarto files to fit your project and what measurements were taken:
+
+```         
+├── 03_project_summary.qmd
+├── 04_soil_health_background.qmd
+├── 05_physical_measurements.qmd
+├── 06_biological_measurements.qmd
+├── 07_chemical_measurements.qmd
+├── 08_looking_forward.qmd
+```
+
+Under the `Project Results` heading in `01_producer_report.qmd`, update the sample depth:
+
+> All samples were collected from [EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)].
+
+`01_producer_report.qmd` calls `02_secion_template.qmd` as a child document to generate a section for each `measurement_group` defined in the `data-dictionary.csv`. You shouldn't need to edit `02_secion_template.qmd` unless you want more advanced customization.
+
+### Style and theme
+
+The look and feel of your reports can be customized by changing the fonts and colors to match your branding. The plot and table outputs are controlled by the `set-fonts-colors` chunk in `01_producer_report.qmd`. The HTML reports are styled by the `styles.css` file and the MS Word reports are styled using the `word-template.docx` template file.
+
+#### Set fonts and colors
+
+The third chunk in `01_producer_report.qmd` sets the fonts and colors to be used in the tables and plots of the report.
+
+<details open>
+
+<summary>`set-fonts-colors` chunk</summary>
+
+```{r set-fonts-colors, eval=FALSE}
+# EDIT: Replace any font names and colors to match your branding.
+
+header_font <- "Georgia"
+body_font <- "Arial"
+
+# Flextable colors -----------------------------------------------------
+
+# header background color
+header_color <- "#023B2C"
+# header text color
+header_text_color <- "white"
+# body darker background color
+darker_color <- "#ccc29c"
+# body lighter background color
+lighter_color <- "#F2F0E6"
+# border color
+border_color <- "#3E3D3D"
+
+# Map and plot colors -----------------------------------------------------
+
+# point color for producer samples
+primary_color <- "#a60f2d"
+# point color for samples in same categories as producer
+secondary_color <- "#3E3D3D"
+# point color for all other samples in project
+other_color <- "#ccc29c"
+
+# facet strip background color
+strip_color <- "#335c67"
+# facet strip text color
+strip_text_color <- "white"
+```
+
+</details>
+
+#### Style sheets
+
+The style sheets can be found in the `resources` directory and edited to customize the report appearance to match your own branding.
+
+##### HTML
+
+`styles.css` controls the appearance of HTML reports.
+
+```         
+/* Edit these :root variables */
+:root {
+    --primary-color: #023B2C;
+    --secondary-color: #335c67;
+    --link-color: #a60f2d;
+    --light-color: #F2F0E6;
+    --fg-color: white; /* color for text with colored background*/
+    --heading-font: "Georgia";
+    --body-font: "Arial";
+}
+```
+
+##### MS Word
+
+Open `word-template.docx` and modify the styles according to this [Microsoft documentation](https://support.microsoft.com/en-gb/office/customize-or-create-new-styles-d38d6e47-f6fc-48eb-a607-1eb120dec563).
+
+Learn more about [CSS](https://quarto.org/docs/visual-editor/content.html#css-styles) and [MS Word Style Templates](https://quarto.org/docs/output-formats/ms-word-templates.html).

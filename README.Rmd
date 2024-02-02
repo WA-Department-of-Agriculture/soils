@@ -19,93 +19,88 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Overview
+```{=html}
+<style>
+.iframe {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: 100%;
+}
+</style>
+```
+# Overview
 
-As part of the [Washington Soil Health Initiative](https://washingtonsoilhealthinitiative.com/), the [Washington State Department of Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health) and [Washington State University](https://soilhealth.wsu.edu/) developed {soils} for soil health data visualization and reporting.
+Introducing {soils}: an R package for all your soil health data visualization and reporting needs. {soils} provides an RStudio project template to generate customized, interactive soil health reports. Democratize your data by giving back to the farmers and land managers who contributed soil samples to your survey project -- use {soils} to empower each participant to explore and understand their data.
 
-{soils} gives you a RStudio project template with everything you need to generate custom HTML and Microsoft Word reports for each participant in your soil health survey.
+{soils} was produced by the [Washington State Department of Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health) and [Washington State University](https://soilhealth.wsu.edu/), as part of the [Washington Soil Health Initiative](https://washingtonsoilhealthinitiative.com/).
 
-## Quick Video Demos
+# Requirements
 
-### Create a {soils} Project
+The report template uses [Quarto](https://quarto.org/docs/get-started/), which is the [next-generation](https://quarto.org/docs/faq/rmarkdown.html) version of [R Markdown](https://quarto.org/docs/faq/rmarkdown.html).
 
-[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/7e8c650c-362c-4f81-9e24-3fb4b21f9d35)
+We assume you're using [RStudio v2022.07](https://dailies.rstudio.com/version/2022.07.2+576.pro12/) or later for editing and previewing Quarto documents. We **strongly** recommend you use the [latest release of RStudio](https://posit.co/download/rstudio-desktop/) for support of all Quarto features.
 
-### Render a MS Word Report
+To render Microsoft Word (MS Word) documents, Microsoft Word must be installed and activated.
 
-[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/b769f797-a390-4834-ac40-ab65cea7ef5f)
+**If you're new to Quarto and Markdown formatting syntax, first take a look at the Primers on [Quarto](https://wa-department-of-agriculture.github.io/soils/articles/quarto.html) and [Markdown](https://wa-department-of-agriculture.github.io/soils/articles/markdown.html) to learn how they're used in {soils} and get familiar with their features.**
 
-### Render a HTML Report
-
-[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/13d33152-b509-4651-a48d-e490be3c9464)
-
-### Programmatically Render Multiple Reports at Once
-
-[render_reports.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/fdb93fed-6c83-40fa-beac-1f3e352ce472)
-
-## Requirements
-
-The report template uses [Quarto](https://quarto.org/docs/get-started/), which is the next-generation version of [R Markdown](https://quarto.org/docs/faq/rmarkdown.html).
-
-We assume you're working in RStudio Desktop with a version of at least [v2022.07](https://dailies.rstudio.com/version/2022.07.2+576.pro12/) for editing and previewing Quarto documents. Though it is strongly recommended that you use the [latest release](https://posit.co/download/rstudio-desktop/) of RStudio.
-
-To render `.docx` files, you must have Microsoft Word installed.
-
-## Installation
+# Installation
 
 Install the development version of {soils} from our [r-universe](https://wa-department-of-agriculture.r-universe.dev/) with:
 
 ```{r install-r-universe, eval=FALSE}
 install.packages(
   "soils",
-  repos = c(
-    "https://wa-department-of-agriculture.r-universe.dev",
-    "https://cloud.r-project.org",
-    "https://ftp.osuosl.org/pub/cran/"
-  )
+  repos = c("https://wa-department-of-agriculture.r-universe.dev")
 )
 ```
 
+Or install directly from GitHub:
+
+```{r remotes-install, eval=FALSE}
+# install.packages("remotes")
+remotes::install_github("WA-Department-of-Agriculture/soils")
+```
+
+Load the example datasets and functions with:
+
 ```{r load-soils, eval=FALSE}
-# Load all the example data sets and functions
 library(soils)
 ```
 
-## Creating a New {soils} Project
+# Usage
 
-Use the RStudio IDE to create a new {soils} RStudio project.
+{soils} was developed to work 'out of the box' so you can immediately install and render an example report. However, this means it will require customization and content editing to fit your project.
 
-`Open RStudio` \> `File` \> `New Project` \> `New Directory` \> **`Quarto Soil Health Report`**
+Our recommended workflow is to **1)** create a new {soils} project, **2)** try to render the example reports to make sure everything works on your system, and **3)** customize the template files to use your own data, writing, and styling.
 
-![](man/figures/project_wizard-1.png){fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."}
+## 1. Create a new {soils} project
 
-Enter your desired directory name, browse to where you want the project to live, and check whether you want the project to open in a new RStudio session.
+<iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
 
-![](man/figures/project_wizard-2.png){fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session."}
+</iframe>
 
-A new RStudio project will open with the template Quarto report and a script to render all reports. Other documents and resources will appear in the files pane.
+## 2. Render the example reports
 
-![](man/figures/new_project.png){fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called producer_report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data."}
+**See the [rendered example reports](https://wa-department-of-agriculture.github.io/soils/articles/examples.html).**
 
-**Read the article [Get Started](https://wa-department-of-agriculture.github.io/soils/articles/get-started.html) to learn what goodies are bundled within {soils}.**
+### HTML
 
-## Example Soil Health Reports
+<iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
 
-{soils} helps you generate custom static `.docx` reports and interactive `.html` reports for every producer or land owner in your soil health survey project.
+</iframe>
 
-See demo reports rendered directly from this template project:
+### MS Word
 
-### [MS Word Example](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
+<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
 
-[![First page of example MS Word report](man/figures/report_docx.png){fig-alt="Screenshot of example .docx report" height="500px"}](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
+</iframe>
 
-### [HTML Example](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
+## 3. Customize the content and styling
 
-[![Beginning of an example HTML report](man/figures/report_html.png){fig-alt="Screenshot of .html report"}](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
+**To use your own data and customize the reports for your project, follow along with the [tutorials](https://wa-department-of-agriculture.github.io/soils/articles/index.html).**
 
-**Read the article [Build a Report](https://wa-department-of-agriculture.github.io/soils/articles/build-report.html) for a detailed walk-through of the project and workflow for adapting this template for your own project.**
-
-## Acknowledgement and Citation
+# Acknowledgement and citation
 
 The below acknowledgement is automatically embedded in each report:
 

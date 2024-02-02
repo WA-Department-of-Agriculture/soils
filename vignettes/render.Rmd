@@ -1,0 +1,63 @@
+---
+title: "Render all reports"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Render all reports}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{=html}
+<style>
+.iframe {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: 100%;
+}
+</style>
+```
+You can render reports with the RStudio IDE or programmatically with the `render_report()` function.
+
+### Using the RStudio IDE
+
+To generate and preview the report with the default parameters, use the `Render` button or keyboard shortcut (`Ctrl + Shift + K`). This is the fastest way to render reports and is great for iterating on content and style. You can check the `Render on Save` option to automatically update the preview whenever you save the document. HTML reports will preview side-by-side with the `.qmd` file, whereas MS Word documents will open separately.
+
+![](../man/figures/render.png){style="max-width:80%" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."}
+
+### HTML
+
+<iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
+
+</iframe>
+
+### MS Word
+
+<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
+
+</iframe>
+
+### Using `render_reports.R`
+
+<iframe src="https://drive.google.com/file/d/1XGfplRUrLb0jiWIElQejHLZ9ig2WfEal/preview" width="640" height="360" allow="autoplay;fullscreen;">
+
+</iframe>
+
+You also can render all reports at once programmatically by editing `render_reports.R` to use the same dataset in the `load-data` chunk of `01_producer_report.qmd`.
+
+```{r, eval=FALSE}
+# EDIT: Read in the same dataset used in producer_report.qmd.
+data <- read.csv(
+  paste0(here::here(), "/data/washi-data.csv"),
+  check.names = FALSE,
+  encoding = "UTF-8"
+)
+```
+
+This script creates a dataframe for `purrr::pwalk()` iteration to render all reports in both HTML and MS Word formats and moves them to a folder called `reports`.

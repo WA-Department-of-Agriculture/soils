@@ -1,0 +1,43 @@
+---
+title: "Example reports"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example reports}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# HTML
+
+HTML reports contain interactive features such as a table of contents, map, figures, and a downloadable spreadsheet. These reports are 'self-contained', meaning all images and necessary resources are embedded in the file. Consequently, the file size can be quite large.
+
+These reports can be distributed with cloud storage (Google Drive, Box.com, Dropbox.com, etc.). Report recipients must download the `.html` file to their computer and then open the file in their web browser.
+
+Open this report in a [new tab](https://htmlpreview.github.io/?https://github.com/WA-Department-of-Agriculture/soils/blob/44d493360e987f4ae1d6ae7cd6de5beafd045f4d/inst/example_reports/producer_report.html){target="_blank"}.
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_url(
+  "https://htmlpreview.github.io/?https://github.com/WA-Department-of-Agriculture/soils/blob/44d493360e987f4ae1d6ae7cd6de5beafd045f4d/inst/example_reports/producer_report.html", 
+  height = "500px")
+```
+
+# MS Word
+
+This example report was rendered to a `.docx` file and then converted to a PDF for web publishing.
+
+Open this report in a [new tab](https://drive.google.com/file/d/15M0HfRbyjUxdkMPib71NdfBB5yKWgVfW/preview){target="_blank"}.
+
+<object style="width:100%;height:500px" data="https://drive.google.com/file/d/15M0HfRbyjUxdkMPib71NdfBB5yKWgVfW/preview">
+
+<p>Oops! Your browser doesn't seem to support embedded PDFs.</p>
+
+<p><a href="https://drive.google.com/file/d/15M0HfRbyjUxdkMPib71NdfBB5yKWgVfW/preview">Try downloading it instead.</a></p>
+
+</object>

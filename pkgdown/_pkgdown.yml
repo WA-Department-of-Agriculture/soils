@@ -1,0 +1,97 @@
+url: https://wa-department-of-agriculture.github.io/soils/
+template:
+  bootstrap: 5
+  theme: a11y-light
+  bslib:
+    bg: '#faf9f6'
+    fg: black
+    primary: '#023b2c'
+    light: '#023b2c'
+    success: '#335c67'
+    heading_font:
+      google: Lato
+    base_font:
+      google: Poppins
+
+navbar:
+  left:
+  - icon: fa-home
+    href: index.html
+  - text: Primers
+    menu:
+    - text: Quarto
+      href: articles/quarto.html
+    - text: Markdown
+      href: articles/markdown.html
+  - text: Tutorials
+    menu:
+    - text: "1. Create {soils} project"
+      href: articles/project.html
+    - text: "2. Import data"
+      href: articles/data.html
+    - text: "3. Customize & write"
+      href: articles/customize.html
+    - text: "4. Render reports"
+      href: articles/render.html
+    - text: "Troubleshooting"
+      href: articles/troubleshoot.html
+  - text: Examples
+    href: articles/examples.html
+  - text: Functions
+    href: reference/index.html
+
+articles:
+- title: Primers
+  desc: ~
+  contents:
+  - '`quarto`'
+  - '`markdown`'
+- title: Tutorials
+  desc: ~
+  contents:
+  - '`project`'
+  - '`data`'
+  - '`customize`'
+  - '`render`'
+  - '`troubleshoot`'
+- title: Example Reports
+  desc: ~
+  contents:
+  - '`examples`'
+
+reference:
+- title: Create {soils} project
+  contents: create_soils
+- title: Data wrangling
+  contents:
+  - get_n_texture_by_var
+  - summarize_by_project
+  - summarize_by_var
+  - get_table_headers
+  - prep_for_map
+- title: Map
+  contents: make_leaflet
+- title: Plots
+  contents:
+  - make_texture_triangle
+  - add_texture_points
+  - make_strip_plot
+  - theme_facet_strip
+  - set_scales
+  - convert_ggiraph
+- title: Tables
+  contents:
+  - make_ft
+  - unit_hline
+  - format_ft_colors
+  - style_ft
+- title: Helpers
+  contents:
+  - calculate_mode
+  - pull_unique
+- title: Example data
+  contents:
+  - soils_example
+  - washi_data
+  - data_dictionary
+  - usda_texture

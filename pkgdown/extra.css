@@ -12,11 +12,16 @@
 }
 
 .text-muted {
-    color: #b1afaf !important;
+    color: #faf9f6 !important;
 }
 
 .navbar-light .navbar-nav .active>.nav-link {
     background: #faf9f6;
+}
+
+.navbar-nav .nav-item>.nav-link {
+    margin-left: .2em;
+    margin-right: .2em;
 }
 
 .navbar-dark .navbar-nav .nav-item>.nav-link:hover, .navbar-light .navbar-nav .nav-item>.nav-link:hover {

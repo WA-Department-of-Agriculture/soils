@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you're new to markdown syntax, see the below **selection** of examples adapted from the [*Markdown basics Quarto documentation*](https://quarto.org/docs/authoring/markdown-basics.html) for many other formats and features.
+If you're new to markdown syntax, see the below **selection** of examples adapted from the [*Markdown basics Quarto documentation*](https://quarto.org/docs/authoring/markdown-basics.html) for many other formats and features. Use this as a guide when working through the tutorials and editing the report content.
 
 ## Text formatting
 

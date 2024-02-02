@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you're new to Quarto, first check out the [**Hello, Quarto tutorial**](https://quarto.org/docs/get-started/hello/rstudio.html).
+If you're new to Quarto, first check out the [**Hello, Quarto tutorial**](https://quarto.org/docs/get-started/hello/rstudio.html). This primer provides a brief background and resources for how {soils} uses Quarto.
 
 ## File paths
 
@@ -22,13 +22,13 @@ If you're new to Quarto, first check out the [**Hello, Quarto tutorial**](https:
 
 ### Absolute vs relative paths
 
-❌ **Absolute paths** start with the root directory and provide the full path to a specific file or folder like `C:/Users/jryan/Documents/R/projects/soils-demo/data/washi-data.csv`. This path will not work on anyone's computer unless the user, directory structure, and folder names match exactly.
+❌ **Absolute paths** start with the root directory and provide the full path to a specific file or folder (e.g., `C:/Users/jryan/Documents/R/projects/soils-demo/data/washi-data.csv`). This path **will not work** on anyone's computer unless the operating system, user, directory structure, and folder names match exactly.
 
-✅ **Relative paths** are *relative* to the working directory (i.e. the project's home) like `data/washi-data.csv`. When working in a RStudio project, the default working directory is always the **root** project directory (where the `.Rproj` file is). This path will work on anyone's computer that has this project directory.
+✅ **Relative paths** are *relative* to the working directory, or the project's home (e.g., `data/washi-data.csv`). When working in a RStudio project, the default working directory is always the root project directory (where the `.Rproj` file is). This path **will work** on anyone's computer with this project directory.
 
 ### {here} package
 
-When the Quarto file renders, its default current working directory is wherever the `.qmd` file lives. To make code more robust, the [{here}](https://here.r-lib.org/) package builds *relative* file paths. {here} also takes care of the backslashes or forward slashes so the relative path will work no matter the operating system.
+When a Quarto file renders, its default current working directory is where the `.qmd` file lives. To make code more robust, the [{here}](https://here.r-lib.org/) package builds *relative* file paths and takes care of the backslashes or forward slashes so the path will work no matter the operating system.
 
 For example, in our new {soils} project, `01_producer-report.qmd` imports data using `read.csv(here::here("data/washi-data.csv"))`.
 
@@ -38,41 +38,74 @@ For example, in our new {soils} project, `01_producer-report.qmd` imports data u
 
 Parameterized reports are like complex functions where the **function** is the `.qmd` template, the **input** are the parameters, and the **output** are the reports.
 
-![](https://github.com/jadeynryan/2023_posit-parameterized-quarto/blob/60306e35d5c0b9835b2faee655234ed13801a120/images/template3.png?raw=true){fig-alt="A diagram showing parameters/input with an arrow pointing to a `.qmd` file as the template/function. Many arrows lead from the `.qmd` file to the reports/output as five different reports representing five different years."}
+![](https://github.com/jadeynryan/2023_posit-parameterized-quarto/blob/60306e35d5c0b9835b2faee655234ed13801a120/images/template3.png?raw=true){fig-alt="A diagram showing parameters/input with an arrow pointing to a Quarto file as the template/function. Many arrows lead from the Quarto file to the reports/output as five different reports representing five different years."}
 
-To learn more about parameterized reporting, see the materials for [Jadey Ryan's 20-minute presentation](https://jadeyryan.com/talks/2023-09-25_posit_parameterized-quarto/), follow along with a [2-hour R-Ladies Washington D.C. workshop](https://jadeyryan.quarto.pub/rladies-dc-quarto-params/), or read the [Quarto documentation](https://quarto.org/docs/computations/parameters.html).
+To learn more about parameterized reporting, see the materials for [Jadey Ryan's 20-minute presentation](https://jadeyryan.com/talks/2023-09-25_posit_parameterized-quarto/), follow along with her [2-hour code-along workshop](https://jadeyryan.quarto.pub/rladies-dc-quarto-params/), or read the [Quarto parameters documentation](https://quarto.org/docs/computations/parameters.html).
 
 ## Quarto specific features
 
-{soils} takes advantage of several intermediate -- advanced Quarto features, listed below with references for further information.
+{soils} uses several intermediate to advanced Quarto features, listed below with references for further reading.
 
 ### Shortcodes
 
 Shortcodes are special markdown directives that generate various types of content. Read more in the [Shortcodes article](https://quarto.org/docs/extensions/shortcodes.html).
 
-**Includes** are used to keep plain markdown content (e.g., background on soil health measurements) in a separate document to keep the main `01_producer-report.qmd` a reasonable number of lines. Read more in the [Includes article](https://quarto.org/docs/authoring/includes.html).
+**Includes** are used to keep plain markdown content (e.g., background on soil health measurements) in a separate document to modularize the project and shorten the main `01_producer-report.qmd` file. Read more in the [Includes article](https://quarto.org/docs/authoring/includes.html).
 
 ``` r
 {{< include 04_soil-health-background.qmd >}}
 ```
 
-**Pagebreaks** insert native pagebreaks into a document regardless of the output (e.g., HTML, MS Word, LaTex PDF, etc.). Read more in the [Pagebreaks article](https://quarto.org/docs/authoring/markdown-basics.html#page-breaks).
+**Pagebreaks** insert native pagebreaks into a document regardless of the report format (e.g., HTML, MS Word). Read more in the [Pagebreaks article](https://quarto.org/docs/authoring/markdown-basics.html#page-breaks).
 
 ``` r
 {{< pagebreak >}}
 ```
 
+### Divs and spans
+
+Divs start with a fence containing at least three consecutive colons (`:::`) plus classes and/or attributes in curly braces `{}`. Another line containing a string of at least three consecutive colons ends the div. The div should be separated by blank lines from preceding and following blocks. Divs may also be nested, as shown below.
+
+``` markdown
+::: {.sidebar}
+
+:::: {.warning}
+Here is a warning.
+::::
+
+More content.
+:::
+```
+
+Bracketed text immediately followed by a class or attributes in curly braces `{}` will be treated as a Span.
+
+```         
+[Purple]{style="color:purple;font-weight: bold;font-size: x-large;"} is my favorite color.
+```
+
+is rendered as: [Purple]{style="color:purple;font-weight: bold;font-size: x-large;"} is my favorite color.
+
+Read more in the [Divs and Spans documentation](https://quarto.org/docs/authoring/markdown-basics.html#divs-and-spans).
+
 ### Conditional Content
 
-Conditional content is used to control which content is displayed only for HTML reports which content is displayed only for MS Word reports. To make content visible only for a given format, use a div (`:::`) with the `.content-visible` class and `when-format=""` attribute. Read more in the [Conditional Content article](https://quarto.org/docs/authoring/conditional.html).
+Conditional content classes and attributes control whether content *is* or *is not* displayed in a given format. To control visibility for HTML formats, use a div with the `.content-visible` class and the `when-format="html"` OR `unless-format="html"` attribute. Read more in the [Conditional Content article](https://quarto.org/docs/authoring/conditional.html).
 
-See the tabset section below for an example.
+``` markdown
+::: {.content-visible when-format="html"}
+This interactive content will ONLY appear in HTML reports.
+:::
+
+::: {.content-visible unless-format="html"}
+This static content will appear in all reports EXCEPT in HTML reports.
+:::
+```
 
 ### Tabsets
 
 Tabsets work only in HTML documents and are created with the `::: {.panel-tabset}` div. Each top-level heading within the div creates a new tab. Read more in the [Tabsets article](https://quarto.org/docs/output-formats/html-basics.html#tabsets).
 
-The below example shows how the Includes shortcode, conditional content, and tabsets are used in `04_soil-health-background.qmd`.
+The below example shows how `04_soil-health-background.qmd` uses **Includes** shortcodes, **conditional content**, and a **tabset**.
 
 ``` markdown
 ::: {.content-visible when-format="html"}

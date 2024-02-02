@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-{soils} was developed to work 'out of the box' so you can immediately install and render an example report. However, this means it will require customization and content editing to fit your project.
+{soils} was developed to work 'out of the box' so you can immediately install and render an example report, as demonstrated in the last two tutorials. However, this means it will require customization and content editing to fit your project, shown in the next three tutorials.
 
 {soils} includes an example data set and data dictionary to use as templates. These files are automatically loaded when you call `library(soils)`, and also are found in the `data` folder. They allow you to try out the visualization functions and report rendering immediately after installing {soils} on your machine.
 

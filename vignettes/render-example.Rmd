@@ -30,13 +30,13 @@ If the rendered report doesn't immediately open, you can find it in your project
 
 <summary>Demo videos</summary>
 
-### HTML
+**HTML**
 
 <iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
 
 </iframe>
 
-### MS Word
+**MS Word**
 
 <iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
 
@@ -45,4 +45,3 @@ If the rendered report doesn't immediately open, you can find it in your project
 </details>
 
 **See the [rendered example reports](https://wa-department-of-agriculture.github.io/soils/articles/examples.html).**
-

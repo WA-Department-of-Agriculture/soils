@@ -14,11 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Create the project
-
 There are two ways to create a {soils} project in RStudio.
 
-### Option 1. RStudio project wizard
+## Option 1. RStudio project wizard
 
 The easiest and recommended way is to use the RStudio IDE to create a new {soils} RStudio project.
 
@@ -44,7 +42,7 @@ A new RStudio project will open with the template Quarto report and a script to 
 
 </details>
 
-### Option 2. RStudio console
+## Option 2. RStudio console
 
 Run the below code in your console to create a {soils} project in your default working directory:
 
@@ -91,4 +89,3 @@ Both options will create and launch a new RStudio project with the following fil
 ```
 
 </details>
-

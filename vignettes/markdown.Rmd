@@ -14,13 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you're new to markdown syntax, see the below **selection** of examples adapted from the *Markdown basics Quarto documentation*. See the [guide](https://quarto.org/docs/authoring/markdown-basics.html) in its entirety for many other formats and features.
-
-## Overview
-
-Quarto is based on Pandoc and uses its variation of markdown as its underlying document syntax. Pandoc markdown is an extended and slightly revised version of John Gruber's [Markdown](https://daringfireball.net/projects/markdown/) syntax.
-
-Markdown is a plain text format that is designed to be easy to write, and, even more importantly, easy to read.
+If you're new to markdown syntax, see the below **selection** of examples adapted from the [*Markdown basics Quarto documentation*](https://quarto.org/docs/authoring/markdown-basics.html) for many other formats and features.
 
 ## Text formatting
 
@@ -146,35 +140,6 @@ Note that unlike other Markdown renderers (notably Jupyter and GitHub), lists in
 |     1 | 1    | 1       |   1    |
 
 Learn more in the article on [Tables](https://quarto.org/docs/authoring/tables.html).
-
-## Divs and spans
-
-Divs start with a fence containing at least three consecutive colons (`:::`) plus some attributes in curly braces `{}`. Another line containing a string of at least three consecutive colons ends the Div. The Div should be separated by blank lines from preceding and following blocks. Divs may also be nested, as shown below.
-
-``` markdown
-::: {.sidebar}
-
-:::: {.warning}
-Here is a warning.
-::::
-
-More content.
-:::
-```
-
-Bracketed text immediately followed by a class or attributes in curly braces `{}` will be treated as a Span.
-
-#### Markdown syntax
-
-``` markdown
-[Purple]{style="color:purple"} is my favorite color.
-```
-
-#### Output
-
-[Purple]{style="color:purple"} is my favorite color.
-
-Learn more in the article on [Divs and Spans](https://quarto.org/docs/authoring/markdown-basics.html#divs-and-spans).
 
 ## Blocks
 

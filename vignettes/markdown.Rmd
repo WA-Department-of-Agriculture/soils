@@ -20,16 +20,12 @@ If you're new to markdown syntax, see the below **selection** of examples adapte
 
 Quarto is based on Pandoc and uses its variation of markdown as its underlying document syntax. Pandoc markdown is an extended and slightly revised version of John Gruber's [Markdown](https://daringfireball.net/projects/markdown/) syntax.
 
-Markdown is a plain text format that is designed to be easy to write, and, even more importantly, easy to read:
+Markdown is a plain text format that is designed to be easy to write, and, even more importantly, easy to read.
 
-> A Markdown-formatted document should be publishable as-is, as plain text, without looking like it's been marked up with tags or formatting instructions. -- [John Gruber](https://daringfireball.net/projects/markdown/syntax#philosophy)
-
-This document provides examples of the most commonly used markdown syntax. See the full documentation of [Pandoc's Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown) for more in-depth documentation.
-
-## Text Formatting
+## Text formatting
 
 +-----------------------------------------+-----------------------------------------+
-| Markdown Syntax                         | Output                                  |
+| Markdown syntax                         | Output                                  |
 +=========================================+=========================================+
 | ``` markdown                            | *italics*, **bold**, ***bold italics*** |
 | *italics*, **bold**, ***bold italics*** |                                         |
@@ -51,7 +47,7 @@ This document provides examples of the most commonly used markdown syntax. See t
 ## Headings
 
 +-----------------+--------------------------------------------+
-| Markdown Syntax | Output                                     |
+| Markdown syntax | Output                                     |
 +=================+============================================+
 | ``` markdown    | # Header 1 {.heading-output}               |
 | # Header 1      |                                            |
@@ -73,10 +69,10 @@ This document provides examples of the most commonly used markdown syntax. See t
 }
 </style>
 ```
-## Links & Images
+## Links & images
 
 +-------------------------------------------------------------+-----------------------------------------------------------------------+
-| Markdown Syntax                                             | Output                                                                |
+| Markdown syntax                                             | Output                                                                |
 +=============================================================+=======================================================================+
 | ``` markdown                                                | <https://quarto.org>                                                  |
 | <https://quarto.org>                                        |                                                                       |
@@ -96,7 +92,7 @@ Learn more in the article on [Figures](https://quarto.org/docs/authoring/figures
 ## Lists
 
 +---------------------------------+---------------------------------+
-| Markdown Syntax                 | Output                          |
+| Markdown syntax                 | Output                          |
 +=================================+=================================+
 | ``` markdown                    | -   unordered list              |
 | * unordered list                |     -   sub-item 1              |
@@ -126,29 +122,12 @@ Learn more in the article on [Figures](https://quarto.org/docs/authoring/figures
 | (@)  an interruption            |                                 |
 | ```                             |                                 |
 +---------------------------------+---------------------------------+
-| ``` markdown                    | <div>                           |
-| ::: {}                          |                                 |
-| 1. A list                       | 1.  A list                      |
-| :::                             |                                 |
-|                                 | </div>                          |
-| ::: {}                          |                                 |
-| 1. Followed by another list     | <div>                           |
-| :::                             |                                 |
-| ```                             | 1.  Followed by another list    |
-|                                 |                                 |
-|                                 | </div>                          |
-+---------------------------------+---------------------------------+
-| ``` markdown                    | term                            |
-| term                            |                                 |
-| : definition                    | :   definition                  |
-| ```                             |                                 |
-+---------------------------------+---------------------------------+
 
 Note that unlike other Markdown renderers (notably Jupyter and GitHub), lists in Quarto require an entire blank line above the list. Otherwise the list will not be rendered in list form, rather it will all appear as normal text along a single line.
 
 ## Tables
 
-#### Markdown Syntax
+#### Markdown syntax
 
 ``` markdown
 | Right | Left | Default | Center |
@@ -168,41 +147,42 @@ Note that unlike other Markdown renderers (notably Jupyter and GitHub), lists in
 
 Learn more in the article on [Tables](https://quarto.org/docs/authoring/tables.html).
 
-## Videos
+## Divs and spans
 
-You can include videos in documents using the `{{{< video >}}}` shortcode. For example, here we embed a YouTube video:
+Divs start with a fence containing at least three consecutive colons (`:::`) plus some attributes in curly braces `{}`. Another line containing a string of at least three consecutive colons ends the Div. The Div should be separated by blank lines from preceding and following blocks. Divs may also be nested, as shown below.
 
-``` {.markdown shortcodes="false"}
-{{< video https://www.youtube.com/embed/wo9vZccmqwc >}}
+``` markdown
+::: {.sidebar}
+
+:::: {.warning}
+Here is a warning.
+::::
+
+More content.
+:::
 ```
 
-Videos can refer to video files (e.g. MPEG) or can be links to videos published on YouTube, Vimeo, or Brightcove. Learn more in the article on [Videos](https://quarto.org/docs/authoring/videos.html).
+Bracketed text immediately followed by a class or attributes in curly braces `{}` will be treated as a Span.
 
-## Page Breaks
+#### Markdown syntax
 
-The `pagebreak` shortcode enables you to insert a native pagebreak into a document (.e.g in LaTeX this would be a `\newpage`, in MS Word a docx-native pagebreak, in HTML a `page-break-after: always` CSS directive, etc.):
-
-``` {.markdown shortcodes="false"}
-page 1
-
-{{< pagebreak >}}
-
-page 2
+``` markdown
+[Purple]{style="color:purple"} is my favorite color.
 ```
 
-## Other Blocks
+#### Output
+
+[Purple]{style="color:purple"} is my favorite color.
+
+Learn more in the article on [Divs and Spans](https://quarto.org/docs/authoring/markdown-basics.html#divs-and-spans).
+
+## Blocks
 
 +-------------------------+--------------------------+
-| Markdown Syntax         | Output                   |
+| Markdown syntax         | Output                   |
 +=========================+==========================+
 | ``` markdown            | > Blockquote             |
 | > Blockquote            |                          |
-| ```                     |                          |
-+-------------------------+--------------------------+
-| ``` markdown            | ::: classname            |
-| ::: {.classname}        | Div                      |
-| Div                     | :::                      |
-| :::                     |                          |
 | ```                     |                          |
 +-------------------------+--------------------------+
 | ``` markdown            | | Line Block             |
@@ -212,10 +192,10 @@ page 2
 | ```                     |                          |
 +-------------------------+--------------------------+
 
-## Special Characters
+## Special characters
 
 +-----------------+-------------+
-| Markdown Syntax | Output      |
+| Markdown syntax | Output      |
 +=================+=============+
 | ``` markdown    | endash: --  |
 | endash: --      |             |

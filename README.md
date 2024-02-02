@@ -98,17 +98,29 @@ require customization and content editing to fit your project.
 Our recommended workflow is to **1)** create a new {soils} project,
 **2)** try to render the example reports to make sure everything works
 on your system, and **3)** customize the template files to use your own
-data, writing, and styling.
+data, content, and styling.
+
+We provide a series of [Primers and
+Tutorials](https://wa-department-of-agriculture.github.io/soils/articles/index.html)
+to prepare and guide you through this workflow.
 
 ## 1. Create a new {soils} project
+
+Follow along in the [**Create a {soils}
+project**](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
+tutorial.
 
 <iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
 </iframe>
 
 ## 2. Render the example reports
 
-**See the [rendered example
-reports](https://wa-department-of-agriculture.github.io/soils/articles/examples.html).**
+Follow along in the [**Render the example
+reports**](https://wa-department-of-agriculture.github.io/soils/articles/render-example.html)
+tutorial.
+
+See the [**rendered example
+reports**](https://wa-department-of-agriculture.github.io/soils/articles/examples.html).
 
 ### HTML
 
@@ -120,11 +132,23 @@ reports](https://wa-department-of-agriculture.github.io/soils/articles/examples.
 <iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
 </iframe>
 
-## 3. Customize the content and styling
+## 3. Create reports with your own data
 
-**To use your own data and customize the reports for your project,
-follow along with the
-[tutorials](https://wa-department-of-agriculture.github.io/soils/articles/index.html).**
+To use your own data and customize the reports for your project, follow
+along with these tutorials:
+
+- [**Import
+  data**](https://wa-department-of-agriculture.github.io/soils/articles/data.html)
+
+- [**Customize &
+  write**](https://wa-department-of-agriculture.github.io/soils/articles/customize.html)
+
+- [**Render
+  reports**](https://wa-department-of-agriculture.github.io/soils/articles/render.html)
+
+As you edit the content, errors are bound to occur. Read [**tips and
+workflows for
+troubleshooting**](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
 
 # Acknowledgement and citation
 

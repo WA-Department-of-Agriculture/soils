@@ -25,15 +25,17 @@ navbar:
       href: articles/markdown.html
   - text: Tutorials
     menu:
-    - text: "1. Create {soils} project"
+    - text: "Create a {soils} project"
       href: articles/project.html
-    - text: "2. Import data"
+    - text: "Render the example reports"
+      href: articles/render-example.html
+    - text: "Import your data"
       href: articles/data.html
-    - text: "3. Customize & write"
+    - text: "Customize & write"
       href: articles/customize.html
-    - text: "4. Render reports"
+    - text: "Render your reports"
       href: articles/render.html
-    - text: "Troubleshooting"
+    - text: "Troubleshoot"
       href: articles/troubleshoot.html
   - text: Examples
     href: articles/examples.html
@@ -50,6 +52,7 @@ articles:
   desc: ~
   contents:
   - '`project`'
+  - '`render-example`'
   - '`data`'
   - '`customize`'
   - '`render`'
@@ -60,7 +63,7 @@ articles:
   - '`examples`'
 
 reference:
-- title: Create {soils} project
+- title: Create a {soils} project
   contents: create_soils
 - title: Data wrangling
   contents:

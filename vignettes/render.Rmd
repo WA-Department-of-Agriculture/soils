@@ -1,8 +1,8 @@
 ---
-title: "Render all reports"
+title: "Render your reports"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Render all reports}
+  %\VignetteIndexEntry{Render your reports}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

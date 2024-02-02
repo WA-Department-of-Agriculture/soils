@@ -16,26 +16,47 @@ knitr::opts_chunk$set(
 
 {soils} was developed to work 'out of the box' so you can immediately install and render an example report, as demonstrated in the last two tutorials. However, this means it will require customization and content editing to fit your project, shown in the next three tutorials.
 
-{soils} includes an example data set and data dictionary to use as templates. These files are automatically loaded when you call `library(soils)`, and also are found in the `data` folder. They allow you to try out the visualization functions and report rendering immediately after installing {soils} on your machine.
+An example data set and data dictionary are included in every {soils} project. You can access these `.csv` files in the `data` folder or by loading the package with `library(soils)`. Use these examples as templates to correctly format your own data and test them in other {soils} functions.
 
-### Example data
+Load the package and assign the example datasets to objects in your environment:
+
+```{r}
+library(soils)
+
+data <- washi_data
+dictionary <- data_dictionary
+```
+
+## Example data
 
 Glimpse at the example data structure:
 
-<details open>
+<details closed>
 
 <summary>Example Data</summary>
 
 ```{r}
-library(soils)
-dplyr::glimpse(washi_data)
+dplyr::glimpse(data)
 ```
 
 </details>
 
-All column names in your data, besides measurements, must be exactly the same as above.
+Required columns:
 
-Each measurement must be in its own column and have the format of `measurement_unit` (i.e. `Ca_mg.kg`). These measurement column names must match the `column_name` in your data dictionary.
+-   `year`
+-   `sample_id`
+-   `farm_name`
+-   `producer_name`
+-   `producer_id`
+-   `field_name`
+-   `field_id`
+-   `county`
+-   `crop`
+-   `longitude`
+-   `latitude`
+-   `texture`
+
+All measurement result columns should come **after** the required columns to make it easier to select in the data wrangling code.
 
 ### Data dictionary
 
@@ -47,21 +68,22 @@ Save your data dictionary to the `data` folder as `CSV UTF-8 (Comma delimited) (
 
 Your data dictionary must have the exact same column names as the example:
 
-<details open>
+<details closed>
 
 <summary>Example Data Dictionary</summary>
 
 ```{r}
-dplyr::glimpse(data_dictionary)
+dplyr::glimpse(dictionary)
 ```
 
 </details>
 
 -   `measurement_group` determines how the measurements are grouped.
+-   `measurement_group_label` is the section heading for each measurement group.
 -   `order` column specifies the order in which the measurements appear in each measurement group's tables and plots.
--   `column_name` is the join key for joining with your project data.
+-   `column_name` is the join key for joining with your project data. Must be exactly the same as the column names for each measurement.
 -   `abbr` and `unit` are how the measurements are represented in `flextable` tables.
--   `abbr_unit` is formatted with HTML line breaks for `ggplot2` plots.
+-   `abbr_unit` is formatted with HTML line breaks and special characters for `ggplot2` plots.
 
 ### Your data
 
@@ -110,7 +132,7 @@ assertr::verify(
 
 # Load data dictionary
 dictionary <- read.csv(
-  paste0(here::here(), "/data/data-dictionary.csv"),
+  paste0(here::here("data/data-dictionary.csv"),
   check.names = FALSE,
   # set encoding for using subscripts and superscripts
   encoding = "UTF-8"

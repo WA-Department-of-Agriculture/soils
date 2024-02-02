@@ -12,7 +12,7 @@
 #'   \item{longitude, latitude}{Truncated coordinates}
 #'   \item{texture}{Measured soil texture}
 #'   \item{other columns}{Column name includes measurement and units;
-#'   value is the measurement results}
+#'   value is the measurement result}
 #'   ...
 #' }
 #' @source
@@ -24,13 +24,12 @@
 #' An example data dictionary for the Washington Soil Health Initiative (WaSHI)
 #' State of the Soils Assessment anonymized data.
 #'
-#' @format ## `data_dictionary` A data frame with 32 rows and 8 columns.
+#' @format ## `data_dictionary` A data frame with 32 rows and 7 columns.
 #' \describe{
 #'   \item{measurement_group}{Name to group measurements by}
 #'   \item{measurement_group_label}{Label of measurement group to be used as
 #'   heading}
 #'   \item{column_name}{Name of column in data set, used for joining}
-#'   \item{measurement_full_name}{Measurement fully spelled out}
 #'   \item{order}{Order of how measurements are presented within each
 #'   measurement_group}
 #'   \item{abbr}{Abbreviated measurement name for labels}

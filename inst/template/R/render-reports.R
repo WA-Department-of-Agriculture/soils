@@ -5,7 +5,8 @@
 
 # Read in data =================================================================
 
-# EDIT: Read in the same dataset used in producer_report.qmd.
+# EDIT: Replace `washi-data.csv` with the name of the same dataset used in
+# 01_producer-report.qmd.
 data <- read.csv(
   here::here("data/washi-data.csv"),
   check.names = FALSE,
@@ -54,11 +55,8 @@ reports |>
 
 # Move rendered reports to a different directory ===============================
 
-# OPTIONAL EDIT: set out_dir to where you want the reports moved to
-output_dir <- here::here("reports")
-
 # Create directory if needed
-fs::dir_create(output_dir)
+fs::dir_create(here::here("reports"))
 
 # List files with extensions html or docx.
 files <- fs::dir_ls(here::here(), regexp = ".html$|.docx$")

@@ -20,14 +20,14 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jadey Ryan \email{jryan@agr.wa.gov} (\href{https://orcid.org/0009-0004-5998-4697}{ORCID})
+\strong{Maintainer}: Jadey N Ryan \email{jryan@agr.wa.gov} (\href{https://orcid.org/0009-0004-5998-4697}{ORCID})
 
 Authors:
 \itemize{
   \item Molly McIlquham (\href{https://orcid.org/0000-0002-0152-969X}{ORCID})
   \item Kwabena A Sarpong
-  \item Leslie Michel
-  \item Teal Potter (\href{https://orcid.org/0000-0002-4884-2720}{ORCID})
+  \item Leslie M Michel
+  \item Teal S Potter (\href{https://orcid.org/0000-0002-4884-2720}{ORCID})
   \item Deirdre Griffin LaHue (\href{https://orcid.org/0000-0001-5711-797X}{ORCID})
   \item Dani L Gelardi (\href{https://orcid.org/0000-0002-5015-8119}{ORCID})
 }

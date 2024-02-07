@@ -38,7 +38,7 @@ For example, in our new {soils} project, `01_producer-report.qmd` imports data u
 
 Parameterized reports are like complex functions where the **function** is the `.qmd` template, the **input** are the parameters, and the **output** are the reports.
 
-![](https://github.com/jadeynryan/2023_posit-parameterized-quarto/blob/60306e35d5c0b9835b2faee655234ed13801a120/images/template3.png?raw=true){fig-alt="A diagram showing parameters/input with an arrow pointing to a Quarto file as the template/function. Many arrows lead from the Quarto file to the reports/output as five different reports representing five different years."}
+![](../man/figures/parameterized-reports.png){fig-alt="A diagram showing parameters/input with an arrow pointing to a Quarto file as the template/function. Many arrows lead from the Quarto file to the reports/output as five different reports representing five different years."}
 
 To learn more about parameterized reporting, see the materials for [Jadey Ryan's 20-minute presentation](https://jadeyryan.com/talks/2023-09-25_posit_parameterized-quarto/), follow along with her [2-hour code-along workshop](https://jadeyryan.quarto.pub/rladies-dc-quarto-params/), or read the [Quarto parameters documentation](https://quarto.org/docs/computations/parameters.html).
 

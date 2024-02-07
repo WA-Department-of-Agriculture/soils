@@ -14,17 +14,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-Render the example report with the dummy built-in data without making any changes to make sure your system is set up correctly.
+Before modifying the data, report content, or style, render the example report with the anonymized built-in data to ensure your system is set up correctly.
 
-Open `01_producer-report.qmd` and click the `Render` button at the top of the file to generate either the HTML or MS Word report.
+Open `01_producer-report.qmd`. Click the `Render` button to generate an HTML report or the `down arrow` (▼) to open a drop down menu to choose between HTML or MS Word. Try rendering the example report in both formats.
 
 If rendering to HTML, you can check the `Render on Save` option to automatically update the preview whenever you save the document.
 
-![](../man/figures/render.png){fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."}
+![](../man/figures/render.png){width="80%" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."}
 
-If the rendered report doesn't immediately open, you can find it in your project directory with the same name as the main Quarto `.qmd` file (`01_producer-report.qmd`). The file will likely be at the top or bottom of your RStudio files pane, depending on how you have your files sorted.
+If the rendered report doesn't immediately open, you can find it in your project directory with the same name as the main Quarto `.qmd` file (`01_producer-report.qmd`). Newly rendered files can usually be found at the bottom of the files pane.
 
-![](../man/figures/rendered_report_location.png){fig-alt="RStudio screenshot of files pane with boxes around the project directory and the two rendered reports titled 01_producer-report.html and 01_producer-report.docx."}
+![](../man/figures/rendered_report_location.png){width="50%" fig-alt="RStudio screenshot of files pane with boxes around the project directory path, the template 01_producer-report.qmd file, and the rendered report 01_producer-report.html"}
 
 <details closed>
 

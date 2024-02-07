@@ -14,28 +14,44 @@ knitr::opts_chunk$set(
 )
 ```
 
-You can render reports with the RStudio IDE or programmatically with the `render_report()` function.
+Render a single report at a time with the RStudio IDE, or programmatically render all reports (for all producers and in all formats) with the `render_reports.R` script.
 
-### Using the RStudio IDE
+## Using the RStudio IDE
 
-To generate and preview the report with the default parameters, use the `Render` button or keyboard shortcut (`Ctrl + Shift + K`). This is the fastest way to render reports and is great for iterating on content and style. You can check the `Render on Save` option to automatically update the preview whenever you save the document. HTML reports will preview side-by-side with the `.qmd` file, whereas MS Word documents will open separately.
+To generate and preview the report with the default parameters[^1], use the `Render` button or keyboard shortcut (`Ctrl + Shift + K`). Use this workflow to quickly iterate on content and style. For HTML reports, check the `Render on Save` option to automatically update the preview whenever you save the document.
 
-![](../man/figures/render.png){fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."}
+[^1]: The default parameters are the `producer_id` and `year` combination that was set in the YAML header of `01_producer-report.qmd.`
 
-### Using `render_reports.R`
+![](../man/figures/render.png){width="80%" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."}
 
-You also can render all reports at once programmatically by editing `render_reports.R` to use the same dataset in the `load-data` chunk of `01_producer_report.qmd`.
+The [**Render the example reports**](https://wa-department-of-agriculture.github.io/soils/articles/render-example.html) tutorial provides additional details on using the RStudio IDE to render reports.
 
-```{r, eval=FALSE}
-# EDIT: Read in the same dataset used in producer_report.qmd.
+## Using `render_reports.R`
+
+`render-reports.R` creates a dataframe and then uses `purrr::pwalk()` to iterate over each row, rendering all reports in both HTML and MS Word formats. After rendering, all reports are moved to a folder called `reports` in the project directory.
+
+1.  Edit `render_reports.R` to read in the same dataset in the `load-data` chunk of `01_producer-report.qmd`. For example, if your dataset is called `my-data.csv`, replace `washi-data.csv` with `my-data.csv` in Line 11.
+
+2.  Click `Source` to run this script and generate all reports in all formats at once.
+
+![](../man/figures/render-reports.png){fig-alt="RStudio screenshot of `render-reports.R` script with box and arrow instructing the user to replace `washi-data.csv` with the name of the user's data file. A second box and arrow instructs the user to click the Source button to run the script and generate all reports."}
+
+**Optionally**, to render reports for only a subset of producers, filter the dataframe to include only this subset. The last line of the below code block demonstrates how to filter the data to three specific producers.
+
+```{r}
+#| eval: false
+
+# EDIT: Replace `washi-data.csv` with the name of the same dataset used in
+# 01_producer-report.qmd.
 data <- read.csv(
-  paste0(here::here(), "/data/washi-data.csv"),
+  here::here("data/washi-data.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
-)
+) |> 
+  dplyr::filter(producer_id %in% c("WUY05", "RHM05", "ENR07"))
 ```
 
-This script creates a dataframe for `purrr::pwalk()` iteration to render all reports in both HTML and MS Word formats and moves them to a folder called `reports`.
+## Video demo of `render-reports.R`
 
 <iframe src="https://drive.google.com/file/d/1XGfplRUrLb0jiWIElQejHLZ9ig2WfEal/preview" width="640" height="360" allow="autoplay;fullscreen;">
 

@@ -23,7 +23,7 @@ Introducing {soils}: an R package for all your soil health data
 visualization and reporting needs. {soils} provides an RStudio project
 template to generate customized, interactive soil health reports.
 Democratize your data by giving back to the farmers and land managers
-who contributed soil samples to your survey project – use {soils} to
+who contributed soil samples to your survey project. Use {soils} to
 empower each participant to explore and understand their data.
 
 {soils} was produced by the [Washington State Department of
@@ -95,7 +95,8 @@ data, content, and styling.
 
 We provide a series of [Primers and
 Tutorials](https://wa-department-of-agriculture.github.io/soils/articles/index.html)
-to prepare and guide you through this workflow.
+to prepare and guide you through this workflow. See below for short demo
+videos and links to the relevant tutorials.
 
 ## 1. Create a new {soils} project
 

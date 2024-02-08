@@ -1,12 +1,15 @@
+```{=html}
+<!-- This file is called in lines 542 - 553 of `01_producer-report.qmd` with
+`knitr::knit_child()` to embed results in each measurement group as a seperate
+section. -->
+```
 ```{r}
 # Get measurement group label for section header
 header <- dictionary |>
   dplyr::filter(measurement_group == group) |>
   pull_unique(measurement_group_label)
-
 # Get path of measurement group image
 image_path <- glue::glue("images/{group}.png")
-
 # Insert image into header if image exists for that measurement group
 image <- ifelse(
   fs::file_exists(image_path),
@@ -24,7 +27,8 @@ if (group == "physical") {
 }
 ```
 
-```{r, results='asis'}
+```{r}
+#| output: asis
 # Include pagebreak after texture triangle
 if (group == "physical") {
   cat("\\newpage")

@@ -221,9 +221,9 @@ producer <- list("sample_id", "crop", "county", "farm_name", "measurement") |>
 producer$farm_name <- if (producer$farm_name > 1) producer$farm_name[[1]]
 
 # In case there is no farm name, use producer ID
-producer$farm_name <- if (is.na(producer$farm_name)) {
-  glue::glue("Farm: {params$producer_id}")
-}
+producer$farm_name <- ifelse(is.na(producer$farm_name),
+                             glue::glue("Farm: {params$producer_id}"),
+                             producer$farm_name)
 
 # Remove measurements that producer did not have tested
 results_long <- results_long |>
@@ -554,7 +554,7 @@ cat(sections, sep = "\n")
 
 ```{r download-data-text}
 #| eval: !expr out_type == "html"
-#| results: asis
+#| output: asis
 if (requireNamespace("downloadthis", quietly = TRUE)) {
   cat("## Download your data")
 }

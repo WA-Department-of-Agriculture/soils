@@ -26,6 +26,8 @@ If the rendered report doesn't immediately open, you can find it in your project
 
 ![](../man/figures/rendered_report_location.png){width="50%" fig-alt="RStudio screenshot of files pane with boxes around the project directory path, the template 01_producer-report.qmd file, and the rendered report 01_producer-report.html"}
 
+It should take no more than one minute to render a single example report.
+
 <details closed>
 
 <summary>Demo videos</summary>

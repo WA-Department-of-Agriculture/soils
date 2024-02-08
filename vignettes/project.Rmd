@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-There are two ways to create a {soils} project in RStudio.
+There are two ways to create a {soils} project in RStudio. The below examples create a project titled "soils-demo". Replace this name with what you'd like the project and directory to be named.
 
 ## Option 1. RStudio project wizard
 
@@ -44,7 +44,7 @@ The new RStudio project will open with the template Quarto report (`01_producer-
 
 ## Option 2. RStudio console
 
-Run the below code in your console to create a {soils} project in your default working directory:
+Run the below code in your console to create a {soils} project called "soils-demo" in your default working directory:
 
 ```{r, eval=FALSE}
 soils::create_soils(path = "soils-demo")

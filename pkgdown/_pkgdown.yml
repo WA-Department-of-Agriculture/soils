@@ -1,4 +1,7 @@
 url: https://wa-department-of-agriculture.github.io/soils/
+development:
+  mode: auto
+
 template:
   bootstrap: 5
   theme: a11y-light
@@ -14,53 +17,43 @@ template:
       google: Poppins
 
 navbar:
-  left:
-  - icon: fa-home
-    href: index.html
-  - text: Primers
-    menu:
-    - text: Quarto
-      href: articles/quarto.html
-    - text: Markdown
-      href: articles/markdown.html
-  - text: Tutorials
-    menu:
-    - text: "Create a {soils} project"
-      href: articles/project.html
-    - text: "Render the example reports"
-      href: articles/render-example.html
-    - text: "Import your data"
-      href: articles/data.html
-    - text: "Customize & write"
-      href: articles/customize.html
-    - text: "Render your reports"
-      href: articles/render.html
-    - text: "Troubleshoot"
-      href: articles/troubleshoot.html
-  - text: Examples
-    href: articles/examples.html
-  - text: Functions
-    href: reference/index.html
-
-articles:
-- title: Primers
-  desc: ~
-  contents:
-  - '`quarto`'
-  - '`markdown`'
-- title: Tutorials
-  desc: ~
-  contents:
-  - '`project`'
-  - '`render-example`'
-  - '`data`'
-  - '`customize`'
-  - '`render`'
-  - '`troubleshoot`'
-- title: Example Reports
-  desc: ~
-  contents:
-  - '`examples`'
+  structure:
+    left: [home, primers, tutorials, examples, functions]
+    right: [search, github]
+  components:
+    home:
+      icon: fa-home
+      href: index.html
+      aria-label: Home
+    primers:
+      text: Primers
+      menu:
+      - text: "Quarto"
+        href: articles/quarto.html
+      - text: "Markdown"
+        href: articles/markdown.html
+    tutorials:
+      text: Tutorials
+      menu:
+      - text: "Create a {soils} project"
+        href: articles/project.html
+      - text: "Render the example reports"
+        href: articles/render-example.html
+      - text: "Import your data"
+        href: articles/data.html
+      - text: "Customize & write"
+        href: articles/customize.html
+      - text: "Render your reports"
+        href: articles/render.html
+      - text: -------
+      - text: "Troubleshoot"
+        href: articles/troubleshoot.html
+    examples:
+      text: "Examples"
+      href: articles/examples.html
+    functions:
+      text: Functions
+      href: reference/index.html
 
 reference:
 - title: Create a {soils} project

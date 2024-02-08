@@ -14,11 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you're new to markdown syntax, see the below **selection** of examples
-adapted from the [*Markdown basics Quarto
-documentation*](https://quarto.org/docs/authoring/markdown-basics.html) for many
-other formats and features. Use this as a guide when working through the
-tutorials and editing the report content.
+If you're new to markdown syntax, see the below *selection* of examples adapted from the [*Markdown basics Quarto documentation*](https://quarto.org/docs/authoring/markdown-basics.html). Reference this primer when working through the tutorials and editing the report content.
 
 ## Text formatting
 
@@ -44,19 +40,19 @@ tutorials and editing the report content.
 
 ## Headings
 
-+-----------------+--------------------------------------------+
-| Markdown syntax | Output                                     |
-+=================+============================================+
-| ``` markdown    | # Header 1 {.heading-output}               |
-| # Header 1      |                                            |
-| ```             |                                            |
-+-----------------+--------------------------------------------+
-|                 | Number of `#` corresponds to header level. |
-+-----------------+--------------------------------------------+
-| ``` markdown    | ###### Header 6 {.heading-output}          |
-| ###### Header 6 |                                            |
-| ```             |                                            |
-+-----------------+--------------------------------------------+
++-----------------------+--------------------------------------------+
+| Markdown syntax       | Output                                     |
++=======================+============================================+
+| ``` markdown          | # Header 1 {.heading-output}               |
+| # Header 1            |                                            |
+| ```                   |                                            |
++-----------------------+--------------------------------------------+
+|                       | Number of `#` corresponds to header level. |
++-----------------------+--------------------------------------------+
+| ``` markdown          | ###### Header 6 {.heading-output}          |
+| ###### Header 6       |                                            |
+| ```                   |                                            |
++-----------------------+--------------------------------------------+
 
 ```{=html}
 <style type="text/css">
@@ -69,25 +65,24 @@ tutorials and editing the report content.
 ```
 ## Links & images
 
-+--------------------------------------+--------------------------------------+
-| Markdown syntax                      | Output                               |
-+======================================+======================================+
-| ``` markdown                         | <https://quarto.org>                 |
-| <https://quarto.org>                 |                                      |
-| ```                                  |                                      |
-+--------------------------------------+--------------------------------------+
-| ``` markdown                         | [Quarto](https://quarto.org)         |
-| [Quarto](https://quarto.org)         |                                      |
-| ```                                  |                                      |
-+--------------------------------------+--------------------------------------+
-| ``` markdown                         | ![Caption](../man/fi                 |
-| ![Caption](images/logo.              | gures/logo.png){fig-alt="soils logo" |
-| png){width=100 fig-alt="soils logo"} | width="100"}                         |
-| ```                                  |                                      |
-+--------------------------------------+--------------------------------------+
++--------------------------------------+-----------------------------------------------------------------------+
+| Markdown syntax                      | Output                                                                |
++======================================+=======================================================================+
+| ``` markdown                         | <https://quarto.org>                                                  |
+| <https://quarto.org>                 |                                                                       |
+| ```                                  |                                                                       |
++--------------------------------------+-----------------------------------------------------------------------+
+| ``` markdown                         | [Quarto](https://quarto.org)                                          |
+| [Quarto](https://quarto.org)         |                                                                       |
+| ```                                  |                                                                       |
++--------------------------------------+-----------------------------------------------------------------------+
+| ``` markdown                         | ![Caption](../man/figures/logo.png){fig-alt="soils logo" width="100"} |
+| ![Caption](images/logo.              |                                                                       |
+| png){width=100 fig-alt="soils logo"} |                                                                       |
+| ```                                  |                                                                       |
++--------------------------------------+-----------------------------------------------------------------------+
 
-Learn more in the article on
-[Figures](https://quarto.org/docs/authoring/figures.html).
+Learn more in the article on [Figures](https://quarto.org/docs/authoring/figures.html).
 
 ## Lists
 
@@ -123,10 +118,7 @@ Learn more in the article on
 | ```                             |                                 |
 +---------------------------------+---------------------------------+
 
-Note that unlike other Markdown renderers (notably Jupyter and GitHub), lists in
-Quarto require an entire blank line above the list. Otherwise the list will not
-be rendered in list form, rather it will all appear as normal text along a
-single line.
+Note that unlike other Markdown renderers (notably Jupyter and GitHub), lists in Quarto require an entire blank line above the list. Otherwise the list will not be rendered in list form, rather it will all appear as normal text along a single line.
 
 ## Tables
 
@@ -148,8 +140,7 @@ single line.
 |   123 | 123  | 123     |  123   |
 |     1 | 1    | 1       |   1    |
 
-Learn more in the article on
-[Tables](https://quarto.org/docs/authoring/tables.html).
+Learn more in the article on [Tables](https://quarto.org/docs/authoring/tables.html).
 
 ## Blocks
 
@@ -169,15 +160,14 @@ Learn more in the article on
 
 ## Special characters
 
-+-----------------+-------------+
-| Markdown syntax | Output      |
-+=================+=============+
-| ``` markdown    | endash: --  |
-| endash: --      |             |
-| ```             |             |
-+-----------------+-------------+
-| ``` markdown    | emdash: --- |
-| emdash: ---     |             |
-| ```             |             |
-+-----------------+-------------+
-
++-----------------+---------------+
+| Markdown syntax | Output        |
++=================+===============+
+| ``` markdown    | endash: --    |
+| endash: --      |               |
+| ```             |               |
++-----------------+---------------+
+| ``` markdown    | emdash: ---   |
+| emdash: ---     |               |
+| ```             |               |
++-----------------+---------------+

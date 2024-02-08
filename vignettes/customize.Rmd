@@ -16,15 +16,19 @@ knitr::opts_chunk$set(
 
 ### Report metadata and options
 
-The report metadata and options are controlled with the YAML and setup chunk in `01_producer_report.qmd`.
+The report metadata and options are controlled with the YAML and setup chunk in
+`01_producer_report.qmd`.
 
-The first place to start is the YAML (Yet Another Markup Language). The YAML header is the content sandwiched between three dashes (`---`) at the top of the file. It contains document metadata, parameters, and customization options.
+The first place to start is the YAML (Yet Another Markup Language). The YAML
+header is the content sandwiched between three dashes (`---`) at the top of the
+file. It contains document metadata, parameters, and customization options.
 
 The only fields you need to edit are:
 
 -   `title`: The title of the report. Optionally include your logo above.
 -   `subtitle`: Subtitle appears below the title.
--   `producer_id` and `year`: Default parameter values that can be found in your data.
+-   `producer_id` and `year`: Default parameter values that can be found in your
+    data.
 
 ```         
 ---
@@ -41,19 +45,27 @@ params:
 ---
 ```
 
-Ignore the other YAML fields and values until you would like to explore other ways of customizing your reports. Learn about the available YAML fields for [HTML documents](https://quarto.org/docs/reference/formats/html.html) and [MS Word documents](https://quarto.org/docs/reference/formats/docx.html).
+Ignore the other YAML fields and values until you would like to explore other
+ways of customizing your reports. Learn about the available YAML fields for
+[HTML documents](https://quarto.org/docs/reference/formats/html.html) and [MS
+Word documents](https://quarto.org/docs/reference/formats/docx.html).
 
 ### Logo and images
 
-The logo that appears at the top of each report is found in the `images` subfolder and should be replaced with your organization's logo.
+The logo that appears at the top of each report is found in the `images`
+subfolder and should be replaced with your organization's logo.
 
-Add or change the measurement group icons (i.e., `biological.png`). These icons appear in the section headers.
+Add or change the measurement group icons (i.e., `biological.png`). These icons
+appear in the section headers.
 
 ### Report content
 
-`01_producer_report.qmd` uses the Quarto [`{{< include >}}`](https://quarto.org/docs/authoring/includes.html) shortcode to embed static content within the main parameterized reports.
+`01_producer_report.qmd` uses the Quarto
+[`{{< include >}}`](https://quarto.org/docs/authoring/includes.html) shortcode
+to embed static content within the main parameterized reports.
 
-Edit the content of the following Quarto files to fit your project and what measurements were taken:
+Edit the content of the following Quarto files to fit your project and what
+measurements were taken:
 
 ```         
 ├── 03_project_summary.qmd
@@ -64,19 +76,29 @@ Edit the content of the following Quarto files to fit your project and what meas
 ├── 08_looking_forward.qmd
 ```
 
-Under the `Project Results` heading in `01_producer_report.qmd`, update the sample depth:
+Under the `Project Results` heading in `01_producer_report.qmd`, update the
+sample depth:
 
-> All samples were collected from [EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)].
+> All samples were collected from [EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30
+> cm)].
 
-`01_producer_report.qmd` calls `02_secion_template.qmd` as a child document to generate a section for each `measurement_group` defined in the `data-dictionary.csv`. You shouldn't need to edit `02_secion_template.qmd` unless you want more advanced customization.
+`01_producer_report.qmd` calls `02_secion_template.qmd` as a child document to
+generate a section for each `measurement_group` defined in the
+`data-dictionary.csv`. You shouldn't need to edit `02_secion_template.qmd`
+unless you want more advanced customization.
 
 ### Style and theme
 
-The look and feel of your reports can be customized by changing the fonts and colors to match your branding. The plot and table outputs are controlled by the `set-fonts-colors` chunk in `01_producer_report.qmd`. The HTML reports are styled by the `styles.css` file and the MS Word reports are styled using the `word-template.docx` template file.
+The look and feel of your reports can be customized by changing the fonts and
+colors to match your branding. The plot and table outputs are controlled by the
+`set-fonts-colors` chunk in `01_producer_report.qmd`. The HTML reports are
+styled by the `styles.css` file and the MS Word reports are styled using the
+`word-template.docx` template file.
 
 #### Set fonts and colors
 
-The third chunk in `01_producer_report.qmd` sets the fonts and colors to be used in the tables and plots of the report.
+The third chunk in `01_producer_report.qmd` sets the fonts and colors to be used
+in the tables and plots of the report.
 
 <details open>
 
@@ -120,7 +142,8 @@ strip_text_color <- "white"
 
 #### Style sheets
 
-The style sheets can be found in the `resources` directory and edited to customize the report appearance to match your own branding.
+The style sheets can be found in the `resources` directory and edited to
+customize the report appearance to match your own branding.
 
 ##### HTML
 
@@ -141,6 +164,10 @@ The style sheets can be found in the `resources` directory and edited to customi
 
 ##### MS Word
 
-Open `word-template.docx` and modify the styles according to this [Microsoft documentation](https://support.microsoft.com/en-gb/office/customize-or-create-new-styles-d38d6e47-f6fc-48eb-a607-1eb120dec563).
+Open `word-template.docx` and modify the styles according to this [Microsoft
+documentation](https://support.microsoft.com/en-gb/office/customize-or-create-new-styles-d38d6e47-f6fc-48eb-a607-1eb120dec563).
 
-Learn more about [CSS](https://quarto.org/docs/visual-editor/content.html#css-styles) and [MS Word Style Templates](https://quarto.org/docs/output-formats/ms-word-templates.html).
+Learn more about
+[CSS](https://quarto.org/docs/visual-editor/content.html#css-styles) and [MS
+Word Style
+Templates](https://quarto.org/docs/output-formats/ms-word-templates.html).

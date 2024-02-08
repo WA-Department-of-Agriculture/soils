@@ -14,9 +14,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-{soils} was developed to work 'out of the box' so you can immediately install and render an example report, as demonstrated in the last two tutorials. However, this means it will require customization and content editing to fit your project, shown in the next three tutorials.
+{soils} was developed to work 'out of the box' so you can immediately install
+and render an example report, as demonstrated in the last two tutorials.
+However, this means it will require customization and content editing to fit
+your project, shown in the next three tutorials.
 
-An example data set and data dictionary are included in every {soils} project. You can access these `.csv` files in the `data` folder or by loading the package with `library(soils)`. Use these examples as templates to correctly format your own data and test them in other {soils} functions.
+An example data set and data dictionary are included in every {soils} project.
+You can access these `.csv` files in the `data` folder, or by loading the
+package with `library(soils)`. Use these examples as templates to correctly
+format your own data and test them in {soils} functions and reports.
 
 Load the package and assign the example datasets to objects in your environment:
 
@@ -44,25 +50,29 @@ dplyr::glimpse(data)
 Required columns:
 
 -   `year`
--   `sample_id`
+-   `sample_id` must be unique.
 -   `farm_name`
 -   `producer_name`
--   `producer_id`
+-   `producer_id` must be unique.
 -   `field_name`
--   `field_id`
+-   `field_id` must be unique.
 -   `county`
 -   `crop`
 -   `longitude`
 -   `latitude`
 -   `texture`
 
-All measurement result columns should come **after** the required columns to make it easier to select in the data wrangling code.
+All measurement result columns should come **after** the required columns to
+make it easier to select in the data wrangling code.
 
-### Data dictionary
+## Data dictionary
 
-The data dictionary is used to group and order the measurements. It is also used to make nicely formatted labels for display in tables and plots. The example data dictionary contains `UTF-8` encoded superscripts and subscripts.
+The data dictionary is used to group and order the measurements. It is also used
+to make nicely formatted labels for display in tables and plots. The example
+data dictionary contains `UTF-8` encoded superscripts and subscripts.
 
-Save your data dictionary to the `data` folder as `CSV UTF-8 (Comma delimited) (*.csv)` in MS Excel:
+Save your data dictionary to the `data` folder as
+`CSV UTF-8 (Comma delimited) (*.csv)` in MS Excel:
 
 ![](../man/figures/utf-8.png){fig-alt="Data dictionary is saved as CSV UTF-8 (Comma delimited) (*.csv) in MS Excel."}
 
@@ -80,18 +90,25 @@ dplyr::glimpse(dictionary)
 
 -   `measurement_group` determines how the measurements are grouped.
 -   `measurement_group_label` is the section heading for each measurement group.
--   `order` column specifies the order in which the measurements appear in each measurement group's tables and plots.
--   `column_name` is the join key for joining with your project data. Must be exactly the same as the column names for each measurement.
--   `abbr` and `unit` are how the measurements are represented in `flextable` tables.
--   `abbr_unit` is formatted with HTML line breaks and special characters for `ggplot2` plots.
+-   `order` column specifies the order in which the measurements appear in each
+    measurement group's tables and plots.
+-   `column_name` is the join key for joining with your project data. Must be
+    exactly the same as the column names for each measurement.
+-   `abbr` and `unit` are how the measurements are represented in `flextable`
+    tables.
+-   `abbr_unit` is formatted with HTML line breaks and special characters for
+    `ggplot2` plots.
 
-### Your data
+## Your data
 
-Once your project data and data dictionary files match the structure of the above examples, place them in the `data` folder. Then make the following changes in the `load-data` chunk in `01_producer_report.qmd`:
+Once your project data and data dictionary files match the structure of the
+above examples, place them in the `data` folder. Then make the following changes
+in the `load-data` chunk in `01_producer_report.qmd`:
 
 -   Change `washi-data.csv` to the name of your data file.
 -   Change `data-dictionary.csv` to the name of your data dictionary.
--   Set the order of the `measurement_groups` to how you would like them to appear in the report. These group names must match your data dictionary.
+-   Set the order of the `measurement_groups` to how you would like them to
+    appear in the report. These group names must match your data dictionary.
 
 <details open>
 
@@ -168,11 +185,14 @@ assertr::assert(dictionary,
 
 </details>
 
-### Checking data with `assertr`
+### Checking data with `testthat`
 
-The `assertr` functions check that your data and dictionary have the required columns and are consistent with each other.
+The `assertr` functions check that your data and dictionary have the required
+columns and are consistent with each other.
 
-To demonstrate troubleshooting with data and dictionary mismatches, I changed `totalN_%` to `totalN%` in the dictionary `column_name`. Rendering the report will fail because there is no column name in `data` that matches `totalN%`:
+To demonstrate troubleshooting with data and dictionary mismatches, I changed
+`totalN_%` to `totalN%` in the dictionary `column_name`. Rendering the report
+will fail because there is no column name in `data` that matches `totalN%`:
 
 ```         
 Quitting from lines 55-119 [load-data] (01_producer_report.qmd)
@@ -184,9 +204,11 @@ Backtrace:
 Execution halted
 ```
 
-Unfortunately this error message in the Background Jobs tab is not very helpful. It tells us that the error occurred in lines 55-119 in the [load-data] chunk.
+Unfortunately this error message in the Background Jobs tab is not very helpful.
+It tells us that the error occurred in lines 55-119 in the [load-data] chunk.
 
-If we run that chunk in `01_producer_report.qmd`, we get a more helpful error message:
+If we run that chunk in `01_producer_report.qmd`, we get a more helpful error
+message:
 
 ```         
 Column 'column_name' violates assertion 'assertr::in_set(names(data))' 1 time
@@ -196,4 +218,7 @@ Column 'column_name' violates assertion 'assertr::in_set(names(data))' 1 time
 Error: assertr stopped execution
 ```
 
-We can see that the error occurred in `assertr::in_set(names(data))` and the problematic value is `totalN%`. We could then look at the columns in `data` and realize that it should be `totalN_%` and correct that value in our `dictionary`.
+We can see that the error occurred in `assertr::in_set(names(data))` and the
+problematic value is `totalN%`. We could then look at the columns in `data` and
+realize that it should be `totalN_%` and correct that value in our `dictionary`.
+

@@ -18,30 +18,29 @@ If you're new to Quarto, first check out the [**Hello, Quarto
 tutorial**](https://quarto.org/docs/get-started/hello/rstudio.html) and explore
 the documentation.
 
-This primer is not a comprehensive introduction to Quarto; instead, it provides
-a brief background for how {soils} uses Quarto.
+This primer is not a comprehensive introduction to Quarto. Instead, it provides
+a brief reference for workflows and features used in {soils}.
 
 # File paths
 
-`soils::create_soils(path = "soils-demo")` creates an RStudio Project with the
-template Quarto (`.qmd`) files, example data, R script, and `soils-demo.Rproj`
-file that designates the directory as an RStudio Project. All template files use
-**relative paths** instead of absolute paths to ensure the file paths work on
-anyone's computer.
+`soils::create_soils(path = "soils-demo")` creates an RStudio Project called
+"soils-demo" with the template Quarto (`.qmd`) files, example data, R script,
+images, style sheets, and the `.Rproj` file that designates the directory as an
+RStudio Project. All template files use **relative paths** instead of absolute
+paths to ensure the file paths work on anyone's computer.
 
 ## Absolute vs relative paths
 
 ❌ **Absolute paths** start with the root directory and provide the full path to
-a specific file or folder (e.g.,
-`C:/Users/jryan/Documents/R/projects/soils-demo/data/washi-data.csv`). This path
-**will not work** on anyone's computer unless the operating system, user,
+a specific file or folder
+(`C:/Users/jryan/Documents/R/projects/soils-demo/data/washi-data.csv`). This
+path **will not work** on anyone's computer unless the operating system, user,
 directory structure, and folder names match exactly.
 
 ✅ **Relative paths** are *relative* to the working directory, or the project's
-home (e.g., `data/washi-data.csv`). When working in a RStudio project, the
-default working directory is always the root project directory (where the
-`.Rproj` file is). This path **will work** on anyone's computer with this
-project directory.
+home (`data/washi-data.csv`). When working in a RStudio project, the default
+working directory is always the root project directory (where the `.Rproj` file
+is). This path **will work** on anyone's computer with this project directory.
 
 ## {here} package
 
@@ -103,7 +102,7 @@ shortens the number of lines in the main `.qmd` file and makes the markdown and
 code of the project more modular. Read more in the [Includes
 article](https://quarto.org/docs/authoring/includes.html).
 
-Lines 472 - 474 of `01_producer-report.qmd` are shown below:
+Examples found in `01_producer-report.qmd` are shown below:
 
 ``` r
 {{< include 03_project-summary.qmd >}}

@@ -102,7 +102,7 @@ shortens the number of lines in the main `.qmd` file and makes the markdown and
 code of the project more modular. Read more in the [Includes
 article](https://quarto.org/docs/authoring/includes.html).
 
-Examples found in `01_producer-report.qmd` are shown below:
+Examples found in `01_producer-report.qmd` are shown below.
 
 ``` r
 {{< include 03_project-summary.qmd >}}
@@ -120,8 +120,8 @@ post](https://www.qiushiyan.dev/posts/dynamic-rmd-quarto/).
 For each measurement group results section, `02_section-template.qmd` is used as
 a template to generate each section's header, table, plot, and page break.
 
-This code is found in the `create-measurement-group-sections` code chunk (lines
-542 -553) of `01_producer-report.qmd`:
+The below code is in the `create-measurement-group-sections` code chunk of
+`01_producer-report.qmd`.
 
 ```{r eval=FALSE}
 #| output: asis
@@ -238,3 +238,4 @@ include a tabset *only* for HTML reports.
 {{< include 07_chemical-measurements.qmd >}}
 :::
 ```
+

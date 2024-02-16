@@ -54,7 +54,7 @@ reports at once. The rest of the project files will appear in the files pane.
 ## Option 2. RStudio console
 
 Run the below code in your console to create a {soils} project called
-"soils-demo" in your default working directory:
+"soils-demo" in your default working directory.
 
 ```{r, eval=FALSE}
 soils::create_soils(path = "soils-demo")
@@ -66,8 +66,7 @@ The following will print in your console. Note the location of your new project.
 
 ## Project structure
 
-Both options will create and launch a new RStudio project with the following
-files:
+Both options will create and launch a new RStudio project with the below files.
 
 <details closed>
 

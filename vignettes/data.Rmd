@@ -25,7 +25,7 @@ An example dataset and data dictionary are included in every {soils} project.
 Access the `.csv` files in the `data` folder, or load the package and call the
 dataframes by name as shown below.
 
-<details>
+<details closed>
 
 <summary>Load {soils} and see first five rows of each dataframe</summary>
 
@@ -158,15 +158,13 @@ will not affect the report. For example, the report will simply show the `pH`
 results if your dictionary contains both `pH` and `CEC` but your data only
 contains `pH` results.
 
-**See the [troubleshooting
-article](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
-for more help on debugging errors.**
-
 ## Your data
 
 Once your project data and dictionary files match the structure of the examples
 and are saved in the `data` folder, follow along with the changes in the code
-chunks in `01_producer-report.qmd`.
+chunks in `01_producer-report.qmd`. Code you will need to change are marked with
+the text "`EDIT:`". Find all edit markers in the RStudio project with `Ctrl` +
+`Shift` + `F` to open the `Find in Files` wizard.
 
 Below changes are for demonstration purposes only, the actual changes should be
 based on **your** data and dictionary.
@@ -175,7 +173,7 @@ based on **your** data and dictionary.
 
 Replace `washi-data.csv` with the name of your data file (`my-data.csv`).
 
-<details>
+<details closed>
 
 <summary>Example changed chunk</summary>
 
@@ -200,7 +198,7 @@ Change `data-dictionary.csv` to the name of your dictionary file
 make sure your csv is saved with UTF-8 encoding (see [Dictionary template] for
 how to do this).
 
-<details>
+<details closed>
 
 <summary>Example changed chunk</summary>
 
@@ -226,7 +224,7 @@ dictionary and set the order of how they appear in the results section of the
 report. `macro` and `micro` were removed and `chemical` was moved before
 `biological`.
 
-<details>
+<details closed>
 
 <summary>Example changed chunk</summary>
 
@@ -251,7 +249,7 @@ your data (`12:26`). This chunk [tidies the
 data](https://vita.had.co.nz/papers/tidy-data.pdf) from wide to long for
 summarization and visualization.
 
-<details>
+<details closed>
 
 <summary>Example changed chunk</summary>
 
@@ -303,7 +301,7 @@ values, which are elements of `required_cols` and `dictionary$column_name`.
 
 Adding `"tillage"` to `required_cols` prevents this error.
 
-<details>
+<details closed>
 
 <summary>Example changed chunk</summary>
 
@@ -345,3 +343,8 @@ Error:
 The error occurred because `cec_meq_100g` was missing from the `expected`
 values. Either add `cec_meq_100g` back to the dictionary or remove this column
 from the dataset to fix this error.
+
+**See the [troubleshooting
+article](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
+for more help on debugging errors.**
+

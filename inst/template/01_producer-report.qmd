@@ -53,11 +53,8 @@ fs::dir_create(path)
 <!-- Load data and dictionary -->
 
 ```{r load-data, include=FALSE}
-# EDIT: You will need to add your own cleaned lab data to the data
-# folder, using 'washi-data.csv' as a template.
-#
-# 'data-dictionary.csv' must also be updated to match your own
-# data set.
+# EDIT: Add your cleaned lab data to the data folder, using 'washi-data.csv' as
+# a template.
 
 # Load lab results
 data <- read.csv(
@@ -65,19 +62,25 @@ data <- read.csv(
   check.names = FALSE,
   encoding = "UTF-8"
 )
+```
+
+```{r load-dictionary, include=FALSE}
+# EDIT: Add your data dictionary to the data folder, using 'data-dictionary.csv'
+# as a template.
 
 # Load data dictionary
 dictionary <- read.csv(
   here::here("data/data-dictionary.csv"),
   check.names = FALSE,
-  # set encoding for using subscripts and superscripts
+  # Set encoding for using subscripts, superscripts, special characters
   encoding = "UTF-8"
 )
+```
 
-# OPTIONAL EDIT: rearrange order of measurement_groups in the below vector. This
-# vector determines the order that the measurement groups appear in the results
-# section of the report. Each measurement group must be included in the
+```{r set-groups, include=FALSE}
+# EDIT: Add, remove, or rearrange order of measurement groups to match your data
 # dictionary.
+
 measurement_groups <- c(
   "physical",
   "biological",
@@ -88,29 +91,27 @@ measurement_groups <- c(
 ```
 
 ```{r data-validation}
-# Check that data contains the required columns and there is a column_name entry
-# in the data dictionary for each measurement column.
-testthat::expect_in(
-  names(data),
-  c(
-    "year",
-    "sample_id",
-    "farm_name",
-    "producer_name",
-    "producer_id",
-    "field_name",
-    "field_id",
-    "county",
-    "crop",
-    "texture",
-    "longitude",
-    "latitude",
-    dictionary$column_name
-  )
+# OPTIONAL EDIT: If you have extra columns in `data`, add them to this vector.
+required_cols <- c(
+  "year",
+  "sample_id",
+  "farm_name",
+  "producer_id",
+  "field_name",
+  "field_id",
+  "county",
+  "crop",
+  "longitude",
+  "latitude",
+  "texture"
 )
 
+# Check all column names in `data` are in the `required_cols` vector or
+# `column_name` column of `dictionary`.
+testthat::expect_in(names(data), c(required_cols, dictionary$column_name))
+
 # Check that the measurement_groups are in the dictionary.
-testthat::expect_in(dictionary$measurement_group, measurement_groups)
+testthat::expect_in(measurement_groups, dictionary$measurement_group)
 ```
 
 <!-- Set styling variables -->
@@ -152,22 +153,22 @@ strip_text_color <- "white"
 <!-- Pivot data longer and join with data dictionary -->
 
 ```{r tidy-long}
-# EDIT: Replace the below indices with the column range containing soil health
-# measurement results in your own dataset. For example, washi_data.csv has
-# measurement results in columns 13 - 43.
+# EDIT: `washi_data` example has soil measurements in columns 12 - 42. Replace
+# this column range with the column indices of the soil measurements in your
+# dataset.
 
 # Tidy data into long format and join with data dictionary
 results_long <- data |>
   dplyr::mutate(
     dplyr::across(
-      # EDIT: replace with the column range of your measurement results
-      13:43,
+      # EDIT: replace with the column range of your soil measurements
+      12:42,
       as.numeric
     )
   ) |>
   tidyr::pivot_longer(
-    # EDIT: replace with the column range of your measurement results
-    cols = 13:43,
+    # EDIT: replace with the column range of your soil measurements
+    cols = 12:42,
     names_to = "measurement"
   ) |>
   dplyr::inner_join(dictionary, by = c("measurement" = "column_name")) |>
@@ -191,17 +192,17 @@ results_long <- data |>
 
 ```{r get-producer-info}
 # If field name is blank, use field ID
-data$field_name <- ifelse(
-  is.na(data$field_name),
-  data$field_id,
-  data$field_name
+results_long$field_name <- ifelse(
+  is.na(results_long$field_name),
+  glue::glue("Field {results_long$field_id}"),
+  results_long$field_name
 )
 
 # If farm name is blank, use producer ID
-data$farm_name <- ifelse(
-  is.na(data$farm_name),
-  data$producer_id,
-  data$farm_name
+results_long$farm_name <- ifelse(
+  is.na(results_long$farm_name),
+  glue::glue("Farm {params$producer_id}"),
+  results_long$farm_name
 )
 
 # Subset to producer samples
@@ -219,11 +220,6 @@ producer <- list("sample_id", "crop", "county", "farm_name", "measurement") |>
 
 # In case of multiple farm names, grab first one
 producer$farm_name <- if (producer$farm_name > 1) producer$farm_name[[1]]
-
-# In case there is no farm name, use producer ID
-producer$farm_name <- ifelse(is.na(producer$farm_name),
-                             glue::glue("Farm: {params$producer_id}"),
-                             producer$farm_name)
 
 # Remove measurements that producer did not have tested
 results_long <- results_long |>
@@ -537,7 +533,10 @@ if (fs::file_exists(glue::glue("{path}/map.png"))) {
 
 ## Project Results
 
-Below are tables and graphs describing the physical, biological, and chemical measurements from your soils. Each point represents a sample we collected. Take a look to see how your fields compare to others in the project. All samples were collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
+Below are tables and graphs describing the physical, biological, and chemical
+measurements from your soils. Each point represents a sample we collected. Take
+a look to see how your fields compare to others in the project. All samples were
+collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
 
 ```{r create-measurement-group-sections}
 #| output: asis

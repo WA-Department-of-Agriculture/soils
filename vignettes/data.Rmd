@@ -14,211 +14,334 @@ knitr::opts_chunk$set(
 )
 ```
 
-{soils} was developed to work 'out of the box' so you can immediately install
-and render an example report, as demonstrated in the last two tutorials.
-However, this means it will require customization and content editing to fit
-your project, shown in the next three tutorials.
+You can immediately install {soils}, create a new template project, and render
+example reports, as demonstrated in the last two tutorials. However, you will
+need to customize and edit the content to fit your project, shown in the next
+three tutorials.
 
-An example data set and data dictionary are included in every {soils} project.
-You can access these `.csv` files in the `data` folder, or by loading the
-package with `library(soils)`. Use these examples as templates to correctly
-format your own data and test them in {soils} functions and reports.
+## Access the example datasets
 
-Load the package and assign the example datasets to objects in your environment:
+An example dataset and data dictionary are included in every {soils} project.
+Access the `.csv` files in the `data` folder, or load the package and call the
+dataframes by name as shown below.
+
+<details>
+
+<summary>Load {soils} and see first five rows of each dataframe</summary>
 
 ```{r}
 library(soils)
-
-data <- washi_data
-dictionary <- data_dictionary
-```
-
-## Example data
-
-Glimpse at the example data structure:
-
-<details closed>
-
-<summary>Example Data</summary>
-
-```{r}
-dplyr::glimpse(data)
+head(washi_data, 5) |> knitr::kable()
+head(data_dictionary, 5) |> knitr::kable()
 ```
 
 </details>
 
-Required columns:
+Use `washi_data` and `data_dictionary` as templates when formatting your own
+data to use in {soils} functions and reports.
 
--   `year`
--   `sample_id` must be unique.
--   `farm_name`
--   `producer_name`
--   `producer_id` must be unique.
--   `field_name`
--   `field_id` must be unique.
--   `county`
--   `crop`
--   `longitude`
--   `latitude`
--   `texture`
+## Data template
 
-All measurement result columns should come **after** the required columns to
-make it easier to select in the data wrangling code.
+Your data must contain the below required columns and each soil measurement must
+be in its own column, as shown in `washi_data`.
 
-## Data dictionary
+<details closed>
 
-The data dictionary is used to group and order the measurements. It is also used
-to make nicely formatted labels for display in tables and plots. The example
-data dictionary contains `UTF-8` encoded superscripts and subscripts.
+<summary>Glimpse at the example data</summary>
 
-Save your data dictionary to the `data` folder as
-`CSV UTF-8 (Comma delimited) (*.csv)` in MS Excel:
+```{r}
+dplyr::glimpse(washi_data)
+```
+
+</details>
+
+Your data **must have the below required columns**. However, only the columns in
+**bold** are required to have values.
+
+-   **`year <int>`** is used to select samples to be included in the report.
+
+-   **`sample_id <chr>`** must be unique throughout the dataset.
+
+-   `farm_name <chr>` is included at the top of the report. If blank, it is
+    replaced with "Farm: `producer_id`".
+
+-   **`producer_id <chr>`** must be unique throughout dataset and is used to
+    select samples to be included in the report.
+
+-   `field_name <chr>` must be unique across all fields for each producer and is
+    displayed in tables and tool tips for maps. If blank, it is replaced with
+    "Field `field_id`".
+
+-   **`field_id <chr>`** must be unique across all fields for each producer.
+
+-   `county <chr>` is used to group and summarize samples from the same county
+    as the producer. Can be blank.
+
+-   `crop <chr>` is used to group and summarize samples from the same crop as
+    the producer. Can be blank.
+
+-   **`longitude <int>`** and **`latitude <int>`** are used to map each sample
+    point.
+
+-   **`texture <chr>`** is used in the "physical" measurement group table. This
+    column is not used in the texture triangle plot, which is instead created
+    from percentage sand, silt, and clay measurement results.
+
+-   **Each soil measurement** must have its own column in the dataset and a
+    corresponding row in the data dictionary, as shown in [Dictionary template].
+
+    -   Measurement columns come **after** the required columns for easy
+        selection in the [`tidy-long` chunk].
+
+## Dictionary template
+
+The data dictionary is used to group and order soil measurements, and to nicely
+format labels in tables and plots. The example `data_dictionary` contains
+[UTF-8](https://www.unicode.org/faq/utf_bom.html) encoded superscripts,
+subscripts, and special characters.
+
+To properly encode your data dictionary as UTF-8, save it to the `data` folder
+as `CSV UTF-8 (Comma delimited) (*.csv)` in MS Excel.
 
 ![](../man/figures/utf-8.png){fig-alt="Data dictionary is saved as CSV UTF-8 (Comma delimited) (*.csv) in MS Excel."}
 
-Your data dictionary must have the exact same column names as the example:
-
 <details closed>
 
-<summary>Example Data Dictionary</summary>
+<summary>Glimpse at the example data dictionary</summary>
 
 ```{r}
-dplyr::glimpse(dictionary)
+dplyr::glimpse(data_dictionary)
 ```
 
 </details>
 
--   `measurement_group` determines how the measurements are grouped.
--   `measurement_group_label` is the section heading for each measurement group.
--   `order` column specifies the order in which the measurements appear in each
-    measurement group's tables and plots.
--   `column_name` is the join key for joining with your project data. Must be
-    exactly the same as the column names for each measurement.
--   `abbr` and `unit` are how the measurements are represented in `flextable`
-    tables.
--   `abbr_unit` is formatted with HTML line breaks and special characters for
-    `ggplot2` plots.
+Your data dictionary **must have the below required columns** for every soil
+measurement included in your data.
+
+-   **`measurement_group <chr>`** determines how the soil measurements are
+    grouped. The order in which these groups appear is determined by the
+    [`set-groups` chunk].
+
+-   **`measurement_group_label <chr>`** is the section heading for each
+    measurement group.
+
+-   **`order <int>`** determines the sequence of soil measurements within a
+    `measurement_group` in tables and plots.
+
+-   **`column_name <chr>`** is used to join the dictionary with your data. Must
+    exactly match the column names of the soil measurements in your dataset.
+
+-   **`abbr <chr>`** and **`unit <chr>`** are how soil measurements are labeled
+    in tables with the abbreviation as the column header and unit as a secondary
+    spanning header.
+
+-   **`abbr_unit <chr>`** is how the soil measurements are labeled in plots and
+    uses an HTML tag to include a line break between the abbreviation and unit.
+
+## Data/dictionary mismatches
+
+### Extra columns in data
+
+**Soil measurements in your data but not in your dictionary** will cause the
+report to error in the `data-validation` chunk. For example, rendering the
+report will fail if your dataset contains both `pH` and `CEC` results but your
+dictionary only contains `pH`. Either add this measurement to your dictionary,
+or remove this measurement column from your data.
+
+If you have additional columns in your data that aren't soil measurements,
+include them in the `required_cols` vector of the [`data-validation` chunk].
+
+### Extra rows in dictionary
+
+**Soil measurements in your dictionary but not in your data** will not error and
+will not affect the report. For example, the report will simply show the `pH`
+results if your dictionary contains both `pH` and `CEC` but your data only
+contains `pH` results.
+
+**See the [troubleshooting
+article](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
+for more help on debugging errors.**
 
 ## Your data
 
-Once your project data and data dictionary files match the structure of the
-above examples, place them in the `data` folder. Then make the following changes
-in the `load-data` chunk in `01_producer_report.qmd`:
+Once your project data and dictionary files match the structure of the examples
+and are saved in the `data` folder, follow along with the changes in the code
+chunks in `01_producer-report.qmd`.
 
--   Change `washi-data.csv` to the name of your data file.
--   Change `data-dictionary.csv` to the name of your data dictionary.
--   Set the order of the `measurement_groups` to how you would like them to
-    appear in the report. These group names must match your data dictionary.
+Below changes are for demonstration purposes only, the actual changes should be
+based on **your** data and dictionary.
 
-<details open>
+### `load-data` chunk
 
-<summary>Load Data Chunk</summary>
+Replace `washi-data.csv` with the name of your data file (`my-data.csv`).
+
+<details>
+
+<summary>Example changed chunk</summary>
 
 ```{r load-data, eval=FALSE}
-# EDIT: You will need to add your own cleaned lab data to the data
-# folder, using 'washi-data.csv' as a template.
-#
-# 'data-dictionary.csv' must also be updated to match your own
-# data set.
+# EDIT: Add your cleaned lab data to the data folder, using 'washi-data.csv' as
+# a template.
 
 # Load lab results
 data <- read.csv(
-  paste0(here::here(), "/data/washi-data.csv"),
+  here::here("data/my-data.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
 )
-
-assertr::verify(
-  data,
-  assertr::has_all_names(
-    "year",
-    "sample_id",
-    "farm_name",
-    "producer_name",
-    "producer_id",
-    "field_name",
-    "field_id",
-    "county",
-    "crop",
-    "texture",
-    "longitude",
-    "latitude"
-  ),
-  description = "`data` is missing required columns."
-)
-
-# Load data dictionary
-dictionary <- read.csv(
-  paste0(here::here("data/data-dictionary.csv"),
-  check.names = FALSE,
-  # set encoding for using subscripts and superscripts
-  encoding = "UTF-8"
-)
-
-# Check that the `column_names` column of your dictionary match your data column
-# names
-assertr::assert(
-  dictionary,
-  assertr::in_set(names(data)),
-  column_name,
-  description = "Values in `column_name` of `dictionary` must match the\\
-  column names of `data`."
-)
-
-# EDIT: set order of measurement_groups
-# this specifies the order of the sections in the report
-measurement_groups <- c(
-  "physical",
-  "biological",
-  "chemical",
-  "macro",
-  "micro"
-)
-
-# Check that the above measurement_groups are in the dictionary.
-assertr::assert(dictionary, 
-                assertr::in_set(measurement_groups),
-                measurement_group,
-                description = "`dictionary` contains measurement group that\\
-                isn't defined.")
 ```
 
 </details>
 
-### Checking data with `testthat`
+### `load-dictionary` chunk
 
-The `assertr` functions check that your data and dictionary have the required
-columns and are consistent with each other.
+Change `data-dictionary.csv` to the name of your dictionary file
+(`my-dictionary.csv`). If using subscripts, superscripts, or special characters,
+make sure your csv is saved with UTF-8 encoding (see [Dictionary template] for
+how to do this).
 
-To demonstrate troubleshooting with data and dictionary mismatches, I changed
-`totalN_%` to `totalN%` in the dictionary `column_name`. Rendering the report
-will fail because there is no column name in `data` that matches `totalN%`:
+<details>
 
-```         
-Quitting from lines 55-119 [load-data] (01_producer_report.qmd)
+<summary>Example changed chunk</summary>
+
+```{r load-dictionary, eval=FALSE}
+# EDIT: Add your data dictionary to the data folder, using 'data-dictionary.csv'
+# as a template.
+
+# Load data dictionary
+dictionary <- read.csv(
+  here::here("data/my-dictionary.csv"),
+  check.names = FALSE,
+  # Set encoding for using subscripts, superscripts, special characters
+  encoding = "UTF-8"
+)
+```
+
+</details>
+
+### `set-groups` chunk
+
+Add or remove groups to the `measurement_groups` vector to match your data
+dictionary and set the order of how they appear in the results section of the
+report. `macro` and `micro` were removed and `chemical` was moved before
+`biological`.
+
+<details>
+
+<summary>Example changed chunk</summary>
+
+```{r set-groups, eval=FALSE}
+# EDIT: Add, remove, or rearrange order of measurement groups to match your data
+# dictionary.
+
+measurement_groups <- c(
+  "physical",
+  "chemical",
+  "biological"
+)
+```
+
+</details>
+
+### `tidy-long` chunk
+
+Replace the column range of the soil measurements from the example
+`washi-data.csv` (`12:42`) with the column range of the soil measurements in
+your data (`12:26`). This chunk [tidies the
+data](https://vita.had.co.nz/papers/tidy-data.pdf) from wide to long for
+summarization and visualization.
+
+<details>
+
+<summary>Example changed chunk</summary>
+
+```{r tidy-long, eval=FALSE}
+# EDIT: `washi_data` example has soil measurements in columns 12 - 42. Replace
+# this column range with the column indices of the soil measurements in your
+# dataset.
+
+# Tidy data into long format and join with data dictionary
+results_long <- data |>
+  dplyr::mutate(
+    dplyr::across(
+      # EDIT: replace with the column range of your soil measurements
+      12:26,
+      as.numeric
+    )
+  ) |>
+  tidyr::pivot_longer(
+    # EDIT: replace with the column range of your soil measurements
+    cols = 12:26,
+    names_to = "measurement"
+  )
+```
+
+</details>
+
+### `data-validation` chunk
+
+This chunk checks there are no mismatches as described in [Data/dictionary
+mismatches] by making sure all column names in your dataset are in either the
+`required_cols` vector or the `column_name` column of `my-dictionary.csv`.
+
+In this example, add an extra column named `tillage` in `my-data.csv` without
+changing the dictionary.
+
+After clicking the `Render` button, the report failed.
+
+``` r
+Quitting from lines 94-115 [data-validation] (01_producer-report.qmd)
 Error:
-! assertr stopped execution
-Backtrace:
- 1. assertr::assert(...)
- 2. assertr (local) error_fun(errors, data = data)
-Execution halted
+! names(data) (`actual`) isn't fully contained within c(required_cols, dictionary$column_name) (`expected`).
+* Missing from `expected`: "tillage"
+* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "longitude", ...
 ```
 
-Unfortunately this error message in the Background Jobs tab is not very helpful.
-It tells us that the error occurred in lines 55-119 in the [load-data] chunk.
+This error message says the error occurred in lines 94-115 in the
+`data-validation` chunk because `tillage` was missing from the `expected`
+values, which are elements of `required_cols` and `dictionary$column_name`.
 
-If we run that chunk in `01_producer_report.qmd`, we get a more helpful error
-message:
+Adding `"tillage"` to `required_cols` prevents this error.
 
-```         
-Column 'column_name' violates assertion 'assertr::in_set(names(data))' 1 time
-    verb redux_fn                    predicate      column index   value
-1 assert       NA assertr::in_set(names(data)) column_name    12 totalN%
+<details>
 
-Error: assertr stopped execution
+<summary>Example changed chunk</summary>
+
+```{r data-validation-changed, eval=FALSE}
+# OPTIONAL EDIT: If you have extra columns in `data`, add them to this vector.
+required_cols <- c(
+  "year",
+  "sample_id",
+  "farm_name",
+  "producer_id",
+  "field_name",
+  "field_id",
+  "county",
+  "crop",
+  "longitude",
+  "latitude",
+  "texture",
+  "tillage"
+)
+
+# Check all column names in `data` are in the `required_cols` vector or
+# `column_name` column of `dictionary`.
+testthat::expect_in(names(data), c(required_cols, dictionary$column_name))
 ```
 
-We can see that the error occurred in `assertr::in_set(names(data))` and the
-problematic value is `totalN%`. We could then look at the columns in `data` and
-realize that it should be `totalN_%` and correct that value in our `dictionary`.
+</details>
 
+To demonstrate another data/dictionary mismatch error, remove `cec_meq_100g`
+from the dictionary while keeping it in the dataset.
+
+``` r
+Quitting from lines 94-115 [data-validation] (01_producer-report.qmd)
+Error:
+! names(data) (`actual`) isn't fully contained within c(...) (`expected`).
+* Missing from `expected`: "cec_meq_100g"
+* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "texture", ...
+```
+
+The error occurred because `cec_meq_100g` was missing from the `expected`
+values. Either add `cec_meq_100g` back to the dictionary or remove this column
+from the dataset to fix this error.

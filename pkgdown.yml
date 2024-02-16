@@ -2,11 +2,16 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  build-report: build-report.html
-  docx: docx.html
-  get-started: get-started.html
-  html: html.html
-last_built: 2024-02-02T23:24Z
+  customize: customize.html
+  data: data.html
+  examples: examples.html
+  markdown: markdown.html
+  project: project.html
+  quarto: quarto.html
+  render-example: render-example.html
+  render: render.html
+  troubleshoot: troubleshoot.html
+last_built: 2024-02-16T20:33Z
 urls:
   reference: https://wa-department-of-agriculture.github.io/soils/reference
   article: https://wa-department-of-agriculture.github.io/soils/articles

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="index.html">soils</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,18 +19,35 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
-  <a class="nav-link" href="reference/index.html">Reference</a>
+  <a class="nav-link" href="index.html" aria-label="Home">
+    <span class="fa fa-home"></span>
+     
+  </a>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/get-started.html">Get Started</a>
-    <a class="dropdown-item" href="articles/build-report.html">Build a Report</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Example Reports</h6>
-    <a class="dropdown-item" href="articles/docx.html">MS Word Reports</a>
-    <a class="dropdown-item" href="articles/html.html">HTML Reports</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-primers">Primers</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-primers">
+    <a class="dropdown-item" href="articles/quarto.html">Quarto</a>
+    <a class="dropdown-item" href="articles/markdown.html">Markdown</a>
   </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-tutorials">Tutorials</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-tutorials">
+    <a class="dropdown-item" href="articles/project.html">Create a {soils} project</a>
+    <a class="dropdown-item" href="articles/render-example.html">Render the example reports</a>
+    <a class="dropdown-item" href="articles/data.html">Import your data</a>
+    <a class="dropdown-item" href="articles/customize.html">Customize &amp; write</a>
+    <a class="dropdown-item" href="articles/render.html">Render your reports</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="articles/troubleshoot.html">Troubleshoot</a>
+  </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="articles/examples.html">Examples</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Functions</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -55,11 +72,11 @@
       <h2>Authors</h2>
       
       <ul class="list-unstyled"><li>
-          <p><strong>Jadey Ryan</strong>. Maintainer, author. 
+          <p><strong>Jadey N Ryan</strong>. Maintainer, author. <a href="https://orcid.org/0009-0004-5998-4697" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>
           </p>
         </li>
         <li>
-          <p><strong>Molly McIlquham</strong>. Author. 
+          <p><strong>Molly McIlquham</strong>. Author. <a href="https://orcid.org/0000-0002-0152-969X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>
           </p>
         </li>
         <li>
@@ -67,19 +84,19 @@
           </p>
         </li>
         <li>
-          <p><strong>Leslie Michel</strong>. Author. 
+          <p><strong>Leslie M Michel</strong>. Author. 
           </p>
         </li>
         <li>
-          <p><strong>Teal Potter</strong>. Author. 
+          <p><strong>Teal S Potter</strong>. Author. <a href="https://orcid.org/0000-0002-4884-2720" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>
           </p>
         </li>
         <li>
-          <p><strong>Deirdre Griffin LaHue</strong>. Author. 
+          <p><strong>Deirdre Griffin LaHue</strong>. Author. <a href="https://orcid.org/0000-0001-5711-797X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>
           </p>
         </li>
         <li>
-          <p><strong>Dani L Gelardi</strong>. Author. 
+          <p><strong>Dani L Gelardi</strong>. Author. <a href="https://orcid.org/0000-0002-5015-8119" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>
           </p>
         </li>
         <li>
@@ -92,12 +109,12 @@
       <h2 id="citation">Citation</h2>
       <p><small class="dont-index">Source: <a href="https://github.com/WA-Department-of-Agriculture/soils/blob/HEAD/inst/CITATION" class="external-link"><code>inst/CITATION</code></a></small></p>
 
-      <p>Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL. 2023. Visualize and Report Soil Health Survey Data with {soils}. Washington Soil Health Initiative. https://github.com/WA-Department-of-Agriculture/soils</p>
+      <p>Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue D, Gelardi DL. 2024. Visualize and Report Soil Health Survey Data with {soils}. Washington Soil Health Initiative. https://github.com/WA-Department-of-Agriculture/soils</p>
       <pre>@Article{,
   title = {Visualize and Report Soil Health Survey Data with {soils}},
   author = {Jadey N Ryan and Molly McIlquham and Kwabena A Sarpong and Leslie Michel and Teal Potter and Deirdre Griffin LaHue and Dani L Gelardi and Washington State Department of Agriculture},
   journal = {Washington Soil Health Initiative},
-  year = {2023},
+  year = {2024},
   url = {https://github.com/WA-Department-of-Agriculture/soils},
 }</pre>
     </div>
@@ -106,7 +123,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Jadey Ryan, Molly McIlquham, Kwabena A Sarpong, Leslie Michel, Teal Potter, Deirdre Griffin LaHue, Dani L Gelardi, Washington State Department of Agriculture.</p>
+  <p></p><p>Developed by Jadey N Ryan, Molly McIlquham, Kwabena A Sarpong, Leslie M Michel, Teal S Potter, Deirdre Griffin LaHue, Dani L Gelardi, Washington State Department of Agriculture.</p>
 </div>
 
 <div class="pkgdown-footer-right">

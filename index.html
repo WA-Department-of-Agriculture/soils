@@ -42,7 +42,7 @@
     
     <a class="navbar-brand me-2" href="index.html">soils</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,19 +51,36 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="reference/index.html">Reference</a>
+<li class="active nav-item">
+  <a class="nav-link" href="index.html" aria-label="Home">
+    <span class="fa fa-home"></span>
+     
+  </a>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/get-started.html">Get Started</a>
-    <a class="dropdown-item" href="articles/build-report.html">Build a Report</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Example Reports</h6>
-    <a class="dropdown-item" href="articles/docx.html">MS Word Reports</a>
-    <a class="dropdown-item" href="articles/html.html">HTML Reports</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-primers">Primers</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-primers">
+    <a class="dropdown-item" href="articles/quarto.html">Quarto</a>
+    <a class="dropdown-item" href="articles/markdown.html">Markdown</a>
   </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-tutorials">Tutorials</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-tutorials">
+    <a class="dropdown-item" href="articles/project.html">Create a {soils} project</a>
+    <a class="dropdown-item" href="articles/render-example.html">Render the example reports</a>
+    <a class="dropdown-item" href="articles/data.html">Import your data</a>
+    <a class="dropdown-item" href="articles/customize.html">Customize &amp; write</a>
+    <a class="dropdown-item" href="articles/render.html">Render your reports</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="articles/troubleshoot.html">Troubleshoot</a>
+  </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="articles/examples.html">Examples</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Functions</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -94,112 +111,90 @@
 
 
 <!-- badges: end -->
-<style>
-.iframe {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  height: 100%;
-}
-</style>
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h2>
-<p>As part of the <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">Washington Soil Health Initiative</a>, the <a href="https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health" class="external-link">Washington State Department of Agriculture</a> and <a href="https://soilhealth.wsu.edu/" class="external-link">Washington State University</a> developed {soils} for soil health data visualization and reporting.</p>
-<p>{soils} gives you a RStudio project template with everything you need to generate custom HTML and Microsoft Word reports for each participant in your soil health survey.</p>
 </div>
+<div class="section level1">
+<h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h1>
+<p>Introducing {soils}: an R package for all your soil health data visualization and reporting needs. {soils} provides an RStudio project template to generate customized, interactive soil health reports. Democratize your data by giving back to the farmers and land managers who contributed soil samples to your survey project. Use {soils} to empower each participant to explore and understand their data.</p>
+<p>The <a href="https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health" class="external-link">Washington State Department of Agriculture</a> and <a href="https://soilhealth.wsu.edu/" class="external-link">Washington State University</a> produced {soils} as part of the <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">Washington Soil Health Initiative</a>.</p>
+</div>
+<div class="section level1">
+<h1 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
+</h1>
+<p>The report template uses <a href="https://quarto.org/docs/get-started/" class="external-link">Quarto</a>, which is the <a href="https://quarto.org/docs/faq/rmarkdown.html" class="external-link">next-generation</a> version of <a href="https://quarto.org/docs/faq/rmarkdown.html" class="external-link">R Markdown</a>.</p>
+<p>We assume you’re using <a href="https://dailies.rstudio.com/version/2022.07.2+576.pro12/" class="external-link">RStudio v2022.07</a> or later for editing and previewing Quarto documents. We <strong>strongly recommend</strong> you use the <a href="https://posit.co/download/rstudio-desktop/" class="external-link">latest release of RStudio</a> for support of all Quarto features.</p>
+<p>To render Microsoft Word (MS Word) documents, Microsoft Word must be installed and activated.</p>
+<p><strong>If you’re new to Quarto and Markdown formatting syntax, first take a look at the Primers on <a href="https://wa-department-of-agriculture.github.io/soils/articles/quarto.html">Quarto</a> and <a href="https://wa-department-of-agriculture.github.io/soils/articles/markdown.html">Markdown</a> to learn how they’re used in {soils} and get familiar with their features.</strong></p>
+</div>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
+<p>Install the development version of {soils} from our <a href="https://wa-department-of-agriculture.r-universe.dev/" class="external-link">r-universe</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
+<span>  <span class="st">"soils"</span>,</span>
+<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://wa-department-of-agriculture.r-universe.dev"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Or install directly from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"WA-Department-of-Agriculture/soils"</span><span class="op">)</span></span></code></pre></div>
+<p>Load the example datasets and functions with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level1">
+<h1 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h1>
+<p>{soils} was developed to work ‘out of the box’ so you can immediately install and render an example report. However, this means it will require customization and content editing to fit your project.</p>
+<p>Our recommended workflow is to <strong>1)</strong> create a new {soils} project, <strong>2)</strong> try to render the example reports to make sure everything works on your system, and <strong>3)</strong> customize the template files to use your own data, content, and styling.</p>
+<p>We provide a series of <a href="https://wa-department-of-agriculture.github.io/soils/articles/index.html">Primers and Tutorials</a> to prepare and guide you through this workflow. See below for short demo videos and links to the relevant tutorials.</p>
 <div class="section level2">
-<h2 id="quick-video-demos">Quick Video Demos<a class="anchor" aria-label="anchor" href="#quick-video-demos"></a>
+<h2 id="id_1-create-a-new-soils-project">1. Create a new {soils} project<a class="anchor" aria-label="anchor" href="#id_1-create-a-new-soils-project"></a>
 </h2>
-<div class="section level3">
-<h3 id="create-a-soils-project">Create a {soils} Project<a class="anchor" aria-label="anchor" href="#create-a-soils-project"></a>
-</h3>
+<p>Follow along in the <a href="https://wa-department-of-agriculture.github.io/soils/articles/project.html"><strong>Create a {soils} project</strong></a> tutorial.</p>
 <iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
 </iframe>
 </div>
+<div class="section level2">
+<h2 id="id_2-render-the-example-reports">2. Render the example reports<a class="anchor" aria-label="anchor" href="#id_2-render-the-example-reports"></a>
+</h2>
+<p>Follow along in the <a href="https://wa-department-of-agriculture.github.io/soils/articles/render-example.html"><strong>Render the example reports</strong></a> tutorial.</p>
+<p>See the <a href="https://wa-department-of-agriculture.github.io/soils/articles/examples.html"><strong>rendered example reports</strong></a>.</p>
 <div class="section level3">
-<h3 id="render-a-ms-word-report">Render a MS Word Report<a class="anchor" aria-label="anchor" href="#render-a-ms-word-report"></a>
-</h3>
-<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
-</iframe>
-</div>
-<div class="section level3">
-<h3 id="render-a-html-report">Render a HTML Report<a class="anchor" aria-label="anchor" href="#render-a-html-report"></a>
+<h3 id="html">HTML<a class="anchor" aria-label="anchor" href="#html"></a>
 </h3>
 <iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
 </iframe>
 </div>
 <div class="section level3">
-<h3 id="render-all-reports-at-once">Render all Reports at Once<a class="anchor" aria-label="anchor" href="#render-all-reports-at-once"></a>
+<h3 id="ms-word">MS Word<a class="anchor" aria-label="anchor" href="#ms-word"></a>
 </h3>
-<iframe src="https://drive.google.com/file/d/1XGfplRUrLb0jiWIElQejHLZ9ig2WfEal/preview" width="640" height="360" allow="autoplay;fullscreen;">
+<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
 </iframe>
 </div>
 </div>
 <div class="section level2">
-<h2 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
+<h2 id="id_3-create-reports-with-your-own-data">3. Create reports with your own data<a class="anchor" aria-label="anchor" href="#id_3-create-reports-with-your-own-data"></a>
 </h2>
-<p>The report template uses <a href="https://quarto.org/docs/get-started/" class="external-link">Quarto</a>, which is the next-generation version of <a href="https://quarto.org/docs/faq/rmarkdown.html" class="external-link">R Markdown</a>.</p>
-<p>We assume you’re working in RStudio Desktop with a version of at least <a href="https://dailies.rstudio.com/version/2022.07.2+576.pro12/" class="external-link">v2022.07</a> for editing and previewing Quarto documents. Though it is strongly recommended that you use the <a href="https://posit.co/download/rstudio-desktop/" class="external-link">latest release</a> of RStudio.</p>
-<p>To render <code>.docx</code> files, you must have Microsoft Word installed.</p>
-</div>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>Install the development version of {soils} from our <a href="https://wa-department-of-agriculture.r-universe.dev/" class="external-link">r-universe</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
-<span>  <span class="st">"soils"</span>,</span>
-<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"https://wa-department-of-agriculture.r-universe.dev"</span>,</span>
-<span>    <span class="st">"https://cloud.r-project.org"</span>,</span>
-<span>    <span class="st">"https://ftp.osuosl.org/pub/cran/"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Load all the example data sets and functions</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="creating-a-new-soils-project">Creating a New {soils} Project<a class="anchor" aria-label="anchor" href="#creating-a-new-soils-project"></a>
-</h2>
-<p>Use the RStudio IDE to create a new {soils} RStudio project.</p>
-<p><code>Open RStudio</code> &gt; <code>File</code> &gt; <code>New Project</code> &gt; <code>New Directory</code> &gt; <strong><code>Quarto Soil Health Report</code></strong></p>
-<p><img src="reference/figures/project_wizard-1.png" data-fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."></p>
-<p>Enter your desired directory name, browse to where you want the project to live, and check whether you want the project to open in a new RStudio session.</p>
-<p><img src="reference/figures/project_wizard-2.png" data-fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session."></p>
-<p>A new RStudio project will open with the template Quarto report and a script to render all reports. Other documents and resources will appear in the files pane.</p>
-<p><img src="reference/figures/new_project.png" data-fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called producer_report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data."></p>
-<p><strong>Read the article <a href="https://wa-department-of-agriculture.github.io/soils/articles/get-started.html">Get Started</a> to learn what goodies are bundled within {soils}.</strong></p>
-</div>
-<div class="section level2">
-<h2 id="example-soil-health-reports">Example Soil Health Reports<a class="anchor" aria-label="anchor" href="#example-soil-health-reports"></a>
-</h2>
-<p>{soils} helps you generate custom static <code>.docx</code> reports and interactive <code>.html</code> reports for every producer or land owner in your soil health survey project.</p>
-<p>See demo reports rendered directly from this template project:</p>
-<div class="section level3">
-<h3 id="ms-word-example">
-<a href="https://wa-department-of-agriculture.github.io/soils/articles/docx.html">MS Word Example</a><a class="anchor" aria-label="anchor" href="#ms-word-example"></a>
-</h3>
-<p><a href="https://wa-department-of-agriculture.github.io/soils/articles/docx.html"><img src="reference/figures/report_docx.png" data-fig-alt="Screenshot of example .docx report" height="500" alt="First page of example MS Word report"></a></p>
-</div>
-<div class="section level3">
-<h3 id="html-example">
-<a href="https://wa-department-of-agriculture.github.io/soils/articles/html.html">HTML Example</a><a class="anchor" aria-label="anchor" href="#html-example"></a>
-</h3>
-<p><a href="https://wa-department-of-agriculture.github.io/soils/articles/html.html"><img src="reference/figures/report_html.png" data-fig-alt="Screenshot of .html report" alt="Beginning of an example HTML report"></a></p>
-<p><strong>Read the article <a href="https://wa-department-of-agriculture.github.io/soils/articles/build-report.html">Build a Report</a> for a detailed walk-through of the project and workflow for adapting this template for your own project.</strong></p>
+<p>To use your own data and customize the reports for your project, follow along with these tutorials:</p>
+<ul>
+<li><p><a href="https://wa-department-of-agriculture.github.io/soils/articles/data.html"><strong>Import data</strong></a></p></li>
+<li><p><a href="https://wa-department-of-agriculture.github.io/soils/articles/customize.html"><strong>Customize &amp; write</strong></a></p></li>
+<li><p><a href="https://wa-department-of-agriculture.github.io/soils/articles/render.html"><strong>Render reports</strong></a></p></li>
+</ul>
+<p>As you edit the content, errors are bound to occur. Read <a href="https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html"><strong>tips and workflows for troubleshooting</strong></a></p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="acknowledgement-and-citation">Acknowledgement and Citation<a class="anchor" aria-label="anchor" href="#acknowledgement-and-citation"></a>
-</h2>
+<div class="section level1">
+<h1 id="acknowledgement-and-citation">Acknowledgement and citation<a class="anchor" aria-label="anchor" href="#acknowledgement-and-citation"></a>
+</h1>
 <p>The below acknowledgement is automatically embedded in each report:</p>
 <p>The Soil Health Report Template used to generate this report was developed by Washington State Department of Agriculture and Washington State University (WSU) as part of the Washington Soil Health Initiative. Text and figures were adapted from <a href="https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards" title="WSU Extension publication" class="external-link">WSU Extension publication #FS378E Soil Health in Washington Vineyards</a>.</p>
 <p>To cite {soils} in publications, please use:</p>
 <blockquote>
-<p>Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D, Gelardi DL. 2023. Visualize and Report Soil Health Survey Data with {soils}. Washington Soil Health Initiative. <a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link uri">https://github.com/WA-Department-of-Agriculture/soils</a></p>
+<p>Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue D, Gelardi DL. 2024. Visualize and Report Soil Health Survey Data with {soils}. Washington Soil Health Initiative. <a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link uri">https://github.com/WA-Department-of-Agriculture/soils</a></p>
 </blockquote>
-</div>
 <div class="section level2">
 <h2 id="credits">Credits<a class="anchor" aria-label="anchor" href="#credits"></a>
 </h2>
@@ -212,6 +207,7 @@
 </ul>
 </div>
 </div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -239,13 +235,13 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Jadey Ryan <br><small class="roles"> Maintainer, author </small>  </li>
-<li>Molly McIlquham <br><small class="roles"> Author </small>  </li>
+<li>Jadey N Ryan <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0009-0004-5998-4697" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Molly McIlquham <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0152-969X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Kwabena A Sarpong <br><small class="roles"> Author </small>  </li>
-<li>Leslie Michel <br><small class="roles"> Author </small>  </li>
-<li>Teal Potter <br><small class="roles"> Author </small>  </li>
-<li>Deirdre Griffin LaHue <br><small class="roles"> Author </small>  </li>
-<li>Dani L Gelardi <br><small class="roles"> Author </small>  </li>
+<li>Leslie M Michel <br><small class="roles"> Author </small>  </li>
+<li>Teal S Potter <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-4884-2720" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Deirdre Griffin LaHue <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5711-797X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Dani L Gelardi <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5015-8119" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Washington State Department of Agriculture <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
 </div>
@@ -267,7 +263,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Jadey Ryan, Molly McIlquham, Kwabena A Sarpong, Leslie Michel, Teal Potter, Deirdre Griffin LaHue, Dani L Gelardi, Washington State Department of Agriculture.</p>
+<p>Developed by Jadey N Ryan, Molly McIlquham, Kwabena A Sarpong, Leslie M Michel, Teal S Potter, Deirdre Griffin LaHue, Dani L Gelardi, Washington State Department of Agriculture.</p>
 </div>
 
 <div class="pkgdown-footer-right">

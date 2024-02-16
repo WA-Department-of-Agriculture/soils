@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="soils">
-<title>Create a {soils} project • soils</title>
+<title>Render the example reports • soils</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -20,7 +20,7 @@
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Create a {soils} project">
+<meta property="og:title" content="Render the example reports">
 <meta property="og:description" content="soils">
 <meta property="og:image" content="https://wa-department-of-agriculture.github.io/soils/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -100,87 +100,44 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Create a {soils} project</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Render the example reports</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/WA-Department-of-Agriculture/soils/blob/HEAD/vignettes/project.Rmd" class="external-link"><code>vignettes/project.Rmd</code></a></small>
-      <div class="d-none name"><code>project.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/WA-Department-of-Agriculture/soils/blob/HEAD/vignettes/render-example.Rmd" class="external-link"><code>vignettes/render-example.Rmd</code></a></small>
+      <div class="d-none name"><code>render-example.Rmd</code></div>
     </div>
 
     
     
-<p>There are two ways to create a {soils} project in RStudio. The below
-examples create a project titled “soils-demo”. Replace this name with
-what you’d like the project and directory to be named.</p>
-<div class="section level2">
-<h2 id="option-1--rstudio-project-wizard">Option 1. RStudio project wizard<a class="anchor" aria-label="anchor" href="#option-1--rstudio-project-wizard"></a>
-</h2>
-<p>Using the RStudio IDE is the easiest and recommended way to create a
-new {soils} project.</p>
-<p><code>Open RStudio</code> &gt; <code>File</code> &gt;
-<code>New Project</code> &gt; <code>New Directory</code> &gt;
-<strong><code>Quarto Soil Health Report</code></strong></p>
-<p><img src="../reference/figures/project_wizard-1.png" style="width:70.0%" fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."></p>
-<p>Enter your desired directory name, browse to where you want the
-project to live, and check whether you want the project to open in a new
-RStudio session.</p>
-<p><img src="../reference/figures/project_wizard-2.png" style="width:70.0%" fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session."></p>
-<p>The new RStudio project will open with the template Quarto report
-(<code>01_producer-report.qmd</code>) and the R script
-(<code>render-reports.R</code>) to render all reports at once. The rest
-of the project files will appear in the files pane.</p>
-<p><img src="../reference/figures/new_project.png" fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called 01_producer-report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data."></p>
+<p>Before modifying the data, report content, or style, render the
+example report with the anonymized built-in data to ensure your system
+is set up correctly.</p>
+<p>Open <code>01_producer-report.qmd</code>. Click the
+<code>Render</code> button to generate an HTML report or the
+<code>down arrow</code> (▼) to open a drop down menu to choose between
+HTML or MS Word. Try rendering the example report in both formats.</p>
+<p>If rendering to HTML, you can check the <code>Render on Save</code>
+option to automatically update the preview whenever you save the
+document.</p>
+<p><img src="../reference/figures/render.png" style="width:80.0%" fig-alt="RStudio Quarto Render button with a dropdown for HTML and MS Word. Render on Save option is checked."></p>
+<p>If the rendered report doesn’t immediately open, you can find it in
+your project directory with the same name as the main Quarto
+<code>.qmd</code> file (<code>01_producer-report.qmd</code>). Newly
+rendered files can usually be found at the bottom of the files pane.</p>
+<p><img src="../reference/figures/rendered_report_location.png" style="width:50.0%" fig-alt="RStudio screenshot of files pane with boxes around the project directory path, the template 01_producer-report.qmd file, and the rendered report 01_producer-report.html"></p>
+<p>It should take no more than one minute to render a single example
+report.</p>
 <details closed><summary>
-Demo video
-</summary><iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
+Demo videos
+</summary><p><strong>HTML</strong></p>
+<iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
 </iframe>
-</details>
-</div>
-<div class="section level2">
-<h2 id="option-2--rstudio-console">Option 2. RStudio console<a class="anchor" aria-label="anchor" href="#option-2--rstudio-console"></a>
-</h2>
-<p>Run the below code in your console to create a {soils} project called
-“soils-demo” in your default working directory.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">soils</span><span class="fu">::</span><span class="fu"><a href="../reference/create_soils.html">create_soils</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"soils-demo"</span><span class="op">)</span></span></code></pre></div>
-<p>The following will print in your console. Note the location of your
-new project.</p>
-<p><img src="../reference/figures/create_soils.png" fig-alt="Output from running soils::create_soils(path = 'soils-demo') in the RStudio console"></p>
-</div>
-<div class="section level2">
-<h2 id="project-structure">Project structure<a class="anchor" aria-label="anchor" href="#project-structure"></a>
-</h2>
-<p>Both options will create and launch a new RStudio project with the
-below files.</p>
-<details closed><summary>
-Project directory and files
-</summary><pre><code>├── 01_producer-report.qmd
-├── 02_section-template.qmd
-├── 03_project-summary.qmd
-├── 04_soil-health-background.qmd
-├── 05_physical-measurements.qmd
-├── 06_biological-measurements.qmd
-├── 07_chemical-measurements.qmd
-├── 08_looking-forward.qmd
-├── 09_acknowledgement.qmd
-├── data
-│   ├── data-dictionary.csv
-│   └── washi-data.csv
-├── images
-│   ├── biological.png
-│   ├── chemical.png
-│   ├── logo.png
-│   └── physical.png
-├── R
-│   └── render-reports.R
-├── resources
-│   ├── styles.css
-│   └── word-template.docx
-└── soils-demo.Rproj</code></pre>
-</details>
-</div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
-    </nav></aside>
+<p><strong>MS Word</strong></p>
+<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
+</iframe>
+</details><p><strong>See the <a href="https://wa-department-of-agriculture.github.io/soils/articles/examples.html">rendered
+example reports</a>.</strong></p>
+  </main>
 </div>
 
 

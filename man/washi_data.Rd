@@ -14,7 +14,7 @@
 \item{longitude, latitude}{Truncated coordinates}
 \item{texture}{Measured soil texture}
 \item{other columns}{Column name includes measurement and units;
-value is the measurement results}
+value is the measurement result}
 ...
 }
 }

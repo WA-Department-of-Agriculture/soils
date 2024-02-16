@@ -1,0 +1,251 @@
+---
+title: "Troubleshoot"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Troubleshoot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Troubleshooting Quarto documents can be more challenging than debugging R
+scripts. The Quarto environment is different than the R interactive environment,
+making it more difficult to debug errors. Additionally, error messages are
+generally more informative in the interactive environment.
+
+Errors can occur from:
+
+-   R code issues
+
+-   Quarto document issues
+
+-   Environment issues
+
+# What to do when the report fails to render?
+
+## R code issues
+
+1.  Note where the error occurred and what the message was.
+
+2.  Restart R (`Ctrl` + `Shift` + `F10`).
+
+3.  "Run all chunks" from the Code menu, under the [Run toolbar
+    button](https://docs.posit.co/ide/user/ide/guide/code/execution.html), or
+    with `Ctrl` + `Alt` + `R`. If the issue is in the R code, this should
+    recreate the problem so you can interactively debug.
+
+4.  Once the error is fixed and the chunk runs successfully, try rendering the
+    report again.
+
+To demonstrate, add a typo in the data file name (`washi-dataa.csv` instead of
+`washi-data.csv`) and try rendering.
+
+1.  The Background Jobs pane of RStudio opened with an error message telling us
+    the location and sequence of calls that led to the function that errored.
+
+    Now we know rendering failed at lines 57-66 in the `load-data` chunk because
+    of the `read.csv()` function.
+
+``` r
+processing file: 01_producer-report.qmd
+1/61                                    
+2/61 [setup]                            
+3/61                                    
+4/61 [load-data]                        
+
+Quitting from lines 57-66 [load-data] (01_producer-report.qmd)
+Error in `file()`:
+! cannot open the connection
+Backtrace:
+ 1. utils::read.csv(...)
+ 2. utils::read.table(...)
+ 3. base::file(file, "rt")
+Execution halted
+```
+
+2.  Clear the environment by restarting the R session.
+
+3.  Run all the chunks. It stops at `load-data` with a more specific error
+    message informing us that `washi-dataa.csv` doesn't exist in the `data`
+    folder.
+
+    Fix the typo by removing the extra `a`.
+
+``` r
+> # Load lab results
+> data <- read.csv(
++   here::here("data/washi-dataa.csv"),
++   check.names = FALSE,
++   encoding = "UTF-8"
++ )
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'C:/Users/jryan/Documents/R/projects/soils-demo/data/washi-dataa.csv': 
+No such file or directory
+```
+
+4.  Rerun the chunk. If successful, try rendering the report.
+
+### "Run All Chunks Below"
+
+It is generally [advisable](https://r4ds.hadley.nz/quarto.html#troubleshooting)
+to work interactively and "Run All Chunks Below" from the Run toolbar button
+when working in a Quarto document. However, the
+`create-measurement-group-sections` chunk will not properly execute when
+interactively run because of the `envir` argument of `knitr::knit_child()`.
+
+``` r
+> # Chunk 26: create-measurement-group-sections
+> #| output: asis
+> sections <- purrr::map_chr(measurement_groups, \(group) {
++   knitr::knit_child(
++     input = "02_section-template.qmd",
++     envir = environment(),
++     quiet = TRUE
++   )
++ })
+Error in `purrr::map_chr()`:
+ℹ In index: 1.
+Caused by error in `setwd()`:
+! character argument expected
+```
+
+To successfully "Run All Chunks Below", comment this chunk out with `Ctrl` +
+`Shift` + `C`. Don't forget to uncomment it when done troubleshooting!
+
+## Quarto document issues
+
+Quarto document issues tend to be in the YAML or chunk options. The
+troubleshooting steps are generally the same as for R code issues.
+
+1.  Note where the error occurred and what the message was.
+
+2.  Restart R (`Ctrl` + `Shift` + `F10`).
+
+3.  Try to address the error.
+
+4.  Render again.
+
+To demonstrate, add an extra space before `year:`.
+
+``` yaml
+params:
+  producer_id: WUY05
+   year: 2023
+```
+
+Rendering fails and we get the following error message telling us we have bad
+indentation at line 9, column 8.
+
+``` yaml
+ERROR: YAMLError: bad indentation of a mapping entry at line 9, column 8:
+       year: 2023
+           ^
+```
+
+To fix this, delete the extra space and make sure the entries under `params:`
+are aligned.
+
+## Environment issues
+
+Differences between the Quarto environment and the interactive R environment can
+cause issues. The most common difference is the working directory. Review the
+[File Paths section in the Quarto
+primer](https://wa-department-of-agriculture.github.io/soils/articles/quarto.html#file-paths).
+
+Check the working directory is what you expect by including `getwd()` in the
+`setup` chunk. Running the chunk interactively prints
+`"C:/Users/jryan/Documents/R/projects/soils-demo"` in the console, while
+rendering the report prints
+`"[1] "C:/Users/jryan/Documents/R/projects/soils-demo/template"` in the report.
+
+Sometimes the report won't error, but won't look as expected. For example, if we
+move all `.qmd` files into a subfolder called `template`, then our report will
+not have access to the `images` or `resources` subdirectories in the main
+project folder.
+
+When rendering to HTML, the Background Jobs tab will print the below warnings,
+and the report will not have the fonts and colors specified in `styles.css` and
+the images will be missing.
+
+```         
+[WARNING] Could not fetch resource resources/styles.css
+[WARNING] Could not fetch resource images/logo.png
+[WARNING] Could not fetch resource images/physical.png
+[WARNING] Could not fetch resource images/biological.png
+[WARNING] Could not fetch resource images/chemical.png
+Output created: 01_producer-report.html
+```
+
+When rendering to MS Word, the report will fail because it cannot find the
+`word-template.docx`.
+
+```         
+[WARNING] Could not fetch resource images/logo.png: replacing image with description
+[WARNING] Could not fetch resource images/physical.png: replacing image with description
+[WARNING] Could not fetch resource images/biological.png: replacing image with description
+[WARNING] Could not fetch resource images/chemical.png: replacing image with description
+File resources/word-template.docx not found in resource path
+```
+
+The `create-measurement-group-sections` chunk shown in ["Run All Chunks Below"]
+demonstrates a more complicated environment issue. The chunk runs fine when
+rendering the report but errors when running interactively.
+
+# Common errors
+
+## Invalid parameter values
+
+The parameter values set in the YAML header must exist in your data. Fix this
+error by either changing `params` in the YAML or by adding the sample results
+for that `producer_id` and `year` to your data.
+
+Rendering the report with an invalid `producer_id` and `year` combination
+results in the following error message.
+
+```         
+Quitting from lines 206-249 [get-producer-info] (01_producer-report.qmd)
+Error:
+ℹ Update `params` in YAML to a valid `producer_id` and `year` combo.
+✖ `WUY05` and `2023` must exist in your data.
+Backtrace:
+Execution halted
+```
+
+## Duplicate chunk labels
+
+One common error is duplicated chunk labels, which often occur when copying and
+pasting code chunks. To fix this issue, change one of the duplicated labels.
+
+If there are two chunks labeled `setup`, rendering the report will fail with
+this error.
+
+```         
+processing file: 01_producer-report.qmd
+Error in parse_block(g[-1], g[1], params.src, markdown_mode) : 
+  Duplicate chunk label 'setup', which has been used for the chunk:
+```
+
+# Get help
+
+While not Quarto specific, review Shannon Pileggi's [Debugging in R
+workshop](https://www.youtube.com/watch?v=179x00KGd9M) to learn more strategies
+for code troubleshooting.
+
+Copy and paste the error message into Google or another search engine.
+
+Look for a similar [issue in the {soils} GitHub
+repo](https://github.com/WA-Department-of-Agriculture/soils/issues?q=).
+
+If there is no similar issue, or you have a suggestion, please open a [new
+issue](https://github.com/WA-Department-of-Agriculture/soils/issues/new/choose)
+with a detailed description of the issue or suggestion. This is preferred so
+others may benefit from the public documentation. Otherwise, email
+[jryan\@agr.wa.gov](mailto:jryan@agr.wa.gov).

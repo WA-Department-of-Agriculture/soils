@@ -1,3 +1,9 @@
+```{html}
+<!-- This file is called in the `create-measurement-group-sections` chunk of
+`01_producer-report.qmd` with `knitr::knit_child()` to embed results in each
+measurement group as a separate section. -->
+```
+
 ```{r}
 # Get measurement group label for section header
 header <- dictionary |>
@@ -24,8 +30,9 @@ if (group == "physical") {
 }
 ```
 
-```{r, results='asis'}
-# Include pagebreak after texture triangle
+```{r}
+#| output: asis
+# Include page break after texture triangle
 if (group == "physical") {
   cat("\\newpage")
 }

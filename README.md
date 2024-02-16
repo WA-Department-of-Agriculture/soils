@@ -17,52 +17,47 @@ badge](https://wa-department-of-agriculture.r-universe.dev/badges/soils)](https:
 
 <!-- badges: end -->
 
-## Overview
+# Overview
 
-As part of the [Washington Soil Health
-Initiative](https://washingtonsoilhealthinitiative.com/), the
-[Washington State Department of
+Introducing {soils}: an R package for all your soil health data
+visualization and reporting needs. {soils} provides an RStudio project
+template to generate customized, interactive soil health reports.
+Democratize your data by giving back to the farmers and land managers
+who contributed soil samples to your survey project. Use {soils} to
+empower each participant to explore and understand their data.
+
+The [Washington State Department of
 Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health)
-and [Washington State University](https://soilhealth.wsu.edu/) developed
-{soils} for soil health data visualization and reporting.
+and [Washington State University](https://soilhealth.wsu.edu/) produced
+{soils} as part of the [Washington Soil Health
+Initiative](https://washingtonsoilhealthinitiative.com/).
 
-{soils} gives you a RStudio project template with everything you need to
-generate custom HTML and Microsoft Word reports for each participant in
-your soil health survey.
-
-## Quick Video Demos
-
-### Create a {soils} Project
-
-[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/7e8c650c-362c-4f81-9e24-3fb4b21f9d35)
-
-### Render a MS Word Report
-
-[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/b769f797-a390-4834-ac40-ab65cea7ef5f)
-
-### Render a HTML Report
-
-[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/13d33152-b509-4651-a48d-e490be3c9464)
-
-### Programmatically Render Multiple Reports at Once
-
-[render_reports.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/fdb93fed-6c83-40fa-beac-1f3e352ce472)
-
-## Requirements
+# Requirements
 
 The report template uses [Quarto](https://quarto.org/docs/get-started/),
-which is the next-generation version of [R
-Markdown](https://quarto.org/docs/faq/rmarkdown.html).
+which is the
+[next-generation](https://quarto.org/docs/faq/rmarkdown.html) version of
+[R Markdown](https://quarto.org/docs/faq/rmarkdown.html).
 
-We assume you’re working in RStudio Desktop with a version of at least
-[v2022.07](https://dailies.rstudio.com/version/2022.07.2+576.pro12/) for
-editing and previewing Quarto documents. Though it is strongly
-recommended that you use the [latest
-release](https://posit.co/download/rstudio-desktop/) of RStudio.
+We assume you’re using [RStudio
+v2022.07](https://dailies.rstudio.com/version/2022.07.2+576.pro12/) or
+later for editing and previewing Quarto documents. We **strongly
+recommend** you use the [latest release of
+RStudio](https://posit.co/download/rstudio-desktop/) for support of all
+Quarto features.
 
-To render `.docx` files, you must have Microsoft Word installed.
+To render Microsoft Word (MS Word) documents, you must have MS Word
+installed and activated.
 
-## Installation
+**If you’re new to Quarto and Markdown formatting syntax, first take a
+look at the Primers on
+[Quarto](https://wa-department-of-agriculture.github.io/soils/articles/quarto.html)
+and
+[Markdown](https://wa-department-of-agriculture.github.io/soils/articles/markdown.html)
+to learn how they’re used in {soils} and get familiar with their
+features.**
+
+# Installation
 
 Install the development version of {soils} from our
 [r-universe](https://wa-department-of-agriculture.r-universe.dev/) with:
@@ -70,73 +65,83 @@ Install the development version of {soils} from our
 ``` r
 install.packages(
   "soils",
-  repos = c(
-    "https://wa-department-of-agriculture.r-universe.dev",
-    "https://cloud.r-project.org",
-    "https://ftp.osuosl.org/pub/cran/"
-  )
+  repos = c("https://wa-department-of-agriculture.r-universe.dev")
 )
 ```
 
+Or install directly from GitHub:
+
 ``` r
-# Load all the example data sets and functions
+# install.packages("remotes")
+remotes::install_github("WA-Department-of-Agriculture/soils")
+```
+
+Load the example datasets and functions with:
+
+``` r
 library(soils)
 ```
 
-## Creating a New {soils} Project
+# Usage
 
-Use the RStudio IDE to create a new {soils} RStudio project.
+{soils} was developed to work ‘out of the box’ so you can immediately
+install and render an example report. However, you will need to
+customize and edit content to fit your project.
 
-`Open RStudio` \> `File` \> `New Project` \> `New Directory` \>
-**`Quarto Soil Health Report`**
+Our recommended workflow is to **1)** create a new {soils} project,
+**2)** try to render the example reports to make sure everything works
+on your system, and **3)** customize the template files to use your own
+data, content, and styling.
 
-<img src="man/figures/project_wizard-1.png"
-data-fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected." />
+We provide a series of [Primers and
+Tutorials](https://wa-department-of-agriculture.github.io/soils/articles/index.html)
+to prepare and guide you through this workflow. See below for short demo
+videos and links to the relevant tutorials.
 
-Enter your desired directory name, browse to where you want the project
-to live, and check whether you want the project to open in a new RStudio
-session.
+## 1. Create a new {soils} project
 
-<img src="man/figures/project_wizard-2.png"
-data-fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session." />
+Follow along in the [**Create a {soils}
+project**](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
+tutorial.
 
-A new RStudio project will open with the template Quarto report and a
-script to render all reports. Other documents and resources will appear
-in the files pane.
+[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/7e8c650c-362c-4f81-9e24-3fb4b21f9d35)
 
-<img src="man/figures/new_project.png"
-data-fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called producer_report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data." />
+## 2. Render the example reports
 
-**Read the article [Get
-Started](https://wa-department-of-agriculture.github.io/soils/articles/get-started.html)
-to learn what goodies are bundled within {soils}.**
+Follow along in the [**Render the example
+reports**](https://wa-department-of-agriculture.github.io/soils/articles/render-example.html)
+tutorial.
 
-## Example Soil Health Reports
+See the [**rendered example
+reports**](https://wa-department-of-agriculture.github.io/soils/articles/examples.html).
 
-{soils} helps you generate custom static `.docx` reports and interactive
-`.html` reports for every producer or land owner in your soil health
-survey project.
+### HTML
 
-See demo reports rendered directly from this template project:
+[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/13d33152-b509-4651-a48d-e490be3c9464)
 
-### [MS Word Example](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
+### MS Word
 
-[<img src="man/figures/report_docx.png"
-data-fig-alt="First page of example .docx report" height="500"
-alt="First page of example MS Word report" />](https://wa-department-of-agriculture.github.io/soils/articles/docx.html)
+[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/b769f797-a390-4834-ac40-ab65cea7ef5f)
 
-### [HTML Example](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
+## 3. Create reports with your own data
 
-[<img src="man/figures/report_html.png"
-data-fig-alt="Screenshot of .html report"
-alt="Beginning of an example HTML report" />](https://wa-department-of-agriculture.github.io/soils/articles/html.html)
+To use your own data, customize the reports for your project, and render
+all reports, follow along with these tutorials:
 
-**Read the article [Build a
-Report](https://wa-department-of-agriculture.github.io/soils/articles/build-report.html)
-for a detailed walk-through of the project and workflow for adapting
-this template for your own project.**
+- [**Import
+  data**](https://wa-department-of-agriculture.github.io/soils/articles/data.html)
 
-## Acknowledgement and Citation
+- [**Customize &
+  write**](https://wa-department-of-agriculture.github.io/soils/articles/customize.html)
+
+- [**Render
+  reports**](https://wa-department-of-agriculture.github.io/soils/articles/render.html)
+
+As you edit the content, errors are bound to occur. Read [**tips and
+workflows for
+troubleshooting**](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
+
+# Acknowledgement and citation
 
 The below acknowledgement is automatically embedded in each report:
 
@@ -149,8 +154,8 @@ Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards "W
 
 To cite {soils} in publications, please use:
 
-> Ryan JN, McIlquham M, Sarpong KA, Michel L, Potter T, Griffin LaHue D,
-> Gelardi DL. 2023. Visualize and Report Soil Health Survey Data with
+> Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue
+> D, Gelardi DL. 2024. Visualize and Report Soil Health Survey Data with
 > {soils}. Washington Soil Health Initiative.
 > <https://github.com/WA-Department-of-Agriculture/soils>
 

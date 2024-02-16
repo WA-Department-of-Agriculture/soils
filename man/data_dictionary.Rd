@@ -5,14 +5,13 @@
 \alias{data_dictionary}
 \title{Data dictionary}
 \format{
-\subsection{\code{data_dictionary} A data frame with 32 rows and 8 columns.}{
+\subsection{\code{data_dictionary} A data frame with 32 rows and 7 columns.}{
 
 \describe{
 \item{measurement_group}{Name to group measurements by}
 \item{measurement_group_label}{Label of measurement group to be used as
 heading}
 \item{column_name}{Name of column in data set, used for joining}
-\item{measurement_full_name}{Measurement fully spelled out}
 \item{order}{Order of how measurements are presented within each
 measurement_group}
 \item{abbr}{Abbreviated measurement name for labels}

@@ -2,13 +2,23 @@ Package: soils
 Title: Visualize and Report Soil Health Data
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Jadey", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut")),
-    person("Molly", "McIlquham", role = "aut"),
+    person("Jadey N", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut"),
+      comment = c(ORCID = "0009-0004-5998-4697")
+      ),
+    person("Molly", "McIlquham", role = "aut",
+      comment = c(ORCID = "0000-0002-0152-969X")
+      ),
     person("Kwabena A", "Sarpong", role = "aut"),
-    person("Leslie", "Michel", role = "aut"),
-    person("Teal", "Potter", role = "aut"),
-    person("Deirdre", "Griffin LaHue", role = "aut"),
-    person("Dani L", "Gelardi", role = "aut"),
+    person("Leslie M", "Michel", role = "aut"),
+    person("Teal S", "Potter", role = "aut",
+      comment = c(ORCID = "0000-0002-4884-2720")
+      ),
+    person("Deirdre", "Griffin LaHue", role = "aut",
+      comment = c(ORCID = "0000-0001-5711-797X")
+      ),
+    person("Dani L", "Gelardi", role = "aut",
+      comment = c(ORCID = "0000-0002-5015-8119")
+      ),
     person("Washington State Department of Agriculture", role = c("cph", "fnd"))
   )
 Description: Collection of soil health data visualization and reporting

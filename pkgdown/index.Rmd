@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-# soils <a href="https://wa-department-of-agriculture.github.io/soils/">![](man/figures/logo.png){align="right" height="138"}</a>
+# soils <a href="https://wa-department-of-agriculture.github.io/soils/">![](../man/figures/logo.png){align="right" height="138"}</a>
 
 <!-- badges: start -->
 
@@ -110,7 +110,9 @@ Follow along in the [**Create a {soils}
 project**](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
 tutorial.
 
-[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/7e8c650c-362c-4f81-9e24-3fb4b21f9d35)
+<iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
+
+</iframe>
 
 ## 2. Render the example reports
 
@@ -123,11 +125,15 @@ reports**](https://wa-department-of-agriculture.github.io/soils/articles/example
 
 ### HTML
 
-[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/13d33152-b509-4651-a48d-e490be3c9464)
+<iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
+
+</iframe>
 
 ### MS Word
 
-[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/b769f797-a390-4834-ac40-ab65cea7ef5f)
+<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
+
+</iframe>
 
 ## 3. Create reports with your own data
 

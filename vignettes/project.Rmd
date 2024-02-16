@@ -1,0 +1,101 @@
+---
+title: "Create a {soils} project"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Create a {soils} project}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+There are two ways to create a {soils} project in RStudio. The below examples
+create a project titled "soils-demo". Replace this name with what you'd like the
+project and directory to be named.
+
+## Option 1. RStudio project wizard
+
+Using the RStudio IDE is the easiest and recommended way to create a new {soils}
+project.
+
+`Open RStudio` \> `File` \> `New Project` \> `New Directory` \>
+**`Quarto Soil Health Report`**
+
+![](../man/figures/project_wizard-1.png){width="70%"
+fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."}
+
+Enter your desired directory name, browse to where you want the project to live,
+and check whether you want the project to open in a new RStudio session.
+
+![](../man/figures/project_wizard-2.png){width="70%"
+fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session."}
+
+The new RStudio project will open with the template Quarto report
+(`01_producer-report.qmd`) and the R script (`render-reports.R`) to render all
+reports at once. The rest of the project files will appear in the files pane.
+
+![](../man/figures/new_project.png){fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called 01_producer-report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data."}
+
+<details closed>
+
+<summary>Demo video</summary>
+
+<iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
+
+</iframe>
+
+</details>
+
+## Option 2. RStudio console
+
+Run the below code in your console to create a {soils} project called
+"soils-demo" in your default working directory.
+
+```{r, eval=FALSE}
+soils::create_soils(path = "soils-demo")
+```
+
+The following will print in your console. Note the location of your new project.
+
+![](../man/figures/create_soils.png){fig-alt="Output from running soils::create_soils(path = 'soils-demo') in the RStudio console"}
+
+## Project structure
+
+Both options will create and launch a new RStudio project with the below files.
+
+<details closed>
+
+<summary>Project directory and files</summary>
+
+```         
+├── 01_producer-report.qmd
+├── 02_section-template.qmd
+├── 03_project-summary.qmd
+├── 04_soil-health-background.qmd
+├── 05_physical-measurements.qmd
+├── 06_biological-measurements.qmd
+├── 07_chemical-measurements.qmd
+├── 08_looking-forward.qmd
+├── 09_acknowledgement.qmd
+├── data
+│   ├── data-dictionary.csv
+│   └── washi-data.csv
+├── images
+│   ├── biological.png
+│   ├── chemical.png
+│   ├── logo.png
+│   └── physical.png
+├── R
+│   └── render-reports.R
+├── resources
+│   ├── styles.css
+│   └── word-template.docx
+└── soils-demo.Rproj
+```
+
+</details>

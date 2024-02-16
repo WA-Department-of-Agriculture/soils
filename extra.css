@@ -12,13 +12,13 @@ a.footnote-ref {
 }
 
 .navbar-dark .navbar-nav .active>.nav-link {
-    background: rgba(2, 59, 44, .15);
+    background: rgba(2, 59, 44, .15) !important;
     color: #FAF9F6;
 }
 
 .navbar-dark input[type="search"] {
     border-color: #646462;
-    background-color: #fff;
+    background-color: #fff !important;
     color: #C8C7C5;
 }
 

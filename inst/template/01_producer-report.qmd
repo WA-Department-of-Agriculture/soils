@@ -3,7 +3,7 @@
 title: "![](images/logo.png) Results from PROJECT NAME"
 # EDIT: Subtitle right aligned below title.
 subtitle: "Fall 2023"
-# EDIT: A single producer_id and year that is a valid combo that exists in your dataset.
+# EDIT: Choose a valid producer_id/year combo that exists in your dataset.
 params:
   producer_id: WUY05
   year: 2023

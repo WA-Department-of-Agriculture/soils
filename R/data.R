@@ -4,11 +4,11 @@
 #' Assessment anonymized data. This data set presents each sample in its own
 #' row, with columns for each measurement.
 #'
-#' @format ## `washi_data` A data frame with 100 rows and 43 columns:
+#' @format ## `washi_data` A data frame with 100 rows and 42 columns:
 #' \describe{
 #'   \item{year}{Year of sample}
 #'   \item{sample_id, producer_id, field_id}{Anonymized IDs}
-#'   \item{farm_name, producer_name, field_name}{Anonymized names}
+#'   \item{farm_name, field_name}{Anonymized names}
 #'   \item{longitude, latitude}{Truncated coordinates}
 #'   \item{texture}{Measured soil texture}
 #'   \item{other columns}{Column name includes measurement and units;

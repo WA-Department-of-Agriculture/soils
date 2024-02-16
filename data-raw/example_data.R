@@ -22,9 +22,9 @@ producer <- washi_data |>
 
 # Tidy data into long format and join with data dictionary
 results_long <- washi_data |>
-  dplyr::mutate(dplyr::across(13:43, as.numeric)) |>
+  dplyr::mutate(dplyr::across(12:42, as.numeric)) |>
   tidyr::pivot_longer(
-    cols = 13:43,
+    cols = 12:42,
     names_to = "measurement"
   ) |>
   dplyr::inner_join(data_dictionary, by = c("measurement" = "column_name")) |>

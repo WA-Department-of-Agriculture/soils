@@ -92,7 +92,7 @@ measurement_groups <- c(
 
 ```{r data-validation}
 # OPTIONAL EDIT: If you have extra columns in `data`, add them to this vector.
-required_cols <- c(
+required_data_cols <- c(
   "year",
   "sample_id",
   "farm_name",
@@ -106,9 +106,22 @@ required_cols <- c(
   "texture"
 )
 
+required_dict_cols <- c(
+  "measurement_group",
+  "measurement_group_label",
+  "order",
+  "column_name",
+  "abbr",
+  "unit",
+  "abbr_unit"
+)
+
 # Check all column names in `data` are in the `required_cols` vector or
 # `column_name` column of `dictionary`.
-testthat::expect_in(names(data), c(required_cols, dictionary$column_name))
+testthat::expect_in(names(data), c(required_data_cols, dictionary$column_name))
+
+# Check that `dictionary` has required column names.
+testthat::expect_contains(names(dictionary), required_dict_cols)
 
 # Check that the measurement_groups are in the dictionary.
 testthat::expect_in(measurement_groups, dictionary$measurement_group)
@@ -209,6 +222,16 @@ results_long$farm_name <- ifelse(
 producer_samples <- results_long |>
   dplyr::filter(producer_id == params$producer_id & year == params$year)
 
+# Abort if there are no producer samples
+if (nrow(producer_samples) == 0) {
+  cli::cli_abort(c(
+    "i" = "Update {.code params} in YAML to a valid {.code producer_id} and\
+    {.code year} combo.",
+    "x" = "{.code {params$producer_id}} and {.code {params$year}} must exist\
+     in your data."
+  ))
+}
+
 # Extract producer sample IDs, crops, counties, and farm name into
 # producer list
 producer <- list("sample_id", "crop", "county", "farm_name", "measurement") |>
@@ -240,18 +263,20 @@ gis_df <- soils::prep_for_map(
 <!-- Data wrangling for flextables -->
 
 ```{r calculate-averages}
-# calculate averages by crop, county, and project
-crop_summary <- soils::summarize_by_var(
-  results_long,
-  producer_samples,
-  var = crop
-)
+# Calculate averages by crop, county, and project
+crop_summary <- results_long |>
+  dplyr::filter(!is.na(crop)) |>
+  soils::summarize_by_var(
+    producer_samples,
+    var = crop
+  )
 
-county_summary <- soils::summarize_by_var(
-  results_long,
-  producer_samples,
-  var = county
-)
+county_summary <- results_long |>
+  dplyr::filter(!is.na(county)) |>
+  soils::summarize_by_var(
+    producer_samples,
+    var = county
+  )
 
 project_summary <- soils::summarize_by_project(results_long)
 ```
@@ -316,11 +341,11 @@ rm(physical)
 ```
 
 ```{r remove-rows-with-one-observation}
-# Delete any county or crop averages where n = 1
+# Delete any county or crop averages where n = 1 or county/crop is blank.
 tables <- groups |>
   purrr::map(
     subset,
-    !grepl("(1 Fields)", `Field or Average`)
+    !grepl("(1 Fields)|NA", `Field or Average`)
   )
 ```
 
@@ -364,7 +389,6 @@ table_list <- list2DF(
 
 ```{r prep-df-plot}
 # Prep df for add_texture_points() and make_strip_plot()
-
 df_plot <- results_long |>
   dplyr::mutate(
     # Dummy column to set x-axis in same place for each facet
@@ -372,8 +396,8 @@ df_plot <- results_long |>
     # Set category to group samples
     category = dplyr::case_when(
       sample_id %in% producer$sample_id ~ "Your fields",
-      crop %in% producer$crop ~ "Same crop",
-      county %in% producer$county ~ "Same county",
+      crop %in% producer$crop & !is.na(crop) ~ "Same crop",
+      county %in% producer$county & !is.na(county) ~ "Same county",
       .default = "Other fields"
     ),
     # Set category factors so producer samples are plotted last
@@ -386,10 +410,15 @@ df_plot <- results_long |>
       category == "Your fields" ~ glue::glue(
         "{field_name}<br>{crop}<br>{value} {unit}"
       ),
+      category == "Same crop" ~ glue::glue(
+        "{crop}<br>{value} {unit}"
+      ),
+      category == "Same county" ~ glue::glue(
+        "{county}<br>{value} {unit}"
+      ),
       .default = glue::glue(
-        "{county}<br>",
-        "{crop}<br>",
-        "{value} {unit}"
+        "{value} {unit}",
+        .na = ""
       )
     )
   )
@@ -575,7 +604,7 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
     ]
   ) |>
     downloadthis::download_this(
-      output_name = glue::glue("{params$year}_soils_data"),
+      output_name = glue::glue("{params$year}-soils-data"),
       output_extension = ".xlsx",
       button_label = "Download as Excel spreadsheet",
       button_type = "success"

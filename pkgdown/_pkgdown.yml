@@ -17,6 +17,7 @@ template:
       google: Poppins
 
 navbar:
+  type: dark
   structure:
     left: [home, primers, tutorials, examples, functions]
     right: [search, github]

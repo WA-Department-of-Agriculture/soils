@@ -125,10 +125,9 @@ Load {soils} and see first five rows of each dataframe
 </summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">washi_data</span>, <span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
 <col width="1%">
-<col width="2%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -175,7 +174,6 @@ Load {soils} and see first five rows of each dataframe
 <th align="right">year</th>
 <th align="left">sample_id</th>
 <th align="left">farm_name</th>
-<th align="left">producer_name</th>
 <th align="left">producer_id</th>
 <th align="left">field_name</th>
 <th align="right">field_id</th>
@@ -221,7 +219,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">2023</td>
 <td align="left">23-WUY05-01</td>
 <td align="left">Farm 150</td>
-<td align="left">Shanna</td>
 <td align="left">WUY05</td>
 <td align="left">Field 01</td>
 <td align="right">1</td>
@@ -266,7 +263,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">2022</td>
 <td align="left">22-RHM05-02</td>
 <td align="left">Farm 085</td>
-<td align="left">Warren</td>
 <td align="left">RHM05</td>
 <td align="left">Field 02</td>
 <td align="right">2</td>
@@ -311,7 +307,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">2022</td>
 <td align="left">22-ENR07-02</td>
 <td align="left">Farm 058</td>
-<td align="left">Alecia</td>
 <td align="left">ENR07</td>
 <td align="left">Field 02</td>
 <td align="right">2</td>
@@ -356,7 +351,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">2022</td>
 <td align="left">22-ZTD04-03</td>
 <td align="left">Farm 061</td>
-<td align="left">Samantha</td>
 <td align="left">ZTD04</td>
 <td align="left">Field 03</td>
 <td align="right">3</td>
@@ -401,7 +395,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">2023</td>
 <td align="left">23-WUY05-03</td>
 <td align="left">Farm 150</td>
-<td align="left">Shanna</td>
 <td align="left">WUY05</td>
 <td align="left">Field 03</td>
 <td align="right">3</td>
@@ -527,11 +520,10 @@ Glimpse at the example data
 </summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">washi_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 100</span></span>
-<span><span class="co">#&gt; Columns: 43</span></span>
+<span><span class="co">#&gt; Columns: 42</span></span>
 <span><span class="co">#&gt; $ year                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2023, 2022, 2022, 2022, 2023, 2022, 2023, 2022,…</span></span>
 <span><span class="co">#&gt; $ sample_id              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-WUY05-01", "22-RHM05-02", "22-ENR07-02", "2…</span></span>
 <span><span class="co">#&gt; $ farm_name              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 150", "Farm 085", "Farm 058", "Farm 061",…</span></span>
-<span><span class="co">#&gt; $ producer_name          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Shanna", "Warren", "Alecia", "Samantha", "Shan…</span></span>
 <span><span class="co">#&gt; $ producer_id            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "WUY05", "RHM05", "ENR07", "ZTD04", "WUY05", "B…</span></span>
 <span><span class="co">#&gt; $ field_name             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 01", "Field 02", "Field 02", "Field 03",…</span></span>
 <span><span class="co">#&gt; $ field_id               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 2, 3, 3, 2, 1, 2, 1, 1, 1, 1, 2, 8, 2, 1,…</span></span>

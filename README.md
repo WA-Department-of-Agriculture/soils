@@ -26,10 +26,10 @@ Democratize your data by giving back to the farmers and land managers
 who contributed soil samples to your survey project. Use {soils} to
 empower each participant to explore and understand their data.
 
-{soils} was produced by the [Washington State Department of
+The [Washington State Department of
 Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health)
-and [Washington State University](https://soilhealth.wsu.edu/), as part
-of the [Washington Soil Health
+and [Washington State University](https://soilhealth.wsu.edu/) produced
+{soils} as part of the [Washington Soil Health
 Initiative](https://washingtonsoilhealthinitiative.com/).
 
 # Requirements
@@ -41,12 +41,12 @@ which is the
 
 We assume you’re using [RStudio
 v2022.07](https://dailies.rstudio.com/version/2022.07.2+576.pro12/) or
-later for editing and previewing Quarto documents. We **strongly**
-recommend you use the [latest release of
+later for editing and previewing Quarto documents. We **strongly
+recommend** you use the [latest release of
 RStudio](https://posit.co/download/rstudio-desktop/) for support of all
 Quarto features.
 
-To render Microsoft Word (MS Word) documents, Microsoft Word must be
+To render Microsoft Word (MS Word) documents, you must have MS Word
 installed and activated.
 
 **If you’re new to Quarto and Markdown formatting syntax, first take a
@@ -85,8 +85,8 @@ library(soils)
 # Usage
 
 {soils} was developed to work ‘out of the box’ so you can immediately
-install and render an example report. However, this means it will
-require customization and content editing to fit your project.
+install and render an example report. However, you will need to
+customize and edit content to fit your project.
 
 Our recommended workflow is to **1)** create a new {soils} project,
 **2)** try to render the example reports to make sure everything works
@@ -125,8 +125,8 @@ reports**](https://wa-department-of-agriculture.github.io/soils/articles/example
 
 ## 3. Create reports with your own data
 
-To use your own data and customize the reports for your project, follow
-along with these tutorials:
+To use your own data, customize the reports for your project, and render
+all reports, follow along with these tutorials:
 
 - [**Import
   data**](https://wa-department-of-agriculture.github.io/soils/articles/data.html)

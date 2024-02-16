@@ -26,10 +26,10 @@ Democratize your data by giving back to the farmers and land managers
 who contributed soil samples to your survey project. Use {soils} to
 empower each participant to explore and understand their data.
 
-{soils} was produced by the [Washington State Department of
+The [Washington State Department of
 Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health)
-and [Washington State University](https://soilhealth.wsu.edu/), as part
-of the [Washington Soil Health
+and [Washington State University](https://soilhealth.wsu.edu/) produced
+{soils} as part of the [Washington Soil Health
 Initiative](https://washingtonsoilhealthinitiative.com/).
 
 # Requirements
@@ -41,8 +41,8 @@ which is the
 
 We assume you’re using [RStudio
 v2022.07](https://dailies.rstudio.com/version/2022.07.2+576.pro12/) or
-later for editing and previewing Quarto documents. We **strongly**
-recommend you use the [latest release of
+later for editing and previewing Quarto documents. We **strongly
+recommend** you use the [latest release of
 RStudio](https://posit.co/download/rstudio-desktop/) for support of all
 Quarto features.
 

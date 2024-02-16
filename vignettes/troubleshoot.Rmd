@@ -14,6 +14,28 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(soils)
-```
+# What to do when the report fails to render?
+
+Render report and it fails, look at error message to see where it failed.
+
+Running that specific chunk might lead to a better error message.
+
+# Common errors
+
+Working directory
+
+Duplicated chunk labels are a no no.
+
+YAML indentation
+
+# How to get help?
+
+Report an issue.
+
+Quarto is relatively new, so it might be a bug. Look at issues.
+
+# Resources
+
+<https://r4ds.hadley.nz/quarto.html#troubleshooting>
+<https://qmd4sci.njtierney.com/common-problems>
+<https://www.youtube.com/watch?v=179x00KGd9M>

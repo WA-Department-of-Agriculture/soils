@@ -30,16 +30,6 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     color: #C8C7C5;
 }
 
-.dropdown-item {
-  color: var(--bs-dropdown-color);
-  background: var(--bs-dropdown-bg);
-}
-
-.dropdown-item:hover, .dropdown-item:focus {
-    color: var(--bs-dropdown-link-hover-color);
-    background-color: var(--bs-dropdown-link-hover-bg);
-}
-
 .iframe {
   aspect-ratio: 16 / 9;
   width: 100%;

@@ -55,6 +55,26 @@ navbar:
       text: Functions
       href: reference/index.html
 
+articles:
+- title: Primers
+  desc: ~
+  contents:
+  - '`quarto`'
+  - '`markdown`'
+- title: Tutorials
+  desc: ~
+  contents:
+  - '`project`'
+  - '`render-example`'
+  - '`data`'
+  - '`customize`'
+  - '`render`'
+  - '`troubleshoot`'
+- title: Example Reports
+  desc: ~
+  contents:
+  - '`examples`'
+
 reference:
 - title: Create a {soils} project
   contents: create_soils

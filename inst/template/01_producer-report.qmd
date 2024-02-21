@@ -597,7 +597,6 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
       ,
       c(
         "column_name",
-        "measurement_full_name",
         "abbr",
         "unit"
       )

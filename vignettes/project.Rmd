@@ -36,7 +36,7 @@ The new RStudio project will open with the template Quarto report (`01_producer-
 
 <summary>Demo video</summary>
 
-<iframe src="https://drive.google.com/file/d/1iTTqaXptpn4Xsn3SCcs9d1c7O4xY4j2H/preview" width="640" height="360" allow="autoplay">
+<iframe src="https://drive.google.com/file/d/1LsuC4YR0rXjBUEk4eeoIaoYbaLGcARzr/preview" width="640" height="360" allow="autoplay">
 
 </iframe>
 

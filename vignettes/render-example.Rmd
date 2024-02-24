@@ -34,13 +34,13 @@ It should take no more than one minute to render a single example report.
 
 **HTML**
 
-<iframe src="https://drive.google.com/file/d/1c-dkxuw4skRoV1bsLabqlqzRAnwXTror/preview" width="640" height="360" allow="autoplay; fullscreen;">
+<iframe src="https://drive.google.com/file/d/1c1gMBT8j5oF-CNyL9FyTfzPqSTQCGEIJ/preview" width="640" height="360" allow="autoplay; fullscreen;">
 
 </iframe>
 
 **MS Word**
 
-<iframe src="https://drive.google.com/file/d/1VnQDnuDPGoxfSGz_jvJ8rk9p32ZwVw6U/preview" width="640" height="360" allow="autoplay">
+<iframe src="https://drive.google.com/file/d/1jZxmmtS-SYdvNQoG2teOTLBkyneDB9v_/preview" width="640" height="360" allow="autoplay">
 
 </iframe>
 

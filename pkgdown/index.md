@@ -104,7 +104,7 @@ Follow along in the [**Create a {soils}
 project**](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
 tutorial.
 
-<iframe src="https://drive.google.com/file/d/1iTTqaXptpn4Xsn3SCcs9d1c7O4xY4j2H/preview" width="640" height="360" allow="autoplay">
+<iframe src="https://drive.google.com/file/d/1LsuC4YR0rXjBUEk4eeoIaoYbaLGcARzr/preview" width="640" height="360" allow="autoplay">
 </iframe>
 
 ## 2. Render the example reports
@@ -118,12 +118,12 @@ reports**](https://wa-department-of-agriculture.github.io/soils/articles/example
 
 ### HTML
 
-<iframe src="https://drive.google.com/file/d/1c-dkxuw4skRoV1bsLabqlqzRAnwXTror/preview" width="640" height="360" allow="autoplay">
+<iframe src="https://drive.google.com/file/d/1c1gMBT8j5oF-CNyL9FyTfzPqSTQCGEIJ/preview" width="640" height="360" allow="autoplay">
 </iframe>
 
 ### MS Word
 
-<iframe src="https://drive.google.com/file/d/1VnQDnuDPGoxfSGz_jvJ8rk9p32ZwVw6U/preview" width="640" height="360" allow="autoplay">
+<iframe src="https://drive.google.com/file/d/1jZxmmtS-SYdvNQoG2teOTLBkyneDB9v_/preview" width="640" height="360" allow="autoplay">
 </iframe>
 
 ## 3. Create reports with your own data
@@ -140,7 +140,7 @@ all reports, follow along with these tutorials:
 - [**Render
   reports**](https://wa-department-of-agriculture.github.io/soils/articles/render.html)
 
-<iframe src="https://drive.google.com/file/d/1-c_X8_2fl9Y8AE_AB5sqmXA6vuXSDRJD/preview" width="640" height="360" allow="autoplay">
+<iframe src="https://drive.google.com/file/d/1J4NpFpV2iv6f3S4PcS5Hw1jA3KPZgzIU/preview" width="640" height="360" allow="autoplay">
 </iframe>
 
 ## Troubleshooting

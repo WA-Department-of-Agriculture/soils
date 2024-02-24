@@ -55,8 +55,8 @@ reports |>
 
 # Move rendered reports to a different directory ===============================
 
-# Create directory if needed
-fs::dir_create(here::here("reports"))
+# Create directory called "reports"
+output_dir <- fs::dir_create(here::here("reports"))
 
 # List files with extensions html or docx.
 files <- fs::dir_ls(here::here(), regexp = ".html$|.docx$")

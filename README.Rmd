@@ -71,7 +71,7 @@ We provide a series of [Primers and Tutorials](https://wa-department-of-agricult
 
 Follow along in the [**Create a {soils} project**](https://wa-department-of-agriculture.github.io/soils/articles/project.html) tutorial.
 
-[create_soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/7e8c650c-362c-4f81-9e24-3fb4b21f9d35)
+[create-soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/12a01cf7-0efc-4948-b41e-a826dd86e6f6)
 
 ## 2. Render the example reports
 
@@ -81,11 +81,11 @@ See the [**rendered example reports**](https://wa-department-of-agriculture.gith
 
 ### HTML
 
-[create_html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/13d33152-b509-4651-a48d-e490be3c9464)
+[render-html.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/a1f680a0-bed4-495a-aae7-ba85a9fa22e3)
 
 ### MS Word
 
-[create_docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/b769f797-a390-4834-ac40-ab65cea7ef5f)
+[render-docx.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/a617fee6-a53b-4772-ac3b-bf8d48f8fc5b)
 
 ## 3. Create reports with your own data
 
@@ -96,6 +96,8 @@ To use your own data, customize the reports for your project, and render all rep
 -   [**Customize & write**](https://wa-department-of-agriculture.github.io/soils/articles/customize.html)
 
 -   [**Render reports**](https://wa-department-of-agriculture.github.io/soils/articles/render.html)
+
+[render-reports.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/b796f674-ed90-4d57-bed3-85b58c399c8f)
 
 ## Troubleshooting
 

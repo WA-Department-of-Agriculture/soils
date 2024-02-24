@@ -46,7 +46,7 @@ recommend** you use the [latest release of
 RStudio](https://posit.co/download/rstudio-desktop/) for support of all
 Quarto features.
 
-To render Microsoft Word (MS Word) documents, Microsoft Word must be
+To render Microsoft Word (MS Word) documents, you must have MS Word
 installed and activated.
 
 **If you’re new to Quarto and Markdown formatting syntax, first take a
@@ -85,8 +85,8 @@ library(soils)
 # Usage
 
 {soils} was developed to work ‘out of the box’ so you can immediately
-install and render an example report. However, this means it will
-require customization and content editing to fit your project.
+install and render an example report. However, you will need to
+customize and edit content to fit your project.
 
 Our recommended workflow is to **1)** create a new {soils} project,
 **2)** try to render the example reports to make sure everything works
@@ -104,7 +104,7 @@ Follow along in the [**Create a {soils}
 project**](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
 tutorial.
 
-<iframe src="https://drive.google.com/file/d/1My0E5fq5HipvCFCRQyQ4DBmbnqt5KlwV/preview" width="640" height="360" allow="autoplay; fullscreen;">
+<iframe src="https://drive.google.com/file/d/1iTTqaXptpn4Xsn3SCcs9d1c7O4xY4j2H/preview" width="640" height="360" allow="autoplay">
 </iframe>
 
 ## 2. Render the example reports
@@ -118,18 +118,18 @@ reports**](https://wa-department-of-agriculture.github.io/soils/articles/example
 
 ### HTML
 
-<iframe src="https://drive.google.com/file/d/1qlU0w2EN7nzoH2OGzRWEqhan-g9dVh7e/preview" width="640" height="360" allow="autoplay; fullscreen;">
+<iframe src="https://drive.google.com/file/d/1c-dkxuw4skRoV1bsLabqlqzRAnwXTror/preview" width="640" height="360" allow="autoplay">
 </iframe>
 
 ### MS Word
 
-<iframe src="https://drive.google.com/file/d/1F6PfWzODkTq0j5cVSwagcUMTXkCMhrIr/preview" width="640" height="360" allow="autoplay;fullscreen;">
+<iframe src="https://drive.google.com/file/d/1VnQDnuDPGoxfSGz_jvJ8rk9p32ZwVw6U/preview" width="640" height="360" allow="autoplay">
 </iframe>
 
 ## 3. Create reports with your own data
 
-To use your own data and customize the reports for your project, follow
-along with these tutorials:
+To use your own data, customize the reports for your project, and render
+all reports, follow along with these tutorials:
 
 - [**Import
   data**](https://wa-department-of-agriculture.github.io/soils/articles/data.html)
@@ -139,6 +139,11 @@ along with these tutorials:
 
 - [**Render
   reports**](https://wa-department-of-agriculture.github.io/soils/articles/render.html)
+
+<iframe src="https://drive.google.com/file/d/1-c_X8_2fl9Y8AE_AB5sqmXA6vuXSDRJD/preview" width="640" height="360" allow="autoplay">
+</iframe>
+
+## Troubleshooting
 
 As you edit the content, errors are bound to occur. Read [**tips and
 workflows for

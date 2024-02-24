@@ -137,6 +137,8 @@ all reports, follow along with these tutorials:
 - [**Render
   reports**](https://wa-department-of-agriculture.github.io/soils/articles/render.html)
 
+## Troubleshooting
+
 As you edit the content, errors are bound to occur. Read [**tips and
 workflows for
 troubleshooting**](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)

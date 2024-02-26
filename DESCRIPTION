@@ -37,7 +37,7 @@ Imports:
     flextable,
     fs,
     ggiraph,
-    ggplot2 (<= 3.4.4),
+    ggplot2,
     ggtern,
     ggtext,
     glue,

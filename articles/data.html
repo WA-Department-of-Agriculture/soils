@@ -801,11 +801,11 @@ of <code>my-dictionary.csv</code>.</p>
 <p>In this example, add an extra column named <code>tillage</code> in
 <code>my-data.csv</code> without changing the dictionary.</p>
 <p>After clicking the <code>Render</code> button, the report failed.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (01_producer<span class="sc">-</span>report.qmd)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(required_cols, dictionary$column_name) (`expected`).</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">* Missing from `expected`: "tillage"</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "longitude", ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>Error<span class="sc">:</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(required_cols, dictionary$column_name) (`expected`).</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="st">* Missing from `expected`: "tillage"</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "longitude", ...</span></span></code></pre></div>
 <p>This error message says the error occurred in lines 94-115 in the
 <code>data-validation</code> chunk because <code>tillage</code> was
 missing from the <code>expected</code> values, which are elements of
@@ -837,11 +837,11 @@ Example changed chunk
 </details><p>To demonstrate another data/dictionary mismatch error, remove
 <code>cec_meq_100g</code> from the dictionary while keeping it in the
 dataset.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (01_producer<span class="sc">-</span>report.qmd)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(...) (`expected`).</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="st">* Missing from `expected`: "cec_meq_100g"</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "texture", ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>Error<span class="sc">:</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(...) (`expected`).</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="st">* Missing from `expected`: "cec_meq_100g"</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "texture", ...</span></span></code></pre></div>
 <p>The error occurred because <code>cec_meq_100g</code> was missing from
 the <code>expected</code> values. Either add <code>cec_meq_100g</code>
 back to the dictionary or remove this column from the dataset to fix

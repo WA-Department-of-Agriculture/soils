@@ -123,6 +123,12 @@ interactive environment.</p>
 <div class="section level2">
 <h2 id="what-to-do-when-the-report-fails-to-render">What to do when the report fails to render?<a class="anchor" aria-label="anchor" href="#what-to-do-when-the-report-fails-to-render"></a>
 </h2>
+<p>When a report fails to render, the Background Jobs tab of RStudio
+will likely open with an error message hinting where the issue occurred.
+Keep reading to get an idea of what R code, Quarto document, and
+environment issues look like and how to resolve them.</p>
+<p>If you’re still stuck, see the guides for debugging and plugging
+error messages into search engines like Google linked in the <a href="#get-help">Get help</a> section.</p>
 <div class="section level3">
 <h3 id="r-code-issues">R code issues<a class="anchor" aria-label="anchor" href="#r-code-issues"></a>
 </h3>
@@ -150,20 +156,20 @@ that errored.</p>
 function.</p>
 </li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>processing file<span class="sc">:</span> 01_producer<span class="sc">-</span>report.qmd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">61</span>                                    </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">/</span><span class="dv">61</span> [setup]                            </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">/</span><span class="dv">61</span>                                    </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span><span class="sc">/</span><span class="dv">61</span> [load<span class="sc">-</span>data]                        </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Quitting from lines <span class="dv">57-66</span> [load<span class="sc">-</span>data] (01_producer<span class="sc">-</span>report.qmd)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">file()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span> cannot open the connection</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Backtrace<span class="sc">:</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a> <span class="fl">1.</span> utils<span class="sc">::</span><span class="fu">read.csv</span>(...)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">2.</span> utils<span class="sc">::</span><span class="fu">read.table</span>(...)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.</span> base<span class="sc">::</span><span class="fu">file</span>(file, <span class="st">"rt"</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Execution halted</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>processing file<span class="sc">:</span> <span class="dv">01</span>_producer<span class="sc">-</span>report.qmd</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">61</span>                                    </span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="dv">2</span><span class="sc">/</span><span class="dv">61</span> [setup]                            </span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="dv">3</span><span class="sc">/</span><span class="dv">61</span>                                    </span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="dv">4</span><span class="sc">/</span><span class="dv">61</span> [load<span class="sc">-</span>data]                        </span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>Quitting from lines <span class="dv">57-66</span> [load<span class="sc">-</span>data] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">file()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="sc">!</span> cannot open the connection</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>Backtrace<span class="sc">:</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a> <span class="fl">1.</span> utils<span class="sc">::</span><span class="fu">read.csv</span>(...)</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a> <span class="fl">2.</span> utils<span class="sc">::</span><span class="fu">read.table</span>(...)</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a> <span class="fl">3.</span> base<span class="sc">::</span><span class="fu">file</span>(file, <span class="st">"rt"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>Execution halted</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Clear the environment by restarting the R session.</p></li>
 <li>
@@ -174,17 +180,17 @@ folder.</p>
 <p>Fix the typo by removing the extra <code>a</code>.</p>
 </li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="co"># Load lab results</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/washi-dataa.csv"</span>),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">check.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="at">encoding =</span> <span class="st">"UTF-8"</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> )</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> <span class="fu">file</span>(file, <span class="st">"rt"</span>) <span class="sc">:</span> cannot open the connection</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>In addition<span class="sc">:</span> Warning message<span class="sc">:</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>In <span class="fu">file</span>(file, <span class="st">"rt"</span>) <span class="sc">:</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  cannot open file <span class="st">'C:/Users/jryan/Documents/R/projects/soils-demo/data/washi-dataa.csv'</span><span class="sc">:</span> </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>No such file or directory</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="co"># Load lab results</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="er">&gt;</span> data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="sc">+</span>   here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/washi-dataa.csv"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="sc">+</span>   <span class="at">check.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="sc">+</span>   <span class="at">encoding =</span> <span class="st">"UTF-8"</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="sc">+</span> )</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>Error <span class="cf">in</span> <span class="fu">file</span>(file, <span class="st">"rt"</span>) <span class="sc">:</span> cannot open the connection</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>In addition<span class="sc">:</span> Warning message<span class="sc">:</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>In <span class="fu">file</span>(file, <span class="st">"rt"</span>) <span class="sc">:</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  cannot open file <span class="st">'C:/Users/jryan/Documents/R/projects/soils-demo/data/washi-dataa.csv'</span><span class="sc">:</span> </span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>No such file or directory</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Rerun the chunk. If successful, try rendering the report.</li>
 </ol>
@@ -197,19 +203,19 @@ button when working in a Quarto document. However, the
 <code>create-measurement-group-sections</code> chunk will not properly
 execute when interactively run because of the <code>envir</code>
 argument of <code><a href="https://rdrr.io/pkg/knitr/man/knit_child.html" class="external-link">knitr::knit_child()</a></code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="co"># Chunk 26: create-measurement-group-sections</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> <span class="co">#| output: asis</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> sections <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_chr</span>(measurement_groups, \(group) {</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   knitr<span class="sc">::</span><span class="fu">knit_child</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="at">input =</span> <span class="st">"02_section-template.qmd"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="at">envir =</span> <span class="fu">environment</span>(),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="at">quiet =</span> <span class="cn">TRUE</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   )</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> })</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">purrr::map_chr()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ℹ In index<span class="sc">:</span> <span class="fl">1.</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>Caused by error <span class="cf">in</span> <span class="st">`</span><span class="at">setwd()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span> character argument expected</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="co"># Chunk 26: create-measurement-group-sections</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="er">&gt;</span> <span class="co">#| output: asis</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="er">&gt;</span> sections <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_chr</span>(measurement_groups, \(group) {</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="sc">+</span>   knitr<span class="sc">::</span><span class="fu">knit_child</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="sc">+</span>     <span class="at">input =</span> <span class="st">"02_section-template.qmd"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="sc">+</span>     <span class="at">envir =</span> <span class="fu">environment</span>(),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="sc">+</span>     <span class="at">quiet =</span> <span class="cn">TRUE</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="sc">+</span>   )</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="sc">+</span> })</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">purrr::map_chr()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>ℹ In index<span class="sc">:</span> <span class="fl">1.</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>Caused by error <span class="cf">in</span> <span class="st">`</span><span class="at">setwd()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="sc">!</span> character argument expected</span></code></pre></div>
 <p>To successfully “Run All Chunks Below”, comment this chunk out with
 <code>Ctrl</code> + <code>Shift</code> + <code>C</code>. Don’t forget to
 uncomment it when done troubleshooting!</p>
@@ -228,14 +234,14 @@ troubleshooting steps are generally the same as for R code issues.</p>
 <li><p>Render again.</p></li>
 </ol>
 <p>To demonstrate, add an extra space before <code>year:</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">producer_id</span><span class="kw">:</span><span class="at"> WUY05</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">   </span><span class="fu">year</span><span class="kw">:</span><span class="at"> </span><span class="dv">2023</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="at">  </span><span class="fu">producer_id</span><span class="kw">:</span><span class="at"> WUY05</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="at">   </span><span class="fu">year</span><span class="kw">:</span><span class="at"> </span><span class="dv">2023</span></span></code></pre></div>
 <p>Rendering fails and we get the following error message telling us we
 have bad indentation at line 9, column 8.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ERROR</span><span class="kw">:</span><span class="at"> YAMLError: bad indentation of a mapping entry at line 9, column 8:</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">       </span><span class="fu">year</span><span class="kw">:</span><span class="at"> </span><span class="dv">2023</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">           ^</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ERROR</span><span class="kw">:</span><span class="at"> YAMLError: bad indentation of a mapping entry at line 9, column 8:</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="at">       </span><span class="fu">year</span><span class="kw">:</span><span class="at"> </span><span class="dv">2023</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="at">           ^</span></span></code></pre></div>
 <p>To fix this, delete the extra space and make sure the entries under
 <code>params:</code> are aligned.</p>
 </div>
@@ -315,17 +321,20 @@ Error in parse_block(g[-1], g[1], params.src, markdown_mode) :
 <div class="section level2">
 <h2 id="get-help">Get help<a class="anchor" aria-label="anchor" href="#get-help"></a>
 </h2>
-<p>While not Quarto specific, review Shannon Pileggi’s <a href="https://www.youtube.com/watch?v=179x00KGd9M" class="external-link">Debugging in R
-workshop</a> to learn more strategies for code troubleshooting.</p>
-<p>Copy and paste the error message into Google or another search
-engine.</p>
-<p>Look for a similar <a href="https://github.com/WA-Department-of-Agriculture/soils/issues?q=" class="external-link">issue
-in the {soils} GitHub repo</a>.</p>
-<p>If there is no similar issue, or you have a suggestion, please open a
-<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/new/choose" class="external-link">new
+<ul>
+<li><p>While not Quarto specific, review Shannon Pileggi’s <a href="https://www.youtube.com/watch?v=179x00KGd9M" class="external-link">Debugging in R
+workshop</a> to learn more strategies for code troubleshooting.</p></li>
+<li><p>Copy and paste the error message into Google or another search
+engine. Reference Samantha Csik’s talk <a href="https://samanthacsik.github.io/talks_workshops/2021-10-11-teach-me-how-to-google/" class="external-link">Teach
+Me How to Google</a>.</p></li>
+<li><p>Look for a similar <a href="https://github.com/WA-Department-of-Agriculture/soils/issues?q=" class="external-link">issue
+in the {soils} GitHub repo</a>.</p></li>
+<li><p>If there is no similar issue, or you have a suggestion, please
+open a <a href="https://github.com/WA-Department-of-Agriculture/soils/issues/new/choose" class="external-link">new
 issue</a> with a detailed description of the issue or suggestion. This
 is preferred so others may benefit from the public documentation.
-Otherwise, email <a href="mailto:jryan@agr.wa.gov">jryan@agr.wa.gov</a>.</p>
+Otherwise, email <a href="mailto:jryan@agr.wa.gov">jryan@agr.wa.gov</a>.</p></li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

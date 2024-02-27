@@ -109,7 +109,7 @@
 <div class="section level1">
 <h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h1>
-<p>Introducing {soils}: an R package for all your soil health data visualization and reporting needs. {soils} provides an RStudio project template to generate customized, interactive soil health reports. Democratize your data by giving back to the farmers and land managers who contributed soil samples to your survey project. Use {soils} to empower each participant to explore and understand their data.</p>
+<p>Introducing {soils}: an R package for all your soil health data visualization and reporting needs. {soils} provides an RStudio project template to generate customized, interactive soil health reports. These reports include plots and tables to show how the participant’s results compare to simple averages of results from samples of the same crop, same county, and across the entire project. Any scientist leading a soil health survey can use {soils} to create custom reports for all survey participants. Democratize your data by giving back to the farmers and land managers who contributed soil samples to your survey project. Use these reports to empower each participant to explore and better understand their data.</p>
 <p>The <a href="https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health" class="external-link">Washington State Department of Agriculture</a> and <a href="https://soilhealth.wsu.edu/" class="external-link">Washington State University</a> produced {soils} as part of the <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">Washington Soil Health Initiative</a>.</p>
 </div>
 <div class="section level1">
@@ -129,10 +129,11 @@
 <span>  <span class="st">"soils"</span>,</span>
 <span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://wa-department-of-agriculture.r-universe.dev"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Or install directly from GitHub:</p>
+<p>Or install from GitHub with <a href="https://pak.r-lib.org/index.html" class="external-link">{pak}</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"WA-Department-of-Agriculture/soils"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Uncomment the below line if {pak} is not installed.</span></span>
+<span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"WA-Department-of-Agriculture/soils"</span><span class="op">)</span></span></code></pre></div>
 <p>Load the example datasets and functions with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link">soils</a></span><span class="op">)</span></span></code></pre></div>

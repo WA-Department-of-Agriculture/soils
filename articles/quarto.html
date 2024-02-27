@@ -189,7 +189,7 @@ article</a>.</p>
 regardless of the report format (e.g., HTML, MS Word). Read more in the
 <a href="https://quarto.org/docs/authoring/markdown-basics.html#page-breaks" class="external-link">Pagebreaks
 article</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>{{<span class="sc">&lt;</span> pagebreak <span class="sc">&gt;</span>}}</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>{{<span class="sc">&lt;</span> pagebreak <span class="sc">&gt;</span>}}</span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="include">Include<a class="anchor" aria-label="anchor" href="#include"></a>
@@ -201,9 +201,9 @@ more modular. Read more in the <a href="https://quarto.org/docs/authoring/includ
 article</a>.</p>
 <p>Examples found in <code>01_producer-report.qmd</code> are shown
 below.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>{{<span class="sc">&lt;</span> include 03_project<span class="sc">-</span>summary.qmd <span class="sc">&gt;</span>}}</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>{{<span class="sc">&lt;</span> include 04_soil<span class="sc">-</span>health<span class="sc">-</span>background.qmd <span class="sc">&gt;</span>}}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>{{<span class="sc">&lt;</span> include <span class="dv">03</span>_project<span class="sc">-</span>summary.qmd <span class="sc">&gt;</span>}}</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>{{<span class="sc">&lt;</span> include <span class="dv">04</span>_soil<span class="sc">-</span>health<span class="sc">-</span>background.qmd <span class="sc">&gt;</span>}}</span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -256,17 +256,17 @@ standalone class, while <code>.column width="50%"</code> is a class with
 an attribute.</p>
 <p>Divs may also be nested, as shown below. Optionally, more than three
 consecutive colons to distinguish nested divs from their parents.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>:::: columns</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>::: {.column width="50%"}</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Left column</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>::: {.column width="50%"}</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>Right column</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>::::</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>:::: columns</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>::: {.column width="50%"}</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>Left column</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>:::</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>::: {.column width="50%"}</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>Right column</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>:::</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>::::</span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="spans">Spans<a class="anchor" aria-label="anchor" href="#spans"></a>
@@ -290,13 +290,13 @@ to control visibility for HTML formats, use a div with the
 <code>when-format="html"</code> OR <code>unless-format="html"</code>
 attribute. Read more in the <a href="https://quarto.org/docs/authoring/conditional.html" class="external-link">Conditional
 Content article</a>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>::: {.content-visible when-format="html"}</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>This interactive content will ONLY appear in HTML reports.</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>::: {.content-visible unless-format="html"}</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>This static content will appear in all reports EXCEPT in HTML reports.</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>::: {.content-visible when-format="html"}</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>This interactive content will ONLY appear in HTML reports.</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>:::</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>::: {.content-visible unless-format="html"}</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>This static content will appear in all reports EXCEPT in HTML reports.</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>:::</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="tabsets">Tabsets<a class="anchor" aria-label="anchor" href="#tabsets"></a>
@@ -310,23 +310,23 @@ article</a>.</p>
 shortcodes, <strong>nested divs</strong>, <strong>conditional
 content</strong>, and a <strong>tabset</strong> to include a tabset
 <em>only</em> for HTML reports.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>::: {.content-visible when-format="html"}</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>:::: panel-tabset</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>{{&lt; include 05_physical-measurements.qmd &gt;}}</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>{{&lt; include 06_biological-measurements.qmd &gt;}}</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>{{&lt; include 07_chemical-measurements.qmd &gt;}}</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>::::</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>::: {.content-visible unless-format="html"}</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>{{&lt; include 05_physical-measurements.qmd &gt;}}</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>{{&lt; include 06_biological-measurements.qmd &gt;}}</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>{{&lt; include 07_chemical-measurements.qmd &gt;}}</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>::: {.content-visible when-format="html"}</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>:::: panel-tabset</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>{{&lt; include 05_physical-measurements.qmd &gt;}}</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>{{&lt; include 06_biological-measurements.qmd &gt;}}</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>{{&lt; include 07_chemical-measurements.qmd &gt;}}</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>::::</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>:::</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>::: {.content-visible unless-format="html"}</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>{{&lt; include 05_physical-measurements.qmd &gt;}}</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>{{&lt; include 06_biological-measurements.qmd &gt;}}</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>{{&lt; include 07_chemical-measurements.qmd &gt;}}</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>:::</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

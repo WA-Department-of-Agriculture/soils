@@ -21,10 +21,15 @@ badge](https://wa-department-of-agriculture.r-universe.dev/badges/soils)](https:
 
 Introducing {soils}: an R package for all your soil health data
 visualization and reporting needs. {soils} provides an RStudio project
-template to generate customized, interactive soil health reports.
-Democratize your data by giving back to the farmers and land managers
-who contributed soil samples to your survey project. Use {soils} to
-empower each participant to explore and understand their data.
+template to generate customized, interactive soil health reports. These
+reports include plots and tables to show how the participant’s results
+compare to simple averages of results from samples of the same crop,
+same county, and across the entire project. Any scientist leading a soil
+health survey can use {soils} to create custom reports for all survey
+participants. Democratize your data by giving back to the farmers and
+land managers who contributed soil samples to your survey project. Use
+these reports to empower each participant to explore and better
+understand their data.
 
 The [Washington State Department of
 Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health)
@@ -69,11 +74,12 @@ install.packages(
 )
 ```
 
-Or install directly from GitHub:
+Or install from GitHub with the `pak` package:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("WA-Department-of-Agriculture/soils")
+# Uncomment the below line if you don't yet have {pak} installed.
+# install.packages("pak")
+pak::pkg_install("WA-Department-of-Agriculture/soils")
 ```
 
 Load the example datasets and functions with:

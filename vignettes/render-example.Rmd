@@ -14,8 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-Before modifying the data, report content, or style, render the example report
-with the anonymized built-in data to ensure your system is set up correctly.
+**Before modifying anything** (data, report content, or style), render the
+example report with the anonymized built-in data to ensure your system is set up
+correctly.
 
 Open `01_producer-report.qmd`. Click the `Render` button to generate an HTML
 report or the `down arrow` (▼) to open a drop down menu to choose between HTML
@@ -57,4 +58,3 @@ It should take no more than one minute to render a single example report.
 
 **See the [rendered example
 reports](https://wa-department-of-agriculture.github.io/soils/articles/examples.html).**
-

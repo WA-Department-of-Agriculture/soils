@@ -29,6 +29,14 @@ Errors can occur from:
 
 # What to do when the report fails to render?
 
+When a report fails to render, the Background Jobs tab of RStudio will likely
+open with an error message hinting where the issue occurred. Keep reading to get
+an idea of what R code, Quarto document, and environment issues look like and
+how to resolve them.
+
+If you're still stuck, see the guides for debugging and plugging error messages
+into search engines like Google linked in the [Get help] section.
+
 ## R code issues
 
 1.  Note where the error occurred and what the message was.
@@ -235,17 +243,19 @@ Error in parse_block(g[-1], g[1], params.src, markdown_mode) :
 
 # Get help
 
-While not Quarto specific, review Shannon Pileggi's [Debugging in R
-workshop](https://www.youtube.com/watch?v=179x00KGd9M) to learn more strategies
-for code troubleshooting.
+-   While not Quarto specific, review Shannon Pileggi's [Debugging in R
+    workshop](https://www.youtube.com/watch?v=179x00KGd9M) to learn more
+    strategies for code troubleshooting.
 
-Copy and paste the error message into Google or another search engine.
+-   Copy and paste the error message into Google or another search engine.
+    Reference Samantha Csik's talk [Teach Me How to
+    Google](https://samanthacsik.github.io/talks_workshops/2021-10-11-teach-me-how-to-google/).
 
-Look for a similar [issue in the {soils} GitHub
-repo](https://github.com/WA-Department-of-Agriculture/soils/issues?q=).
+-   Look for a similar [issue in the {soils} GitHub
+    repo](https://github.com/WA-Department-of-Agriculture/soils/issues?q=).
 
-If there is no similar issue, or you have a suggestion, please open a [new
-issue](https://github.com/WA-Department-of-Agriculture/soils/issues/new/choose)
-with a detailed description of the issue or suggestion. This is preferred so
-others may benefit from the public documentation. Otherwise, email
-[jryan\@agr.wa.gov](mailto:jryan@agr.wa.gov).
+-   If there is no similar issue, or you have a suggestion, please open a [new
+    issue](https://github.com/WA-Department-of-Agriculture/soils/issues/new/choose)
+    with a detailed description of the issue or suggestion. This is preferred so
+    others may benefit from the public documentation. Otherwise, email
+    [jryan\@agr.wa.gov](mailto:jryan@agr.wa.gov).

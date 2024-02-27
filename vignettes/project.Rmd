@@ -14,21 +14,30 @@ knitr::opts_chunk$set(
 )
 ```
 
-There are two ways to create a {soils} project in RStudio. The below examples create a project titled "soils-demo". Replace this name with what you'd like the project and directory to be named.
+There are two ways to create a {soils} project. The below examples create a
+project titled "soils-demo". Replace this name with what you'd like the project
+and directory to be named.
 
 ## Option 1. RStudio project wizard
 
-Using the RStudio IDE is the easiest and recommended way to create a new {soils} project.
+The RStudio user interface is the easiest and recommended way to create a new
+{soils} project.
 
-`Open RStudio` \> `File` \> `New Project` \> `New Directory` \> **`Quarto Soil Health Report`**
+`Open RStudio` \> `File` \> `New Project` \> `New Directory` \>
+**`Quarto Soil Health Report`**
 
-![](../man/figures/project_wizard-1.png){width="70%" fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."}
+![](../man/figures/project_wizard-1.png){width="70%"
+fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."}
 
-Enter your desired directory name, browse to where you want the project to live, and check whether you want the project to open in a new RStudio session.
+Enter your desired directory name, browse to where you want the project to live,
+and check whether you want the project to open in a new RStudio session.
 
-![](../man/figures/project_wizard-2.png){width="70%" fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session."}
+![](../man/figures/project_wizard-2.png){width="70%"
+fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session."}
 
-The new RStudio project will open with the template Quarto report (`01_producer-report.qmd`) and the R script (`render-reports.R`) to render all reports at once. The rest of the project files will appear in the files pane.
+The new RStudio project will open with the template Quarto report
+(`01_producer-report.qmd`) and the R script (`render-reports.R`) to render all
+reports at once. The rest of the project files will appear in the files pane.
 
 ![](../man/figures/new_project.png){fig-alt="Screenshot of new RStudio project called demo-soils. A Quarto file called 01_producer-report.qmd is open and there is a tab for an R script called render_reports.R that renders all reports at once. The files pane is open with a project directory full of other Quarto files, styling resources, example images and data."}
 
@@ -44,7 +53,8 @@ The new RStudio project will open with the template Quarto report (`01_producer-
 
 ## Option 2. RStudio console
 
-Run the below code in your console to create a {soils} project called "soils-demo" in your default working directory.
+Run the below code in your console to create a {soils} project called
+"soils-demo" in your default working directory.
 
 ```{r, eval=FALSE}
 soils::create_soils(path = "soils-demo")

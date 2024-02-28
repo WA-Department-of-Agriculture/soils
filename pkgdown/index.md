@@ -49,7 +49,8 @@ v2022.07](https://dailies.rstudio.com/version/2022.07.2+576.pro12/) or
 later for editing and previewing Quarto documents. We **strongly
 recommend** you use the [latest release of
 RStudio](https://posit.co/download/rstudio-desktop/) for support of all
-Quarto features.
+Quarto features. You can also download and install the [latest version
+of Quarto](https://quarto.org/docs/get-started/).
 
 To render Microsoft Word (MS Word) documents, you must have MS Word
 installed and activated.

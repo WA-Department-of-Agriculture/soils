@@ -12,6 +12,7 @@ params:
 execute:
   echo: false
   warning: false
+  message: false
   output: true
 knitr: 
   opts_chunk:
@@ -438,30 +439,80 @@ triangle_df <- df_plot |>
       category
     ),
     names_from = measurement
+  ) |>
+  # Texture must be in the order: sand, silt, clay, category
+  dplyr::select(
+    dplyr::contains("sand"),
+    dplyr::contains("silt"),
+    dplyr::contains("clay"),
+    category
   )
+
+# Split by category then drop category column
+triangle_list <- split(triangle_df, triangle_df$category) |>
+  purrr::map(\(df) dplyr::select(df, -category))
 ```
 
 ```{r make-texture-triangle}
 # Create the texture triangle and add the sample points
-texture_triangle <- soils::make_texture_triangle(body_font = body_font) +
-  soils::add_texture_points(
-    triangle_df,
-    sand = sand_percent,
-    silt = silt_percent,
-    clay = clay_percent,
-    color = category,
-    size = category,
-    shape = category,
-    alpha = category
-  )
 
-# Set the color, size, shape, and alpha scales
-texture_triangle <- soils::set_scales(
-  texture_triangle,
-  primary_color = primary_color,
-  secondary_color = secondary_color,
-  other_color = other_color
+ragg::agg_png(
+  "figure-output/texture-triangle.png",
+  res = 150,
+  width = 1200,
+  height = 1000,
+  scaling = 1
 )
+
+soils::make_texture_triangle(body_font = body_font)
+
+soils::add_texture_points(
+  triangle_list$`Other fields`,
+  color = glue::glue(other_color, 80),
+  pch = 19,
+  size = 1.36
+)
+
+soils::add_texture_points(
+  triangle_list$`Same crop`,
+  color = glue::glue(secondary_color, 99),
+  pch = 18,
+  size = 2.16
+)
+
+soils::add_texture_points(
+  triangle_list$`Same county`,
+  color = glue::glue(secondary_color, 99),
+  pch = 17,
+  size = 2.16
+)
+
+soils::add_texture_points(
+  triangle_list$`Your fields`,
+  color = glue::glue(primary_color, "CC"),
+  pch = 15,
+  size = 2.4
+)
+
+soils::add_legend(
+  legend = c(
+    "Your fields",
+    "Same county",
+    "Same crop",
+    "Other fields"
+  ),
+  color = c(
+    glue::glue(primary_color, "CC"),
+    glue::glue(secondary_color, 99),
+    glue::glue(secondary_color, 99),
+    glue::glue(other_color, 80)
+  ),
+  pch = c(15, 17, 18, 19),
+  size = c(2.4, 2.16, 2.16, 1.36),
+  vertical_spacing = 1.5,
+)
+
+invisible(dev.off())
 ```
 
 ```{r make-strip-plots}
@@ -521,6 +572,10 @@ gis_df |>
   ) |>
   flextable::set_table_properties(layout = "autofit")
 ```
+
+<!-- The below "\" is a hard line break that works for html and docx. -->
+
+\
 
 ```{r create-map}
 map <- soils::make_leaflet(

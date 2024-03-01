@@ -25,8 +25,9 @@ image <- ifelse(
 
 ```{r}
 # Include texture triangle for physical group
-if (group == "physical") {
-  texture_triangle
+tt_path <- "figure-output/texture-triangle.png"
+if (group == "physical" & fs::file_exists(tt_path)) {
+  texture_triangle <- glue::glue("![]({tt_path}){{width='6in'}}")
 }
 ```
 
@@ -34,7 +35,9 @@ if (group == "physical") {
 #| output: asis
 # Include page break after texture triangle
 if (group == "physical") {
-  cat("\\newpage")
+  cat(texture_triangle)
+  cat("\n")
+  cat("{{< pagebreak >}}")
 }
 ```
 

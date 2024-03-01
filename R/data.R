@@ -41,20 +41,3 @@
 #' @source
 #' [WaSHI State of the Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
 "data_dictionary"
-
-#' USDA texture data
-#'
-#' US Department of Agriculture textural classes
-#'
-#' @format ## `usda_texture` A list of two data frames: `polygons`
-#' contains 53 rows and 4 columns and `labels` contains 12 rows and 5 columns.
-#' \describe{
-#'   \item{clay}{Percentage of clay content}
-#'   \item{sand}{Percentage of sand content}
-#'   \item{silt}{Percentage of silt content}
-#'   \item{label}{Texture class, factor with 12 levels}
-#'   \item{angle}{Angle to rotate the label in the texture triangle}
-#'   ...
-#' }
-#' @source Adapted from `data(USDA, package = "ggtern")`.
-"usda_texture"

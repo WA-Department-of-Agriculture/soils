@@ -92,6 +92,7 @@ reference:
   contents:
   - make_texture_triangle
   - add_texture_points
+  - add_legend
   - make_strip_plot
   - theme_facet_strip
   - set_scales
@@ -111,4 +112,3 @@ reference:
   - soils_example
   - washi_data
   - data_dictionary
-  - usda_texture

@@ -1,164 +1,9 @@
-#' Make a texture triangle
-#' @param body_font Font family to use throughout plot. Defaults to
-#'   `"Poppins"`.
-#'
-#' @returns Blank `ggplot2` texture triangle with USDA textural classes.
-#'
-#' @export
-#'
-#' @examples
-#' # Blank texture triangle with just USDA classes
-#' make_texture_triangle(body_font = "sans")
-#'
-make_texture_triangle <- function(
-  body_font = "Poppins") {
-  if (!exists("usda_texture")) {
-    cli::cli_abort(c(
-      "Can't find {.code usda_texture}.",
-      "i" = "Run library(soils)."
-    ))
-  }
-
-  suppressWarnings({
-    ggplot2::ggplot(
-      data = usda_texture$polygons,
-      mapping = ggplot2::aes(
-        x = sand,
-        y = clay,
-        z = silt
-      )
-    ) +
-      ggtern::coord_tern(L = "x", T = "y", R = "z") +
-      # USDA texture polygons
-      ggplot2::geom_polygon(
-        mapping = ggplot2::aes(
-          fill = label
-        ),
-        alpha = 0,
-        linewidth = 0.5,
-        color = "#201F1F",
-        show.legend = FALSE
-      ) +
-      # USDA texture labels
-      ggplot2::geom_text(
-        data = usda_texture$labels,
-        mapping = ggplot2::aes(
-          label = label,
-          angle = angle
-        ),
-        color = "#201F1F",
-        size = 1.6
-      ) +
-      # Theme
-      ggplot2::theme_minimal() +
-      ggplot2::labs(
-        xarrow = "Sand (%)",
-        yarrow = "Clay (%)",
-        zarrow = "Silt (%)"
-      ) +
-      # Tweak theme of plot
-      ggplot2::theme(
-        # Font
-        text = ggplot2::element_text(size = 10, family = body_font),
-        # Triangle panel
-        tern.panel.mask.show = FALSE,
-        # Axes
-        tern.axis.title.show = FALSE,
-        # clay
-        tern.axis.text.T = ggplot2::element_text(
-          hjust = -0.01
-        ),
-        # sand
-        tern.axis.text.L = ggplot2::element_text(
-          hjust = 0.8,
-          angle = 60
-        ),
-        # silt
-        tern.axis.text.R = ggplot2::element_text(
-          vjust = 0.8,
-          angle = -60
-        ),
-        tern.axis.ticks = ggplot2::element_line(color = "transparent"),
-        # Legend
-        legend.position = "right",
-        legend.text = ggplot2::element_text(size = 10),
-        legend.margin = ggplot2::margin(l = -50),
-        legend.title = ggplot2::element_blank(),
-        # Arrows
-        tern.axis.arrow.show = TRUE,
-        tern.axis.arrow.sep = 0.1,
-        # clay
-        tern.axis.arrow.text.T = ggplot2::element_text(vjust = -1),
-        # sand
-        tern.axis.arrow.text.L = ggplot2::element_text(vjust = -0.6),
-        # silt
-        tern.axis.arrow.text.R = ggplot2::element_text(vjust = 1)
-      )
-  })
-}
-#' Add `ggplot2::geom_point()` points to texture triangle
-#'
-#' @param df Data frame containing columns for sand, silt, and clay.
-#' @param sand,silt,clay Column names in `df` for sand, silt, and clay % values.
-#' @param ... Other arguments to pass into `ggplot2::aes()`.
-#' @returns `ggplot2` texture triangle with points for all samples.
-#' @export
-#'
-#' @examples
-#' library(ggplot2)
-#' # Create a texture triangle with points colored by texture
-#' make_texture_triangle(body_font = "sans") +
-#'   add_texture_points(
-#'     df = washi_data,
-#'     sand = sand_percent,
-#'     silt = silt_percent,
-#'     clay = clay_percent,
-#'     color = "#a60f2d",
-#'     alpha = 0.6
-#'   ) +
-#'   # if you are setting a color to a constant, you must call
-#'   # scale_*_identity().
-#'   ggplot2::scale_color_identity() +
-#'   ggplot2::scale_alpha_identity()
-#'
-#' # Remember these are `ggplot2` functions and require `+` instead of
-#' #  pipes (`|>` or `%>%`)
-#' try({
-#'   make_texture_triangle(body_font = "sans") +
-#'     add_texture_points(
-#'       df = washi_data,
-#'       sand = sand_percent,
-#'       silt = silt_percent,
-#'       clay = clay_percent,
-#'       color = texture
-#'     ) +
-#'     ggplot2::scale_color_viridis_d()
-#' })
-add_texture_points <- function(
-  df,
-  sand,
-  silt,
-  clay,
-  ...
-    ) {
-  suppressWarnings({
-    ggplot2::geom_point(
-      data = df,
-      mapping = ggplot2::aes(
-        x = {{ sand }},
-        y = {{ clay }},
-        z = {{ silt }},
-        ...
-      )
-    )
-  })
-}
 #' Theme for facetted strip plots
 #'
 #' @inheritParams make_texture_triangle
 #' @param strip_color Color of facet strip background. Defaults to WaSHI blue.
 #' @param strip_text_color Color of facet strip text. Defaults to white.
-#' @param ... Other arguments to pass into `ggplot2::theme()`.
+#' @param ... Other arguments to pass into [`ggplot2::theme()`].
 #'
 #' @export
 #'
@@ -246,7 +91,7 @@ theme_facet_strip <- function(
 #'
 #' @param plot `ggplot` object to apply scales to.
 #' @param primary_color Color of producer's sample points. Defaults to WaSHI
-#'   green.
+#'   red
 #' @param secondary_color Color of sample points with `"Same crop"` or `"Same
 #'   county"` values in the `category` column. Defaults to WaSHI gray.
 #' @param other_color Color of sample points with `"Other fields"` value in
@@ -375,7 +220,18 @@ set_scales <- function(
 #'
 #' # Example of strip plot with `x` set to the facet group instead of a
 #' # dummy variable.
-#' make_strip_plot(df_plot_bio, x = abbr_unit) |>
+#' make_strip_plot(
+#'   df_plot_bio,
+#'   x = abbr_unit,
+#'   y = value,
+#'   id = sample_id,
+#'   group = abbr_unit,
+#'   tooltip = label,
+#'   color = category,
+#'   size = category,
+#'   alpha = category,
+#'   shape = category
+#' ) |>
 #'   set_scales() +
 #'   theme_facet_strip(body_font = "sans")
 make_strip_plot <- function(
@@ -441,10 +297,11 @@ make_strip_plot <- function(
 #'
 #' @param plot `ggplot2` plot to convert to interactive `ggiraph`. `plot` must
 #'   contain `ggiraph::geom_<plot_type>_interactive()`.
-#' @inheritParams make_texture_triangle
+#' @param body_font Font family to use throughout plot. Defaults to
+#'   `"Poppins"`.
 #' @param width Width of SVG output in inches. Defaults to 6.
 #' @param height Height of SVG output in inches. Defaults to 4.
-#' @param ... Other arguments to pass into `ggiraph::girafe_options()`.
+#' @param ... Other arguments passed to [`ggiraph::girafe_options()`].
 #'
 #' @returns Facetted strip plots with classes of `girafe` and `htmlwidget`.
 #' @export

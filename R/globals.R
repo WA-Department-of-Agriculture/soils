@@ -18,6 +18,5 @@ utils::globalVariables(c(
   "tables",
   "texture",
   "unit",
-  "usda_texture",
   "value"
 ))

@@ -7,23 +7,70 @@ format: html
 <!-- Image wrapped around text for HTML -->
 
 ::: {.content-visible when-format="html"}
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){width="3.5in" style="float:right" fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){width="3.5in"
+style="float:right"
+fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
 :::
 
-***Soil Organic Matter*** (SOM) is the portion of soils not made up of minerals, air, and water, but is instead composed of animal, plant, and microbial matter in various stages of decomposition. SOM is comprised of approximately 58% organic carbon (to convert total organic carbon (TOC) to SOM, an easy rule of thumb is to simply multiply by 2). The remaining portion of SOM includes other essential plant nutrients such as nitrogen, phosphorous, and sulfur. SOM varies by inherent soil and landscape properties such as texture, mineralogy, precipitation, and temperature. It is also greatly impacted by management. To learn more about how to increase SOM, read about the [NRCS principles of building soil health](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health "NRCS principles of building soil health"). SOM underlies many of the benefits and ecosystem services that soils provide. It has a large impact on almost all other soil properties and is often used as a primary indicator of soil health. However, SOM can be slow to change as the result of management. Because of this, many other indicators have been developed to detect more sensitive components in SOM. Keep reading to learn more.
+***Soil Organic Matter*** (SOM) is the portion of soils not made up of minerals,
+air, and water, but is instead composed of animal, plant, and microbial matter
+in various stages of decomposition. SOM is comprised of approximately 58%
+organic carbon (to convert total organic carbon (TOC) to SOM, an easy rule of
+thumb is to simply multiply by 2). The remaining portion of SOM includes other
+essential plant nutrients such as nitrogen, phosphorous, and sulfur. SOM varies
+by inherent soil and landscape properties such as texture, mineralogy,
+precipitation, and temperature. It is also greatly impacted by management. To
+learn more about how to increase SOM, read about the [NRCS principles of
+building soil
+health](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health "NRCS principles of building soil health").
+SOM underlies many of the benefits and ecosystem services that soils provide. It
+has a large impact on almost all other soil properties and is often used as a
+primary indicator of soil health. However, SOM can be slow to change as the
+result of management. Because of this, many other indicators have been developed
+to detect more sensitive components in SOM. Keep reading to learn more.
 
 <!-- Image below around text for docx -->
 
 ::: {.content-visible unless-format="html"}
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){height="3.5in" fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
+![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){height="3.5in"
+fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
 :::
 
-***Potentially Mineralizable Carbon*** (MinC, frequently referred to as "Soil Respiration") measures the release of carbon dioxide (CO₂) from soil. This measurement is done in a laboratory incubation under controlled conditions "ideal" for microbes. The term mineralization refers to the process in which soil microbes produce CO₂ as they decompose SOM and plant residues. This process also releases other nutrients, like nitrogen, which can be taken up by crops. Higher MinC represents greater potential biological activity. Soils with lower SOM will have inherently lower MinC, while compacted soils may not provide adequate aeration for the mineralization process.
+***Potentially Mineralizable Carbon*** (MinC, frequently referred to as "Soil
+Respiration") measures the release of carbon dioxide (CO₂) from soil. This
+measurement is done in a laboratory incubation under controlled conditions
+"ideal" for microbes. The term mineralization refers to the process in which
+soil microbes produce CO₂ as they decompose SOM and plant residues. This process
+also releases other nutrients, like nitrogen, which can be taken up by crops.
+Higher MinC represents greater potential biological activity. Soils with lower
+SOM will have inherently lower MinC, while compacted soils may not provide
+adequate aeration for the mineralization process.
 
-***Permanganate Oxidizable Carbon*** (POXC, once referred to as "Active Carbon") is a fraction of SOM that is easily influenced by changes in management (compared to SOM, which can take up to ten years to detect a difference). In this laboratory test, a portion of SOM is decomposed or oxidized by potassium permanganate. This test measures a portion of SOM that is newly stabilized and may be an early sign of long term carbon storage.
+***Permanganate Oxidizable Carbon*** (POXC, once referred to as "Active Carbon")
+is a fraction of SOM that is more quickly influenced by changes in management
+(compared to SOM, which can take up to ten years to detect a difference). In
+this laboratory test, a portion of SOM is decomposed or oxidized by potassium
+permanganate. POXC levels are often associated with practices that lead to
+long-term organic matter storage, and may represent a portion of SOM that is
+from plant material, including compounds related to plant defense.
 
-***Potentially Mineralizable Nitrogen*** (PMN) represents the amount of organic nitrogen that can be converted (or "mineralized") to plant-available nitrate or ammonium. This measurement is taken from a laboratory incubation and can help producers estimate how much nitrogen may be released to crops during the growing season. Additional information on the measurement and interpretation of PMN can be found in this [Extension Publication from Oregon State University](https://catalog.extension.oregonstate.edu/sites/catalog/files/project/pdf/em9281.pdf "Extension Publication from Oregon State University").
+***Potentially Mineralizable Nitrogen*** (PMN) represents the amount of organic
+nitrogen that can be converted (or "mineralized") to plant-available nitrate or
+ammonium. This measurement is taken from a laboratory incubation and can help
+producers estimate how much nitrogen may be released to crops during the growing
+season. Additional information on the measurement and interpretation of PMN can
+be found in this [Extension Publication from Oregon State
+University](https://catalog.extension.oregonstate.edu/sites/catalog/files/project/pdf/em9281.pdf "Extension Publication from Oregon State University").
 
-***ACE Soil Protein*** is the fraction of SOM comprised of proteins from soil microorganisms. Proteins contain nitrogen that can be mineralized for plant uptake, and are therefore an important contributor to crop growth. ACE stands for autoclaved citrate-extractable, which is the laboratory method for extracting the proteins. ACE soil protein is related to aggregate stability as it partly measures proteins that are physically sticky and hold soil particles together. ACE is also sensitive to management changes, so can be a valuable indicator for evaluating relatively short-term changes in soil health.
+***ACE Soil Protein*** is the fraction of SOM comprised of proteins from soil
+microorganisms. Proteins contain nitrogen that can be mineralized for plant
+uptake, and are therefore an important contributor to crop growth. ACE stands
+for autoclaved citrate-extractable, which is the laboratory method for
+extracting the proteins. ACE soil protein is related to aggregate stability as
+it partly measures proteins that are physically sticky and hold soil particles
+together. ACE is also sensitive to management changes, so can be a valuable
+indicator for evaluating relatively short-term changes in soil health.
 
-\[EDIT: ADD A DESCRIPTION OF ANY OTHER BIOLOGICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]
+\[EDIT: ADD A DESCRIPTION OF ANY OTHER BIOLOGICAL INDICATORS MEASURED IN YOUR
+PROJECT HERE\]
+

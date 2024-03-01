@@ -46,6 +46,9 @@
     <loc>https://wa-department-of-agriculture.github.io/soils/index.html</loc>
   </url>
   <url>
+    <loc>https://wa-department-of-agriculture.github.io/soils/reference/add_legend.html</loc>
+  </url>
+  <url>
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/add_texture_points.html</loc>
   </url>
   <url>
@@ -113,9 +116,6 @@
   </url>
   <url>
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/unit_hline.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/usda_texture.html</loc>
   </url>
   <url>
     <loc>https://wa-department-of-agriculture.github.io/soils/reference/washi_data.html</loc>

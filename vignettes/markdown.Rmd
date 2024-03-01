@@ -14,49 +14,45 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you're new to markdown syntax, see the below *selection* of examples adapted
-from the [*Markdown
-basics*](https://quarto.org/docs/authoring/markdown-basics.html) Quarto
-documentation. Reference this primer when working through the tutorials and
-editing the report content.
+If you're new to markdown syntax, see the below *selection* of examples adapted from the [*Markdown basics*](https://quarto.org/docs/authoring/markdown-basics.html) Quarto documentation. Reference this primer when working through the tutorials and editing the report content.
 
 ## Text formatting
 
-+----------------------------------------------------------------+---------------------------------------+
-| Markdown syntax                                                | Output                                |
-+================================================================+=======================================+
-| ``` markdown                                                   | *italics*, **bold**, ***bold          |
-| *italics*, **bold**, ***bold italics***                        | italics***                            |
-| ```                                                            |                                       |
-+----------------------------------------------------------------+---------------------------------------+
-| ``` markdown                                                   | superscript^2^ / subscript~2~         |
-| superscript^2^ / subscript~2~                                  |                                       |
-| ```                                                            |                                       |
-+----------------------------------------------------------------+---------------------------------------+
-| ``` markdown                                                   | ~~strikethrough~~                     |
-| ~~strikethrough~~                                              |                                       |
-| ```                                                            |                                       |
-+----------------------------------------------------------------+---------------------------------------+
-| ``` markdown                                                   | `verbatim code`                       |
-| `verbatim code`                                                |                                       |
-| ```                                                            |                                       |
-+----------------------------------------------------------------+---------------------------------------+
++-----------------------------------------+-----------------------------------------+
+| Markdown syntax                         | Output                                  |
++=========================================+=========================================+
+| ``` markdown                            | *italics*, **bold**, ***bold italics*** |
+| *italics*, **bold**, ***bold italics*** |                                         |
+| ```                                     |                                         |
++-----------------------------------------+-----------------------------------------+
+| ``` markdown                            | superscript^2^ / subscript~2~           |
+| superscript^2^ / subscript~2~           |                                         |
+| ```                                     |                                         |
++-----------------------------------------+-----------------------------------------+
+| ``` markdown                            | ~~strikethrough~~                       |
+| ~~strikethrough~~                       |                                         |
+| ```                                     |                                         |
++-----------------------------------------+-----------------------------------------+
+| ``` markdown                            | `verbatim code`                         |
+| `verbatim code`                         |                                         |
+| ```                                     |                                         |
++-----------------------------------------+-----------------------------------------+
 
 ## Headings
 
-+--------------------------+-------------------------------------------------+
-| Markdown syntax          | Output                                          |
-+==========================+=================================================+
-| ``` markdown             | # Header 1 {.heading-output}                    |
-| # Header 1               |                                                 |
-| ```                      |                                                 |
-+--------------------------+-------------------------------------------------+
-|                          | Number of `#` corresponds to header level.      |
-+--------------------------+-------------------------------------------------+
-| ``` markdown             | ###### Header 6 {.heading-output}               |
-| ###### Header 6          |                                                 |
-| ```                      |                                                 |
-+--------------------------+-------------------------------------------------+
++-----------------+--------------------------------------------+
+| Markdown syntax | Output                                     |
++=================+============================================+
+| ``` markdown    | # Header 1 {.heading-output}               |
+| # Header 1      |                                            |
+| ```             |                                            |
++-----------------+--------------------------------------------+
+|                 | Number of `#` corresponds to header level. |
++-----------------+--------------------------------------------+
+| ``` markdown    | ###### Header 6 {.heading-output}          |
+| ###### Header 6 |                                            |
+| ```             |                                            |
++-----------------+--------------------------------------------+
 
 ```{=html}
 <style type="text/css">
@@ -69,63 +65,59 @@ editing the report content.
 ```
 ## Links & images
 
-+-----------------------------------------------------------------------------------+--------------------------------------------------+
-| Markdown syntax                                                                   | Output                                           |
-+===================================================================================+==================================================+
-| ``` markdown                                                                      | <https://quarto.org>                             |
-| <https://quarto.org>                                                              |                                                  |
-| ```                                                                               |                                                  |
-+-----------------------------------------------------------------------------------+--------------------------------------------------+
-| ``` markdown                                                                      | [Quarto](https://quarto.org)                     |
-| [Quarto](https://quarto.org)                                                      |                                                  |
-| ```                                                                               |                                                  |
-+-----------------------------------------------------------------------------------+--------------------------------------------------+
-| ``` markdown                                                                      | ![Captio                                         |
-| ![Caption](images/logo.png){width=100 fig-alt="soils logo"}                       | n](../man/figures/logo.png){fig-alt="soils logo" |
-| ```                                                                               | width="100"}                                     |
-+-----------------------------------------------------------------------------------+--------------------------------------------------+
++-------------------------------------------------------------+-----------------------------------------------------------------------+
+| Markdown syntax                                             | Output                                                                |
++=============================================================+=======================================================================+
+| ``` markdown                                                | <https://quarto.org>                                                  |
+| <https://quarto.org>                                        |                                                                       |
+| ```                                                         |                                                                       |
++-------------------------------------------------------------+-----------------------------------------------------------------------+
+| ``` markdown                                                | [Quarto](https://quarto.org)                                          |
+| [Quarto](https://quarto.org)                                |                                                                       |
+| ```                                                         |                                                                       |
++-------------------------------------------------------------+-----------------------------------------------------------------------+
+| ``` markdown                                                | ![Caption](../man/figures/logo.png){fig-alt="soils logo" width="100"} |
+| ![Caption](images/logo.png){width=100 fig-alt="soils logo"} |                                                                       |
+| ```                                                         |                                                                       |
++-------------------------------------------------------------+-----------------------------------------------------------------------+
 
-Learn more in the article on
-[Figures](https://quarto.org/docs/authoring/figures.html).
+Learn more in the article on [Figures](https://quarto.org/docs/authoring/figures.html).
 
 ## Lists
 
-+---------------------------------------------------------------------+----------------------------------------------------------+
-| Markdown syntax                                                     | Output                                                   |
-+=====================================================================+==========================================================+
-| ``` markdown                                                        | -   unordered list                                       |
-| * unordered list                                                    |     -   sub-item 1                                       |
-|     + sub-item 1                                                    |     -   sub-item 2                                       |
-|     + sub-item 2                                                    |         -   sub-sub-item 1                               |
-|         - sub-sub-item 1                                            |                                                          |
-| ```                                                                 |                                                          |
-+---------------------------------------------------------------------+----------------------------------------------------------+
-| ``` markdown                                                        | -   item 2                                               |
-| *   item 2                                                          |                                                          |
-|                                                                     |     Continued (indent 4 spaces)                          |
-|     Continued (indent 4 spaces)                                     |                                                          |
-| ```                                                                 |                                                          |
-+---------------------------------------------------------------------+----------------------------------------------------------+
-| ``` markdown                                                        | 1.  ordered list                                         |
-| 1. ordered list                                                     | 2.  item 2                                               |
-| 2. item 2                                                           |     i)  sub-item 1                                       |
-|     i) sub-item 1                                                   |         A.  sub-sub-item 1                               |
-|          A.  sub-sub-item 1                                         |                                                          |
-| ```                                                                 |                                                          |
-+---------------------------------------------------------------------+----------------------------------------------------------+
-| ``` markdown                                                        | (1) A list whose numbering                               |
-| (@)  A list whose numbering                                         |                                                          |
-|                                                                     | continues after                                          |
-| continues after                                                     |                                                          |
-|                                                                     | (2) an interruption                                      |
-| (@)  an interruption                                                |                                                          |
-| ```                                                                 |                                                          |
-+---------------------------------------------------------------------+----------------------------------------------------------+
++---------------------------------+---------------------------------+
+| Markdown syntax                 | Output                          |
++=================================+=================================+
+| ``` markdown                    | -   unordered list              |
+| * unordered list                |     -   sub-item 1              |
+|     + sub-item 1                |     -   sub-item 2              |
+|     + sub-item 2                |         -   sub-sub-item 1      |
+|         - sub-sub-item 1        |                                 |
+| ```                             |                                 |
++---------------------------------+---------------------------------+
+| ``` markdown                    | -   item 2                      |
+| *   item 2                      |                                 |
+|                                 |     Continued (indent 4 spaces) |
+|     Continued (indent 4 spaces) |                                 |
+| ```                             |                                 |
++---------------------------------+---------------------------------+
+| ``` markdown                    | 1.  ordered list                |
+| 1. ordered list                 | 2.  item 2                      |
+| 2. item 2                       |     i)  sub-item 1              |
+|     i) sub-item 1               |         A.  sub-sub-item 1      |
+|          A.  sub-sub-item 1     |                                 |
+| ```                             |                                 |
++---------------------------------+---------------------------------+
+| ``` markdown                    | (1) A list whose numbering      |
+| (@)  A list whose numbering     |                                 |
+|                                 | continues after                 |
+| continues after                 |                                 |
+|                                 | (2) an interruption             |
+| (@)  an interruption            |                                 |
+| ```                             |                                 |
++---------------------------------+---------------------------------+
 
-Note that unlike other Markdown renderers (notably Jupyter and GitHub), lists in
-Quarto require an entire blank line above the list. Otherwise the list will not
-be rendered in list form, rather it will all appear as normal text along a
-single line.
+Note that unlike other Markdown renderers (notably Jupyter and GitHub), lists in Quarto require an entire blank line above the list. Otherwise the list will not be rendered in list form, rather it will all appear as normal text along a single line.
 
 ## Tables
 
@@ -147,35 +139,38 @@ single line.
 |   123 | 123  | 123     |  123   |
 |     1 | 1    | 1       |   1    |
 
-Learn more in the article on
-[Tables](https://quarto.org/docs/authoring/tables.html).
+Learn more in the article on [Tables](https://quarto.org/docs/authoring/tables.html).
 
 ## Blocks
 
-+--------------------------------------------------------------------------+--------------------------------------------------------------+
-| Markdown syntax                                                          | Output                                                       |
-+==========================================================================+==============================================================+
-| ``` markdown                                                             | > Blockquote                                                 |
-| > Blockquote                                                             |                                                              |
-| ```                                                                      |                                                              |
-+--------------------------------------------------------------------------+--------------------------------------------------------------+
-| ``` markdown                                                             | | Line Block                                                 |
-| | Line Block                                                             | |    Spaces and newlines                                     |
-| |   Spaces and newlines                                                  | |    are preserved                                           |
-| |   are preserved                                                        |                                                              |
-| ```                                                                      |                                                              |
-+--------------------------------------------------------------------------+--------------------------------------------------------------+
++-------------------------+--------------------------+
+| Markdown syntax         | Output                   |
++=========================+==========================+
+| ``` markdown            | > Blockquote             |
+| > Blockquote            |                          |
+| ```                     |                          |
++-------------------------+--------------------------+
+| ``` markdown            | | Line Block             |
+| | Line Block            | |    Spaces and newlines |
+| |   Spaces and newlines | |    are preserved       |
+| |   are preserved       |                          |
+| ```                     |                          |
++-------------------------+--------------------------+
 
 ## Special characters
 
-+-------------------------------------+-------------------------------------------+
-| Markdown syntax                     | Output                                    |
-+=====================================+===========================================+
-| ``` markdown                        | endash: --                                |
-| endash: --                          |                                           |
-| ```                                 |                                           |
-+-------------------------------------+-------------------------------------------+
-| ``` markdown                        | emdash: ---                               |
-| emdash: ---                         |                                           |
-| ```                                 |                                           |
-+-------------------------------------+-------------------------------------------+
++-----------------+-----------------+
+| Markdown syntax | Output          |
++=================+=================+
+| ``` markdown    | hard line break |
+| \               |                 |
+| ```             |                 |
++-----------------+-----------------+
+| ``` markdown    | endash: --      |
+| endash: --      |                 |
+| ```             |                 |
++-----------------+-----------------+
+| ``` markdown    | emdash: ---     |
+| emdash: ---     |                 |
+| ```             |                 |
++-----------------+-----------------+

@@ -565,7 +565,8 @@ Glimpse at the example data
 <span><span class="co">#&gt; $ inorganic_c_percent    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, NA, 0.12, NA, NA, NA, NA, NA, NA, N…</span></span></code></pre></div>
 </details><p>Your data <strong>must have the below required columns</strong>.
 However, only the columns in <strong>bold</strong> are required to have
-values.</p>
+values. Put another way, your data must have these column names even if
+every row is blank.</p>
 <ul>
 <li><p><strong><code>year &lt;int&gt;</code></strong> is used to select
 samples to be included in the report.</p></li>
@@ -589,7 +590,9 @@ samples from the same county as the producer. Can be blank.</p></li>
 samples from the same crop as the producer. Can be blank.</p></li>
 <li><p><strong><code>longitude &lt;int&gt;</code></strong> and
 <strong><code>latitude &lt;int&gt;</code></strong> are used to map each
-sample point.</p></li>
+sample point using the <a href="https://rstudio.github.io/leaflet/index.html" class="external-link">{leaflet}</a>
+package. Coordinates must be in decimal degrees using WGS 84 (aka
+EPSG:4326).</p></li>
 <li><p><strong><code>texture &lt;chr&gt;</code></strong> is used in the
 “physical” measurement group table. This column is not used in the
 texture triangle plot, which is instead created from percentage sand,
@@ -655,6 +658,14 @@ line break between the abbreviation and unit.</p></li>
 <div class="section level2">
 <h2 id="datadictionary-mismatches">Data/dictionary mismatches<a class="anchor" aria-label="anchor" href="#datadictionary-mismatches"></a>
 </h2>
+<p>Getting your data and dictionary in the proper format to render the
+report without errors will likely be the most difficult part of
+customizing the {soils} reports. The <a href="#data-validation-chunk"><code>data-validation</code> chunk</a>
+includes <code>testthat</code> functions to fail early if required
+columns are missing from either the data or the dictionary.</p>
+<p>Below are some common issues that arise and possible workarounds.
+These workarounds may make more sense after reviewing the <a href="#your-data">Your data</a> section that includes example errors and
+fixes.</p>
 <div class="section level3">
 <h3 id="extra-columns-in-data">Extra columns in data<a class="anchor" aria-label="anchor" href="#extra-columns-in-data"></a>
 </h3>
@@ -663,12 +674,21 @@ dictionary</strong> will cause the report to error in the
 <code>data-validation</code> chunk. For example, rendering the report
 will fail if your dataset contains both <code>pH</code> and
 <code>CEC</code> results but your dictionary only contains
-<code>pH</code>. Either add this measurement to your dictionary, or
-remove this measurement column from your data.</p>
-<p>If you have additional columns in your data that aren’t soil
-measurements, include them in the <code>required_cols</code> vector of
-the <a href="#data-validation-chunk"><code>data-validation</code>
-chunk</a>.</p>
+<code>pH</code>. Either add the <code>CEC</code> measurement to your
+dictionary or remove this measurement column from your data. If you
+don’t want to delete the column from your datasheet, you can remove it
+from only the data object with
+<code>data &lt;- dplyr::select(data, -"cec_meq_100g")</code> perhaps in
+the <code>load-data</code> chunk.</p>
+<p><strong>Additional metadata columns in your data</strong> will also
+cause the report to error in the <code>data-validation</code> chunk. For
+example, if you have a column <code>phone_number</code> with producer
+phone numbers that won’t be used in the report, remove it from the data
+with the
+<code>data &lt;- dplyr::select(data, -c("cec_meq_100g", "phone_number"))</code>.
+If you want to use this column in the report, then add it to the
+<code>required_cols</code> vector of the <a href="#data-validation-chunk"><code>data-validation</code> chunk</a> so
+that the <code>testthat</code> function doesn’t error.</p>
 </div>
 <div class="section level3">
 <h3 id="extra-rows-in-dictionary">Extra rows in dictionary<a class="anchor" aria-label="anchor" href="#extra-rows-in-dictionary"></a>

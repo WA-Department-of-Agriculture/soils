@@ -24,12 +24,13 @@ visualization and reporting needs. {soils} provides an RStudio project
 template to generate customized, interactive soil health reports. These
 reports include plots and tables to show how the participant’s results
 compare to simple averages of results from samples of the same crop,
-same county, and across the entire project. Any scientist leading a soil
-health survey can use {soils} to create custom reports for all survey
-participants. Democratize your data by giving back to the farmers and
-land managers who contributed soil samples to your survey project. Use
-these reports to empower each participant to explore and better
-understand their data.
+same county, and across the entire project.
+
+Any scientist leading a soil health survey can use {soils} to create
+custom reports for all survey participants. Democratize your data by
+giving back to the farmers and land managers who contributed soil
+samples to your survey project. Use these reports to empower each
+participant to explore and better understand their data.
 
 The [Washington State Department of
 Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health)
@@ -50,7 +51,8 @@ later for editing and previewing Quarto documents. We **strongly
 recommend** you use the [latest release of
 RStudio](https://posit.co/download/rstudio-desktop/) for support of all
 Quarto features. You can also download and install the [latest version
-of Quarto](https://quarto.org/docs/get-started/).
+of Quarto](https://quarto.org/docs/get-started/) independently from
+RStudio.
 
 To render Microsoft Word (MS Word) documents, you must have MS Word
 installed and activated.

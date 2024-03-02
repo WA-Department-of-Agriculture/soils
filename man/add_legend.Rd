@@ -78,7 +78,7 @@ add_legend(
   vertical_spacing = 2
 )
 
-# Note the text appears squished and the legend is cut off in this example,
-# since the width, height, and resolution have been optimized to be printed 6
-# in wide in the report.
+# Note the text appears squished in this example since the width, height,
+# and resolution have been optimized to print the figure 6 in wide in the
+# report.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/texture-triangle.R
 \name{add_texture_points}
 \alias{add_texture_points}
-\title{Add points to texture triangle.}
+\title{Add points to texture triangle}
 \source{
 Adapted from {plotrix}:
 \url{https://github.com/plotrix/plotrix/blob/0d4c2b065e2c2d327358ac8cdc0b0d46b89bea7f/R/soil.texture.R}
@@ -64,6 +64,7 @@ add_texture_points(
   pch = 15
 )
 
-# Note the text appears squished in this example, since the width, height,
-# and resolution have been optimized to be printed 6 in wide in the report.
+# Note the text appears squished in this example since the width, height,
+# and resolution have been optimized to print the figure 6 in wide in the
+# report.
 }

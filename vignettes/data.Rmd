@@ -17,7 +17,12 @@ knitr::opts_chunk$set(
 You can immediately install {soils}, create a new template project, and render
 example reports, as demonstrated in the last two tutorials. However, you will
 need to customize and edit the content to fit your project, shown in the next
-three tutorials.
+three tutorials: [**Customize &
+write**](https://wa-department-of-agriculture.github.io/soils/articles/customize.html),
+[**Render
+reports**](https://wa-department-of-agriculture.github.io/soils/articles/render.html),
+and
+[**Troubleshoot**](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html).
 
 ## Access the example datasets
 
@@ -57,7 +62,9 @@ dplyr::glimpse(washi_data)
 
 Your data **must have the below required columns**. However, only the columns in
 **bold** are required to have values. Put another way, your data must have these
-column names even if every row is blank.
+column names, even if every row is blank. Otherwise, the `data-validation` chunk
+in `01_producer-report.qmd` or {soils} functions will error. For more details,
+see [Data/dictionary mismatches].
 
 -   **`year <int>`** is used to select samples to be included in the report.
 
@@ -144,9 +151,15 @@ measurement included in your data.
 ## Data/dictionary mismatches
 
 Getting your data and dictionary in the proper format to render the report
-without errors will likely be the most difficult part of customizing the {soils}
-reports. The [`data-validation` chunk] includes `testthat` functions to fail
-early if required columns are missing from either the data or the dictionary.
+without errors will likely be the most difficult part of making {soils} work for
+your project.
+
+The [`data-validation` chunk] and many {soils} functions include
+`testthat::expect_contains()` to fail early if required columns are missing from
+either the data or the dictionary. This early failure saves time by stopping as
+soon as the missing column or data/dictionary mismatch is identified.
+Additionally, these early failed tests provide the `expected` versus `actual`
+values, making it easier to correct the issue with minimal debugging.
 
 Below are some common issues that arise and possible workarounds. These
 workarounds may make more sense after reviewing the [Your data] section that
@@ -160,14 +173,14 @@ report will fail if your dataset contains both `pH` and `CEC` results but your
 dictionary only contains `pH`. Either add the `CEC` measurement to your
 dictionary or remove this measurement column from your data. If you don't want
 to delete the column from your datasheet, you can remove it from only the data
-object with `data <- dplyr::select(data, -"cec_meq_100g")` perhaps in the
+object with `data <- dplyr::select(data, -cec_meq_100g)` perhaps in the
 `load-data` chunk.
 
 **Additional metadata columns in your data** will also cause the report to error
 in the `data-validation` chunk. For example, if you have a column `phone_number`
 with producer phone numbers that won't be used in the report, remove it from the
-data with the `data <- dplyr::select(data, -c("cec_meq_100g", "phone_number"))`.
-If you want to use this column in the report, then add it to the `required_cols`
+data with the `data <- dplyr::select(data, -c(cec_meq_100g, phone_number))`. If
+you want to use this column in the report, then add it to the `required_cols`
 vector of the [`data-validation` chunk] so that the `testthat` function doesn't
 error.
 
@@ -367,3 +380,4 @@ from the dataset to fix this error.
 **See the [troubleshooting
 article](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
 for more help on debugging errors.**
+

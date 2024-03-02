@@ -35,8 +35,9 @@ textural classes.
 Make a texture triangle with USDA textural classes.
 }
 \examples{
-# Note the text appears squished in this example, since the width, height,
-# and resolution have been optimized to be printed 6 in wide in the report.
+# Note the text appears squished in this example since the width, height,
+# and resolution have been optimized to print the figure 6 in wide in the
+# report.
 
 make_texture_triangle(body_font = "sans")
 }

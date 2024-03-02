@@ -18,8 +18,9 @@
 #' @export
 #'
 #' @examples
-#' # Note the text appears squished in this example, since the width, height,
-#' # and resolution have been optimized to be printed 6 in wide in the report.
+#' # Note the text appears squished in this example since the width, height,
+#' # and resolution have been optimized to print the figure 6 in wide in the
+#' # report.
 #'
 #' make_texture_triangle(body_font = "sans")
 make_texture_triangle <- function(
@@ -123,7 +124,7 @@ make_texture_triangle <- function(
   }
 }
 
-#' Add points to texture triangle.
+#' Add points to texture triangle
 #'
 #' To vary color, symbol, and size of points by a grouping variable, call this
 #' function once for each value of the grouping variable. Add layers from bottom
@@ -170,8 +171,9 @@ make_texture_triangle <- function(
 #'   pch = 15
 #' )
 #'
-#' # Note the text appears squished in this example, since the width, height,
-#' # and resolution have been optimized to be printed 6 in wide in the report.
+#' # Note the text appears squished in this example since the width, height,
+#' # and resolution have been optimized to print the figure 6 in wide in the
+#' # report.
 add_texture_points <- function(
   texture_df = NULL,
   color = "#a60f2dCC",
@@ -244,9 +246,9 @@ add_texture_points <- function(
 #'   vertical_spacing = 2
 #' )
 #'
-#' # Note the text appears squished and the legend is cut off in this example,
-#' # since the width, height, and resolution have been optimized to be printed 6
-#' # in wide in the report.
+#' # Note the text appears squished in this example since the width, height,
+#' # and resolution have been optimized to print the figure 6 in wide in the
+#' # report.
 add_legend <- function(
   x = 1,
   y = 0.7,

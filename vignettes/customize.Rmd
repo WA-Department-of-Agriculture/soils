@@ -21,7 +21,7 @@ Places to customize and change content are marked with the text "`EDIT:`". Find
 all edit markers in the RStudio project with `Ctrl` + `Shift` + `F` to open the
 `Find in Files` wizard.
 
-### Report metadata and options
+# Report metadata and options
 
 The report metadata and options are set in the YAML and setup chunk in
 `01_producer-report.qmd`.
@@ -71,7 +71,7 @@ ways of customizing your reports. Learn about the available YAML fields for
 [HTML documents](https://quarto.org/docs/reference/formats/html.html) and [MS
 Word documents](https://quarto.org/docs/reference/formats/docx.html).
 
-### Report content
+# Report content
 
 `01_producer-report.qmd` uses the Quarto
 [`{{< include >}}`](https://quarto.org/docs/authoring/includes.html) shortcode
@@ -100,7 +100,7 @@ generate a section for each `measurement_group` defined in the
 `data-dictionary.csv`. You shouldn't need to edit `02_secion-template.qmd`
 unless you want more advanced customization.
 
-### Style and theme
+# Style and theme
 
 The look and feel of your reports can be customized by changing the fonts and
 colors to match your branding. The plot and table outputs are controlled by the
@@ -108,17 +108,17 @@ colors to match your branding. The plot and table outputs are controlled by the
 the `styles.css` file. MS Word reports are styled using the `word-template.docx`
 template file.
 
-#### `set-fonts-colors` chunk
+## `set-fonts-colors` chunk
 
 The fonts and colors used in the tables and plots of the report are defined in
 this chunk. Change these values to match your own branding.
 
-#### Style sheets
+## Style sheets
 
 The style sheets can be found in the `resources` directory and edited to
 customize the report appearance to match your own branding.
 
-##### HTML
+### HTML
 
 `styles.css` controls the appearance of HTML reports. Learn more about
 [CSS](https://quarto.org/docs/visual-editor/content.html#css-styles).
@@ -136,10 +136,9 @@ customize the report appearance to match your own branding.
 }
 ```
 
-##### MS Word
+### MS Word
 
 Open `word-template.docx` and modify the styles according to [Quarto
 documentation](https://quarto.org/docs/output-formats/ms-word-templates.html)
 and [Microsoft
 documentation](https://support.microsoft.com/en-gb/office/customize-or-create-new-styles-d38d6e47-f6fc-48eb-a607-1eb120dec563).
-

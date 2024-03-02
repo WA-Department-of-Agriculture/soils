@@ -132,7 +132,6 @@ testthat::expect_in(measurement_groups, dictionary$measurement_group)
 
 ```{r set-fonts-colors}
 # EDIT: Replace any font names and colors to match your branding.
-
 header_font <- "Georgia"
 body_font <- "Arial"
 
@@ -284,7 +283,6 @@ project_summary <- soils::summarize_by_project(results_long)
 
 ```{r combine-producer-and-summaries}
 # Combine producer table with summaries
-
 producer_table <- producer_samples |>
   dplyr::select(
     measurement_group,
@@ -389,7 +387,7 @@ table_list <- list2DF(
 <!-- Plots -->
 
 ```{r prep-df-plot}
-# Prep df for add_texture_points() and make_strip_plot()
+# Prep df for texture triangle and strip plots
 df_plot <- results_long |>
   dplyr::mutate(
     # Dummy column to set x-axis in same place for each facet
@@ -428,10 +426,10 @@ df_plot <- results_long |>
 df_plot <- df_plot[order(df_plot$category, decreasing = TRUE), ]
 ```
 
-```{r prep-texture-triangle-df}
+```{r prep-texture-triangle}
 # Select only the texture variables from the plot df and pivot so each texture
 # is in its own column
-triangle_df <- df_plot |>
+texture_df <- df_plot |>
   dplyr::filter(abbr %in% c("Sand", "Silt", "Clay")) |>
   tidyr::pivot_wider(
     id_cols = c(
@@ -449,13 +447,13 @@ triangle_df <- df_plot |>
   )
 
 # Split by category then drop category column
-triangle_list <- split(triangle_df, triangle_df$category) |>
+texture_list <- split(texture_df, texture_df$category) |>
   purrr::map(\(df) dplyr::select(df, -category))
 ```
 
 ```{r make-texture-triangle}
-# Create the texture triangle and add the sample points
-
+# Since the texture triangle is made with base R plotting functions, we need to
+# set our graphics device to save it as a PNG for embedding in our report.
 ragg::agg_png(
   "figure-output/texture-triangle.png",
   res = 150,
@@ -464,36 +462,47 @@ ragg::agg_png(
   scaling = 1
 )
 
+# Create the texture triangle
 soils::make_texture_triangle(body_font = body_font)
 
+# The two character code glued to the end of the six character hex color is the
+# opacity level. The opacity value ranges from 00 to FF, with 00 being fully
+# transparent and FF being fully opaque. See a chart to find the opacity code
+# for the level of transparency you want: https://drawne.com/hex-opacity/.
+
+# Add points for 'Other fields' on the bottom
 soils::add_texture_points(
-  triangle_list$`Other fields`,
+  texture_list$`Other fields`,
   color = glue::glue(other_color, 80),
   pch = 19,
   size = 1.36
 )
 
+# Next add points for 'Same crop'
 soils::add_texture_points(
-  triangle_list$`Same crop`,
+  texture_list$`Same crop`,
   color = glue::glue(secondary_color, 99),
   pch = 18,
   size = 2.16
 )
 
+# Next add points for 'Same county'
 soils::add_texture_points(
-  triangle_list$`Same county`,
+  texture_list$`Same county`,
   color = glue::glue(secondary_color, 99),
   pch = 17,
   size = 2.16
 )
 
+# Lastly, add points for 'Your fields' on top of the other layers
 soils::add_texture_points(
-  triangle_list$`Your fields`,
+  texture_list$`Your fields`,
   color = glue::glue(primary_color, "CC"),
   pch = 15,
   size = 2.4
 )
 
+# Add the legend
 soils::add_legend(
   legend = c(
     "Your fields",
@@ -512,6 +521,7 @@ soils::add_legend(
   vertical_spacing = 1.5,
 )
 
+# Turn off the graphics device to save the figure
 invisible(dev.off())
 ```
 
@@ -585,6 +595,8 @@ map <- soils::make_leaflet(
 ```
 
 ```{r save-map}
+# Save a screenshot of the map for the docx report if htmlwidgets and webshot2
+# are installed.
 if (requireNamespace("htmlwidgets", quietly = TRUE) &
   requireNamespace("webshot2", quietly = TRUE)) {
   invisible(htmlwidgets::saveWidget(
@@ -624,6 +636,9 @@ collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
 
 ```{r create-measurement-group-sections}
 #| output: asis
+
+# Add section for each measurement group containing a header, texture triangle
+# (for the physical group), table, and plot.
 sections <- purrr::map_chr(measurement_groups, \(group) {
   knitr::knit_child(
     input = "02_section-template.qmd",
@@ -638,6 +653,8 @@ cat(sections, sep = "\n")
 ```{r download-data-text}
 #| eval: !expr out_type == "html"
 #| output: asis
+
+# Add a download section if downloadthis is installed
 if (requireNamespace("downloadthis", quietly = TRUE)) {
   cat("## Download your data")
 }
@@ -645,6 +662,8 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
 
 ```{r download-data}
 #| eval: !expr out_type == "html"
+
+# Add a data download button if downloadthis is installed
 if (requireNamespace("downloadthis", quietly = TRUE)) {
   list(
     results = dplyr::filter(data, producer_id == params$producer_id),

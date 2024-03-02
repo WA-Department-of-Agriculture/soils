@@ -115,9 +115,9 @@ report content and style.</p>
 “<code>EDIT:</code>”. Find all edit markers in the RStudio project with
 <code>Ctrl</code> + <code>Shift</code> + <code>F</code> to open the
 <code>Find in Files</code> wizard.</p>
-<div class="section level3">
-<h3 id="report-metadata-and-options">Report metadata and options<a class="anchor" aria-label="anchor" href="#report-metadata-and-options"></a>
-</h3>
+<div class="section level2">
+<h2 id="report-metadata-and-options">Report metadata and options<a class="anchor" aria-label="anchor" href="#report-metadata-and-options"></a>
+</h2>
 <p>The report metadata and options are set in the YAML and setup chunk
 in <code>01_producer-report.qmd</code>.</p>
 <p>Start with the YAML (Yet Another Markup Language) header, which is
@@ -160,9 +160,9 @@ available YAML fields for <a href="https://quarto.org/docs/reference/formats/htm
 documents</a> and <a href="https://quarto.org/docs/reference/formats/docx.html" class="external-link">MS Word
 documents</a>.</p>
 </div>
-<div class="section level3">
-<h3 id="report-content">Report content<a class="anchor" aria-label="anchor" href="#report-content"></a>
-</h3>
+<div class="section level2">
+<h2 id="report-content">Report content<a class="anchor" aria-label="anchor" href="#report-content"></a>
+</h2>
 <p><code>01_producer-report.qmd</code> uses the Quarto <a href="https://quarto.org/docs/authoring/includes.html" class="external-link"><code>{{&lt; include &gt;}}</code></a>
 shortcode to embed content within the main parameterized report.</p>
 <p>Edit the following Quarto files to fit your project and adjust/remove
@@ -186,32 +186,32 @@ section for each <code>measurement_group</code> defined in the
 <code>02_secion-template.qmd</code> unless you want more advanced
 customization.</p>
 </div>
-<div class="section level3">
-<h3 id="style-and-theme">Style and theme<a class="anchor" aria-label="anchor" href="#style-and-theme"></a>
-</h3>
+<div class="section level2">
+<h2 id="style-and-theme">Style and theme<a class="anchor" aria-label="anchor" href="#style-and-theme"></a>
+</h2>
 <p>The look and feel of your reports can be customized by changing the
 fonts and colors to match your branding. The plot and table outputs are
 controlled by the <code>set-fonts-colors</code> chunk in
 <code>01_producer-report.qmd</code>. HTML reports are styled by the
 <code>styles.css</code> file. MS Word reports are styled using the
 <code>word-template.docx</code> template file.</p>
-<div class="section level4">
-<h4 id="set-fonts-colors-chunk">
+<div class="section level3">
+<h3 id="set-fonts-colors-chunk">
 <code>set-fonts-colors</code> chunk<a class="anchor" aria-label="anchor" href="#set-fonts-colors-chunk"></a>
-</h4>
+</h3>
 <p>The fonts and colors used in the tables and plots of the report are
 defined in this chunk. Change these values to match your own
 branding.</p>
 </div>
-<div class="section level4">
-<h4 id="style-sheets">Style sheets<a class="anchor" aria-label="anchor" href="#style-sheets"></a>
-</h4>
+<div class="section level3">
+<h3 id="style-sheets">Style sheets<a class="anchor" aria-label="anchor" href="#style-sheets"></a>
+</h3>
 <p>The style sheets can be found in the <code>resources</code> directory
 and edited to customize the report appearance to match your own
 branding.</p>
-<div class="section level5">
-<h5 id="html">HTML<a class="anchor" aria-label="anchor" href="#html"></a>
-</h5>
+<div class="section level4">
+<h4 id="html">HTML<a class="anchor" aria-label="anchor" href="#html"></a>
+</h4>
 <p><code>styles.css</code> controls the appearance of HTML reports.
 Learn more about <a href="https://quarto.org/docs/visual-editor/content.html#css-styles" class="external-link">CSS</a>.</p>
 <pre><code>/* Edit these :root variables */
@@ -225,9 +225,9 @@ Learn more about <a href="https://quarto.org/docs/visual-editor/content.html#css
     --body-font: "Arial";
 }</code></pre>
 </div>
-<div class="section level5">
-<h5 id="ms-word">MS Word<a class="anchor" aria-label="anchor" href="#ms-word"></a>
-</h5>
+<div class="section level4">
+<h4 id="ms-word">MS Word<a class="anchor" aria-label="anchor" href="#ms-word"></a>
+</h4>
 <p>Open <code>word-template.docx</code> and modify the styles according
 to <a href="https://quarto.org/docs/output-formats/ms-word-templates.html" class="external-link">Quarto
 documentation</a> and <a href="https://support.microsoft.com/en-gb/office/customize-or-create-new-styles-d38d6e47-f6fc-48eb-a607-1eb120dec563" class="external-link">Microsoft

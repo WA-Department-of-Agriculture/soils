@@ -112,7 +112,9 @@
 <p>You can immediately install {soils}, create a new template project,
 and render example reports, as demonstrated in the last two tutorials.
 However, you will need to customize and edit the content to fit your
-project, shown in the next three tutorials.</p>
+project, shown in the next three tutorials: <a href="https://wa-department-of-agriculture.github.io/soils/articles/customize.html"><strong>Customize
+&amp; write</strong></a>, <a href="https://wa-department-of-agriculture.github.io/soils/articles/render.html"><strong>Render
+reports</strong></a>, and <a href="https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html"><strong>Troubleshoot</strong></a>.</p>
 <div class="section level2">
 <h2 id="access-the-example-datasets">Access the example datasets<a class="anchor" aria-label="anchor" href="#access-the-example-datasets"></a>
 </h2>
@@ -565,8 +567,11 @@ Glimpse at the example data
 <span><span class="co">#&gt; $ inorganic_c_percent    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> NA, NA, NA, NA, 0.12, NA, NA, NA, NA, NA, NA, N…</span></span></code></pre></div>
 </details><p>Your data <strong>must have the below required columns</strong>.
 However, only the columns in <strong>bold</strong> are required to have
-values. Put another way, your data must have these column names even if
-every row is blank.</p>
+values. Put another way, your data must have these column names, even if
+every row is blank. Otherwise, the <code>data-validation</code> chunk in
+<code>01_producer-report.qmd</code> or {soils} functions will error. For
+more details, see <a href="#datadictionary-mismatches">Data/dictionary
+mismatches</a>.</p>
 <ul>
 <li><p><strong><code>year &lt;int&gt;</code></strong> is used to select
 samples to be included in the report.</p></li>
@@ -659,10 +664,17 @@ line break between the abbreviation and unit.</p></li>
 <h2 id="datadictionary-mismatches">Data/dictionary mismatches<a class="anchor" aria-label="anchor" href="#datadictionary-mismatches"></a>
 </h2>
 <p>Getting your data and dictionary in the proper format to render the
-report without errors will likely be the most difficult part of
-customizing the {soils} reports. The <a href="#data-validation-chunk"><code>data-validation</code> chunk</a>
-includes <code>testthat</code> functions to fail early if required
-columns are missing from either the data or the dictionary.</p>
+report without errors will likely be the most difficult part of making
+{soils} work for your project.</p>
+<p>The <a href="#data-validation-chunk"><code>data-validation</code>
+chunk</a> and many {soils} functions include
+<code><a href="https://testthat.r-lib.org/reference/expect_setequal.html" class="external-link">testthat::expect_contains()</a></code> to fail early if required
+columns are missing from either the data or the dictionary. This early
+failure saves time by stopping as soon as the missing column or
+data/dictionary mismatch is identified. Additionally, these early failed
+tests provide the <code>expected</code> versus <code>actual</code>
+values, making it easier to correct the issue with minimal
+debugging.</p>
 <p>Below are some common issues that arise and possible workarounds.
 These workarounds may make more sense after reviewing the <a href="#your-data">Your data</a> section that includes example errors and
 fixes.</p>
@@ -678,14 +690,14 @@ will fail if your dataset contains both <code>pH</code> and
 dictionary or remove this measurement column from your data. If you
 don’t want to delete the column from your datasheet, you can remove it
 from only the data object with
-<code>data &lt;- dplyr::select(data, -"cec_meq_100g")</code> perhaps in
+<code>data &lt;- dplyr::select(data, -cec_meq_100g)</code> perhaps in
 the <code>load-data</code> chunk.</p>
 <p><strong>Additional metadata columns in your data</strong> will also
 cause the report to error in the <code>data-validation</code> chunk. For
 example, if you have a column <code>phone_number</code> with producer
 phone numbers that won’t be used in the report, remove it from the data
 with the
-<code>data &lt;- dplyr::select(data, -c("cec_meq_100g", "phone_number"))</code>.
+<code>data &lt;- dplyr::select(data, -c(cec_meq_100g, phone_number))</code>.
 If you want to use this column in the report, then add it to the
 <code>required_cols</code> vector of the <a href="#data-validation-chunk"><code>data-validation</code> chunk</a> so
 that the <code>testthat</code> function doesn’t error.</p>

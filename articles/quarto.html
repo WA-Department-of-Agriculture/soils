@@ -224,7 +224,7 @@ each section’s header, table, plot, and page break.</p>
 <code class="sourceCode R"><span><span class="va">sections</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">measurement_groups</span>, \<span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op">{</span>     <span class="co"># &lt;1&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit_child.html" class="external-link">knit_child</a></span><span class="op">(</span></span>
 <span>    input <span class="op">=</span> <span class="st">"02_section-template.qmd"</span>,</span>
-<span>    envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    envir <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/env.html" class="external-link">env</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>

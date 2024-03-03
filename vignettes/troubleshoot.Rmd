@@ -41,11 +41,14 @@ into search engines like Google linked in the [Get help] section.
 
 1.  Note where the error occurred and what the message was.
 
-2.  Restart R (`Ctrl` + `Shift` + `F10`).
+    If the error was from `purrr::map_chr()` in the
+    [`create-measurement-group-sections` chunk], skip to that section in [Common
+    errors]. This chunk cannot be run interactively and requires additional
+    troubleshooting.
 
-3.  "Run all chunks" from the Code menu, under the [Run toolbar
-    button](https://docs.posit.co/ide/user/ide/guide/code/execution.html), or
-    with `Ctrl` + `Alt` + `R`. If the issue is in the R code, this should
+2.  Restart R (`Cmd`/`Ctrl` + `Option`/`Shift` + `F10`).
+
+3.  Run each chunk interactively. If the issue is in the R code, this should
     recreate the problem so you can interactively debug.
 
 4.  Once the error is fixed and the chunk runs successfully, try rendering the
@@ -79,9 +82,9 @@ Execution halted
 
 2.  Clear the environment by restarting the R session.
 
-3.  Run all the chunks. It stops at `load-data` with a more specific error
-    message informing us that `washi-dataa.csv` doesn't exist in the `data`
-    folder.
+3.  Run each chunk interactively. It stops at `load-data` with a more specific
+    error message informing us that `washi-dataa.csv` doesn't exist in the
+    `data` folder.
 
     Fix the typo by removing the extra `a`.
 
@@ -101,32 +104,12 @@ No such file or directory
 
 4.  Rerun the chunk. If successful, try rendering the report.
 
-### "Run All Chunks Below"
-
-It is generally [advisable](https://r4ds.hadley.nz/quarto.html#troubleshooting)
-to work interactively and "Run All Chunks Below" from the Run toolbar button
-when working in a Quarto document. However, the
-`create-measurement-group-sections` chunk will not properly execute when
-interactively run because of the `envir` argument of `knitr::knit_child()`.
-
-``` r
-> # Chunk 26: create-measurement-group-sections
-> #| output: asis
-> sections <- purrr::map_chr(measurement_groups, \(group) {
-+   knitr::knit_child(
-+     input = "02_section-template.qmd",
-+     envir = environment(),
-+     quiet = TRUE
-+   )
-+ })
-Error in `purrr::map_chr()`:
-ℹ In index: 1.
-Caused by error in `setwd()`:
-! character argument expected
-```
-
-To successfully "Run All Chunks Below", comment this chunk out with `Ctrl` +
-`Shift` + `C`. Don't forget to uncomment it when done troubleshooting!
+**Advanced tip:** with your cursor on the function name, press `F2` to peek
+inside the source code of that function. You can also access it through `Code`
+\> `Go to Function Definition`. This may help you debug any errors from {soils}
+functions, or any other package functions. See the [RStudio User
+Guide](https://docs.posit.co/ide/user/ide/guide/code/code-navigation.html#go-to-function-definition)
+for more details.
 
 ## Quarto document issues
 
@@ -203,9 +186,9 @@ When rendering to MS Word, the report will fail because it cannot find the
 File resources/word-template.docx not found in resource path
 ```
 
-The `create-measurement-group-sections` chunk shown in ["Run All Chunks Below"]
-demonstrates a more complicated environment issue. The chunk runs fine when
-rendering the report but errors when running interactively.
+The [`create-measurement-group-sections` chunk] demonstrates a more complicated
+environment issue. The chunk runs fine when rendering the report but errors when
+running interactively.
 
 # Common errors
 
@@ -222,7 +205,7 @@ results in the following error message.
 Quitting from lines 206-249 [get-producer-info] (01_producer-report.qmd)
 Error:
 ℹ Update `params` in YAML to a valid `producer_id` and `year` combo.
-✖ `WUY05` and `2023` must exist in your data.
+✖ `Abc` and `2023` must exist in your data.
 Backtrace:
 Execution halted
 ```
@@ -241,7 +224,353 @@ Error in parse_block(g[-1], g[1], params.src, markdown_mode) :
   Duplicate chunk label 'setup', which has been used for the chunk:
 ```
 
+## `create-measurement-group-sections` chunk
+
+This chunk is tricky because it is a child template that creates each
+measurement group section to be inserted into the parent report. To learn more,
+see the [`knitr::knit_child()` section in the Quarto
+primer](https://wa-department-of-agriculture.github.io/soils/articles/quarto.html#knitrknit_child).
+
+### Error when run interactively
+
+This chunk will not run because `knitr::knit_child()` is not supposed to be used
+interactively (see this [Stack Overflow
+response](https://stackoverflow.com/a/16847729) from the `knitr` developer Yihui
+Xie). If you try running this chunk, you will get the below error message.
+
+``` r
+> # create-measurement-group-sections
+> #| output: asis
+>
+> sections <- purrr::map_chr(measurement_groups, \(group) {
++   knitr::knit_child(
++     input = "02_section-template.qmd",
++     envir = rlang::env(),
++     quiet = TRUE
++   )
++ })
+Error in `purrr::map_chr()`:
+ℹ In index: 1.
+Caused by error in `setwd()`:
+! character argument expected
+```
+
+The output indicates the error occurred from `purrr::map_chr()`. When
+`knit_child()` is run interactively, the environment is not correctly passed to
+the `envir` argument, resulting in the `character argument expected` from
+`setwd()`.
+
+### Error when report rendered
+
+If the report quit from this chunk, it will likely still give you
+`` Error in `purrr::map_chr(): ``. Below this, the message may provide further
+details such as `` Caused by error `function()`: ``.
+
+1.  Restart R.
+2.  In `01_producer-report.qmd`, interactively run all chunks up until this one
+    to load the data into your environment.
+3.  Open `02_section-template.qmd` and uncomment the `troubleshoot` chunk or
+    assign one of your measurement groups to a variable named `group`.
+4.  Interactively run each code chunk as described in the [R code issues]
+    troubleshooting steps to figure out what errors in this child document.
+
 # Get help
+
+-   The *R for Data Science (2ed)* by Hadley Wickham, Mine Çetinkaya-Rundel, and
+    Garrett Grolemund has a short section on [troubleshooting in
+    Quarto](https://r4ds.hadley.nz/quarto.html#troubleshooting).
+
+-   While not Quarto specific, review Shannon Pileggi's [Debugging in R
+    workshop](https://www.youtube.com/watch?v=179x00KGd9M) to learn more
+    strategies for code troubleshooting.
+
+-   Copy and paste the error message into Google or another search engine.
+    Reference Samantha Csik's talk [Teach Me How to
+    Google](https://samanthacsik.github.io/talks_workshops/2021-10-11-teach-me-how-to-google/).
+
+-   Look for a similar [issue in the {soils} GitHub
+    repo](https://github.com/WA-Department-of-Agriculture/soils/issues?q=).
+
+-   If there is no similar issue, or you have a suggestion, please open a [new
+    issue](https://github.com/WA-Department-of-Agriculture/soils/issues/new/choose)
+    with a detailed description of the issue or suggestion. This is preferred so
+    others may benefit from the public documentation. Otherwise, email
+    [jryan\@agr.wa.gov](mailto:jryan@agr.wa.gov).
+    31b8e172-b470-440e-83d8-e6b185028602:dAB5AHAAZQA6AFoAUQBBAHgAQQBEAGcAQQBNAFEAQQA1AEEARABZAEEATQBBAEEAMQBBAEMAMABBAE0AQQBCAGgAQQBHAE0AQQBaAEEAQQB0AEEARABRAEEAWgBnAEIAaABBAEcAVQBBAEwAUQBBADQAQQBHAEkAQQBPAFEAQQA1AEEAQwAwAEEATwBRAEIAagBBAEQARQBBAFkAZwBBADMAQQBHAEkAQQBaAEEAQQAzAEEARwBNAEEATQBBAEIAbQBBAEQARQBBAAoAcABvAHMAaQB0AGkAbwBuADoATQBRAEEAdwBBAEQAWQBBAE4AQQBBAHgAQQBBAD0APQAKAHAAcgBlAGYAaQB4ADoACgBzAG8AdQByAGMAZQA6AEwAUQBBAHQAQQBDADAAQQBDAGcAQgAwAEEARwBrAEEAZABBAEIAcwBBAEcAVQBBAE8AZwBBAGcAQQBDAEkAQQBWAEEAQgB5AEEARwA4AEEAZABRAEIAaQBBAEcAdwBBAFoAUQBCAHoAQQBHAGcAQQBiAHcAQgB2AEEASABRAEEASQBnAEEASwBBAEcAOABBAGQAUQBCADAAQQBIAEEAQQBkAFEAQgAwAEEARABvAEEASQBBAEIAeQBBAEcAMABBAFkAUQBCAHkAQQBHAHMAQQBaAEEAQgB2AEEASABjAEEAYgBnAEEANgBBAEQAbwBBAGEAQQBCADAAQQBHADAAQQBiAEEAQgBmAEEASABZAEEAYQBRAEIAbgBBAEcANABBAFoAUQBCADAAQQBIAFEAQQBaAFEAQQBLAEEASABZAEEAYQBRAEIAbgBBAEcANABBAFoAUQBCADAAQQBIAFEAQQBaAFEAQQA2AEEAQwBBAEEAUABnAEEASwBBAEMAQQBBAEkAQQBBAGwAQQBGAHcAQQBWAGcAQgBwAEEARwBjAEEAYgBnAEIAbABBAEgAUQBBAGQAQQBCAGwAQQBFAGsAQQBiAGcAQgBrAEEARwBVAEEAZQBBAEIARgBBAEcANABBAGQAQQBCAHkAQQBIAGsAQQBlAHcAQgBVAEEASABJAEEAYgB3AEIAMQBBAEcASQBBAGIAQQBCAGwAQQBIAE0AQQBhAEEAQgB2AEEARwA4AEEAZABBAEIAOQBBAEEAbwBBAEkAQQBBAGcAQQBDAFUAQQBYAEEAQgBXAEEARwBrAEEAWgB3AEIAdQBBAEcAVQBBAGQAQQBCADAAQQBHAFUAQQBSAFEAQgB1AEEARwBjAEEAYQBRAEIAdQBBAEcAVQBBAGUAdwBCAHIAQQBHADQAQQBhAFEAQgAwAEEASABJAEEATwBnAEEANgBBAEgASQBBAGIAUQBCAGgAQQBIAEkAQQBhAHcAQgBrAEEARwA4AEEAZAB3AEIAdQBBAEgAMABBAEMAZwBBAGcAQQBDAEEAQQBKAFEAQgBjAEEARgBZAEEAYQBRAEIAbgBBAEcANABBAFoAUQBCADAAQQBIAFEAQQBaAFEAQgBGAEEARwA0AEEAWQB3AEIAdgBBAEcAUQBBAGEAUQBCAHUAQQBHAGMAQQBlAHcAQgBWAEEARgBRAEEAUgBnAEEAdABBAEQAZwBBAGYAUQBBAEsAQQBDADAAQQBMAFEAQQB0AEEAQQA9AD0ACgBzAHUAZgBmAGkAeAA6AA==:31b8e172-b470-440e-83d8-e6b185028602
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Troubleshooting Quarto documents can be more challenging than debugging R
+scripts. The Quarto environment is different than the R interactive environment,
+making it more difficult to debug errors. Additionally, error messages are
+generally more informative in the interactive environment.
+
+Errors can occur from:
+
+-   R code issues
+
+-   Quarto document issues
+
+-   Environment issues
+
+# What to do when the report fails to render?
+
+When a report fails to render, the Background Jobs tab of RStudio will likely
+open with an error message hinting where the issue occurred. Keep reading to get
+an idea of what R code, Quarto document, and environment issues look like and
+how to resolve them.
+
+If you're still stuck, see the guides for debugging and plugging error messages
+into search engines like Google linked in the [Get help] section.
+
+## R code issues
+
+1.  Note where the error occurred and what the message was.
+
+    If the error was from `purrr::map_chr()` in the
+    [`create-measurement-group-sections` chunk], skip to that section in [Common
+    errors]. This chunk cannot be run interactively and requires additional
+    troubleshooting.
+
+2.  Restart R (`Cmd`/`Ctrl` + `Option`/`Shift` + `F10`).
+
+3.  Run each chunk interactively. If the issue is in the R code, this should
+    recreate the problem so you can interactively debug.
+
+4.  Once the error is fixed and the chunk runs successfully, try rendering the
+    report again.
+
+To demonstrate, add a typo in the data file name (`washi-dataa.csv` instead of
+`washi-data.csv`) and try rendering.
+
+1.  The Background Jobs pane of RStudio opened with an error message telling us
+    the location and sequence of calls that led to the function that errored.
+
+    Now we know rendering failed at lines 57-66 in the `load-data` chunk because
+    of the `read.csv()` function.
+
+``` r
+processing file: 01_producer-report.qmd
+1/61                                    
+2/61 [setup]                            
+3/61                                    
+4/61 [load-data]                        
+
+Quitting from lines 57-66 [load-data] (01_producer-report.qmd)
+Error in `file()`:
+! cannot open the connection
+Backtrace:
+ 1. utils::read.csv(...)
+ 2. utils::read.table(...)
+ 3. base::file(file, "rt")
+Execution halted
+```
+
+2.  Clear the environment by restarting the R session.
+
+3.  Run each chunk interactively. It stops at `load-data` with a more specific
+    error message informing us that `washi-dataa.csv` doesn't exist in the
+    `data` folder.
+
+    Fix the typo by removing the extra `a`.
+
+``` r
+> # Load lab results
+> data <- read.csv(
++   here::here("data/washi-dataa.csv"),
++   check.names = FALSE,
++   encoding = "UTF-8"
++ )
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'C:/Users/jryan/Documents/R/projects/soils-demo/data/washi-dataa.csv': 
+No such file or directory
+```
+
+4.  Rerun the chunk. If successful, try rendering the report.
+
+**Advanced tip:** with your cursor on the function name, press `F2` to peek
+inside the source code of that function. You can also access it through `Code`
+\> `Go to Function Definition`. This may help you debug any errors from {soils}
+functions, or any other package functions. See the [RStudio User
+Guide](https://docs.posit.co/ide/user/ide/guide/code/code-navigation.html#go-to-function-definition)
+for more details.
+
+## Quarto document issues
+
+Quarto document issues tend to be in the YAML or chunk options. The
+troubleshooting steps are generally the same as for R code issues.
+
+1.  Note where the error occurred and what the message was.
+
+2.  Restart R (`Ctrl` + `Shift` + `F10`).
+
+3.  Try to address the error.
+
+4.  Render again.
+
+To demonstrate, add an extra space before `year:`.
+
+``` yaml
+params:
+  producer_id: WUY05
+   year: 2023
+```
+
+Rendering fails and we get the following error message telling us we have bad
+indentation at line 9, column 8.
+
+``` yaml
+ERROR: YAMLError: bad indentation of a mapping entry at line 9, column 8:
+       year: 2023
+           ^
+```
+
+To fix this, delete the extra space and make sure the entries under `params:`
+are aligned.
+
+## Environment issues
+
+Differences between the Quarto environment and the interactive R environment can
+cause issues. The most common difference is the working directory. Review the
+[File Paths section in the Quarto
+primer](https://wa-department-of-agriculture.github.io/soils/articles/quarto.html#file-paths).
+
+Check the working directory is what you expect by including `getwd()` in the
+`setup` chunk. Running the chunk interactively prints
+`"C:/Users/jryan/Documents/R/projects/soils-demo"` in the console, while
+rendering the report prints
+`"[1] "C:/Users/jryan/Documents/R/projects/soils-demo/template"` in the report.
+
+Sometimes the report won't error, but won't look as expected. For example, if we
+move all `.qmd` files into a subfolder called `template`, then our report will
+not have access to the `images` or `resources` subdirectories in the main
+project folder.
+
+When rendering to HTML, the Background Jobs tab will print the below warnings,
+and the report will not have the fonts and colors specified in `styles.css` and
+the images will be missing.
+
+```         
+[WARNING] Could not fetch resource resources/styles.css
+[WARNING] Could not fetch resource images/logo.png
+[WARNING] Could not fetch resource images/physical.png
+[WARNING] Could not fetch resource images/biological.png
+[WARNING] Could not fetch resource images/chemical.png
+Output created: 01_producer-report.html
+```
+
+When rendering to MS Word, the report will fail because it cannot find the
+`word-template.docx`.
+
+```         
+[WARNING] Could not fetch resource images/logo.png: replacing image with description
+[WARNING] Could not fetch resource images/physical.png: replacing image with description
+[WARNING] Could not fetch resource images/biological.png: replacing image with description
+[WARNING] Could not fetch resource images/chemical.png: replacing image with description
+File resources/word-template.docx not found in resource path
+```
+
+The [`create-measurement-group-sections` chunk] demonstrates a more complicated
+environment issue. The chunk runs fine when rendering the report but errors when
+running interactively.
+
+# Common errors
+
+## Invalid parameter values
+
+The parameter values set in the YAML header must exist in your data. Fix this
+error by either changing `params` in the YAML or by adding the sample results
+for that `producer_id` and `year` to your data.
+
+Rendering the report with an invalid `producer_id` and `year` combination
+results in the following error message.
+
+```         
+Quitting from lines 206-249 [get-producer-info] (01_producer-report.qmd)
+Error:
+ℹ Update `params` in YAML to a valid `producer_id` and `year` combo.
+✖ `Abc` and `2023` must exist in your data.
+Backtrace:
+Execution halted
+```
+
+## Duplicate chunk labels
+
+One common error is duplicated chunk labels, which often occur when copying and
+pasting code chunks. To fix this issue, change one of the duplicated labels.
+
+If there are two chunks labeled `setup`, rendering the report will fail with
+this error.
+
+```         
+processing file: 01_producer-report.qmd
+Error in parse_block(g[-1], g[1], params.src, markdown_mode) : 
+  Duplicate chunk label 'setup', which has been used for the chunk:
+```
+
+## `create-measurement-group-sections` chunk
+
+This chunk is tricky because it is a child template that creates each
+measurement group section to be inserted into the parent report. To learn more,
+see the [`knitr::knit_child()` section in the Quarto
+primer](https://wa-department-of-agriculture.github.io/soils/articles/quarto.html#knitrknit_child).
+
+### Error when run interactively
+
+This chunk will not run because `knitr::knit_child()` is not supposed to be used
+interactively (see this [Stack Overflow
+response](https://stackoverflow.com/a/16847729) from the `knitr` developer Yihui
+Xie). If you try running this chunk, you will get the below error message.
+
+``` r
+> # create-measurement-group-sections
+> #| output: asis
+>
+> sections <- purrr::map_chr(measurement_groups, \(group) {
++   knitr::knit_child(
++     input = "02_section-template.qmd",
++     envir = rlang::env(),
++     quiet = TRUE
++   )
++ })
+Error in `purrr::map_chr()`:
+ℹ In index: 1.
+Caused by error in `setwd()`:
+! character argument expected
+```
+
+The output indicates the error occurred from `purrr::map_chr()`. When
+`knit_child()` is run interactively, the environment is not correctly passed to
+the `envir` argument, resulting in the `character argument expected` from
+`setwd()`.
+
+### Error when report rendered
+
+If the report quit from this chunk, it will likely still give you
+`` Error in `purrr::map_chr(): ``. Below this, the message may provide further
+details such as `` Caused by error `function()`: ``.
+
+1.  Restart R.
+2.  In `01_producer-report.qmd`, interactively run all chunks up until the
+    `create-measurement-group-sections` chunk to load the data, plots, and
+    tables into your environment.
+3.  Open `02_section-template.qmd` and uncomment the first chunk or assign one
+    of your measurement groups to a variable named `group`.
+4.  Interactively run each code chunk as described in the [R code issues]
+    troubleshooting steps to figure out what errors in this child document.
+
+# Get help
+
+-   The *R for Data Science (2ed)* by Hadley Wickham, Mine Çetinkaya-Rundel, and
+    Garrett Grolemund has a short section on [troubleshooting in
+    Quarto](https://r4ds.hadley.nz/quarto.html#troubleshooting).
 
 -   While not Quarto specific, review Shannon Pileggi's [Debugging in R
     workshop](https://www.youtube.com/watch?v=179x00KGd9M) to learn more

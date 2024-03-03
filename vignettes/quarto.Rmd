@@ -129,7 +129,7 @@ The below code is in the `create-measurement-group-sections` code chunk of
 sections <- purrr::map_chr(measurement_groups, \(group) {     # <1>
   knitr::knit_child(
     input = "02_section-template.qmd",
-    envir = environment(),
+    envir = rlang::env(),
     quiet = TRUE
   )
 })
@@ -238,4 +238,3 @@ include a tabset *only* for HTML reports.
 {{< include 07_chemical-measurements.qmd >}}
 :::
 ```
-

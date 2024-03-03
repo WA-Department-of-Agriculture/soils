@@ -1,7 +1,10 @@
-```{html}
-<!-- This file is called in the `create-measurement-group-sections` chunk of
-`01_producer-report.qmd` with `knitr::knit_child()` to embed results in each
-measurement group as a separate section. -->
+```{r}
+# If the report fails to render at the `create-measurement-group-sections` chunk
+# in `01_producer-report.qmd`, run all chunks above to load the data in your
+# environment. Then uncomment this group assignment and run each code chunk in
+# this file interactively to troubleshoot.
+
+# group <- "physical"
 ```
 
 ```{r}
@@ -34,7 +37,7 @@ if (group == "physical" & fs::file_exists(tt_path)) {
 ```{r}
 #| output: asis
 # Include page break after texture triangle
-if (group == "physical") {
+if (group == "physical" & fs::file_exists(tt_path)) {
   cat(texture_triangle)
   cat("\n")
   cat("{{< pagebreak >}}")

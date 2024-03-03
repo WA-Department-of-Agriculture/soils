@@ -637,12 +637,20 @@ collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
 ```{r create-measurement-group-sections}
 #| output: asis
 
+# DO NOT RUN THIS CHUNK INTERACTIVELY. See
+# https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html#error-when-run-interactively.
+
+# If the report fails to render at this chunk, interactively run all chunks
+# above this one, open `02_section-template.qmd`, uncomment the first
+# troubleshoot chunk, and then run each chunk in the file interactively to
+# debug.
+
 # Add section for each measurement group containing a header, texture triangle
 # (for the physical group), table, and plot.
 sections <- purrr::map_chr(measurement_groups, \(group) {
   knitr::knit_child(
     input = "02_section-template.qmd",
-    envir = environment(),
+    envir = rlang::env(),
     quiet = TRUE
   )
 })

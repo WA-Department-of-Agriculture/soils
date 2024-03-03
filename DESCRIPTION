@@ -55,6 +55,7 @@ Imports:
 Suggests:
     downloadthis,
     here,
+    magick,
     ragg,
     rlang,
     rmarkdown,

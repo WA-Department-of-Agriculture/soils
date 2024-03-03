@@ -523,6 +523,13 @@ soils::add_legend(
 
 # Turn off the graphics device to save the figure
 invisible(dev.off())
+
+# Remove the extra white space around the figure if magick is installed
+if (requireNamespace("magick", quietly = TRUE)) {
+  tt <- magick::image_read("figure-output/texture-triangle.png")
+  tt <- magick::image_trim(tt)
+  magick::image_write(tt, "figure-output/texture-triangle.png")
+}
 ```
 
 ```{r make-strip-plots}

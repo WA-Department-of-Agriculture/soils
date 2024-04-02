@@ -1,6 +1,6 @@
 Package: soils
 Title: Visualize and Report Soil Health Data
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: c(
     person("Jadey N", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut"),
       comment = c(ORCID = "0009-0004-5998-4697")

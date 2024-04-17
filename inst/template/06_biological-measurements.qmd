@@ -7,7 +7,7 @@ format: html
 <!-- Image wrapped around text for HTML -->
 
 ::: {.content-visible when-format="html"}
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){width="3.5in"
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/som.png){width="3.5in"
 style="float:right"
 fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
 :::
@@ -32,7 +32,7 @@ to detect more sensitive components in SOM. Keep reading to learn more.
 <!-- Image below around text for docx -->
 
 ::: {.content-visible unless-format="html"}
-![](https://rawcdn.githack.com/WA-Department-of-Agriculture/soils/0d253937af0fb160f6527d68112cdc2401fba9fd/inst/template/inst/images/SOM.png){height="3.5in"
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/som.png){height="3.5in"
 fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
 :::
 
@@ -73,4 +73,3 @@ indicator for evaluating relatively short-term changes in soil health.
 
 \[EDIT: ADD A DESCRIPTION OF ANY OTHER BIOLOGICAL INDICATORS MEASURED IN YOUR
 PROJECT HERE\]
-

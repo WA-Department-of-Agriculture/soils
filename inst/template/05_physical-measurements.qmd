@@ -65,7 +65,7 @@ have higher aggregate stability than sandy soils, but increasing soil organic
 matter improves aggregate stability across all soil textures.ate stability,
 while inherently high sand content reduces aggregate stability.
 
-![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/aggregate_stability.png){width="5.8in"
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/aggregate-stability.png){width="5.8in"
 fig-alt="Aggregate held together with organic matter, roots, fungal hyphae, and microbial glues. An arrow with text says aggregate disintegration points toward an aggregate broken apart and text that says particles more prone to erosion."}
 
 ***Water Holding Capacity*** (WHC) is the amount of water a soil can hold. WHC
@@ -76,4 +76,3 @@ organic matter, and low bulk density have higher WHC.
 
 \[EDIT: ADD A DESCRIPTION OF ANY OTHER PHYSICAL INDICATORS MEASURED IN YOUR
 PROJECT HERE\]
-

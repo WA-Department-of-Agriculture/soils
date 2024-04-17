@@ -34,9 +34,12 @@ participant to explore and better understand their data.
 
 The [Washington State Department of
 Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health)
-and [Washington State University](https://soilhealth.wsu.edu/) produced
+and [Washington State University](https://soilhealth.wsu.edu/) developed
 {soils} as part of the [Washington Soil Health
-Initiative](https://washingtonsoilhealthinitiative.com/).
+Initiative](https://washingtonsoilhealthinitiative.com/). Learn more
+about {soils} in this [blog
+post](https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/)
+or this [webinar](https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2).
 
 # Requirements
 
@@ -162,12 +165,16 @@ troubleshooting**](https://wa-department-of-agriculture.github.io/soils/articles
 
 The below acknowledgement is automatically embedded in each report:
 
-The Soil Health Report Template used to generate this report was
-developed by Washington State Department of Agriculture and Washington
-State University (WSU) as part of the Washington Soil Health Initiative.
-Text and figures were adapted from [WSU Extension publication \#FS378E
-Soil Health in Washington
-Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards "WSU Extension publication").
+This report was generated using the [{soils} R
+package](https://wa-department-of-agriculture.github.io/soils/). {soils}
+was developed by the Washington State Department of Agriculture and
+Washington State University, as part of the Washington Soil Health
+Initiative. Text and figures were adapted from [WSU Extension
+publication \#FS378E Soil Health in Washington
+Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards).
+Learn more about {soils} in this [blog
+post](https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/)
+or this [webinar](https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2).
 
 To cite {soils} in publications, please use:
 
@@ -186,3 +193,7 @@ packages:
 - [{ratlas}](https://github.com/atlas-aai/ratlas)
 - [{quartotemplate}](https://github.com/Pecners/quartotemplate)
 - [{golem}](https://github.com/ThinkR-open/golem/)
+
+Text and figures were adapted from [WSU Extension publication \#FS378E
+Soil Health in Washington
+Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards).

@@ -63,6 +63,15 @@ data <- read.csv(
   check.names = FALSE,
   encoding = "UTF-8"
 )
+
+# Abort if there are duplicate sample IDs.
+if (anyDuplicated(data$sample_id)) {
+  cli::cli_abort(c(
+    "All values in {.var sample_id} must be unique.",
+    "x" = "Found duplicate{?s} of\
+                 {.val {unique(data$sample_id[duplicated(data$sample_id)])}}"
+  ))
+}
 ```
 
 ```{r load-dictionary, include=FALSE}
@@ -204,18 +213,18 @@ results_long <- data |>
 <!-- Get producer info -->
 
 ```{r get-producer-info}
-# If field name is blank, use field ID
-results_long$field_name <- ifelse(
-  is.na(results_long$field_name),
-  glue::glue("Field {results_long$field_id}"),
-  results_long$field_name
-)
-
 # If farm name is blank, use producer ID
 results_long$farm_name <- ifelse(
   is.na(results_long$farm_name),
   glue::glue("Farm {params$producer_id}"),
   results_long$farm_name
+)
+
+# If field name is blank, use field ID
+results_long$field_name <- ifelse(
+  is.na(results_long$field_name),
+  glue::glue("Field {results_long$field_id}"),
+  results_long$field_name
 )
 
 # Subset to producer samples

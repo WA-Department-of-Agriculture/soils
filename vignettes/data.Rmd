@@ -73,8 +73,8 @@ see [Data/dictionary mismatches].
 -   `farm_name <chr>` is included at the top of the report. If blank, it is
     replaced with "Farm: `producer_id`".
 
--   **`producer_id <chr>`** must be unique throughout dataset and is used to
-    select samples to be included in the report.
+-   **`producer_id <chr>`** is used to select samples to be included in the
+    report.
 
 -   `field_name <chr>` must be unique across all fields for each producer and is
     displayed in tables and tool tips for maps. If blank, it is replaced with
@@ -380,4 +380,3 @@ from the dataset to fix this error.
 **See the [troubleshooting
 article](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
 for more help on debugging errors.**
-

@@ -30,7 +30,7 @@ economies.
 
 ::: {.content-visible unless-format="html"}
 ```{r echo=FALSE}
-df <- data.frame(
+qualities <- data.frame(
   "Qualities of a Healthy Agricultural Soil" = c(
     "•   Good soil tilth allows roots to penetrate",
     "•   Near neutral pH (6 - 8) maximizes nutrient availability for most crops",
@@ -46,7 +46,7 @@ df <- data.frame(
   check.names = FALSE
 )
 
-flextable::flextable(df) |>
+flextable::flextable(qualities) |>
   flextable::color(
     color = header_text_color,
     part = "header"
@@ -127,12 +127,92 @@ health](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/
 {{< include 07_chemical-measurements.qmd >}}
 :::
 
+{{< pagebreak >}}
+
 ## Soil Health Indicators
 
-![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-table.png){width="6in"}
+```{r}
+indicators <- data.frame(
+  "Soil Health Indicator" = c(
+    "ACE Soil Protein",
+    "Aggregate Stability",
+    "Electrical Conductivity (EC)",
+    "Mineralizable Carbon",
+    "Permanganate Oxidizable Carbon (POXC)",
+    "Potentially Mineralizable Nitrogen (PMN)",
+    "Soil pH",
+    "Total Nitrogen",
+    "Plant Essential Nutrients",
+    "Bulk Density",
+    "Cation Exchange Capacity",
+    "Infiltration",
+    "Soil Organic Matter (SOM)",
+    "Water Holding Capacity (WHC)"
+  ),
+  "Soil Function" = c(
+    "Nutrient cycling, biodiversity & habitat, filtering & resilience",
+    "Physical support, water relations, biodiversity & habitat, filtering & resilience",
+    "Physical support, nutrient cycling, filtering & resilience",
+    "Nutrient cycling, biodiversity & habitat, filtering & resilience",
+    "Biodiversity & habitat, nutrient cycling, filtering & resilience",
+    "Nutrient cycling, biodiversity & habitat, filtering & resilience",
+    "Nutrient cycling, filtering & resilience",
+    "Nutrient cycling, biodiversity & habitat, filtering & resilience",
+    "Nutrient cycling",
+    "Physical support, water relations, biodiversity & habitat, filtering & resilience",
+    "Nutrient cycling, filtering & resilience",
+    "Water relations, physical support",
+    "Nutrient cycling, filtering & resilience",
+    "Water relations, physical support"
+  ),
+  "Measure every" = c(
+    "1-3 years",
+    "1-3 years",
+    "1-3 years",
+    "1-3 years",
+    "1-3 years",
+    "1-3 years",
+    "1-3 years",
+    "1-3 years",
+    "1-3 years",
+    "3-5 years",
+    "3-5 years",
+    "3-5 years",
+    "3-5 years",
+    "3-5 years"
+  ),
+  "Scoring Curve Type" = c(
+    "More is better",
+    "More is better",
+    "Less is better",
+    "More is better",
+    "More is better",
+    "More is better",
+    "Optimal range",
+    "Optimal range",
+    "Optimal range",
+    "Optimal range",
+    "More is better",
+    "More is better",
+    "More is better",
+    "More is better"
+  ),
+  check.names = FALSE
+)
+
+flextable::as_grouped_data(indicators, groups = "Measure every") |>
+  flextable::as_flextable() |>
+  soils::style_ft(
+    header_font = header_font,
+    body_font = body_font,
+    header_color = header_color,
+    header_text_color = header_text_color,
+    border_color = border_color
+  ) |>
+  flextable::set_table_properties(layout = "autofit")
+```
 
 ## Soil Health Testing
 
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/quality-results.png){width="6.5in"
 fig-alt="Infographic titled How to Get Quality Results. Be Consistent: sample at the same time each year; send samples to the same lab; keep samples cool and get them to the lab quickly; keep good records of lab results. Context matters: not all soils are created equal; indicators are impacted by inherent properties like climate and soil texture; as well as by management; don't be alarmed if your soil is below the optimal range fro some indicators, see how far you can take your soil with management but know there may be inherent limitations. Back to the Basics: old school measurements like pH, texture, and soil organic matter are still incredible important; new indicators are constantly being developed, don't feel you have to measure all of them, or let the process overwhelm you; have fun exploring through a soil health lens, but remember that you know your soil better than anyone! Be Patient: some measurements may not change as quickly as you'd like; sampling across time is very important, our scientific understanding of these measurements is evolving; we are all on this journey together."}
-

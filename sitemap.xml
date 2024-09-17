@@ -1,123 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/404.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/customize.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/data.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/examples.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/markdown.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/project.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/quarto.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/render-example.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/render.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/index.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/add_legend.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/add_texture_points.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/calculate_mode.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/convert_ggiraph.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/create_soils.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/data_dictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/format_ft_colors.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/get_n_texture_by_var.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/get_table_headers.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/make_ft.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/make_leaflet.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/make_strip_plot.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/make_texture_triangle.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/prep_for_map.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/pull_unique.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/set_scales.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/soils-package.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/soils_example.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/style_ft.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/summarize_by_project.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/summarize_by_var.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/theme_facet_strip.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/unit_hline.html</loc>
-  </url>
-  <url>
-    <loc>https://wa-department-of-agriculture.github.io/soils/reference/washi_data.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/404.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/LICENSE-text.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/LICENSE.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/customize.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/data.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/examples.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/index.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/markdown.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/project.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/quarto.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/render-example.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/render.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/authors.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/index.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/add_legend.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/add_texture_points.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/calculate_mode.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/convert_ggiraph.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/create_soils.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/data_dictionary.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/format_ft_colors.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/get_n_texture_by_var.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/get_table_headers.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/index.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/make_ft.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/make_leaflet.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/make_strip_plot.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/make_texture_triangle.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/prep_for_map.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/pull_unique.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/set_scales.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/soils-package.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/soils_example.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/style_ft.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/summarize_by_project.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/summarize_by_var.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/theme_facet_strip.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/unit_hline.html</loc></url>
+<url><loc>https://wa-department-of-agriculture.github.io/soils/reference/washi_data.html</loc></url>
 </urlset>
+

@@ -34,7 +34,7 @@ Depends:
 Imports: 
     cli,
     dplyr,
-    flextable,
+    flextable (>= 0.9.6),
     fs,
     ggiraph,
     ggplot2 (>= 3.5.0),

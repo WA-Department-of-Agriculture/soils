@@ -2,3 +2,9 @@ Title: Quarto Soil Health Report
 Binding: create_soils_gui
 OpenFiles: 01_producer-report.qmd, R/render-reports.R
 Icon: logo.png
+
+Parameter: template
+Widget: SelectInput
+Label: Template Type
+Fields: English, Spanish
+Default: English

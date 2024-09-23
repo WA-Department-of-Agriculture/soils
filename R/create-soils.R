@@ -4,6 +4,7 @@
 #' style sheets, render.R script).
 #'
 #' @param path Name of project directory to be created.
+#' @param template Template type. Either "English" or "Spanish".
 #' @param overwrite Boolean. Overwrite the existing project?
 #' @param open Boolean. Open the newly created project?
 #'
@@ -25,6 +26,7 @@
 #' }
 create_soils <- function(
   path,
+  template = c("English", "Spanish"),
   overwrite = FALSE,
   open = TRUE
     ) {
@@ -36,6 +38,12 @@ create_soils <- function(
     ))
   }
 
+  # template arg must be "english" or "spanish"
+  rlang::arg_match(
+    arg = template,
+    values = c("English", "Spanish")
+  )
+
   path <- fs::path_norm(path)
 
   dir_exists <- fs::dir_exists(path)
@@ -45,7 +53,7 @@ create_soils <- function(
     cli::cli_abort(
       c(
         "!" = "{.path {path}} already exists.",
-        "i" = "To always overwrite: \\
+        "i" = "To overwrite: \\
           {.code create_soils({.str {path}} overwrite = TRUE)}"
       )
     )
@@ -69,7 +77,7 @@ create_soils <- function(
   cat_green_tick("Created project directory")
 
   invisible({
-    template <- soils_sys("template")
+    template <- soils_sys(paste0("templates/", tolower(template)))
 
     # Copy over whole directory
     fs::dir_copy(
@@ -87,8 +95,11 @@ create_soils <- function(
 #' @inheritParams create_soils
 #' @noRd
 create_soils_gui <- function(path, ...) {
+  dots <- list(...)
+
   create_soils(
     path = path,
+    template = dots$template,
     overwrite = FALSE,
     open = FALSE
   )

@@ -7,10 +7,17 @@
 Adapted from \code{golem::create_golem()}.
 }
 \usage{
-create_soils(path, overwrite = FALSE, open = TRUE)
+create_soils(
+  path,
+  template = c("English", "Spanish"),
+  overwrite = FALSE,
+  open = TRUE
+)
 }
 \arguments{
 \item{path}{Name of project directory to be created.}
+
+\item{template}{Template type. Either "English" or "Spanish".}
 
 \item{overwrite}{Boolean. Overwrite the existing project?}
 

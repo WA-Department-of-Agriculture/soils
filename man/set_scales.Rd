@@ -8,7 +8,8 @@ set_scales(
   plot,
   primary_color = "#a60f2d",
   secondary_color = "#3E3D3D",
-  other_color = "#ccc29c"
+  other_color = "#ccc29c",
+  language = "English"
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ red}
 
 \item{other_color}{Color of sample points with \code{"Other fields"} value in
 \code{category} column. Defaults to WaSHI tan.}
+
+\item{language}{Language of the footnote. "English" (default) or "Spanish".}
 }
 \value{
 \code{ggplot} object with manual alpha, color, shape, and size scales

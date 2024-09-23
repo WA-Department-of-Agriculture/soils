@@ -4,7 +4,12 @@
 \alias{format_ft_colors}
 \title{Conditional formatting of flextable background cell colors}
 \usage{
-format_ft_colors(ft, lighter_color = "#F2F0E6", darker_color = "#ccc29c")
+format_ft_colors(
+  ft,
+  lighter_color = "#F2F0E6",
+  darker_color = "#ccc29c",
+  language = "English"
+)
 }
 \arguments{
 \item{ft}{Flextable object}
@@ -12,6 +17,8 @@ format_ft_colors(ft, lighter_color = "#F2F0E6", darker_color = "#ccc29c")
 \item{lighter_color}{Lighter background color. Defaults to WaSHI cream.}
 
 \item{darker_color}{Darker background color. Defaults to WaSHI tan.}
+
+\item{language}{Language of the footnote. "English" (default) or "Spanish".}
 }
 \description{
 Color the background cells based on how the value compares to the project

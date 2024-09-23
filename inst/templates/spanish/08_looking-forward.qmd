@@ -1,0 +1,22 @@
+\[EDIT: SUMMARY INFORMATION AND A CALL TO ACTION\] *Consider describing how this
+data will be used. Are you building decision support tools? Publications? Will
+you be speaking at upcoming field days or conferences about this work? Soils
+data can be confusing... let your audience know that this is just the start of
+the conversation! Thank participating producers once again. See the example
+below.*
+
+Esperamos que este informe preliminar sobre la salud del suelo le resulte
+informativo. Recuerde que este es el comienzo de un proyecto a largo plazo. En
+última instancia, estos datos se utilizarán con la encuesta de gestión para
+comprender mejor cómo los indicadores de salud del suelo están vinculados a las
+funciones del suelo, como la supresión de enfermedades, el mantenimiento del
+rendimiento y el secuestro de carbono. Sus datos son fundamentales para
+desarrollar herramientas de apoyo a la toma de decisiones específicas de
+cultivos y regiones, actualmente en desarrollo. Para obtener actualizaciones del
+proyecto, oportunidades de financiamiento o para participar más, [visite el
+sitio web de la Iniciativa de Salud del Suelo de
+Washington](https://washingtonsoilhealthinitiative.com/).
+
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/soil.png){width="4in"
+fig-alt="Photo of soil in hands."}
+

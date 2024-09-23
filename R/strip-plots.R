@@ -56,7 +56,7 @@ theme_facet_strip <- function(
   body_font = "Poppins",
   strip_color = "#335c67",
   strip_text_color = "white"
-    ) {
+) {
   theme <- ggplot2::theme(
     # Font family
     text = ggplot2::element_text(family = body_font),
@@ -96,6 +96,7 @@ theme_facet_strip <- function(
 #'   county"` values in the `category` column. Defaults to WaSHI gray.
 #' @param other_color Color of sample points with `"Other fields"` value in
 #'   `category` column. Defaults to WaSHI tan.
+#' @inheritParams format_ft_colors
 #'
 #' @returns `ggplot` object with manual alpha, color, shape, and size scales
 #'   applied.
@@ -141,33 +142,71 @@ set_scales <- function(
   plot,
   primary_color = "#a60f2d",
   secondary_color = "#3E3D3D",
-  other_color = "#ccc29c"
-    ) {
-  plot +
-    ggplot2::scale_alpha_manual(values = c(
-      "Your fields" = 0.8,
-      "Same county" = 0.6,
-      "Same crop" = 0.6,
-      "Other fields" = 0.5
-    )) +
-    ggplot2::scale_color_manual(values = c(
-      "Your fields" = primary_color,
-      "Same county" = secondary_color,
-      "Same crop" = secondary_color,
-      "Other fields" = other_color
-    )) +
-    ggplot2::scale_shape_manual(values = c(
-      "Your fields" = 15,
-      "Same county" = 17,
-      "Same crop" = 18,
-      "Other fields" = 19
-    )) +
-    ggplot2::scale_size_manual(values = c(
-      "Your fields" = 3,
-      "Same county" = 2.7,
-      "Same crop" = 2.7,
-      "Other fields" = 1.7
-    ))
+  other_color = "#ccc29c",
+  language = "English"
+) {
+  # Language arg must be "English" or "Spanish"
+  rlang::arg_match(
+    arg = language,
+    values = c("English", "Spanish")
+  )
+
+  if (language == "English") {
+    plot <- plot +
+      ggplot2::scale_alpha_manual(values = c(
+        "Your fields" = 0.8,
+        "Same county" = 0.6,
+        "Same crop" = 0.6,
+        "Other fields" = 0.5
+      )) +
+      ggplot2::scale_color_manual(values = c(
+        "Your fields" = primary_color,
+        "Same county" = secondary_color,
+        "Same crop" = secondary_color,
+        "Other fields" = other_color
+      )) +
+      ggplot2::scale_shape_manual(values = c(
+        "Your fields" = 15,
+        "Same county" = 17,
+        "Same crop" = 18,
+        "Other fields" = 19
+      )) +
+      ggplot2::scale_size_manual(values = c(
+        "Your fields" = 3,
+        "Same county" = 2.7,
+        "Same crop" = 2.7,
+        "Other fields" = 1.7
+      ))
+  }
+
+  if (language == "Spanish") {
+    plot <- plot +
+      ggplot2::scale_alpha_manual(values = c(
+        "Su campo" = 0.8,
+        "Mismo contado" = 0.6,
+        "Mismo cultivo" = 0.6,
+        "Otros campos" = 0.5
+      )) +
+      ggplot2::scale_color_manual(values = c(
+        "Su campo" = primary_color,
+        "Mismo contado" = secondary_color,
+        "Mismo cultivo" = secondary_color,
+        "Otros campos" = other_color
+      )) +
+      ggplot2::scale_shape_manual(values = c(
+        "Su campo" = 15,
+        "Mismo contado" = 17,
+        "Mismo cultivo" = 18,
+        "Otros campos" = 19
+      )) +
+      ggplot2::scale_size_manual(values = c(
+        "Su campo" = 3,
+        "Mismo contado" = 2.7,
+        "Mismo cultivo" = 2.7,
+        "Otros campos" = 1.7
+      ))
+  }
+  return(plot)
 }
 
 #' Make a facetted strip plot
@@ -182,6 +221,7 @@ set_scales <- function(
 #' @param group Column to facet by. Defaults to `abbr_unit`.
 #' @param tooltip Column with tooltip labels for interactive plots.
 #' @inheritParams add_texture_points
+#' @inheritParams format_ft_colors
 #' @returns Facetted `ggplot2` strip plots.
 #' @export
 #'
@@ -241,8 +281,25 @@ make_strip_plot <- function(
   y = value,
   id = sample_id,
   group = abbr_unit,
-  tooltip = label
-    ) {
+  tooltip = label,
+  language = "English"
+) {
+  # Language arg must be "English" or "Spanish"
+  rlang::arg_match(
+    arg = language,
+    values = c("English", "Spanish")
+  )
+
+  if (language == "English") {
+    avg <- "Average"
+    vals <- c("Average" = "dashed")
+  }
+
+  if (language == "Spanish") {
+    avg <- "Promedio"
+    vals <- c("Promedio" = "dashed")
+  }
+
   # Set number of columns in facet
   n_facets <- df |>
     dplyr::select({{ group }}) |>
@@ -275,13 +332,13 @@ make_strip_plot <- function(
       data = averages,
       mapping = ggplot2::aes(
         yintercept = mean,
-        linetype = "Project Average",
+        linetype = avg,
         data_id = {{ group }},
-        tooltip = glue::glue("Avg: {round(mean, 2)} {unit}")
+        tooltip = glue::glue("{avg}: {round(mean, 2)} {unit}")
       )
     ) +
     ggplot2::scale_linetype_manual(
-      values = c("Project Average" = "dashed")
+      values = vals
     ) +
     ggiraph::geom_jitter_interactive(
       mapping = ggplot2::aes(
@@ -344,7 +401,7 @@ convert_ggiraph <- function(
   body_font = "Poppins",
   width = 6,
   height = 4
-    ) {
+) {
   if (!ggiraph::font_family_exists(body_font)) {
     cli::cli_inform(
       c(

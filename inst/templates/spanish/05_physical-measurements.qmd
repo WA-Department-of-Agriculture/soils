@@ -1,0 +1,86 @@
+## [**Físico**]{style="color: #a60f2d"} ![](images/physical.png){height="50px"}\newline\newline
+
+***Textura del suelo*** es la proporción relativa de partículas del tamaño de
+arena, limo y arcilla en el suelo. Imagínese estas partículas como pelotas de
+baloncesto, pelotas de golf y semillas de amapola, que son muy diferentes en
+tamaño a pesar de que las partículas del suelo no parecen diferentes a simple
+vista. Es importante destacar que la textura del suelo describe solo la parte
+mineral del suelo y no se ve afectada por la materia orgánica o el manejo. Sin
+embargo, la textura del suelo es un factor importante de cómo responden los
+suelos al manejo. Los suelos con mayor contenido de arcilla pueden contener más
+nutrientes, materia orgánica y agua que los suelos arenosos. Esto se debe a que
+las partículas de arcilla tienen una gran superficie y carga eléctrica y crean
+pequeños poros en el suelo. Los suelos con alto contenido de arena tienen poros
+más grandes y no pueden retener tanta agua.
+
+![Figura que muestra comparaciones de tamaño de partículas de suelo (arena, limo
+y arcilla) con elementos circulares comunes (baloncesto, pelota de golf y
+semillas de
+amapola)](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/ball-texture-spanish.png){width="3in"}
+
+<!-- Image wrapped around text for HTML -->
+
+::: {.content-visible when-format="html"}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/compaction-spanish.png){width="3in"
+style="float:right"
+fig-alt="Comparison between uncompacted and compacted soil. Uncompacted soil particles are more spread out, while compacted soil particles are closed together."}
+:::
+
+***La densidad aparente*** es la masa de partículas de un cierto volumen de
+suelo y se utiliza como indicador de la compactación del suelo. La densidad
+aparente varía según la textura y estructura del suelo y se ve muy afectado por
+la labranza, las pasadas de tractor y los aportes de materia orgánica. Es un
+determinante primario de la aireación del suelo, la porosidad, la infiltración
+de agua y el crecimiento de las raíces. Para obtener más información sobre el
+equipo especial necesario para medir la densidad aparente, consulte este
+[protocolo
+NRCS](https://www.nrcs.usda.gov/sites/default/files/2022-10/Soil%20Bulk%20Density%20Moisture%20Aeration.pdf).
+
+<!-- Image below around text for docx -->
+
+::: {.content-visible unless-format="html"}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/compaction-spanish.png){width="3in"
+fig-alt="Comparison between uncompacted and compacted soil. Uncompacted soil particles are more spread out, while compacted soil particles are closed together."}
+:::
+
+***La infiltración*** mide la velocidad a la que el agua entra en la superficie
+del suelo. Si la tasa de infiltración es baja, el agua se acumulará en la
+superficie. Esto puede dificultar la entrada en el campo y provocar erosión y
+escorrentía. La alta salinidad, las bandejas de arado y las capas cementadas en
+el suelo pueden provocar una infiltración y un drenaje deficientes. La textura
+del suelo también es un factor importante, ya que los poros grandes creados por
+las partículas de arena aceleran las tasas de infiltración, mientras que los
+poros pequeños de las partículas de arcilla ralentizan las tasas de
+infiltración. La gestión también juega un papel importante. La labranza excesiva
+puede romper la estructura del suelo, lo que ralentiza la infiltración. La
+adición de materia orgánica puede formar agregados en el suelo, lo que puede
+acelerar la infiltración. Por lo general, este indicador se mide en el campo,
+como se describe en este [protocolo
+NRCS](https://www.nrcs.usda.gov/sites/default/files/2022-10/Infiltration.pdf).
+
+***La estabilidad de agregados*** mide la resistencia de grupos de partículas
+del suelo, o agregados, a la desintegración. Los agregados se forman cuando las
+partículas del suelo se asocian con materia orgánica, raíces de plantas, hifas
+fúngicas y "pegamentos" hechos por microorganismos del suelo. El agua y el
+viento pueden descomponer los agregados inestables, mientras que los agregados
+estables pueden reducir la erosión y aumentar la infiltración de agua, el
+drenaje y la capacidad de almacenamiento. La estabilidad de los agregados es un
+excelente ejemplo de cómo la vida biológica afecta las propiedades físicas del
+suelo. Los suelos con alto contenido de arcilla tienden a tener una mayor
+estabilidad de los agregados que los suelos arenosos, pero el aumento de la
+materia orgánica del suelo mejora la estabilidad de los agregados en todas las
+texturas del suelo, mientras que el contenido de arena inherentemente alto
+reduce la estabilidad de los agregados.
+
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/aggregate-stability-spanish.png){width="5.8in"
+fig-alt="Aggregate held together with organic matter, roots, fungal hyphae, and microbial glues. An arrow with text says aggregate disintegration points toward an aggregate broken apart and text that says particles more prone to erosion."}
+
+***Capacidad de retención de agua*** (WHC) es la cantidad de agua que puede
+contener un suelo. El WHC describe cómo el suelo almacenará y suministrará agua
+durante eventos de alta precipitación y épocas de sequía. El WHC varía según la
+textura del suelo y la densidad aparente y puede verse muy afectado por el
+manejo. Generalmente, los suelos con texturas más finas, alta materia orgánica y
+baja densidad aparente tienen un WHC más alto.
+
+\[EDIT: ADD A DESCRIPTION OF ANY OTHER PHYSICAL INDICATORS MEASURED IN YOUR
+PROJECT HERE\]

@@ -7,6 +7,7 @@
 #' @param ft Flextable object
 #' @param lighter_color Lighter background color. Defaults to WaSHI cream.
 #' @param darker_color Darker background color. Defaults to WaSHI tan.
+#' @param language Language of the footnote. "English" (default) or "Spanish".
 #'
 #' @export
 #'
@@ -24,8 +25,15 @@
 format_ft_colors <- function(
   ft,
   lighter_color = "#F2F0E6",
-  darker_color = "#ccc29c"
-    ) {
+  darker_color = "#ccc29c",
+  language = "English"
+) {
+  # Language arg must be "English" or "Spanish"
+  rlang::arg_match(
+    arg = language,
+    values = c("English", "Spanish")
+  )
+
   # Color formatter function
   ft <- flextable::bg(
     ft,
@@ -42,25 +50,51 @@ format_ft_colors <- function(
   # Add an empty footer line
   ft <- flextable::add_footer_lines(ft, values = "")
 
+  # English footnote
   # Add the footnote content, with the backgrounds highlighted
-  ft <- flextable::compose(
-    ft,
-    i = 1,
-    j = 1,
-    part = "footer",
-    value = flextable::as_paragraph(
-      "Values \U2265 project average have ",
-      flextable::as_highlight(
-        "darker backgrounds. \n",
-        darker_color
-      ),
-      "Values < project average have ",
-      flextable::as_highlight(
-        "lighter backgrounds. ",
-        lighter_color
+  if (language == "English") {
+    ft <- flextable::compose(
+      ft,
+      i = 1,
+      j = 1,
+      part = "footer",
+      value = flextable::as_paragraph(
+        "Values \U2265 project average have ",
+        flextable::as_highlight(
+          "darker backgrounds. \n",
+          darker_color
+        ),
+        "Values < project average have ",
+        flextable::as_highlight(
+          "lighter backgrounds. ",
+          lighter_color
+        )
       )
     )
-  )
+  }
+
+  # Spanish footnote
+  # Add the footnote content, with the backgrounds highlighted
+  if (language == "Spanish") {
+    ft <- flextable::compose(
+      ft,
+      i = 1,
+      j = 1,
+      part = "footer",
+      value = flextable::as_paragraph(
+        "Valores \U2265 promedio de proyectos tienen ",
+        flextable::as_highlight(
+          "fondos más oscuros. \n",
+          darker_color
+        ),
+        "Valores < promedio de proyectos tienen ",
+        flextable::as_highlight(
+          "fondos más claros ",
+          lighter_color
+        )
+      )
+    )
+  }
   return(ft)
 }
 
@@ -96,7 +130,7 @@ style_ft <- function(
   header_color = "#023B2C",
   header_text_color = "white",
   border_color = "#3E3D3D"
-    ) {
+) {
   flextable::set_flextable_defaults(
     font.family = body_font,
     font.size = 10

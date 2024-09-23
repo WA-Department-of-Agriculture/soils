@@ -11,7 +11,8 @@ make_strip_plot(
   y = value,
   id = sample_id,
   group = abbr_unit,
-  tooltip = label
+  tooltip = label,
+  language = "English"
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ for interactive plots. Defaults to \code{sample_id}.}
 \item{group}{Column to facet by. Defaults to \code{abbr_unit}.}
 
 \item{tooltip}{Column with tooltip labels for interactive plots.}
+
+\item{language}{Language of the footnote. "English" (default) or "Spanish".}
 }
 \value{
 Facetted \code{ggplot2} strip plots.

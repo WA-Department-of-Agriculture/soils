@@ -1,0 +1,227 @@
+## Salud del suelo
+
+La salud del suelo es un término que describe qué tan bien un ecosistema del
+suelo sustenta a las plantas, los animales y los seres humanos. También reconoce
+la naturaleza viva de los suelos y la importancia de los microorganismos del
+suelo. Los suelos sanos pueden proporcionar un hábitat para la vida silvestre,
+apoyar la biodiversidad, reducir los efectos del cambio climático, filtrar el
+aire y el agua, aumentar la productividad de los cultivos y la seguridad
+alimentaria, y garantizar economías rurales prósperas.
+
+::: {.content-visible when-format="html"}
+::: {.callout-tip icon="false"}
+## Calidades del Suelo Agrícola Saludable
+
+-   Una buena labranza del suelo permite que las raíces penetren
+-   El pH casi neutro (6-8) maximiza la disponibilidad de nutrientes para la
+    mayoría de los cultivos
+-   El pH casi neutro también minimiza la toxicidad de Al y Mn
+-   Suministro de nutrientes Suficiente, pero no excesivo, para el crecimiento
+    de los cultivos
+-   Pequeña población de patógenos y plagas
+-   Drenaje e infiltración adecuados del suelo
+-   Población microbiana diversa y activa
+-   Banco de semillas de malezas bajas
+-   Sin productos químicos residuales o toxinas que puedan dañar el cultivo,
+    incluidas las sales
+-   Resistencia a la degradación, como la de la erosión o la escorrentía
+    superficial
+:::
+:::
+
+::: {.content-visible unless-format="html"}
+```{r echo=FALSE}
+qualities <- data.frame(
+  "Calidades del Suelo Agrícola Saludable" = c(
+    "•   Una buena labranza del suelo permite que las raíces penetren",
+    "•   El pH casi neutro (6-8) maximiza la disponibilidad de nutrientes para la mayoría de los cultivos",
+    "•   El pH casi neutro también minimiza la toxicidad de Al y Mn",
+    "•   Suministro de nutrientes Suficiente, pero no excesivo, para el crecimiento de los cultivos",
+    "•   Pequeña población de patógenos y plagas",
+    "•   Drenaje e infiltración adecuados del suelo",
+    "•   Población microbiana diversa y activa",
+    "•   Banco de semillas de malezas bajas",
+    "•   Sin productos químicos residuales o toxinas que puedan dañar el cultivo, incluidas las sales",
+    "•   Resistencia a la degradación, como la de la erosión o la escorrentía superficial"
+  ),
+  check.names = FALSE
+)
+
+flextable::flextable(qualities) |>
+  flextable::color(
+    color = header_text_color,
+    part = "header"
+  ) |>
+  flextable::bg(
+    bg = header_color,
+    part = "header"
+  ) |>
+  flextable::vline_left(
+    border = officer::fp_border(
+      color = header_color,
+      width = 3
+    )
+  ) |>
+  flextable::vline_right(
+    border = officer::fp_border(
+      color = header_color,
+      width = 1
+    )
+  ) |>
+  flextable::hline_bottom(
+    border = officer::fp_border(
+      color = header_color,
+      width = 1
+    )
+  ) |>
+  flextable::bg(
+    bg = lighter_color,
+    part = "body"
+  ) |>
+  flextable::align(align = "left", part = "all") |>
+  flextable::fontsize(size = 10) |>
+  flextable::line_spacing(
+    space = 1.5,
+    part = "header"
+  ) |>
+  flextable::line_spacing(
+    space = 1.1,
+    part = "body"
+  ) |>
+  flextable::width(
+    width = 6
+  )
+```
+:::
+
+## Ciencia del suelo 101
+
+Una parte crucial del viaje hacia la salud del suelo es medir los cambios en el
+suelo y comprender cómo interpretar esas mediciones. Podemos medir la salud del
+suelo con una serie de indicadores que describen las propiedades físicas,
+químicas y biológicas de un suelo, que pueden relacionarse con funciones
+importantes del suelo. Cada indicador mide una propiedad diferente del suelo y
+puede verse afectado de manera diferente por el manejo.
+
+Para obtener más información sobre las prácticas de manejo que apoyan la salud
+del suelo, consulte estos recursos de los [principios del Servicio de
+Conservación de Recursos Naturales (NRCS, por sus siglas en inglés) para mejorar
+la salud del
+suelo](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health).
+
+## Lo que medimos en su suelo
+
+::: {.content-visible when-format="html"}
+::: panel-tabset
+{{< include 05_physical-measurements.qmd >}}
+
+{{< include 06_biological-measurements.qmd >}}
+
+{{< include 07_chemical-measurements.qmd >}}
+:::
+:::
+
+::: {.content-visible unless-format="html"}
+{{< include 05_physical-measurements.qmd >}}
+
+{{< include 06_biological-measurements.qmd >}}
+
+{{< include 07_chemical-measurements.qmd >}}
+:::
+
+{{< pagebreak >}}
+
+## Indicadores de salud del suelo
+
+```{r}
+indicators <- data.frame(
+  "Indicadores de salud del suelo" = c(
+    "La proteína del suelo ACE",
+    "La estabilidad de agregados",
+    "Conductividad eléctrica (EC)",
+    "El carbono potencialmente mineralizable (MinC)",
+    "El carbono oxidable de permanganato (POXC)",
+    "El nitrógeno potencialmente mineralizable (PMN)",
+    "El pH del suelo",
+    "Nitrógeno total",
+    "Los nutrientes esenciales de las plantas",
+    "Densidad aparente",
+    "Capacidad de intercambio catiónico (CEC)",
+    "La infiltración",
+    "Materia organica (SOM)",
+    "Capacidad de retención de agua (WHC)"
+  ),
+  "Función del suelo" = c(
+    "Ciclo de nutrientes, biodiversidad y hábitat, filtración y resiliencia",
+    "Soporte físico, relaciones hídricas, biodiversidad y hábitat, filtración y resiliencia",
+    "Soporte físico, ciclo de nutrientes, filtración y resiliencia",
+    "Ciclo de nutrientes, biodiversidad y hábitat, filtración y resiliencia",
+    "Biodiversidad y hábitat, Ciclo de nutrientes, filtración y resiliencia",
+    "Ciclo de nutrientes, biodiversidad y hábitat, filtración y resiliencia",
+    "Nutrient cycling, filtración y resiliencia",
+    "Ciclo de nutrientes, biodiversidad y hábitat, filtración y resiliencia",
+    "Ciclo de nutrientes",
+    "Soporte físico, relaciones hídricas, biodiversidad y hábitat, filtración y resiliencia",
+    "Ciclo de nutrientes, filtración y resiliencia",
+    "Relaciones hídricas, soporte físico",
+    "Ciclo de nutrientes, filtración y resiliencia",
+    "Relaciones hídricas, soporte físico"
+  ),
+  "Medir cada" = c(
+    "1-3 años",
+    "1-3 años",
+    "1-3 años",
+    "1-3 años",
+    "1-3 años",
+    "1-3 años",
+    "1-3 años",
+    "1-3 años",
+    "1-3 años",
+    "3-5 años",
+    "3-5 años",
+    "3-5 años",
+    "3-5 años",
+    "3-5 años"
+  ),
+  "Tipo de curva y mejoría" = c(
+    "Más es mejor",
+    "Más es mejor",
+    "Menos es mejor",
+    "Más es mejor",
+    "Más es mejor",
+    "Más es mejor",
+    "Rango óptimo",
+    "Rango óptimo",
+    "Rango óptimo",
+    "Rango óptimo",
+    "Más es mejor",
+    "Más es mejor",
+    "Más es mejor",
+    "Más es mejor"
+  ),
+  check.names = FALSE
+)
+
+flextable::as_grouped_data(indicators, groups = "Medir cada") |>
+  flextable::as_flextable() |>
+  soils::style_ft(
+    header_font = header_font,
+    body_font = body_font,
+    header_color = header_color,
+    header_text_color = header_text_color,
+    border_color = border_color
+  ) |>
+  flextable::bg(i = ~ !is.na(`Medir cada`), bg = lighter_color) |> 
+  flextable::set_table_properties(layout = "autofit")
+```
+
+## Pruebas de salud del suelo
+
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/quality-results-spanish.png){width="6.5in"
+fig-alt="¿cómo obtener resultados de calidad? 1. Sé constante. Tome la muestra en la misma época cada año. Envíe las muestras al mismo laboratorio. Mantenga las muestras frías y llévelas al laboratorio rápidamente. Mantenga un buen registro de los resultados de laboratorio. 2. El contexto importa. ¡No todos los suelos son iguales! Los indicadores se ven afectados por propiedades inherentes como el clima y la textura del suelo, así como por la gestión. No se alarme si su suelo está por debajo del rango óptimo para algunos indicadores. Vea hasta dónde puede llevar su suelo con el manejo, pero sepa que puede haber limitaciones inherentes. 3. Volver a lo básico. Las mediciones de la vieja escuela, como el pH, la textura y el SOM, siguen siendo increíblemente importantes. Constantemente se desarrollan nuevos indicadores. No sientas que tienes que medirlos todos, ni dejes que el proceso te abrume. Diviértete explorando a través de una lente de salud del suelo, pero recuerda que conoces tu suelo mejor que nadie. 4.  Sé paciente. Es posible que algunas medidas no cambien tan rápido como te gustaría. El muestreo a lo largo del tiempo es muy importante. ¡Nuestra comprensión científica de estas mediciones está evolucionando! Estamos todos juntos en este viaje. "}
+
+## Comprender los resultados de la salud del suelo
+
+Para obtener más información sobre cómo interpretar los resultados de la salud
+del suelo, vea el seminario web de Dani Gelardi ["Comprender las pruebas de
+suelo"](https://youtu.be/-ED-gGk4yb8?si=fxfnxqrRqhkGDaiu).

@@ -1,0 +1,37 @@
+\[EDIT: DESCRIPTION OF YOUR PROJECT\] *Thank the participating farmer. Consider
+including information related to how many samples you've taken, in how many
+crops and regions. Consider identifying members of the project team and
+acknowledging support from your funders and collaborators. Emphasize the
+objectives of the project, and include links for more information. See the
+example below.*
+
+::: {.content-visible when-format="html"}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/sampling_scene.png){height="2in"
+style="float:right"
+fig-alt="Photo of two men collecting soil samples in rangeland."}
+:::
+
+Gracias por participar en el proyecto de demostración de salud del suelo en la
+granja de NRCS con Viva Farms, el distrito de conservación de Skagit y la
+Universidad Estatal de Washington. En la primavera de 2023, tomamos muestras de
+suelo de sus parcelas de campo antes de que se iniciaran los tratamientos de
+manejo del suelo, y las analizamos para varias mediciones de laboratorio de
+salud del suelo para proporcionar una "línea de base" o punto de partida para
+rastrear el cambio a lo largo del tiempo. Estas medidas de laboratorio se
+complementan con evaluaciones de la salud del suelo en el campo realizadas con
+usted.
+
+A continuación, mostramos los resultados de las mediciones de laboratorio de sus
+muestras y los comparamos con otras muestras tomadas en el condado de Skagit y
+en todo Washington como parte de un proyecto de evaluación del [estado de los
+suelos](https://washingtonsoilhealthinitiative.com/state-of-the-soils/) que ha
+muestreado casi 1000 campos. También proporcionamos información básica sobre
+cómo interpretar cada una de las mediciones.
+
+<!-- Image below around text for docx -->
+
+::: {.content-visible unless-format="html"}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/sampling_scene.png){height="2in"
+fig-alt="Photo of two men collecting soil samples in rangeland."}
+:::
+

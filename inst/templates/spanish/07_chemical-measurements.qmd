@@ -1,0 +1,86 @@
+## [**Químico**]{style="color: #d4820a"} ![](images/chemical.png){height="50px"}\newline\newline
+
+***Los nutrientes esenciales de las plantas*** incluyen macronutrientes como el
+nitrógeno (N), el fósforo (P), el potasio (K), el calcio (Ca), el magnesio (Mg)
+y el azufre (S), y los micronutrientes (requeridos en cantidades
+comparativamente más pequeñas) como el hierro (Fe), el zinc (Zn), el cobre (C),
+el boro (B) y el manganeso (Mn). Por lo general, estos elementos se expresan en
+partes por millón, lo que equivale a miligramos por kilogramo (1 ppm = 1 mg/kg).
+Cada uno de estos elementos es necesario para la producción de cultivos, aunque
+las 4 R, o la cantidad correcta, el momento correcto, la ubicación y la fuente
+correctas, variarán según el cultivo. Si bien muchos de estos nutrientes son
+inherentes al suelo, algunos deben agregarse. Se debe prestar especial atención
+al equilibrio y la reposición de los nutrientes esenciales de las plantas a
+través de las prácticas y principios de construcción de la salud del suelo.
+Puede encontrar más información sobre los nutrientes esenciales para las plantas
+en esta [Guía de interpretación de pruebas de suelo de
+OSU](https://catalog.extension.oregonstate.edu/ec1478).
+
+***El pH del suelo*** describe qué tan ácido (pH menor a 7.0) o alcalino (pH
+mayor que 7.0) es el suelo, y es una medida de la concentración de iones de
+hidrógeno en la solución del suelo. Muchos nutrientes esenciales como P, Fe, Mn,
+Zn, Cu, Co y B se vuelven menos disponibles para las plantas a pH alcalinos.
+Otros nutrientes como el Al o el B pueden volverse tóxicos a pH ácidos. El pH
+del suelo también afecta a las poblaciones microbianas que pueden vivir en el
+suelo. El pH del suelo se ve afectado por las cualidades inherentes del suelo,
+como su edad, mineralogía y zona de lluvia. También se ve afectado por la
+fertilización, el pH del agua de riego y el contenido de SOM. La mayoría de los
+cultivos agrícolas crecen mejor en pH neutros del suelo, dentro de un rango de 6
+a 8. El pH del suelo puede reducirse con azufre o aumentarse añadiendo cal
+agrícola.
+
+***Conductividad eléctrica*** (EC) mide la concentración de sales en el suelo.
+El exceso de sales puede estresar a las plantas y reducir el rendimiento y la
+calidad de los cultivos, así como afectar la estructura del suelo, las tasas de
+infiltración y la capacidad de retención de agua. El sodio (Na) puede causar
+costras y dispersión de partículas del suelo, lo que conduce a la escorrentía
+superficial y la erosión. Los cultivos en suelos afectados por el sodio (suelos
+sódicos) también pueden tener dificultades para absorber otras sales esenciales
+como Calcio, Magnesio y Potasio.
+
+***Capacidad de intercambio catiónico*** (CEC) describe la capacidad del suelo
+para retener un reservorio de nutrientes de liberación lenta, ya que los iones
+cargados positivamente (por ejemplo, NH4+, K+, Ca2+, Mg2+) en el suelo son
+retenidos por sitios cargados negativamente en partículas de arcilla y MOS. Si
+bien la CIC está determinada en parte por la textura del suelo, el aumento de la
+SOM puede aumentar en gran medida la CIC. Los suelos franco arenosos suelen
+tener CIC que oscilan entre 1 y 10 meq/100 g, los suelos francos oscilan entre 5
+y 15 meq/100 g, y los suelos arcillosos tienen CIC superiores a 30 meq/100 g. La
+SOM puede proporcionar 200 a 400 meq/100 g adicionales (tenga en cuenta que las
+unidades de CIC pueden informarse de manera diferente, pero 1 meq/100 g = 1
+cmolc/kg). El pH del suelo también puede alterar la CIC de la materia orgánica y
+las partículas de arcilla, lo que subraya aún más el impacto del pH en otras
+mediciones del suelo.
+
+<!-- Image wrapped around text for HTML -->
+
+::: {.content-visible when-format="html"}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/tn-spanish.png){width="3.5in"
+style="float:right"
+fig-alt="Total Nitrogen (TN) measures different forms of nitrogen in the soil and is closely related to soil productivity. There is a large circle with two smaller circles inside that are labeled Organic N pools (not available, but can be made available during the growing season through microbial processing) and Inorganic N pools (changes very quickly and should be measured often but plant available). Inside the Organic N pools circle are two more circles labeled potentially mineralizable nitrogen and ACE soil protein. Inside the Inorganic N pools circle are two more circles labeled nitrate and ammonium."}
+:::
+
+***Nitrógeno total*** es una medida del nitrógeno inorgánico (nitrato y amonio
+disponibles para las plantas) y orgánico (normalmente no disponible para las
+plantas) en el suelo. Tener suficiente nitrógeno total en el suelo es clave para
+promover la mineralización, o el proceso de cambiar el nitrógeno orgánico a una
+forma que las plantas puedan usar.
+
+<!-- Image below around text for docx -->
+
+::: {.content-visible unless-format="html"}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/tn-spanish.png){height="3.5in"
+fig-alt="Total Nitrogen (TN) measures different forms of nitrogen in the soil and is closely related to soil productivity. There is a large circle with two smaller circles inside that are labeled Organic N pools (not available, but can be made available during the growing season through microbial processing) and Inorganic N pools (changes very quickly and should be measured often but plant available). Inside the Organic N pools circle are two more circles labeled potentially mineralizable nitrogen and ACE soil protein. Inside the Inorganic N pools circle are two more circles labeled nitrate and ammonium."}
+:::
+
+***El carbono inorgánico***, llamado carbonato, está presente en algunos suelos,
+sobre todo en ambientes áridos. Los carbonatos pueden ser una fuente importante
+de nutrientes y almacenamiento de carbono en los suelos, pero en exceso pueden
+provocar problemas de salinidad y mala infiltración. Si bien se pueden emplear
+algunas estrategias para aumentar o disminuir los carbonatos en el suelo,
+generalmente se consideran menos sensibles al manejo que el C orgánico. Como
+tal, la mayoría de las discusiones sobre el manejo agrícola se centran solo en
+el C orgánico.
+
+\[EDIT: ADD A DESCRIPTION OF ANY OTHER CHEMICAL INDICATORS MEASURED IN YOUR
+PROJECT HERE\]

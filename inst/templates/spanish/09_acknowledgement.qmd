@@ -1,0 +1,10 @@
+Este informe se generó utilizando [el paquete R
+{soils}](https://wa-department-of-agriculture.github.io/soils/). {soils} fue
+desarrollado por el Departamento de Agricultura del Estado de Washington y la
+Universidad Estatal de Washington, como parte de la Iniciativa de Salud del
+Suelo de Washington. El texto y las figuras fueron adaptados de la [publicación
+de WSU Extension #FS378E Soil Health in Washington
+Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards).
+Obtenga más información sobre {soils} en esta [publicación de
+blog](https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/)
+o en este [seminario web](https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2).

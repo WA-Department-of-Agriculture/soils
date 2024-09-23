@@ -205,6 +205,7 @@ flextable::as_grouped_data(indicators, groups = "Measure every") |>
     header_text_color = header_text_color,
     border_color = border_color
   ) |>
+  flextable::bg(i = ~ !is.na(`Measure every`), bg = lighter_color) |> 
   flextable::set_table_properties(layout = "autofit")
 ```
 

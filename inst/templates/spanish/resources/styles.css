@@ -1,0 +1,95 @@
+/* Edit these :root variables */
+:root {
+    --primary-color: #023B2C;
+    --secondary-color: #335c67;
+    --link-color: #a60f2d;
+    --light-color: #F2F0E6;
+    --fg-color: white; /* color for text with colored background*/
+    --heading-font: "Georgia";
+    --body-font: "Arial";
+}
+
+/* You don't need to edit the below content unless you want to
+further customize your HTML report style */
+
+p.subtitle {
+    margin-top: 0.95em;
+    margin-bottom: -0.05em;
+}
+
+.lead {
+    font-family: var(--heading-font);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    text-align: right;
+}
+
+p {
+    font-family: var(--body-font);
+}
+
+.tab-pane>p {
+    padding-top: 0em;
+}
+
+a {
+    font-family: var(--body-font);
+    color: var(--link-color);
+}
+
+a:hover {
+    color: var(--link-color);
+    filter: brightness(100%);
+}
+
+.sidebar nav[role=doc-toc] ul>li>a.active {
+    border-left: 1px solid var(--link-color);
+    color: var(--link-color)!important;
+}
+
+.sidebar nav[role=doc-toc] ul>li>ul>li>a.active {
+    border-left: 1px solid var(--link-color);
+    color: var(--link-color)!important;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.sidebar nav[role=doc-toc]>h2 {
+    font-family: var(--heading-font);
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.nav-tabs .nav-link {
+    font-family: var(--heading-font);
+}
+
+caption, .table-caption {
+    text-align: left!;
+}
+
+div.callout-tip.callout {
+    background: var(--light-color);
+}
+
+div.callout-tip.callout {
+    font-family: var(--body-font);
+    border-left-color: var(--primary-color);
+}
+
+div.callout-tip.callout-style-default>.callout-header {
+    background-color: var(--primary-color);
+    color: var(--fg-color);
+}
+
+.btn-success {
+    margin-top: 1em;
+    color: var(--fg-color);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}

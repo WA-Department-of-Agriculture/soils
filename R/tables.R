@@ -84,12 +84,12 @@ format_ft_colors <- function(
       value = flextable::as_paragraph(
         "Valores \U2265 promedio de proyectos tienen ",
         flextable::as_highlight(
-          "fondos más oscuros. \n",
+          "fondos m\u00e1s oscuros. \n",
           darker_color
         ),
         "Valores < promedio de proyectos tienen ",
         flextable::as_highlight(
-          "fondos más claros ",
+          "fondos m\u00e1s claros ",
           lighter_color
         )
       )

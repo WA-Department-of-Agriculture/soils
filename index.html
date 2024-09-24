@@ -129,7 +129,7 @@
 <div class="section level2">
 <h2 id="id_1-create-a-new-soils-project">1. Create a new {soils} project<a class="anchor" aria-label="anchor" href="#id_1-create-a-new-soils-project"></a>
 </h2>
-<p>Follow along in the <a href="https://wa-department-of-agriculture.github.io/soils/articles/project.html"><strong>Create a {soils} project</strong></a> tutorial.</p>
+<p>Follow along in the <a href="https://wa-department-of-agriculture.github.io/soils/articles/project.html"><strong>Create a {soils} project</strong></a> tutorial. Choose between two report templates: <strong>English</strong> or <strong>Spanish</strong>.</p>
 <iframe src="https://drive.google.com/file/d/1LsuC4YR0rXjBUEk4eeoIaoYbaLGcARzr/preview" width="640" height="360" allow="autoplay">
 </iframe>
 </div>
@@ -173,8 +173,19 @@
 <h1 id="acknowledgement-and-citation">Acknowledgement and citation<a class="anchor" aria-label="anchor" href="#acknowledgement-and-citation"></a>
 </h1>
 <p>The below acknowledgement is automatically embedded in each report:</p>
+<blockquote>
 <p>This report was generated using the <a href="https://wa-department-of-agriculture.github.io/soils/">{soils} R package</a>. {soils} was developed by the Washington State Department of Agriculture and Washington State University, as part of the Washington Soil Health Initiative. Text and figures were adapted from <a href="https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards" class="external-link">WSU Extension publication #FS378E Soil Health in Washington Vineyards</a>. Learn more about {soils} in this <a href="https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/" class="external-link">blog post</a> or this <a href="https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2" class="external-link">webinar</a>.</p>
+</blockquote>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">citation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"soils"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">header</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">citation</span>, style <span class="op">=</span> <span class="st">"citation"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">citation</span>, style <span class="op">=</span> <span class="st">"textVersion"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">header</span><span class="op">)</span></span></code></pre></div>
 <p>To cite {soils} in publications, please use:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"&gt;"</span>, <span class="va">text</span><span class="op">)</span></span></code></pre></div>
 <blockquote>
 <p>Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue D, Gelardi DL. 2024. Visualize and Report Soil Health Survey Data with {soils}. Washington Soil Health Initiative. <a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link uri">https://github.com/WA-Department-of-Agriculture/soils</a></p>
 </blockquote>
@@ -189,6 +200,7 @@
 <li><a href="https://github.com/ThinkR-open/golem/" class="external-link">{golem}</a></li>
 </ul>
 <p>Text and figures were adapted from <a href="https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards" class="external-link">WSU Extension publication #FS378E Soil Health in Washington Vineyards</a>.</p>
+<p>The text of the report and alt text of images were translated from English to Spanish by Erica Tello and Eber Rivera.</p>
 </div>
 </div>
 

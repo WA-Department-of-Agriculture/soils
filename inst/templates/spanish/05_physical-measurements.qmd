@@ -23,7 +23,7 @@ amapola)](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figure
 ::: {.content-visible when-format="html"}
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/compaction-spanish.png){width="3in"
 style="float:right"
-fig-alt="Comparison between uncompacted and compacted soil. Uncompacted soil particles are more spread out, while compacted soil particles are closed together."}
+fig-alt="Comparación entre suelo no compactado y compactado. Las partículas de suelo no compactadas están más dispersas, mientras que las partículas de suelo compactadas están cerradas entre sí."}
 :::
 
 ***La densidad aparente*** es la masa de partículas de un cierto volumen de
@@ -40,7 +40,7 @@ NRCS](https://www.nrcs.usda.gov/sites/default/files/2022-10/Soil%20Bulk%20Densit
 
 ::: {.content-visible unless-format="html"}
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/compaction-spanish.png){width="3in"
-fig-alt="Comparison between uncompacted and compacted soil. Uncompacted soil particles are more spread out, while compacted soil particles are closed together."}
+fig-alt="Comparación entre suelo no compactado y compactado. Las partículas de suelo no compactadas están más dispersas, mientras que las partículas de suelo compactadas están cerradas entre sí."}
 :::
 
 ***La infiltración*** mide la velocidad a la que el agua entra en la superficie
@@ -73,7 +73,7 @@ texturas del suelo, mientras que el contenido de arena inherentemente alto
 reduce la estabilidad de los agregados.
 
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/aggregate-stability-spanish.png){width="5.8in"
-fig-alt="Aggregate held together with organic matter, roots, fungal hyphae, and microbial glues. An arrow with text says aggregate disintegration points toward an aggregate broken apart and text that says particles more prone to erosion."}
+fig-alt="Agregado mantenido unido con materia orgánica, raíces, hifas de hongos y pegamentos microbianos. Una flecha con texto que dice desintegración de agregados apunta hacia un agregado roto y un texto que dice partículas más propensas a la erosión."}
 
 ***Capacidad de retención de agua*** (WHC) es la cantidad de agua que puede
 contener un suelo. El WHC describe cómo el suelo almacenará y suministrará agua
@@ -84,3 +84,4 @@ baja densidad aparente tienen un WHC más alto.
 
 \[EDIT: ADD A DESCRIPTION OF ANY OTHER PHYSICAL INDICATORS MEASURED IN YOUR
 PROJECT HERE\]
+

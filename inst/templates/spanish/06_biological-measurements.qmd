@@ -5,7 +5,7 @@
 ::: {.content-visible when-format="html"}
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/som-spanish.png){width="3.5in"
 style="float:right"
-fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
+fig-alt="La materia orgánica del suelo (SOM) respalda la mayoría de los servicios de los ecosistemas y los beneficios del suelo, pero su cambio es lento. Hay tres capas de círculos. El círculo más exterior dice 42% otros materiales. El siguiente círculo interior dice 58% de carbono orgánico total. Hay dos círculos dentro de este círculo que dicen carbono potencialmente mineralizable (respiración microbiana esencial para el ciclo de los nutrientes) y carbono oxidable con permanganato (SOM recientemente estabilizada, responde más rápidamente al ser manejado)."}
 :::
 
 ***La materia orgánica del suelo*** (SOM) es la porción de los suelos que no
@@ -30,7 +30,7 @@ detectar componentes más sensibles en SOM. Sigue leyendo para saber más.
 
 ::: {.content-visible unless-format="html"}
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/som-spanish.png){height="3.5in"
-fig-alt="Soil Organic Matter (SOM) supports most ecosystems services and soil benefits, but slow to change. There are three layers of circles. The most outer circle says 42% other materials. The next inner circle says 58% total organic carbon. There are two circles inside this circle that says potentially mineralizable carbon (microbial respiration essential for nutrient cycling) and permanganate oxidizable carbon (newly stabilized SOM, responds more quickly to management)."}
+fig-alt="La materia orgánica del suelo (SOM) respalda la mayoría de los servicios de los ecosistemas y los beneficios del suelo, pero su cambio es lento. Hay tres capas de círculos. El círculo más exterior dice 42% otros materiales. El siguiente círculo interior dice 58% de carbono orgánico total. Hay dos círculos dentro de este círculo que dicen carbono potencialmente mineralizable (respiración microbiana esencial para el ciclo de los nutrientes) y carbono oxidable con permanganato (SOM recientemente estabilizada, responde más rápidamente al ser manejado)."}
 :::
 
 ***El carbono potencialmente mineralizable*** (MinC, a menudo denominado

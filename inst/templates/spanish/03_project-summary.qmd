@@ -8,7 +8,7 @@ example below.*
 ::: {.content-visible when-format="html"}
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/sampling_scene.png){height="2in"
 style="float:right"
-fig-alt="Photo of two men collecting soil samples in rangeland."}
+fig-alt="Foto de dos hombres recogiendo muestras de suelo en un pastizal."}
 :::
 
 Gracias por participar en el proyecto de demostración de salud del suelo en la
@@ -32,6 +32,5 @@ cómo interpretar cada una de las mediciones.
 
 ::: {.content-visible unless-format="html"}
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/sampling_scene.png){height="2in"
-fig-alt="Photo of two men collecting soil samples in rangeland."}
+fig-alt="Foto de dos hombres recogiendo muestras de suelo en un pastizal."}
 :::
-

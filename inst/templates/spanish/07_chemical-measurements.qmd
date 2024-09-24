@@ -57,7 +57,7 @@ mediciones del suelo.
 ::: {.content-visible when-format="html"}
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/tn-spanish.png){width="3.5in"
 style="float:right"
-fig-alt="Total Nitrogen (TN) measures different forms of nitrogen in the soil and is closely related to soil productivity. There is a large circle with two smaller circles inside that are labeled Organic N pools (not available, but can be made available during the growing season through microbial processing) and Inorganic N pools (changes very quickly and should be measured often but plant available). Inside the Organic N pools circle are two more circles labeled potentially mineralizable nitrogen and ACE soil protein. Inside the Inorganic N pools circle are two more circles labeled nitrate and ammonium."}
+fig-alt="El nitrógeno total (TN) mide diferentes formas de nitrógeno en el suelo y está estrechamente relacionado con la productividad del suelo. Hay un círculo grande con dos círculos más pequeños en el interior que están etiquetados como depósitos de N orgánico (no disponibles, pero pueden estar disponibles durante la temporada de crecimiento mediante procesamiento microbiano) y depósitos de N inorgánico (cambian muy rápidamente y deben medirse con frecuencia, pero la planta está disponible). . Dentro del círculo de depósitos de N orgánico hay dos círculos más etiquetados como nitrógeno potencialmente mineralizable y proteína de suelo ACE. Dentro del círculo de depósitos de N inorgánico hay dos círculos más etiquetados como nitrato y amonio."}
 :::
 
 ***Nitrógeno total*** es una medida del nitrógeno inorgánico (nitrato y amonio
@@ -70,7 +70,7 @@ forma que las plantas puedan usar.
 
 ::: {.content-visible unless-format="html"}
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/tn-spanish.png){height="3.5in"
-fig-alt="Total Nitrogen (TN) measures different forms of nitrogen in the soil and is closely related to soil productivity. There is a large circle with two smaller circles inside that are labeled Organic N pools (not available, but can be made available during the growing season through microbial processing) and Inorganic N pools (changes very quickly and should be measured often but plant available). Inside the Organic N pools circle are two more circles labeled potentially mineralizable nitrogen and ACE soil protein. Inside the Inorganic N pools circle are two more circles labeled nitrate and ammonium."}
+fig-alt="El nitrógeno total (TN) mide diferentes formas de nitrógeno en el suelo y está estrechamente relacionado con la productividad del suelo. Hay un círculo grande con dos círculos más pequeños en el interior que están etiquetados como depósitos de N orgánico (no disponibles, pero pueden estar disponibles durante la temporada de crecimiento mediante procesamiento microbiano) y depósitos de N inorgánico (cambian muy rápidamente y deben medirse con frecuencia, pero la planta está disponible). . Dentro del círculo de depósitos de N orgánico hay dos círculos más etiquetados como nitrógeno potencialmente mineralizable y proteína de suelo ACE. Dentro del círculo de depósitos de N inorgánico hay dos círculos más etiquetados como nitrato y amonio."}
 :::
 
 ***El carbono inorgánico***, llamado carbonato, está presente en algunos suelos,

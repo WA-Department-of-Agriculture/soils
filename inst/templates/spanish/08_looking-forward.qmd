@@ -18,5 +18,4 @@ sitio web de la Iniciativa de Salud del Suelo de
 Washington](https://washingtonsoilhealthinitiative.com/).
 
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/soil.png){width="4in"
-fig-alt="Photo of soil in hands."}
-
+fig-alt="Foto de tierra en las manos."}

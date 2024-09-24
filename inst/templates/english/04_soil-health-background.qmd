@@ -127,6 +127,18 @@ health](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/
 
 ## Soil Health Indicators
 
+The below table and figures describe the functions served by each soil health
+indicator; whether the measured value of an indicator should be higher (more is
+better), lower (less is better), or there is an optimal range to support those
+functions; and how often to measure each indicator. Soil health research is
+ongoing to determine at what thresholds the soil serves the necessary ecosystem
+services in different cropping systems and climates.
+
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-more.png){width="1.5in"
+fig-alt="More is better scoring curve"}![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-optimal.png){width="1.5in"
+fig-alt="Optimal range scoring curve"}![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-less.png){width="1.5in"
+fig-alt="Less is better scoring curve"}
+
 ```{r}
 indicators <- data.frame(
   "Soil Health Indicator" = c(

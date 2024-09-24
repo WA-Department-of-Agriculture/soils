@@ -26,7 +26,7 @@
 #' }
 create_soils <- function(
   path,
-  template = c("English", "Spanish"),
+  template = "English",
   overwrite = FALSE,
   open = TRUE
     ) {
@@ -53,8 +53,8 @@ create_soils <- function(
     cli::cli_abort(
       c(
         "!" = "{.path {path}} already exists.",
-        "i" = "To overwrite: \\
-          {.code create_soils({.str {path}} overwrite = TRUE)}"
+        "i" = "To overwrite, use: \\
+          {.code create_soils({.str {path}}, overwrite = TRUE)}"
       )
     )
   }

@@ -120,7 +120,7 @@ and links to the relevant tutorials.
 
 Follow along in the [**Create a {soils}
 project**](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
-tutorial.
+tutorial. Choose between two report templates: **English** or **Spanish**.
 
 <iframe src="https://drive.google.com/file/d/1LsuC4YR0rXjBUEk4eeoIaoYbaLGcARzr/preview" width="640" height="360" allow="autoplay">
 
@@ -177,7 +177,7 @@ The below acknowledgement is automatically embedded in each report:
 
 ```{r acknowledgement, echo = FALSE, results='asis'}
 acknowledgement <- knitr::knit_child(
-  here::here("inst/template/09_acknowledgement.qmd"),
+  here::here("inst/templates/english/09_acknowledgement.qmd"),
   quiet = TRUE
 )
 
@@ -211,3 +211,5 @@ Text and figures were adapted from [WSU Extension publication #FS378E Soil
 Health in Washington
 Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards).
 
+The text of the report and alt text of images were translated from English to
+Spanish by Erica Tello and Eber Rivera.

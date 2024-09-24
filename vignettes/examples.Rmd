@@ -25,6 +25,8 @@ These reports can be distributed with cloud storage (Google Drive, Box.com,
 Dropbox.com, etc.). Report recipients must download the `.html` file to their
 computer and then open the file in their web browser.
 
+## English
+
 Open this report in a [new
 tab](https://soils-example-html.netlify.app/){target="_blank"}.
 
@@ -33,19 +35,43 @@ knitr::include_url(
   "https://soils-example-html.netlify.app/", height = "500px")
 ```
 
+## Spanish
+
+Open this report in a [new
+tab](https://soils-spanish-example.netlify.app/){target="_blank"}.
+
+```{r echo=FALSE, out.width="100%"}
+knitr::include_url(
+  "https://soils-spanish-example.netlify.app/", height = "500px")
+```
+
 # MS Word
 
 This example report was rendered to a `.docx` file and then converted to a PDF
 for web publishing.
 
-Open this report in a [new
-tab](https://drive.google.com/file/d/15M0HfRbyjUxdkMPib71NdfBB5yKWgVfW/preview){target="_blank"}.
+## English
 
-<object style="width:100%;height:500px" data="https://drive.google.com/file/d/15M0HfRbyjUxdkMPib71NdfBB5yKWgVfW/preview">
+Open this report in a [new
+tab](https://drive.google.com/file/d/1VsRDa4zzzevCVYK17RvtbxHVu2nELCUc/preview){target="_blank"}.
+
+<object style="width:100%;height:500px" data="https://drive.google.com/file/d/1VsRDa4zzzevCVYK17RvtbxHVu2nELCUc/preview">
 
 <p>Oops! Your browser doesn't seem to support embedded PDFs.</p>
 
-<p><a href="https://drive.google.com/file/d/15M0HfRbyjUxdkMPib71NdfBB5yKWgVfW/preview">Try
+<p><a href="https://drive.google.com/file/d/1VsRDa4zzzevCVYK17RvtbxHVu2nELCUc/preview">Try
 downloading it instead.</a></p>
 
 </object>
+
+## Spanish
+
+Open this report in a [new
+tab](https://drive.google.com/file/d/1WkyJgPX4m4s4yaPvwa6JTOIcKW-VBGFO/preview){target="_blank"}.
+
+<object style="width:100%;height:500px" data="https://drive.google.com/file/d/1WkyJgPX4m4s4yaPvwa6JTOIcKW-VBGFO/preview">
+
+<p>Oops! Your browser doesn't seem to support embedded PDFs.</p>
+
+<p><a href="https://drive.google.com/file/d/1WkyJgPX4m4s4yaPvwa6JTOIcKW-VBGFO/preview">Try
+downloading it instead.</a></p>

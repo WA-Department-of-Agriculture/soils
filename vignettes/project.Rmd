@@ -30,10 +30,11 @@ The RStudio user interface is the easiest and recommended way to create a new
 fig-alt="Screenshot of RStudio New Project Wizard with Quarto Soil Health Report selected."}
 
 Enter your desired directory name, browse to where you want the project to live,
+choose which template to use (currently the options are *English* or *Spanish*),
 and check whether you want the project to open in a new RStudio session.
 
 ![](../man/figures/project_wizard-2.png){width="70%"
-fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, and check whether you want the project to open in a new RStudio session."}
+fig-alt="Screenshot of RStudio New Project Wizard for Quarto Soil Health Report. Enter directory name, path, choose which template type to use, and check whether you want the project to open in a new RStudio session."}
 
 The new RStudio project will open with the template Quarto report
 (`01_producer-report.qmd`) and the R script (`render-reports.R`) to render all
@@ -99,3 +100,4 @@ Both options will create and launch a new RStudio project with the below files.
 ```
 
 </details>
+

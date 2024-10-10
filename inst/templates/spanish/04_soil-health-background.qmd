@@ -133,6 +133,13 @@ suelo](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/s
 
 ## Indicadores de salud del suelo
 
+La siguiente tabla describe: 1. Lo que cada indicador ayuda a medir en su suelo;
+2. Si desea que el valor medido sea más alto (más es mejor), más bajo (menos es
+mejor), o en el medio (rango óptimo); y 3. Con qué frecuencia medir cada
+indicador. Nuestro conocimiento de estos indicadores evoluciona rápidamente a
+medida que los investigadores los miden en diversos suelos, sistemas de cultivo
+y climas.
+
 ```{r}
 indicators <- data.frame(
   "Indicadores de salud del suelo" = c(
@@ -225,3 +232,4 @@ fig-alt="Infografía titulada Cómo obtener resultados de calidad. Sea consisten
 Para obtener más información sobre cómo interpretar los resultados de la salud
 del suelo, vea el seminario web de Dani Gelardi ["Comprender las pruebas de
 suelo"](https://youtu.be/-ED-gGk4yb8?si=fxfnxqrRqhkGDaiu).
+

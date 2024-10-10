@@ -127,12 +127,11 @@ health](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/
 
 ## Soil Health Indicators
 
-The below table and figures describe the functions served by each soil health
-indicator; whether the measured value of an indicator should be higher (more is
-better), lower (less is better), or there is an optimal range to support those
-functions; and how often to measure each indicator. Soil health research is
-ongoing to determine at what thresholds the soil serves the necessary ecosystem
-services in different cropping systems and climates.
+The below table describes: 1. What each indicator helps measure in your soil; 2.
+Whether you want the measured value to be higher (more is better), lower (less
+is better), or in the middle (optimal range); and 3. How often to measure each
+indicator. Our understanding of these indicators is rapidly evolving as
+researchers measure them in diverse soils, cropping systems, and climates.
 
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-more.png){width="1.5in"
 fig-alt="More is better scoring curve"}![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-optimal.png){width="1.5in"
@@ -225,3 +224,4 @@ flextable::as_grouped_data(indicators, groups = "Measure every") |>
 
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/quality-results.png){width="6.5in"
 fig-alt="Infographic titled How to Get Quality Results. Be Consistent: sample at the same time each year; send samples to the same lab; keep samples cool and get them to the lab quickly; keep good records of lab results. Context matters: not all soils are created equal; indicators are impacted by inherent properties like climate and soil texture; as well as by management; don't be alarmed if your soil is below the optimal range fro some indicators, see how far you can take your soil with management but know there may be inherent limitations. Back to the Basics: old school measurements like pH, texture, and soil organic matter are still incredible important; new indicators are constantly being developed, don't feel you have to measure all of them, or let the process overwhelm you; have fun exploring through a soil health lens, but remember that you know your soil better than anyone! Be Patient: some measurements may not change as quickly as you'd like; sampling across time is very important, our scientific understanding of these measurements is evolving; we are all on this journey together."}
+

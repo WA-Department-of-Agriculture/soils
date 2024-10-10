@@ -114,7 +114,8 @@ videos and links to the relevant tutorials.
 
 Follow along in the [**Create a {soils}
 project**](https://wa-department-of-agriculture.github.io/soils/articles/project.html)
-tutorial.
+tutorial. Choose between two report templates: **English** or
+**Spanish**.
 
 [create-soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/12a01cf7-0efc-4948-b41e-a826dd86e6f6)
 
@@ -161,18 +162,31 @@ troubleshooting**](https://wa-department-of-agriculture.github.io/soils/articles
 
 The below acknowledgement is automatically embedded in each report:
 
-This report was generated using the [{soils} R
-package](https://wa-department-of-agriculture.github.io/soils/). {soils}
-was developed by the Washington State Department of Agriculture and
-Washington State University, as part of the Washington Soil Health
-Initiative. Text and figures were adapted from [WSU Extension
-publication \#FS378E Soil Health in Washington
-Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards).
-Learn more about {soils} in this [blog
-post](https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/)
-or this [webinar](https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2).
+> This report was generated using the [{soils} R
+> package](https://wa-department-of-agriculture.github.io/soils/).
+> {soils} was developed by the Washington State Department of
+> Agriculture and Washington State University, as part of the Washington
+> Soil Health Initiative. Text and figures were adapted from [WSU
+> Extension publication \#FS378E Soil Health in Washington
+> Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards).
+> Learn more about {soils} in this [blog
+> post](https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/)
+> or this [webinar](https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2).
+
+``` r
+citation <- citation("soils")
+
+header <- format(citation, style = "citation")[[1]]
+text <- format(citation, style = "textVersion")
+
+cat(header)
+```
 
 To cite {soils} in publications, please use:
+
+``` r
+cat(">", text)
+```
 
 > Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue
 > D, Gelardi DL. 2024. Visualize and Report Soil Health Survey Data with
@@ -193,3 +207,8 @@ packages:
 Text and figures were adapted from [WSU Extension publication \#FS378E
 Soil Health in Washington
 Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards).
+
+Report text and images were translated by Erica Tello, Eber Rivera, and
+Kate Smith with WSU Food Systems and Skagit County Extension as part of
+the USDA NRCS Innovation in Conservation program, led by Viva Farms
+(grant number NR22-13G004).

@@ -169,7 +169,7 @@ The below acknowledgement is automatically embedded in each report:
 
 ```{r acknowledgement, echo = FALSE, results='asis'}
 acknowledgement <- knitr::knit_child(
-  here::here("inst/template/09_acknowledgement.qmd"),
+  here::here("inst/templates/english/09_acknowledgement.qmd"),
   quiet = TRUE
 )
 
@@ -203,5 +203,7 @@ Text and figures were adapted from [WSU Extension publication #FS378E Soil
 Health in Washington
 Vineyards](https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards).
 
-The text of the report and alt text of images were translated from English to
-Spanish by Erica Tello and Eber Rivera.
+Report text and images were translated by Erica Tello, Eber Rivera, and Kate
+Smith with WSU Food Systems and Skagit County Extension as part of the USDA NRCS
+Innovation in Conservation program, led by Viva Farms (grant number
+NR22-13G004).

@@ -353,7 +353,7 @@ rm(physical)
 tables <- groups |>
   purrr::map(
     subset,
-    !grepl("(1 Fields)|NA", `Field or Average`)
+    !grepl("(^1 Fields)|NA", `Field or Average`)
   )
 ```
 

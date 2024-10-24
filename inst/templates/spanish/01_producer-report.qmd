@@ -382,7 +382,7 @@ rm(physical)
 tables <- groups |>
   purrr::map(
     subset,
-    !grepl("(1 Campos)|NA", `Campo o Promedio`)
+    !grepl("(^1 Campos)|NA", `Campo o Promedio`)
   )
 ```
 

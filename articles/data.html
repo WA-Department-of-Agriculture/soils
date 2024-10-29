@@ -570,11 +570,11 @@ across all fields for each producer.</p></li>
 samples from the same county as the producer. Can be blank.</p></li>
 <li><p><code>crop &lt;chr&gt;</code> is used to group and summarize
 samples from the same crop as the producer. Can be blank.</p></li>
-<li><p><strong><code>longitude &lt;int&gt;</code></strong> and
-<strong><code>latitude &lt;int&gt;</code></strong> are used to map each
-sample point using the <a href="https://rstudio.github.io/leaflet/index.html" class="external-link">{leaflet}</a>
+<li><p><code>longitude &lt;int&gt;</code> and
+<code>latitude &lt;int&gt;</code> are used to map each sample point
+using the <a href="https://rstudio.github.io/leaflet/index.html" class="external-link">{leaflet}</a>
 package. Coordinates must be in decimal degrees using WGS 84 (aka
-EPSG:4326).</p></li>
+EPSG:4326). If blank, the map will not be included.</p></li>
 <li><p><strong><code>texture &lt;chr&gt;</code></strong> is used in the
 “physical” measurement group table. This column is not used in the
 texture triangle plot, which is instead created from percentage sand,

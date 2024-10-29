@@ -265,7 +265,8 @@ results_long <- results_long |>
 gis_df <- soils::prep_for_map(
   producer_samples,
   label_heading = field_name,
-  label_body = crop
+  # If crop is empty, omit from popup
+  label_body = ifelse(!is.na(crop), crop, "")
 )
 ```
 
@@ -582,7 +583,8 @@ plot_list <- df_plot |>
 ```{r}
 # do not add chunk label due to bug
 # https://github.com/quarto-dev/quarto-cli/issues/3603
-gis_df |>
+
+gis_ft <- gis_df |>
   dplyr::select(
     `Sample ID` = sample_id,
     `Field ID` = field_id,
@@ -590,7 +592,12 @@ gis_df |>
     Crop = crop,
     Longitude = longitude,
     Latitude = latitude
-  ) |>
+  )
+
+# If crop is empty, remove the column from the printed table
+if (NA %in% gis_ft$Crop) gis_ft <- gis_df |> dplyr::select(-Crop)
+
+gis_ft |>
   flextable::flextable() |>
   soils::style_ft(
     header_font = header_font,

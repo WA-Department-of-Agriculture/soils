@@ -597,6 +597,11 @@ gis_ft <- gis_df |>
 # If crop is empty, remove the column from the printed table
 if (NA %in% gis_ft$Crop) gis_ft <- gis_df |> dplyr::select(-Crop)
 
+# If longitude or latitude are empty, remove the columns from the printed table
+if (NA %in% gis_ft$Longitude | NA %in% gis_ft$Latitude) {
+  gis_ft <- gis_ft |> dplyr::select(-c(Longitude, Latitude))
+}
+
 gis_ft |>
   flextable::flextable() |>
   soils::style_ft(
@@ -611,16 +616,19 @@ gis_ft |>
 \
 
 ```{r create-map}
-map <- soils::make_leaflet(
-  gis_df,
-  primary_color = primary_color
-)
+if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
+  map <- soils::make_leaflet(
+    gis_df,
+    primary_color = primary_color
+  )
+}
 ```
 
 ```{r save-map}
 # Save a screenshot of the map for the docx report if htmlwidgets and webshot2
 # are installed.
-if (requireNamespace("htmlwidgets", quietly = TRUE) &
+if (exists("map") &
+  requireNamespace("htmlwidgets", quietly = TRUE) &
   requireNamespace("webshot2", quietly = TRUE)) {
   invisible(htmlwidgets::saveWidget(
     map,
@@ -635,13 +643,13 @@ if (requireNamespace("htmlwidgets", quietly = TRUE) &
 
 ```{r map-html}
 #| eval: !expr out_type == "html"
-map
+if (exists("map")) map
 ```
 
 ```{r map-static}
 #| eval: !expr out_type == "docx"
 #| out-width: 6in
-if (fs::file_exists(glue::glue("{path}/map.png"))) {
+if (exists("map") & fs::file_exists(glue::glue("{path}/map.png"))) {
   knitr::include_graphics(
     glue::glue("{path}/map.png")
   )

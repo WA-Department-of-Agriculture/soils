@@ -88,10 +88,10 @@ see [Data/dictionary mismatches].
 -   `crop <chr>` is used to group and summarize samples from the same crop as
     the producer. Can be blank.
 
--   **`longitude <int>`** and **`latitude <int>`** are used to map each sample
-    point using the [{leaflet}](https://rstudio.github.io/leaflet/index.html)
-    package. Coordinates must be in decimal degrees using WGS 84 (aka
-    EPSG:4326).
+-   `longitude <int>` and `latitude <int>` are used to map each sample point
+    using the [{leaflet}](https://rstudio.github.io/leaflet/index.html) package.
+    Coordinates must be in decimal degrees using WGS 84 (aka EPSG:4326). If
+    blank, the map will not be included.
 
 -   **`texture <chr>`** is used in the "physical" measurement group table. This
     column is not used in the texture triangle plot, which is instead created

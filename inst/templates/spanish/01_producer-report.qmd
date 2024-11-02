@@ -48,7 +48,10 @@ out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 # Set path for saving figure output
 path <- here::here("figure-output/")
 
-# Create figure output directory if needed
+# Delete figure output directory if it already exists
+if (fs::dir_exists(path)) fs::dir_delete(path)
+
+# Create fresh figure output directory
 fs::dir_create(path)
 ```
 
@@ -473,6 +476,9 @@ df_plot <- df_plot[order(df_plot$category, decreasing = TRUE), ]
 ```
 
 ```{r prep-texture-triangle}
+# Make sure dataset has sand, silt, and clay measurements
+texture <- dplyr::filter(producer_samples, abbr %in% c("Arena", "Limo", "Arcilla"))
+
 # Select only the texture variables from the plot df and pivot so each texture
 # is in its own column
 texture_df <- df_plot |>
@@ -495,86 +501,100 @@ texture_df <- df_plot |>
 # Split by category then drop category column
 texture_list <- split(texture_df, texture_df$category) |>
   purrr::map(\(df) dplyr::select(df, -category))
+
+# Does producer have sand, silt, and clay for at least 1 sample?
+producer_texture <- texture_df |>
+  dplyr::filter(category == "Su campo") |> 
+  dplyr::select(-category)
+
+make_tt <- all(grepl(
+  "sand|silt|clay",
+  colnames(producer_texture),
+  ignore.case = TRUE
+)) & ncol(producer_texture) == 3
 ```
 
 ```{r make-texture-triangle}
-# Since the texture triangle is made with base R plotting functions, we need to
-# set our graphics device to save it as a PNG for embedding in our report.
-ragg::agg_png(
-  "figure-output/texture-triangle.png",
-  res = 150,
-  width = 1200,
-  height = 1000,
-  scaling = 1
-)
+# Only create texture triangle if above prep-texture-triangle ran
+if (make_tt) {
+  # Since the texture triangle is made with base R plotting functions, we need to
+  # set our graphics device to save it as a PNG for embedding in our report.
+  ragg::agg_png(
+    "figure-output/texture-triangle.png",
+    res = 150,
+    width = 1200,
+    height = 1000,
+    scaling = 1
+  )
 
-# Create the texture triangle
-soils::make_texture_triangle(body_font = body_font)
+  # Create the texture triangle
+  soils::make_texture_triangle(body_font = body_font)
 
-# The two character code glued to the end of the six character hex color is the
-# opacity level. The opacity value ranges from 00 to FF, with 00 being fully
-# transparent and FF being fully opaque. See a chart to find the opacity code
-# for the level of transparency you want: https://drawne.com/hex-opacity/.
+  # The two character code glued to the end of the six character hex color is the
+  # opacity level. The opacity value ranges from 00 to FF, with 00 being fully
+  # transparent and FF being fully opaque. See a chart to find the opacity code
+  # for the level of transparency you want: https://drawne.com/hex-opacity/.
 
-# Add points for 'Otros campos' on the bottom
-soils::add_texture_points(
-  texture_list$`Otros campos`,
-  color = glue::glue(other_color, 80),
-  pch = 19,
-  size = 1.36
-)
+  # Add points for 'Otros campos' on the bottom
+  soils::add_texture_points(
+    texture_list$`Otros campos`,
+    color = glue::glue(other_color, 80),
+    pch = 19,
+    size = 1.36
+  )
 
-# Next add points for 'Mismo cultivo'
-soils::add_texture_points(
-  texture_list$`Mismo cultivo`,
-  color = glue::glue(secondary_color, 99),
-  pch = 18,
-  size = 2.16
-)
+  # Next add points for 'Mismo cultivo'
+  soils::add_texture_points(
+    texture_list$`Mismo cultivo`,
+    color = glue::glue(secondary_color, 99),
+    pch = 18,
+    size = 2.16
+  )
 
-# Next add points for 'Mismo contado'
-soils::add_texture_points(
-  texture_list$`Mismo contado`,
-  color = glue::glue(secondary_color, 99),
-  pch = 17,
-  size = 2.16
-)
+  # Next add points for 'Mismo contado'
+  soils::add_texture_points(
+    texture_list$`Mismo contado`,
+    color = glue::glue(secondary_color, 99),
+    pch = 17,
+    size = 2.16
+  )
 
-# Lastly, add points for 'Su campo' on top of the other layers
-soils::add_texture_points(
-  texture_list$`Su campo`,
-  color = glue::glue(primary_color, "CC"),
-  pch = 15,
-  size = 2.4
-)
+  # Lastly, add points for 'Su campo' on top of the other layers
+  soils::add_texture_points(
+    texture_list$`Su campo`,
+    color = glue::glue(primary_color, "CC"),
+    pch = 15,
+    size = 2.4
+  )
 
-# Add the legend
-soils::add_legend(
-  legend = c(
-    "Su campo",
-    "Mismo contado",
-    "Mismo cultivo",
-    "Otros campos"
-  ),
-  color = c(
-    glue::glue(primary_color, "CC"),
-    glue::glue(secondary_color, 99),
-    glue::glue(secondary_color, 99),
-    glue::glue(other_color, 80)
-  ),
-  pch = c(15, 17, 18, 19),
-  size = c(2.4, 2.16, 2.16, 1.36),
-  vertical_spacing = 1.5,
-)
+  # Add the legend
+  soils::add_legend(
+    legend = c(
+      "Su campo",
+      "Mismo contado",
+      "Mismo cultivo",
+      "Otros campos"
+    ),
+    color = c(
+      glue::glue(primary_color, "CC"),
+      glue::glue(secondary_color, 99),
+      glue::glue(secondary_color, 99),
+      glue::glue(other_color, 80)
+    ),
+    pch = c(15, 17, 18, 19),
+    size = c(2.4, 2.16, 2.16, 1.36),
+    vertical_spacing = 1.5,
+  )
 
-# Turn off the graphics device to save the figure
-invisible(dev.off())
+  # Turn off the graphics device to save the figure
+  invisible(dev.off())
 
-# Remove the extra white space around the figure if magick is installed
-if (requireNamespace("magick", quietly = TRUE)) {
-  tt <- magick::image_read("figure-output/texture-triangle.png")
-  tt <- magick::image_trim(tt)
-  magick::image_write(tt, "figure-output/texture-triangle.png")
+  # Remove the extra white space around the figure if magick is installed
+  if (requireNamespace("magick", quietly = TRUE)) {
+    tt <- magick::image_read("figure-output/texture-triangle.png")
+    tt <- magick::image_trim(tt)
+    magick::image_write(tt, "figure-output/texture-triangle.png")
+  }
 }
 ```
 

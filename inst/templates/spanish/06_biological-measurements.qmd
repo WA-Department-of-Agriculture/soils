@@ -1,4 +1,4 @@
-## [**Biológico**]{style="color: #335c67"} ![](images/biological.png){height="50px"}\newline\newline
+## [**Biológico**]{style="color: #335c67"} ![](images/Mediciones%20biológicas.png){height="50px"}\newline\newline
 
 <!-- Image wrapped around text for HTML -->
 

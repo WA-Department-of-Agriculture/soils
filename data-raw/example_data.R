@@ -1,6 +1,6 @@
 # data_dictionary ==============================================================
 data_dictionary <- read.csv(
-  here::here("inst/template/data/data-dictionary.csv"),
+  here::here("inst/templates/english/data/data-dictionary.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
   )
@@ -9,7 +9,7 @@ usethis::use_data(data_dictionary, overwrite = TRUE)
 
 # washi_data ===================================================================
 washi_data <- read.csv(
-  here::here("inst/template/data/washi-data.csv"),
+  here::here("inst/templates/english/data/washi-data.csv"),
   check.names = FALSE)
 
 usethis::use_data(washi_data, overwrite = TRUE)

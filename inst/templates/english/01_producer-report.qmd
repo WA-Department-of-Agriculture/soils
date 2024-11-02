@@ -9,6 +9,7 @@ params:
   year: 2023
 
 # Shouldn't need to edit the below values unless you want to customize.
+lang: en
 execute:
   echo: false
   warning: false
@@ -64,7 +65,8 @@ fs::dir_create(path)
 data <- read.csv(
   here::here("data/washi-data.csv"),
   check.names = FALSE,
-  encoding = "UTF-8"
+  encoding = "UTF-8",
+  strip.white = TRUE
 )
 
 # Abort if there are duplicate sample IDs.
@@ -86,21 +88,25 @@ dictionary <- read.csv(
   here::here("data/data-dictionary.csv"),
   check.names = FALSE,
   # Set encoding for using subscripts, superscripts, special characters
-  encoding = "UTF-8"
+  encoding = "UTF-8",
+  strip.white = TRUE
 )
-```
 
-```{r set-groups, include=FALSE}
-# EDIT: Add, remove, or rearrange order of measurement groups to match your data
-# dictionary.
+dictionary <- dictionary |>
+  dplyr::mutate(
+    # Concatenate abbr and unit with html break for the table and plot labels
+    abbr_unit = glue::glue("{abbr}<br>{unit}"),
+    # Set the order of how measurement groups will appear within the report
+    # based on the order found in the data dictionary
+    group_order = dplyr::cur_group_id(),
+    # Set the order of how measurements will appear within each measurement
+    # group based on the order found in the data dictionary
+    measurement_order = seq_along(column_name),
+    .by = measurement_group
+  )
 
-measurement_groups <- c(
-  "physical",
-  "biological",
-  "chemical",
-  "macro",
-  "micro"
-)
+# Get vector of measurement groups from dictionary
+measurement_groups <- unique(dictionary$measurement_group)
 ```
 
 ```{r data-validation}
@@ -121,12 +127,9 @@ required_data_cols <- c(
 
 required_dict_cols <- c(
   "measurement_group",
-  "measurement_group_label",
-  "order",
   "column_name",
   "abbr",
-  "unit",
-  "abbr_unit"
+  "unit"
 )
 
 # Check all column names in `data` are in the `required_cols` vector or
@@ -135,9 +138,6 @@ testthat::expect_in(names(data), c(required_data_cols, dictionary$column_name))
 
 # Check that `dictionary` has required column names.
 testthat::expect_contains(names(dictionary), required_dict_cols)
-
-# Check that the measurement_groups are in the dictionary.
-testthat::expect_in(measurement_groups, dictionary$measurement_group)
 ```
 
 <!-- Set styling variables -->
@@ -197,19 +197,24 @@ results_long <- data |>
     names_to = "measurement"
   ) |>
   dplyr::inner_join(dictionary, by = c("measurement" = "column_name")) |>
-  dplyr::arrange(measurement_group, order) |>
   dplyr::mutate(
+    group_order = factor(
+      group_order,
+      levels = unique(dictionary$group_order),
+      ordered = unique(is.ordered(dictionary$group_order))
+    ),
     abbr = factor(
       abbr,
       levels = dictionary$abbr,
-      ordered = is.ordered(dictionary$order)
+      ordered = is.ordered(dictionary$measurement_order)
     ),
     abbr_unit = factor(
       abbr_unit,
       levels = dictionary$abbr_unit,
-      ordered = is.ordered(dictionary$order)
+      ordered = is.ordered(dictionary$measurement_order)
     )
   ) |>
+  dplyr::arrange(group_order, measurement_order) |>
   dplyr::filter(!is.na(value))
 ```
 
@@ -334,13 +339,13 @@ groups <- df_table |>
 # Special wrangling for texture
 
 # Extract physical df from averages list
-physical <- list(physical = groups$physical)
+physical <- list(Physical = groups$Physical)
 
 # Remove texture from all dataframes except physical
 groups <- purrr::map(
   subset(
     groups,
-    !(names(groups) == "physical")
+    !(names(groups) == "Physical")
   ),
   \(x) dplyr::select(x, -Texture)
 )
@@ -359,6 +364,10 @@ tables <- groups |>
     subset,
     !grepl("(^1 Fields)|NA", `Field or Average`)
   )
+
+# Order list of tables based on how they appear in dictionary. Important that
+# tables and headers are in the same order for the make-flextables chunk.
+tables <- tables[measurement_groups]
 ```
 
 ```{r get-headers-for-flextable}
@@ -465,7 +474,7 @@ texture_list <- split(texture_df, texture_df$category) |>
 
 # Does producer have sand, silt, and clay for at least 1 sample?
 producer_texture <- texture_df |>
-  dplyr::filter(category == "Your fields") |> 
+  dplyr::filter(category == "Your fields") |>
   dplyr::select(-category)
 
 make_tt <- all(grepl(

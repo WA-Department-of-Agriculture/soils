@@ -4,15 +4,10 @@
 # environment. Then uncomment this group assignment and run each code chunk in
 # this file interactively to troubleshoot.
 
-# group <- "physical"
+# group <- "Physical"
 ```
 
 ```{r}
-# Get measurement group label for section header
-header <- dictionary |>
-  dplyr::filter(measurement_group == group) |>
-  pull_unique(measurement_group_label)
-
 # Get path of measurement group image
 image_path <- glue::glue("images/{group}.png")
 
@@ -24,12 +19,12 @@ image <- ifelse(
 )
 ```
 
-### `r glue::glue("{header} {image}")`
+### `r glue::glue("{group} {image}")`
 
 ```{r}
 # Include texture triangle for physical group
 tt_path <- "figure-output/texture-triangle.png"
-if (group == "physical" & fs::file_exists(tt_path)) {
+if (group == "Physical" & fs::file_exists(tt_path)) {
   texture_triangle <- glue::glue("![]({tt_path}){{width='6in'}}")
 }
 ```
@@ -37,7 +32,7 @@ if (group == "physical" & fs::file_exists(tt_path)) {
 ```{r}
 #| output: asis
 # Include page break after texture triangle
-if (group == "physical" & fs::file_exists(tt_path)) {
+if (group == "Physical" & fs::file_exists(tt_path)) {
   cat(texture_triangle)
   cat("\n")
   cat("{{< pagebreak >}}")

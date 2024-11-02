@@ -129,24 +129,17 @@ Your data dictionary **must have the below required columns** for every soil
 measurement included in your data.
 
 -   **`measurement_group <chr>`** determines how the soil measurements are
-    grouped. The order in which these groups appear is determined by the
-    [`set-groups` chunk].
-
--   **`measurement_group_label <chr>`** is the section heading for each
-    measurement group.
-
--   **`order <int>`** determines the sequence of soil measurements within a
-    `measurement_group` in tables and plots.
+    grouped. The order in which these groups appear in the report is determined
+    by the order they are listed within the data dictionary.
 
 -   **`column_name <chr>`** is used to join the dictionary with your data. Must
-    exactly match the column names of the soil measurements in your dataset.
+    exactly match the column names of the soil measurements in your dataset. The
+    order in which these measurements appear within their `measurement_group` is
+    determined by the order they are listed within the data dictionary.
 
 -   **`abbr <chr>`** and **`unit <chr>`** are how soil measurements are labeled
     in tables with the abbreviation as the column header and unit as a secondary
     spanning header.
-
--   **`abbr_unit <chr>`** is how the soil measurements are labeled in plots and
-    uses an HTML tag to include a line break between the abbreviation and unit.
 
 ## Data/dictionary mismatches
 
@@ -218,7 +211,8 @@ Replace `washi-data.csv` with the name of your data file (`my-data.csv`).
 data <- read.csv(
   here::here("data/my-data.csv"),
   check.names = FALSE,
-  encoding = "UTF-8"
+  encoding = "UTF-8",
+  strip.white = TRUE
 )
 ```
 
@@ -244,31 +238,8 @@ dictionary <- read.csv(
   here::here("data/my-dictionary.csv"),
   check.names = FALSE,
   # Set encoding for using subscripts, superscripts, special characters
-  encoding = "UTF-8"
-)
-```
-
-</details>
-
-### `set-groups` chunk
-
-Add or remove groups to the `measurement_groups` vector to match your data
-dictionary and set the order of how they appear in the results section of the
-report. `macro` and `micro` were removed and `chemical` was moved before
-`biological`.
-
-<details closed>
-
-<summary>Example changed chunk</summary>
-
-```{r set-groups, eval=FALSE}
-# EDIT: Add, remove, or rearrange order of measurement groups to match your data
-# dictionary.
-
-measurement_groups <- c(
-  "physical",
-  "chemical",
-  "biological"
+  encoding = "UTF-8",
+  strip.white = TRUE
 )
 ```
 
@@ -380,3 +351,5 @@ from the dataset to fix this error.
 **See the [troubleshooting
 article](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
 for more help on debugging errors.**
+article](<https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html>)
+for more help on debugging errors.\*\*

@@ -1,33 +1,33 @@
-﻿measurement_group,measurement_group_label,column_name,order,abbr,unit,abbr_unit
-biological,Mediciones biológicas ,om_percent,1,Materia organica,%,Materia organica<br>(%)
-biological,Mediciones biológicas ,min_c_96hr_mg_c_kg_day,2,Min C,mg/kg/day,Min C<br>(mg/kg/day)
-biological,Mediciones biológicas ,poxc_mg_kg,3,POXC,ppm,POXC<br>(ppm)
-biological,Mediciones biológicas ,pmn_lb_ac,4,PMN,lb/ac,PMN<br>(lb/ac)
-biological,Mediciones biológicas ,ace_g_protein_kg_soil,5,ACE Proteina,g/kg,ACE Proteina<br>(g/kg)
-chemical,Mediciones químicas ,ph,1,pH,,pH
-chemical,Mediciones químicas ,ec_mmhos_cm,2,EC,mmhos/cm,EC<br>(mmhos/cm)
-chemical,Mediciones químicas ,cec_meq_100g,3,CEC,cmolc/kg,CEC<br>(cmolc/kg)
-chemical,Mediciones químicas ,total_c_percent,4,Total C,%,Total C<br>(%)
-chemical,Mediciones químicas ,toc_percent,5,TOC,%,TOC<br>(%)
-chemical,Mediciones químicas ,inorganic_c_percent,6,Inorganic C,%,Inorganic C<br>(%)
-macro,Macronutrientes esenciales para plantas,total_n_percent,1,Total N,%,Total N<br>(%)
-macro,Macronutrientes esenciales para plantas,no3_n_mg_kg,2,NO₃-N,ppm,NO₃-N<br>(ppm)
-macro,Macronutrientes esenciales para plantas,nh4_n_mg_kg,3,NH₄-N,ppm,NH₄-N<br>(ppm)
-macro,Macronutrientes esenciales para plantas,p_olsen_mg_kg,4,P,ppm,P<br>(ppm)
-macro,Macronutrientes esenciales para plantas,k_mg_kg,5,K,ppm,K<br>(ppm)
-macro,Macronutrientes esenciales para plantas,ca_mg_kg,6,Ca,ppm,Ca<br>(ppm)
-macro,Macronutrientes esenciales para plantas,mg_mg_kg,7,Mg,ppm,Mg<br>(ppm)
-macro,Macronutrientes esenciales para plantas,s_mg_kg,8,S,ppm,S<br>(ppm)
-micro,Micronutriente es esenciales para plantas,b_mg_kg,1,B,ppm,B<br>(ppm)
-micro,Micronutriente es esenciales para plantas,fe_mg_kg,2,Fe,ppm,Fe<br>(ppm)
-micro,Micronutriente es esenciales para plantas,mn_mg_kg,3,Mn,ppm,Mn<br>(ppm)
-micro,Micronutriente es esenciales para plantas,cu_mg_kg,4,Cu,ppm,Cu<br>(ppm)
-micro,Micronutriente es esenciales para plantas,zn_mg_kg,5,Zn,ppm,Zn<br>(ppm)
-micro,Micronutriente es esenciales para plantas,na_mg_kg,6,Na,ppm,Na<br>(ppm)
-physical,Mediciones físicas ,texture,1,Textura,,Textura
-physical,Mediciones físicas ,sand_percent,1,Arena,%,Arena<br>(%)
-physical,Mediciones físicas ,silt_percent,2,Limo,%,Limo<br>(%)
-physical,Mediciones físicas ,clay_percent,3,Arcilla,%,Arcilla<br>(%)
-physical,Mediciones físicas ,bd_g_cm3,5,Densidad aparente,g/cm³,Densidad aparente<br>(g/cm³)
-physical,Mediciones físicas ,wsa_percent,6,Estabilidad de agregados,%,Estabilidad de agregados<br>(%)
-physical,Mediciones físicas ,whc_in_ft,7,WHC,in/ft,WHC<br>(in/ft)
+﻿measurement_group,column_name,abbr,unit
+Mediciones físicas,texture,Textura,
+Mediciones físicas,sand_percent,Arena,%
+Mediciones físicas,silt_percent,Limo,%
+Mediciones físicas,clay_percent,Arcilla,%
+Mediciones físicas,bd_g_cm3,Densidad aparente,g/cm³
+Mediciones físicas,wsa_percent,Estabilidad de agregados,%
+Mediciones físicas,whc_in_ft,WHC,in/ft
+Mediciones biológicas,om_percent,Materia organica,%
+Mediciones biológicas,min_c_96hr_mg_c_kg_day,Min C,mg/kg/day
+Mediciones biológicas,poxc_mg_kg,POXC,ppm
+Mediciones biológicas,pmn_lb_ac,PMN,lb/ac
+Mediciones biológicas,ace_g_protein_kg_soil,ACE Proteina,g/kg
+Mediciones químicas,ph,pH,
+Mediciones químicas,ec_mmhos_cm,EC,mmhos/cm
+Mediciones químicas,cec_meq_100g,CEC,cmolc/kg
+Mediciones químicas,total_c_percent,Total C,%
+Mediciones químicas,toc_percent,TOC,%
+Mediciones químicas,inorganic_c_percent,Inorganic C,%
+Macronutrientes esenciales para plantas,total_n_percent,Total N,%
+Macronutrientes esenciales para plantas,no3_n_mg_kg,NO₃-N,ppm
+Macronutrientes esenciales para plantas,nh4_n_mg_kg,NH₄-N,ppm
+Macronutrientes esenciales para plantas,p_olsen_mg_kg,P,ppm
+Macronutrientes esenciales para plantas,k_mg_kg,K,ppm
+Macronutrientes esenciales para plantas,ca_mg_kg,Ca,ppm
+Macronutrientes esenciales para plantas,mg_mg_kg,Mg,ppm
+Macronutrientes esenciales para plantas,s_mg_kg,S,ppm
+Micronutriente es esenciales para plantas,b_mg_kg,B,ppm
+Micronutriente es esenciales para plantas,fe_mg_kg,Fe,ppm
+Micronutriente es esenciales para plantas,mn_mg_kg,Mn,ppm
+Micronutriente es esenciales para plantas,cu_mg_kg,Cu,ppm
+Micronutriente es esenciales para plantas,zn_mg_kg,Zn,ppm
+Micronutriente es esenciales para plantas,na_mg_kg,Na,ppm

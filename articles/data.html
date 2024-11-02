@@ -420,69 +420,42 @@ Load {soils} and see first five rows of each dataframe
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data_dictionary</span>, <span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
-<colgroup>
-<col width="15%">
-<col width="20%">
-<col width="19%">
-<col width="5%">
-<col width="12%">
-<col width="8%">
-<col width="18%">
-</colgroup>
 <thead><tr class="header">
 <th align="left">measurement_group</th>
-<th align="left">measurement_group_label</th>
 <th align="left">column_name</th>
-<th align="right">order</th>
 <th align="left">abbr</th>
 <th align="left">unit</th>
-<th align="left">abbr_unit</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">biological</td>
-<td align="left">Biological</td>
-<td align="left">om_percent</td>
-<td align="right">1</td>
-<td align="left">Organic Matter</td>
+<td align="left">Physical</td>
+<td align="left">texture</td>
+<td align="left">Texture</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Physical</td>
+<td align="left">sand_percent</td>
+<td align="left">Sand</td>
 <td align="left">%</td>
-<td align="left">Organic Matter<br>(%)</td>
-</tr>
-<tr class="even">
-<td align="left">biological</td>
-<td align="left">Biological</td>
-<td align="left">min_c_96hr_mg_c_kg_day</td>
-<td align="right">2</td>
-<td align="left">Min C</td>
-<td align="left">mg/kg/day</td>
-<td align="left">Min C<br>(mg/kg/day)</td>
 </tr>
 <tr class="odd">
-<td align="left">biological</td>
-<td align="left">Biological</td>
-<td align="left">poxc_mg_kg</td>
-<td align="right">3</td>
-<td align="left">POXC</td>
-<td align="left">ppm</td>
-<td align="left">POXC<br>(ppm)</td>
+<td align="left">Physical</td>
+<td align="left">silt_percent</td>
+<td align="left">Silt</td>
+<td align="left">%</td>
 </tr>
 <tr class="even">
-<td align="left">biological</td>
-<td align="left">Biological</td>
-<td align="left">pmn_lb_ac</td>
-<td align="right">4</td>
-<td align="left">PMN</td>
-<td align="left">lb/ac</td>
-<td align="left">PMN<br>(lb/ac)</td>
+<td align="left">Physical</td>
+<td align="left">clay_percent</td>
+<td align="left">Clay</td>
+<td align="left">%</td>
 </tr>
 <tr class="odd">
-<td align="left">biological</td>
-<td align="left">Biological</td>
-<td align="left">ace_g_protein_kg_soil</td>
-<td align="right">5</td>
-<td align="left">ACE Protein</td>
-<td align="left">g/kg</td>
-<td align="left">ACE Protein<br>(g/kg)</td>
+<td align="left">Physical</td>
+<td align="left">bd_g_cm3</td>
+<td align="left">Bulk Density</td>
+<td align="left">g/cm³</td>
 </tr>
 </tbody>
 </table></details><p>Use <code>washi_data</code> and <code>data_dictionary</code> as
@@ -606,35 +579,28 @@ Glimpse at the example data dictionary
 </summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">data_dictionary</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 32</span></span>
-<span><span class="co">#&gt; Columns: 7</span></span>
-<span><span class="co">#&gt; $ measurement_group       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "biological", "biological", "biological", "bio…</span></span>
-<span><span class="co">#&gt; $ measurement_group_label <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Biological", "Biological", "Biological", "Bio…</span></span>
-<span><span class="co">#&gt; $ column_name             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "om_percent", "min_c_96hr_mg_c_kg_day", "poxc_…</span></span>
-<span><span class="co">#&gt; $ order                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5…</span></span>
-<span><span class="co">#&gt; $ abbr                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter", "Min C", "POXC", "PMN", "ACE…</span></span>
-<span><span class="co">#&gt; $ unit                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "%", "mg/kg/day", "ppm", "lb/ac", "g/kg", "", …</span></span>
-<span><span class="co">#&gt; $ abbr_unit               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Organic Matter&lt;br&gt;(%)", "Min C&lt;br&gt;(mg/kg/day)…</span></span></code></pre></div>
+<span><span class="co">#&gt; Columns: 4</span></span>
+<span><span class="co">#&gt; $ measurement_group <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Physical", "Physical", "Physical", "Physical", "Phy…</span></span>
+<span><span class="co">#&gt; $ column_name       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "texture", "sand_percent", "silt_percent", "clay_per…</span></span>
+<span><span class="co">#&gt; $ abbr              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Texture", "Sand", "Silt", "Clay", "Bulk Density", "…</span></span>
+<span><span class="co">#&gt; $ unit              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "", "%", "%", "%", "g/cm³", "%", "in/ft", "%", "mg/k…</span></span></code></pre></div>
 </details><p>Your data dictionary <strong>must have the below required
 columns</strong> for every soil measurement included in your data.</p>
 <ul>
 <li><p><strong><code>measurement_group &lt;chr&gt;</code></strong>
 determines how the soil measurements are grouped. The order in which
-these groups appear is determined by the <a href="#set-groups-chunk"><code>set-groups</code> chunk</a>.</p></li>
-<li><p><strong><code>measurement_group_label &lt;chr&gt;</code></strong>
-is the section heading for each measurement group.</p></li>
-<li><p><strong><code>order &lt;int&gt;</code></strong> determines the
-sequence of soil measurements within a <code>measurement_group</code> in
-tables and plots.</p></li>
+these groups appear in the report is determined by the order they are
+listed within the data dictionary.</p></li>
 <li><p><strong><code>column_name &lt;chr&gt;</code></strong> is used to
 join the dictionary with your data. Must exactly match the column names
-of the soil measurements in your dataset.</p></li>
+of the soil measurements in your dataset. The order in which these
+measurements appear within their <code>measurement_group</code> is
+determined by the order they are listed within the data
+dictionary.</p></li>
 <li><p><strong><code>abbr &lt;chr&gt;</code></strong> and
 <strong><code>unit &lt;chr&gt;</code></strong> are how soil measurements
 are labeled in tables with the abbreviation as the column header and
 unit as a secondary spanning header.</p></li>
-<li><p><strong><code>abbr_unit &lt;chr&gt;</code></strong> is how the
-soil measurements are labeled in plots and uses an HTML tag to include a
-line break between the abbreviation and unit.</p></li>
 </ul>
 </div>
 <div class="section level2">
@@ -717,7 +683,8 @@ Example changed chunk
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"data/my-data.csv"</span><span class="op">)</span>,</span>
 <span>  check.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
+<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,</span>
+<span>  strip.white <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </details>
 </div>
@@ -741,29 +708,8 @@ Example changed chunk
 <span>  <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"data/my-dictionary.csv"</span><span class="op">)</span>,</span>
 <span>  check.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="co"># Set encoding for using subscripts, superscripts, special characters</span></span>
-<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</details>
-</div>
-<div class="section level3">
-<h3 id="set-groups-chunk">
-<code>set-groups</code> chunk<a class="anchor" aria-label="anchor" href="#set-groups-chunk"></a>
-</h3>
-<p>Add or remove groups to the <code>measurement_groups</code> vector to
-match your data dictionary and set the order of how they appear in the
-results section of the report. <code>macro</code> and <code>micro</code>
-were removed and <code>chemical</code> was moved before
-<code>biological</code>.</p>
-<details closed><summary>
-Example changed chunk
-</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># EDIT: Add, remove, or rearrange order of measurement groups to match your data</span></span>
-<span><span class="co"># dictionary.</span></span>
-<span></span>
-<span><span class="va">measurement_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"physical"</span>,</span>
-<span>  <span class="st">"chemical"</span>,</span>
-<span>  <span class="st">"biological"</span></span>
+<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,</span>
+<span>  strip.white <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </details>
 </div>
@@ -778,7 +724,7 @@ of the soil measurements in your data (<code>12:26</code>). This chunk
 data</a> from wide to long for summarization and visualization.</p>
 <details closed><summary>
 Example changed chunk
-</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># EDIT: `washi_data` example has soil measurements in columns 12 - 42. Replace</span></span>
 <span><span class="co"># this column range with the column indices of the soil measurements in your</span></span>
 <span><span class="co"># dataset.</span></span>
@@ -810,11 +756,11 @@ of <code>my-dictionary.csv</code>.</p>
 <p>In this example, add an extra column named <code>tillage</code> in
 <code>my-data.csv</code> without changing the dictionary.</p>
 <p>After clicking the <code>Render</code> button, the report failed.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>Error<span class="sc">:</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(required_cols, dictionary$column_name) (`expected`).</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="st">* Missing from `expected`: "tillage"</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "longitude", ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>Error<span class="sc">:</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(required_cols, dictionary$column_name) (`expected`).</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="st">* Missing from `expected`: "tillage"</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "longitude", ...</span></span></code></pre></div>
 <p>This error message says the error occurred in lines 94-115 in the
 <code>data-validation</code> chunk because <code>tillage</code> was
 missing from the <code>expected</code> values, which are elements of
@@ -823,7 +769,7 @@ missing from the <code>expected</code> values, which are elements of
 this error.</p>
 <details closed><summary>
 Example changed chunk
-</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># OPTIONAL EDIT: If you have extra columns in `data`, add them to this vector.</span></span>
 <span><span class="va">required_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"year"</span>,</span>
@@ -846,17 +792,18 @@ Example changed chunk
 </details><p>To demonstrate another data/dictionary mismatch error, remove
 <code>cec_meq_100g</code> from the dictionary while keeping it in the
 dataset.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>Error<span class="sc">:</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(...) (`expected`).</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="st">* Missing from `expected`: "cec_meq_100g"</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "texture", ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>Error<span class="sc">:</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(...) (`expected`).</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="st">* Missing from `expected`: "cec_meq_100g"</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_name", "field_id", "county", "crop", "texture", ...</span></span></code></pre></div>
 <p>The error occurred because <code>cec_meq_100g</code> was missing from
 the <code>expected</code> values. Either add <code>cec_meq_100g</code>
 back to the dictionary or remove this column from the dataset to fix
 this error.</p>
 <p><strong>See the <a href="https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html">troubleshooting
-article</a> for more help on debugging errors.</strong></p>
+article</a> for more help on debugging errors.</strong> article](<a href="https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html" class="uri">https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html</a>)
+for more help on debugging errors.**</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

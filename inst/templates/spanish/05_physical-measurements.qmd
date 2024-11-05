@@ -1,4 +1,4 @@
-## [**Físico**]{style="color: #a60f2d"} ![](images/Mediciones%20físicas.png){height="50px"}\newline\newline
+## [**Físico**]{style="color: #a60f2d"} ![](images/physical.png){height="50px"}\newline\newline
 
 ***Textura del suelo*** es la proporción relativa de partículas del tamaño de
 arena, limo y arcilla en el suelo. Imagínese estas partículas como pelotas de

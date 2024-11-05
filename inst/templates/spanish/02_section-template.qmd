@@ -8,8 +8,15 @@
 ```
 
 ```{r}
+# Get image name from Spanish translation
+image_name <- dplyr::case_when(
+  grepl("físico|físicas", group, ignore.case = TRUE) ~ "physical",
+  grepl("biológico|biológicas", group, ignore.case = TRUE) ~ "biological",
+  grepl("químico|químicas", group, ignore.case = TRUE) ~ "chemical"
+)
+
 # Get path of measurement group image
-image_path <- glue::glue("images/{group}.png")
+image_path <- glue::glue("images/{image_name}.png")
 
 # Insert image into header if image exists for that measurement group
 image <- ifelse(

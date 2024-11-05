@@ -1,4 +1,4 @@
-## [**Químico**]{style="color: #d4820a"} ![](images/Mediciones%20químicas.png){height="50px"}\newline\newline
+## [**Químico**]{style="color: #d4820a"} ![](images/chemical.png){height="50px"}\newline\newline
 
 ***Los nutrientes esenciales de las plantas*** incluyen macronutrientes como el
 nitrógeno (N), el fósforo (P), el potasio (K), el calcio (Ca), el magnesio (Mg)

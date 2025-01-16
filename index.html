@@ -6,22 +6,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Visualize and Report Soil Health Data • soils</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Poppins-0.4.9/font.css" rel="stylesheet">
 <link href="deps/Lato-0.4.9/font.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Visualize and Report Soil Health Data">
-<meta name="description" content="Collection of soil health data visualization and reporting tools, including a RStudio project template with everything you need to generate custom HTML and Microsoft Word reports for each participant in your soil health survey.">
-<meta property="og:description" content="Collection of soil health data visualization and reporting tools, including a RStudio project template with everything you need to generate custom HTML and Microsoft Word reports for each participant in your soil health survey.">
+<meta name="description" content="Collection of soil health data visualization and reporting tools, including a RStudio project template with everything you need to generate custom HTML and Microsoft Word reports for each participant in your soil health sampling project.">
+<meta property="og:description" content="Collection of soil health data visualization and reporting tools, including a RStudio project template with everything you need to generate custom HTML and Microsoft Word reports for each participant in your soil health sampling project.">
 <meta property="og:image" content="https://wa-department-of-agriculture.github.io/soils/logo.png">
 </head>
 <body>
@@ -91,7 +90,7 @@
 <h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h1>
 <p>Introducing {soils}: an R package for all your soil health data visualization and reporting needs. {soils} provides an RStudio project template to generate customized, interactive soil health reports. These reports include plots and tables to show how the participant’s results compare to simple averages of results from samples of the same crop, same county, and across the entire project.</p>
-<p>Any scientist leading a soil health survey can use {soils} to create custom reports for all survey participants. Democratize your data by giving back to the farmers and land managers who contributed soil samples to your survey project. Use these reports to empower each participant to explore and better understand their data.</p>
+<p>Any scientist leading a soil health survey can use {soils} to create custom reports for all participants. Democratize your data by giving back to the farmers and land managers who contributed soil samples to your soil sampling project. Use these reports to empower each participant to explore and better understand their data.</p>
 <p>The <a href="https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health" class="external-link">Washington State Department of Agriculture</a> and <a href="https://soilhealth.wsu.edu/" class="external-link">Washington State University</a> developed {soils} as part of the <a href="https://washingtonsoilhealthinitiative.com/" class="external-link">Washington Soil Health Initiative</a>. Learn more about {soils} in this <a href="https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/" class="external-link">blog post</a> or this <a href="https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2" class="external-link">webinar</a>.</p>
 </div>
 <div class="section level1">
@@ -176,16 +175,7 @@
 <blockquote>
 <p>This report was generated using the <a href="https://wa-department-of-agriculture.github.io/soils/">{soils} R package</a>. {soils} was developed by the Washington State Department of Agriculture and Washington State University, as part of the Washington Soil Health Initiative. Text and figures were adapted from <a href="https://pubs.extension.wsu.edu/soil-health-in-washington-vineyards" class="external-link">WSU Extension publication #FS378E Soil Health in Washington Vineyards</a>. Learn more about {soils} in this <a href="https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/" class="external-link">blog post</a> or this <a href="https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2" class="external-link">webinar</a>.</p>
 </blockquote>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">citation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"soils"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">header</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">citation</span>, style <span class="op">=</span> <span class="st">"citation"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">citation</span>, style <span class="op">=</span> <span class="st">"textVersion"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">header</span><span class="op">)</span></span></code></pre></div>
 <p>To cite {soils} in publications, please use:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"&gt;"</span>, <span class="va">text</span><span class="op">)</span></span></code></pre></div>
 <blockquote>
 <p>Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue D, Gelardi DL. 2024. Visualize and Report Soil Health Survey Data with {soils}. Washington Soil Health Initiative. <a href="https://github.com/WA-Department-of-Agriculture/soils" class="external-link uri">https://github.com/WA-Department-of-Agriculture/soils</a></p>
 </blockquote>

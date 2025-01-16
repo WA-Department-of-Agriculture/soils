@@ -18,7 +18,7 @@ bibentry(
   url      = "https://github.com/WA-Department-of-Agriculture/soils",
   textVersion =
     paste("Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue D, Gelardi DL.",
-    "2024. Visualize and Report Soil Health Survey Data with {soils}.",
+    "2024. Visualize and Report Soil Health Data with {soils}.",
     "Washington Soil Health Initiative.",
     "https://github.com/WA-Department-of-Agriculture/soils")
 )

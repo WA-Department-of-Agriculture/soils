@@ -176,7 +176,7 @@ The below acknowledgement is automatically embedded in each report:
 To cite {soils} in publications, please use:
 
 > Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue
-> D, Gelardi DL. 2024. Visualize and Report Soil Health Survey Data with
+> D, Gelardi DL. 2024. Visualize and Report Soil Health Data with
 > {soils}. Washington Soil Health Initiative.
 > <https://github.com/WA-Department-of-Agriculture/soils>
 

@@ -24,7 +24,7 @@ Authors@R: c(
 Description: Collection of soil health data visualization and reporting
     tools, including a RStudio project template with everything you need
     to generate custom HTML and Microsoft Word reports for each participant 
-    in your soil health survey.
+    in your soil health sampling project.
 License: MIT + file LICENSE
 URL: https://github.com/WA-Department-of-Agriculture/soils,
     https://wa-department-of-agriculture.github.io/soils/

@@ -27,9 +27,9 @@ compare to simple averages of results from samples of the same crop,
 same county, and across the entire project.
 
 Any scientist leading a soil health survey can use {soils} to create
-custom reports for all survey participants. Democratize your data by
-giving back to the farmers and land managers who contributed soil
-samples to your survey project. Use these reports to empower each
+custom reports for all participants. Democratize your data by giving
+back to the farmers and land managers who contributed soil samples to
+your soil sampling project. Use these reports to empower each
 participant to explore and better understand their data.
 
 The [Washington State Department of
@@ -173,20 +173,7 @@ The below acknowledgement is automatically embedded in each report:
 > post](https://washingtonsoilhealthinitiative.com/2024/03/soils-an-r-package-for-soil-health-reporting/)
 > or this [webinar](https://youtu.be/_8m7fTjSEOk?si=ikrCASdchiB6rDC2).
 
-``` r
-citation <- citation("soils")
-
-header <- format(citation, style = "citation")[[1]]
-text <- format(citation, style = "textVersion")
-
-cat(header)
-```
-
 To cite {soils} in publications, please use:
-
-``` r
-cat(">", text)
-```
 
 > Ryan JN, McIlquham M, Sarpong KA, Michel LM, Potter TS, Griffin LaHue
 > D, Gelardi DL. 2024. Visualize and Report Soil Health Survey Data with

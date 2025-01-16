@@ -37,10 +37,10 @@ results from samples of the same crop, same county, and across the entire
 project.
 
 Any scientist leading a soil health survey can use {soils} to create custom
-reports for all survey participants. Democratize your data by giving back to the
-farmers and land managers who contributed soil samples to your survey project.
-Use these reports to empower each participant to explore and better understand
-their data.
+reports for all participants. Democratize your data by giving back to the
+farmers and land managers who contributed soil samples to your soil sampling
+project. Use these reports to empower each participant to explore and better
+understand their data.
 
 The [Washington State Department of
 Agriculture](https://agr.wa.gov/departments/land-and-water/natural-resources/soil-health)
@@ -184,7 +184,7 @@ acknowledgement <- knitr::knit_child(
 cat(">", acknowledgement)
 ```
 
-```{r citation-header, results='asis'}
+```{r citation-header, echo=FALSE, results='asis'}
 citation <- citation("soils")
 
 header <- format(citation, style = "citation")[[1]]
@@ -193,7 +193,7 @@ text <- format(citation, style = "textVersion")
 cat(header)
 ```
 
-```{r citation-text, results='asis'}
+```{r citation-text, echo=FALSE, results='asis'}
 cat(">", text)
 ```
 

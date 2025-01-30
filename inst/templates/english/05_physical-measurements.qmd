@@ -58,11 +58,10 @@ stable aggregates can reduce erosion and increase water infiltration, drainage,
 and storage capacity. Aggregate stability is an excellent example of how
 biological life impacts soil physical properties. Soils high in clay tend to
 have higher aggregate stability than sandy soils, but increasing soil organic
-matter improves aggregate stability across all soil textures.ate stability,
-while inherently high sand content reduces aggregate stability.
+matter improves aggregate stability across all soil textures.
 
 ![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/aggregate-stability.png){width="5.8in"
-fig-alt="Aggregate held together with organic matter, roots, fungal hyphae, and microbial glues. An arrow with text says aggregate disintegration points toward an aggregate broken apart and text that says particles more prone to erosion."}
+fig-alt="Aggregate held together with organic matter, roots, fungal hyphae, and microbial glues. An arrow with text says aggregate disintegration points toward an aggregate broken apart and text that says particles are more prone to erosion."}
 
 ***Water Holding Capacity*** (WHC) is the amount of water a soil can hold. WHC
 describes how the soil will store and supply water during high rainfall events

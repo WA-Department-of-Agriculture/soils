@@ -1,6 +1,6 @@
 Package: soils
 Title: Visualize and Report Soil Health Data
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Jadey N", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut"),
       comment = c(ORCID = "0009-0004-5998-4697")
@@ -38,28 +38,31 @@ Imports:
     fs,
     ggiraph,
     ggplot2 (>= 3.5.0),
+    ggrepel,
     ggtext,
     glue,
     htmltools,
     htmlwidgets,
     knitr,
     leaflet,
+    maptiles,
     officer,
     purrr,
+    quarto,
     rstudioapi,
+    sf,
+    tidyterra,
     testthat (>= 3.2.0),
     tidyr,
     utils,
-    usethis,
-    quarto
+    usethis
 Suggests:
     downloadthis,
     here,
     magick,
     ragg,
     rlang,
-    rmarkdown,
-    webshot2
+    rmarkdown
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

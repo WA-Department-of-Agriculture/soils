@@ -57,6 +57,7 @@ table_list |>
 ::: {.content-visible when-format="html"}
 ```{r}
 # If HTML, convert the strip plot to interactive ggiraph
+if (out_type == "html") {
 plot_list |>
   purrr::pluck(group) |>
   convert_ggiraph(
@@ -64,6 +65,7 @@ plot_list |>
     plot_name = group,
     body_font = body_font
   )
+}
 ```
 :::
 

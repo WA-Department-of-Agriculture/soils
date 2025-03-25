@@ -691,41 +691,52 @@ gis_ft |>
 
 \
 
-```{r create-map}
+```{r html-map}
+#| eval: !expr out_type == "html"
+
 if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
-  map <- soils::make_leaflet(
+  soils::make_leaflet(
     gis_df,
     primary_color = primary_color
   )
 }
 ```
 
-```{r save-map}
-# Save a screenshot of the map for the docx report if htmlwidgets and webshot2
-# are installed.
-if (exists("map") &
-  requireNamespace("htmlwidgets", quietly = TRUE) &
-  requireNamespace("webshot2", quietly = TRUE)) {
-  invisible(htmlwidgets::saveWidget(
-    map,
-    file = glue::glue("{path}/map.html")
-  ))
-  invisible(webshot2::webshot(
-    url = glue::glue("{path}/map.html"),
-    file = glue::glue("{path}/map.png"),
-  ))
-}
-```
-
-```{r map-html}
-#| eval: !expr out_type == "html"
-if (exists("map")) map
-```
-
-```{r map-static}
+```{r static-map}
 #| eval: !expr out_type == "docx"
 #| out-width: 6in
-if (exists("map") & fs::file_exists(glue::glue("{path}/map.png"))) {
+
+if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
+  df_sf <- sf::st_as_sf(
+    x = gis_df,
+    coords = c("longitude", "latitude"),
+    crs = "+proj=lonlat"
+  ) |>
+    sf::st_transform(3857)
+
+  basetiles <- maptiles::get_tiles(
+    df_sf,
+    provider = "Esri.WorldStreetMap",
+    cachedir = tempdir(),
+    retina = TRUE
+  )
+
+  map <- ggplot2::ggplot(df_sf) +
+    tidyterra::geom_spatraster_rgb(data = basetiles) +
+    ggplot2::geom_sf(color = primary_color, size = 3) +
+    ggrepel::geom_label_repel(
+      ggplot2::aes(label = field_id, geometry = geometry),
+      stat = "sf_coordinates",
+      family = body_font,
+      size = 3,
+      point.padding = 2,
+      min.segment.length = 0
+    ) +
+    ggplot2::coord_sf(crs = 3857) +
+    ggplot2::theme_void()
+
+  ggplot2::ggsave(glue::glue("{path}/map.png"), map, dpi = 300)
+
   knitr::include_graphics(
     glue::glue("{path}/map.png")
   )

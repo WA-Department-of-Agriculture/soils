@@ -30,6 +30,7 @@
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
+#'   fill = category,
 #'   size = category,
 #'   alpha = category,
 #'   shape = category
@@ -46,6 +47,7 @@
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
+#'   fill = category,
 #'   size = category,
 #'   alpha = category,
 #'   shape = category
@@ -96,7 +98,7 @@ theme_facet_strip <- function(
 #'   county"` values in the `category` column. Defaults to WaSHI gray.
 #' @param other_color Color of sample points with `"Other fields"` value in
 #'   `category` column. Defaults to WaSHI tan.
-#' @inheritParams format_ft_colors
+#' @param language Language of the legend. `"English"` (default) or `"Spanish"`.
 #'
 #' @returns `ggplot` object with manual alpha, color, shape, and size scales
 #'   applied.
@@ -112,7 +114,6 @@ theme_facet_strip <- function(
 #'   dplyr::filter(measurement_group == "biological")
 #'
 #' # Make strip plot
-#'
 #' make_strip_plot(
 #'   df_plot_bio,
 #'   x = dummy,
@@ -121,6 +122,7 @@ theme_facet_strip <- function(
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
+#'   fill = category,
 #'   size = category,
 #'   alpha = category,
 #'   shape = category
@@ -154,27 +156,33 @@ set_scales <- function(
   if (language == "English") {
     plot <- plot +
       ggplot2::scale_alpha_manual(values = c(
-        "Your fields" = 0.8,
+        "Your fields" = 1,
         "Same county" = 0.6,
         "Same crop" = 0.6,
         "Other fields" = 0.5
       )) +
       ggplot2::scale_color_manual(values = c(
-        "Your fields" = primary_color,
-        "Same county" = secondary_color,
-        "Same crop" = secondary_color,
-        "Other fields" = other_color
+        "Your fields" = glue::glue(primary_color, "FF"),
+        "Same county" = glue::glue("#494646", "CC"),
+        "Same crop" = glue::glue("#918D8D", "CC"),
+        "Other fields" = glue::glue(other_color, "CC")
+      )) +
+      ggplot2::scale_fill_manual(values = c(
+        "Your fields" = glue::glue(primary_color, "FF"),
+        "Same county" = glue::glue("#494646", 99),
+        "Same crop" = glue::glue("#918D8D", 99),
+        "Other fields" = glue::glue(other_color, 99)
       )) +
       ggplot2::scale_shape_manual(values = c(
-        "Your fields" = 15,
-        "Same county" = 17,
-        "Same crop" = 18,
-        "Other fields" = 19
+        "Your fields" = 22,
+        "Same county" = 8,
+        "Same crop" = 24,
+        "Other fields" = 21
       )) +
       ggplot2::scale_size_manual(values = c(
         "Your fields" = 3,
         "Same county" = 2.7,
-        "Same crop" = 2.7,
+        "Same crop" = 1.5,
         "Other fields" = 1.7
       ))
   }
@@ -182,27 +190,33 @@ set_scales <- function(
   if (language == "Spanish") {
     plot <- plot +
       ggplot2::scale_alpha_manual(values = c(
-        "Su campo" = 0.8,
+        "Su campos" = 1,
         "Mismo contado" = 0.6,
         "Mismo cultivo" = 0.6,
         "Otros campos" = 0.5
       )) +
       ggplot2::scale_color_manual(values = c(
-        "Su campo" = primary_color,
-        "Mismo contado" = secondary_color,
-        "Mismo cultivo" = secondary_color,
-        "Otros campos" = other_color
+        "Su campos" = glue::glue(primary_color, "FF"),
+        "Mismo contado" = glue::glue("#494646", "CC"),
+        "Mismo cultivo" = glue::glue("#918D8D", "CC"),
+        "Otros campos" = glue::glue(other_color, "CC")
+      )) +
+      ggplot2::scale_fill_manual(values = c(
+        "Su campos" = glue::glue(primary_color, "FF"),
+        "Mismo contado" = glue::glue("#494646", 99),
+        "Mismo cultivo" = glue::glue("#918D8D", 99),
+        "Otros campos" = glue::glue(other_color, 99)
       )) +
       ggplot2::scale_shape_manual(values = c(
-        "Su campo" = 15,
-        "Mismo contado" = 17,
-        "Mismo cultivo" = 18,
-        "Otros campos" = 19
+        "Su campos" = 22,
+        "Mismo contado" = 8,
+        "Mismo cultivo" = 24,
+        "Otros campos" = 21
       )) +
       ggplot2::scale_size_manual(values = c(
-        "Su campo" = 3,
+        "Su campos" = 3,
         "Mismo contado" = 2.7,
-        "Mismo cultivo" = 2.7,
+        "Mismo cultivo" = 1.5,
         "Otros campos" = 1.7
       ))
   }
@@ -220,6 +234,7 @@ set_scales <- function(
 #'   for interactive plots. Defaults to `sample_id`.
 #' @param group Column to facet by. Defaults to `abbr_unit`.
 #' @param tooltip Column with tooltip labels for interactive plots.
+#' @param language Language of the legend. `"English"` (default) or `"Spanish"`.
 #' @inheritParams add_texture_points
 #' @inheritParams format_ft_colors
 #' @returns Facetted `ggplot2` strip plots.
@@ -248,6 +263,7 @@ set_scales <- function(
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
+#'   fill = category,
 #'   size = category,
 #'   alpha = category,
 #'   shape = category
@@ -258,8 +274,8 @@ set_scales <- function(
 #' # Example of strip plot without scales or theme functions
 #' make_strip_plot(df_plot_bio)
 #'
-#' # Example of strip plot with `x` set to the facet group instead of a
-#' # dummy variable.
+#' # Example of strip plot with `x` set to the facet group instead of a dummy
+#' # variable. The dummy variable is what centers the points within the subplot.
 #' make_strip_plot(
 #'   df_plot_bio,
 #'   x = abbr_unit,
@@ -268,6 +284,7 @@ set_scales <- function(
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
+#'   fill = category,
 #'   size = category,
 #'   alpha = category,
 #'   shape = category
@@ -386,6 +403,7 @@ make_strip_plot <- function(
 #'   group = abbr_unit,
 #'   tooltip = label,
 #'   color = category,
+#'   fill = category,
 #'   size = category,
 #'   alpha = category,
 #'   shape = category

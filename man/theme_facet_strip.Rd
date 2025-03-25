@@ -46,6 +46,7 @@ make_strip_plot(
   group = abbr_unit,
   tooltip = label,
   color = category,
+  fill = category,
   size = category,
   alpha = category,
   shape = category
@@ -62,6 +63,7 @@ make_strip_plot(
   group = abbr_unit,
   tooltip = label,
   color = category,
+  fill = category,
   size = category,
   alpha = category,
   shape = category

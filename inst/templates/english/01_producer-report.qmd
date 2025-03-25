@@ -485,86 +485,93 @@ make_tt <- all(grepl(
 ```
 
 ```{r make-texture-triangle}
-# Only create texture triangle if above prep-texture-triangle ran
-if (make_tt) {
-  # Since the texture triangle is made with base R plotting functions, we need to
-  # set our graphics device to save it as a PNG for embedding in our report.
-  ragg::agg_png(
-    "figure-output/texture-triangle.png",
-    res = 150,
-    width = 1200,
-    height = 1000,
-    scaling = 1
-  )
+# Since the texture triangle is made with base R plotting functions, we need to
+# set our graphics device to save it as a PNG for embedding in our report.
+ragg::agg_png(
+  "figure-output/texture-triangle.png",
+  res = 150,
+  width = 1200,
+  height = 1000,
+  scaling = 1
+)
 
-  # Create the texture triangle
-  soils::make_texture_triangle(body_font = body_font)
+# Create the texture triangle
+soils::make_texture_triangle(body_font = body_font)
 
-  # The two character code glued to the end of the six character hex color is the
-  # opacity level. The opacity value ranges from 00 to FF, with 00 being fully
-  # transparent and FF being fully opaque. See a chart to find the opacity code
-  # for the level of transparency you want: https://drawne.com/hex-opacity/.
+# The two character code glued to the end of the six character hex color is the
+# opacity level. The opacity value ranges from 00 to FF, with 00 being fully
+# transparent and FF being fully opaque. See a chart to find the opacity code
+# for the level of transparency you want: https://drawne.com/hex-opacity/.
 
-  # Add points for 'Other fields' on the bottom
-  soils::add_texture_points(
-    texture_list$`Other fields`,
-    color = glue::glue(other_color, 80),
-    pch = 19,
-    size = 1.36
-  )
+# Add points for 'Other fields' on the bottom
+soils::add_texture_points(
+  texture_list$`Other fields`,
+  color = glue::glue(other_color, "CC"),
+  bg = glue::glue(other_color, 99),
+  pch = 21,
+  size = 1.36
+)
 
-  # Next add points for 'Same crop'
-  soils::add_texture_points(
-    texture_list$`Same crop`,
-    color = glue::glue(secondary_color, 99),
-    pch = 18,
-    size = 2.16
-  )
+# Next add points for 'Same crop'
+soils::add_texture_points(
+  texture_list$`Same crop`,
+  color = glue::glue("#918D8D", "CC"),
+  bg = glue::glue("#918D8D", 99),
+  pch = 24,
+  size = 1.36
+)
 
-  # Next add points for 'Same county'
-  soils::add_texture_points(
-    texture_list$`Same county`,
-    color = glue::glue(secondary_color, 99),
-    pch = 17,
-    size = 2.16
-  )
+# Next add points for 'Same county'
+soils::add_texture_points(
+  texture_list$`Same county`,
+  color = glue::glue("#494646", "CC"),
+  bg = glue::glue("#494646", 99),
+  pch = 8,
+  size = 2
+)
 
-  # Lastly, add points for 'Your fields' on top of the other layers
-  soils::add_texture_points(
-    texture_list$`Your fields`,
-    color = glue::glue(primary_color, "CC"),
-    pch = 15,
-    size = 2.4
-  )
+# Lastly, add points for 'Your fields' on top of the other layers
+soils::add_texture_points(
+  texture_list$`Your fields`,
+  color = glue::glue(primary_color, "FF"),
+  bg = glue::glue(primary_color, "CC"),
+  pch = 22,
+  size = 2.4
+)
 
-  # Add the legend
-  soils::add_legend(
-    legend = c(
-      "Your fields",
-      "Same county",
-      "Same crop",
-      "Other fields"
-    ),
-    color = c(
-      glue::glue(primary_color, "CC"),
-      glue::glue(secondary_color, 99),
-      glue::glue(secondary_color, 99),
-      glue::glue(other_color, 80)
-    ),
-    pch = c(15, 17, 18, 19),
-    size = c(2.4, 2.16, 2.16, 1.36),
-    vertical_spacing = 1.5,
-  )
+# Add the legend
+soils::add_legend(
+  legend = c(
+    "Your fields",
+    "Same county",
+    "Same crop",
+    "Other fields"
+  ),
+  color = c(
+    primary_color,
+    secondary_color,
+    "#918D8D",
+    other_color
+  ),
+  pt.bg = c(
+    glue::glue(primary_color, "CC"),
+    glue::glue("#494646", 99),
+    glue::glue("#918D8D", 99),
+    glue::glue(other_color, 99)
+  ),
+  pch = c(22, 8, 24, 21),
+  size = c(2.4, 2, 1.36, 1.36),
+  vertical_spacing = 1.5,
+)
 
-  # Turn off the graphics device to save the figure
-  invisible(dev.off())
+# Turn off the graphics device to save the figure
+invisible(dev.off())
 
-  # Remove the extra white space around the figure if magick is installed
-  if (requireNamespace("magick", quietly = TRUE)) {
-    tt <- magick::image_read("figure-output/texture-triangle.png")
-    tt <- magick::image_trim(tt)
-    magick::image_write(tt, "figure-output/texture-triangle.png")
-  }
+# Remove the extra white space around the figure if magick is installed
+if (requireNamespace("magick", quietly = TRUE)) {
+  tt <- magick::image_read("figure-output/texture-triangle.png")
+  tt <- magick::image_trim(tt)
+  magick::image_write(tt, "figure-output/texture-triangle.png")
 }
 ```
 
@@ -577,15 +584,18 @@ plot_list <- df_plot |>
     plot <- soils::make_strip_plot(
       group,
       color = category,
+      fill = category,
       size = category,
       shape = category,
-      alpha = category
+      alpha = category,
+      language = "English"
     ) |>
       # Set color, size, shape, alpha scales
       soils::set_scales(
         primary_color = primary_color,
         secondary_color = secondary_color,
-        other_color = other_color
+        other_color = other_color,
+        language = "English"
       ) +
       # Apply facet strip plot theme
       soils::theme_facet_strip(
@@ -686,10 +696,7 @@ if (exists("map") & fs::file_exists(glue::glue("{path}/map.png"))) {
 
 ## Project Results
 
-Below are tables and graphs describing the physical, biological, and chemical
-measurements from your soils. Each point represents a sample we collected. Take
-a look to see how your fields compare to others in the project. All samples were
-collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
+Below are tables and graphs describing the physical, biological, and chemical measurements from your soils. Each point represents a sample we collected. Take a look to see how your fields compare to others in the project. All samples were collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
 
 ```{r create-measurement-group-sections}
 #| output: asis

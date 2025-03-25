@@ -33,7 +33,7 @@ for interactive plots. Defaults to \code{sample_id}.}
 
 \item{tooltip}{Column with tooltip labels for interactive plots.}
 
-\item{language}{Language of the footnote. "English" (default) or "Spanish".}
+\item{language}{Language of the legend. \code{"English"} (default) or \code{"Spanish"}.}
 }
 \value{
 Facetted \code{ggplot2} strip plots.
@@ -64,6 +64,7 @@ make_strip_plot(
   group = abbr_unit,
   tooltip = label,
   color = category,
+  fill = category,
   size = category,
   alpha = category,
   shape = category
@@ -74,8 +75,8 @@ make_strip_plot(
 # Example of strip plot without scales or theme functions
 make_strip_plot(df_plot_bio)
 
-# Example of strip plot with `x` set to the facet group instead of a
-# dummy variable.
+# Example of strip plot with `x` set to the facet group instead of a dummy
+# variable. The dummy variable is what centers the points within the subplot.
 make_strip_plot(
   df_plot_bio,
   x = abbr_unit,
@@ -84,6 +85,7 @@ make_strip_plot(
   group = abbr_unit,
   tooltip = label,
   color = category,
+  fill = category,
   size = category,
   alpha = category,
   shape = category

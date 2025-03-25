@@ -451,7 +451,7 @@ df_plot <- results_long |>
     dummy = "dummy",
     # Set category to group samples
     category = dplyr::case_when(
-      sample_id %in% producer$sample_id ~ "Su campo",
+      sample_id %in% producer$sample_id ~ "Su campos",
       crop %in% producer$crop & !is.na(crop) ~ "Mismo cultivo",
       county %in% producer$county & !is.na(county) ~ "Mismo contado",
       .default = "Otros campos"
@@ -459,11 +459,11 @@ df_plot <- results_long |>
     # Set category factors so producer samples are plotted last
     category = factor(
       category,
-      levels = c("Su campo", "Mismo cultivo", "Mismo contado", "Otros campos")
+      levels = c("Su campos", "Mismo cultivo", "Mismo contado", "Otros campos")
     ),
     # Label for tooltip
     label = dplyr::case_when(
-      category == "Su campo" ~ glue::glue(
+      category == "Su campos" ~ glue::glue(
         "{field_name}<br>{crop}<br>{value} {unit}"
       ),
       category == "Mismo cultivo" ~ glue::glue(
@@ -512,7 +512,7 @@ texture_list <- split(texture_df, texture_df$category) |>
 
 # Does producer have sand, silt, and clay for at least 1 sample?
 producer_texture <- texture_df |>
-  dplyr::filter(category == "Su campo") |>
+  dplyr::filter(category == "Su campos") |>
   dplyr::select(-category)
 
 make_tt <- all(grepl(
@@ -546,52 +546,62 @@ if (make_tt) {
   # Add points for 'Otros campos' on the bottom
   soils::add_texture_points(
     texture_list$`Otros campos`,
-    color = glue::glue(other_color, 80),
-    pch = 19,
+    color = glue::glue(other_color, "CC"),
+    bg = glue::glue(other_color, 99),
+    pch = 21,
     size = 1.36
   )
 
   # Next add points for 'Mismo cultivo'
   soils::add_texture_points(
     texture_list$`Mismo cultivo`,
-    color = glue::glue(secondary_color, 99),
-    pch = 18,
-    size = 2.16
+    color = glue::glue("#918D8D", "CC"),
+    bg = glue::glue("#918D8D", 99),
+    pch = 24,
+    size = 1.36
   )
 
   # Next add points for 'Mismo contado'
   soils::add_texture_points(
     texture_list$`Mismo contado`,
-    color = glue::glue(secondary_color, 99),
-    pch = 17,
-    size = 2.16
+    color = glue::glue("#494646", "CC"),
+    bg = glue::glue("#494646", 99),
+    pch = 8,
+    size = 2
   )
 
-  # Lastly, add points for 'Su campo' on top of the other layers
+  # Lastly, add points for 'Su campos' on top of the other layers
   soils::add_texture_points(
-    texture_list$`Su campo`,
-    color = glue::glue(primary_color, "CC"),
-    pch = 15,
+    texture_list$`Su campos`,
+    color = glue::glue(primary_color, "FF"),
+    bg = glue::glue(primary_color, "CC"),
+    pch = 22,
     size = 2.4
   )
 
   # Add the legend
   soils::add_legend(
     legend = c(
-      "Su campo",
+      "Su campos",
       "Mismo contado",
       "Mismo cultivo",
       "Otros campos"
     ),
     color = c(
-      glue::glue(primary_color, "CC"),
-      glue::glue(secondary_color, 99),
-      glue::glue(secondary_color, 99),
-      glue::glue(other_color, 80)
+      primary_color,
+      secondary_color,
+      "#918D8D",
+      other_color
     ),
-    pch = c(15, 17, 18, 19),
-    size = c(2.4, 2.16, 2.16, 1.36),
-    vertical_spacing = 1.5,
+    pt.bg = c(
+      glue::glue(primary_color, "CC"),
+      glue::glue("#494646", 99),
+      glue::glue("#918D8D", 99),
+      glue::glue(other_color, 99)
+    ),
+    pch = c(22, 8, 24, 21),
+    size = c(2.4, 2, 1.36, 1.36),
+    vertical_spacing = 1.5
   )
 
   # Turn off the graphics device to save the figure
@@ -615,6 +625,7 @@ plot_list <- df_plot |>
     plot <- soils::make_strip_plot(
       group,
       color = category,
+      fill = category,
       size = category,
       shape = category,
       alpha = category,
@@ -644,7 +655,7 @@ plot_list <- df_plot |>
 
 {{< pagebreak >}}
 
-## Su campo
+## Su campos
 
 ```{r}
 # do not add chunk label due to bug
@@ -725,11 +736,7 @@ if (exists("map") & fs::file_exists(glue::glue("{path}/map.png"))) {
 
 ## Resultados del proyecto
 
-A continuación, se muestran tablas y gráficos para la textura, los indicadores
-de salud del suelo y las pruebas de fertilidad del suelo. Cada punto representa
-una muestra de este proyecto. Eche un vistazo para ver cómo se comparan sus
-campos con otros en el proyecto. Todas las muestras se colectaron de \[EDIT:
-SOIL DEPTH (e.g. 0 a 12 pulgadas)\].
+A continuación, se muestran tablas y gráficos para la textura, los indicadores de salud del suelo y las pruebas de fertilidad del suelo. Cada punto representa una muestra de este proyecto. Eche un vistazo para ver cómo se comparan sus campos con otros en el proyecto. Todas las muestras se colectaron de \[EDIT: SOIL DEPTH (e.g. 0 a 12 pulgadas)\].
 
 ```{r create-measurement-group-sections}
 #| output: asis

@@ -23,7 +23,7 @@ red}
 \item{other_color}{Color of sample points with \code{"Other fields"} value in
 \code{category} column. Defaults to WaSHI tan.}
 
-\item{language}{Language of the footnote. "English" (default) or "Spanish".}
+\item{language}{Language of the legend. \code{"English"} (default) or \code{"Spanish"}.}
 }
 \value{
 \code{ggplot} object with manual alpha, color, shape, and size scales
@@ -41,7 +41,6 @@ df_plot_bio <- df_plot |>
   dplyr::filter(measurement_group == "biological")
 
 # Make strip plot
-
 make_strip_plot(
   df_plot_bio,
   x = dummy,
@@ -50,6 +49,7 @@ make_strip_plot(
   group = abbr_unit,
   tooltip = label,
   color = category,
+  fill = category,
   size = category,
   alpha = category,
   shape = category

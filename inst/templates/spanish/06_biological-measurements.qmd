@@ -3,75 +3,23 @@
 <!-- Image wrapped around text for HTML -->
 
 ::: {.content-visible when-format="html"}
-![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/som-spanish.png){width="3.5in"
-style="float:right"
-fig-alt="La materia orgánica del suelo (SOM) respalda la mayoría de los servicios de los ecosistemas y los beneficios del suelo, pero su cambio es lento. Hay tres capas de círculos. El círculo más exterior dice 42% otros materiales. El siguiente círculo interior dice 58% de carbono orgánico total. Hay dos círculos dentro de este círculo que dicen carbono potencialmente mineralizable (respiración microbiana esencial para el ciclo de los nutrientes) y carbono oxidable con permanganato (SOM recientemente estabilizada, responde más rápidamente al ser manejado)."}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/som-spanish.png){width="3.5in" style="float:right" fig-alt="La materia orgánica del suelo (SOM) respalda la mayoría de los servicios de los ecosistemas y los beneficios del suelo, pero su cambio es lento. Hay tres capas de círculos. El círculo más exterior dice 42% otros materiales. El siguiente círculo interior dice 58% de carbono orgánico total. Hay dos círculos dentro de este círculo que dicen carbono potencialmente mineralizable (respiración microbiana esencial para el ciclo de los nutrientes) y carbono oxidable con permanganato (SOM recientemente estabilizada, responde más rápidamente al ser manejado)."}
 :::
 
-***La materia orgánica del suelo*** (SOM) es la porción de los suelos que no
-está formada por minerales, aire y agua, sino que está compuesta por materia
-animal, vegetal y microbiana en varias etapas de descomposición. El SOM se
-compone de alrededor de un 58 % de carbono orgánico (TOC) (una regla general
-fácil es multiplicar por 2). La porción restante de SOM incluye otros nutrientes
-esenciales para las plantas, como nitrógeno, fósforo y azufre. El SOM varía
-según las propiedades inherentes del suelo y del paisaje, como la textura, la
-mineralogía, la precipitación y la temperatura. También se ve muy afectado por
-la gestión. Para obtener más información sobre cómo aumentar la SOM, lea sobre
-los [principios de NRCS para mejorar la salud del
-suelo](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health).
-La SOM es la base de muchos de los beneficios y servicios ecosistémicos que
-proporcionan los suelos. Tiene un gran impacto en casi todas las demás
-propiedades del suelo y, a menudo, se usa como indicador primario de la salud
-del suelo. Sin embargo, SOM puede tardar en cambiar como resultado de la
-gestión. Debido a esto, se han desarrollado muchos otros indicadores para
-detectar componentes más sensibles en SOM. Sigue leyendo para saber más.
+***La materia orgánica del suelo*** (SOM) es la porción de los suelos que no está formada por minerales, aire y agua, sino que está compuesta por materia animal, vegetal y microbiana en varias etapas de descomposición. El SOM se compone de alrededor de un 58 % de carbono orgánico (TOC) (una regla general fácil es multiplicar por 2). La porción restante de SOM incluye otros nutrientes esenciales para las plantas, como nitrógeno, fósforo y azufre. El SOM varía según las propiedades inherentes del suelo y del paisaje, como la textura, la mineralogía, la precipitación y la temperatura. También se ve muy afectado por la gestión. Para obtener más información sobre cómo aumentar la SOM, lea sobre los [principios de NRCS para mejorar la salud del suelo](https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health). La SOM es la base de muchos de los beneficios y servicios ecosistémicos que proporcionan los suelos. Tiene un gran impacto en casi todas las demás propiedades del suelo y, a menudo, se usa como indicador primario de la salud del suelo. Sin embargo, SOM puede tardar en cambiar como resultado de la gestión. Debido a esto, se han desarrollado muchos otros indicadores para detectar componentes más sensibles en SOM. Sigue leyendo para saber más.
 
 <!-- Image below around text for docx -->
 
 ::: {.content-visible unless-format="html"}
-![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/som-spanish.png){height="3.5in"
-fig-alt="La materia orgánica del suelo (SOM) respalda la mayoría de los servicios de los ecosistemas y los beneficios del suelo, pero su cambio es lento. Hay tres capas de círculos. El círculo más exterior dice 42% otros materiales. El siguiente círculo interior dice 58% de carbono orgánico total. Hay dos círculos dentro de este círculo que dicen carbono potencialmente mineralizable (respiración microbiana esencial para el ciclo de los nutrientes) y carbono oxidable con permanganato (SOM recientemente estabilizada, responde más rápidamente al ser manejado)."}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/som-spanish.png){height="3.5in" fig-alt="La materia orgánica del suelo (SOM) respalda la mayoría de los servicios de los ecosistemas y los beneficios del suelo, pero su cambio es lento. Hay tres capas de círculos. El círculo más exterior dice 42% otros materiales. El siguiente círculo interior dice 58% de carbono orgánico total. Hay dos círculos dentro de este círculo que dicen carbono potencialmente mineralizable (respiración microbiana esencial para el ciclo de los nutrientes) y carbono oxidable con permanganato (SOM recientemente estabilizada, responde más rápidamente al ser manejado)."}
 :::
 
-***El carbono potencialmente mineralizable*** (MinC, a menudo denominado
-"respiración del suelo") mide la liberación de dióxido de carbono (CO₂) del
-suelo. Esta medición se realiza en una incubación de laboratorio bajo
-condiciones controladas "ideales" para los microbios. El término mineralización
-se refiere al proceso en el que los microbios del suelo producen CO₂ a medida
-que descomponen la SOM y los residuos vegetales. Este proceso también libera
-otros nutrientes, como el nitrógeno, que pueden ser absorbidos por los cultivos.
-Un MinC más alto representa una mayor actividad biológica potencial. Los suelos
-con un SOM más bajo tendrán un MinC inherentemente más bajo, mientras que los
-suelos compactados pueden no proporcionar una aireación adecuada para el proceso
-de mineralización.
+***El carbono potencialmente mineralizable*** (MinC, a menudo denominado "respiración del suelo") mide la liberación de dióxido de carbono (CO₂) del suelo. Esta medición se realiza en una incubación de laboratorio bajo condiciones controladas "ideales" para los microbios. El término mineralización se refiere al proceso en el que los microbios del suelo producen CO₂ a medida que descomponen la SOM y los residuos vegetales. Este proceso también libera otros nutrientes, como el nitrógeno, que pueden ser absorbidos por los cultivos. Un MinC más alto representa una mayor actividad biológica potencial. Los suelos con un SOM más bajo tendrán un MinC inherentemente más bajo, mientras que los suelos compactados pueden no proporcionar una aireación adecuada para el proceso de mineralización.
 
-***El carbono oxidable de permanganato*** (POXC, una vez denominado "carbón
-activo") es una fracción de SOM que se ve fácilmente influenciada por los
-cambios en el manejo (en comparación con el SOM, que puede tardar hasta diez
-años en detectar una diferencia). En esta prueba de laboratorio, una porción de
-SOM se descompone u oxida con permanganato de potasio. Esta prueba mide una
-parte de la SOM que está recién estabilizada y puede ser un signo temprano de
-almacenamiento de carbono a largo plazo.
+***El carbono oxidable de permanganato*** (POXC, una vez denominado "carbón activo") es una fracción de SOM que se ve fácilmente influenciada por los cambios en el manejo (en comparación con el SOM, que puede tardar hasta diez años en detectar una diferencia). En esta prueba de laboratorio, una porción de SOM se descompone u oxida con permanganato de potasio. Esta prueba mide una parte de la SOM que está recién estabilizada y puede ser un signo temprano de almacenamiento de carbono a largo plazo.
 
-***El nitrógeno potencialmente mineralizable*** (PMN) representa la cantidad de
-nitrógeno orgánico que se puede convertir (o "mineralizar") en nitrato o amonio
-disponible para las plantas. Esta medición se toma de una incubación de
-laboratorio y puede ayudar a los productores a estimar la cantidad de nitrógeno
-que se puede liberar a los cultivos durante la temporada de crecimiento. Se
-puede encontrar información adicional sobre la medición e interpretación de PMN
-en esta [Publicación de Extensión de la Universidad Estatal de
-Oregón](https://catalog.extension.oregonstate.edu/sites/catalog/files/project/pdf/em9281.pdf).
+***El nitrógeno potencialmente mineralizable*** (PMN) representa la cantidad de nitrógeno orgánico que se puede convertir (o "mineralizar") en nitrato o amonio disponible para las plantas. Esta medición se toma de una incubación de laboratorio y puede ayudar a los productores a estimar la cantidad de nitrógeno que se puede liberar a los cultivos durante la temporada de crecimiento. Se puede encontrar información adicional sobre la medición e interpretación de PMN en esta [publicación del NRCS](https://www.nrcs.usda.gov/sites/default/files/2022-10/potentially_mineralizable_nitrogen.pdf).
 
-***La proteína del suelo ACE*** es la fracción de SOM compuesta por proteínas de
-microorganismos del suelo. Las proteínas contienen nitrógeno que puede
-mineralizarse para la absorción de las plantas y, por lo tanto, contribuyen de
-manera importante al crecimiento de los cultivos. ACE son las siglas de
-autoclave citrate-extraable, que es el método de laboratorio para extraer
-proteínas. La proteína del suelo ACE se relaciona con la estabilidad de los
-agregados, ya que mide las proteínas que son pegajosas y mantienen unidas las
-partículas del suelo. La ECA también es sensible a los cambios de manejo, por lo
-que puede ser un indicador valioso para evaluar los cambios a corto plazo en la
-salud del suelo.
+***La proteína del suelo ACE*** es la fracción de SOM compuesta por proteínas de microorganismos del suelo. Las proteínas contienen nitrógeno que puede mineralizarse para la absorción de las plantas y, por lo tanto, contribuyen de manera importante al crecimiento de los cultivos. ACE son las siglas de autoclave citrate-extraable, que es el método de laboratorio para extraer proteínas. La proteína del suelo ACE se relaciona con la estabilidad de los agregados, ya que mide las proteínas que son pegajosas y mantienen unidas las partículas del suelo. La ECA también es sensible a los cambios de manejo, por lo que puede ser un indicador valioso para evaluar los cambios a corto plazo en la salud del suelo.
 
-\[EDIT: ADD A DESCRIPTION OF ANY OTHER BIOLOGICAL INDICATORS MEASURED IN YOUR
-PROJECT HERE\]
+\[EDIT: ADD A DESCRIPTION OF ANY OTHER BIOLOGICAL INDICATORS MEASURED IN YOUR PROJECT HERE\]

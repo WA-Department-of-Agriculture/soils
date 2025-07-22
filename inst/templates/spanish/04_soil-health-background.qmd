@@ -140,11 +140,10 @@ indicador. Esta tabla refleja nuestro conocimiento actual, aunque la ciencia
 evoluciona rápidamente a medida que los investigadores miden estos indicadores
 en diversos suelos, sistemas de cultivo y climas.
 
-![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-more.png){width="1.3in"
-fig-alt=" Curva de puntuación "más es
-mejor""}![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-optimal.png){width="1.3in"
-fig-alt="Puntuación de rango óptimo"}![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-less.png){width="1.3in"
-fig-alt=" Curva de puntuación de "menos es mejor""}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-more-spanish.png){fig-alt="Curva de puntuación más es mejor"
+width="1.3in"}![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-optimal-spanish.png){fig-alt="Puntuación de rango óptimo"
+width="1.3in"}![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/curve-less-spanish.png){fig-alt="Curva de puntuación de menos es mejor"
+width="1.3in"}
 
 ```{r}
 indicators <- data.frame(
@@ -239,4 +238,3 @@ Para obtener más información sobre cómo interpretar los resultados de la salu
 del suelo, vea ["Comprender las pruebas de
 suelo"](https://youtu.be/-ED-gGk4yb8?si=fxfnxqrRqhkGDaiu) el seminario web de la
 Iniciativa sobre la Salud del Suelo de Washington.
-

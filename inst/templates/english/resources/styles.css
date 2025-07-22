@@ -93,3 +93,7 @@ div.callout-tip.callout-style-default>.callout-header {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
 }
+
+.ggiraph-svg {
+    height: auto !important;
+}

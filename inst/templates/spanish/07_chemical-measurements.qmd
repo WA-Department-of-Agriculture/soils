@@ -13,8 +13,8 @@ inherentes al suelo, algunos deben agregarse. Se debe prestar especial atención
 al equilibrio y la reposición de los nutrientes esenciales de las plantas a
 través de las prácticas y principios de construcción de la salud del suelo.
 Puede encontrar más información sobre los nutrientes esenciales para las plantas
-en esta [Guía de interpretación de pruebas de suelo de
-OSU](https://catalog.extension.oregonstate.edu/ec1478).
+en esta [Guía de interpretación de pruebas de suelo de Universidad Estatal de
+Oregón](https://catalog.extension.oregonstate.edu/ec1478).
 
 ***El pH del suelo*** describe qué tan ácido (pH menor a 7.0) o alcalino (pH
 mayor que 7.0) es el suelo, y es una medida de la concentración de iones de
@@ -78,9 +78,9 @@ sobre todo en ambientes áridos. Los carbonatos pueden ser una fuente importante
 de nutrientes y almacenamiento de carbono en los suelos, pero en exceso pueden
 provocar problemas de salinidad y mala infiltración. Si bien se pueden emplear
 algunas estrategias para aumentar o disminuir los carbonatos en el suelo,
-generalmente se consideran menos sensibles al manejo que el C orgánico. Como
-tal, la mayoría de las discusiones sobre el manejo agrícola se centran solo en
-el C orgánico.
+generalmente se consideran menos sensibles al manejo que el carbón orgánico.
+Como tal, la mayoría de las discusiones sobre el manejo agrícola se centran solo
+en el carbón orgánico.
 
 \[EDIT: ADD A DESCRIPTION OF ANY OTHER CHEMICAL INDICATORS MEASURED IN YOUR
 PROJECT HERE\]

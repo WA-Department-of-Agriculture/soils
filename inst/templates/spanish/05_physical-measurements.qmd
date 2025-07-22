@@ -13,10 +13,8 @@ las partículas de arcilla tienen una gran superficie y carga eléctrica y crean
 pequeños poros en el suelo. Los suelos con alto contenido de arena tienen poros
 más grandes y no pueden retener tanta agua.
 
-![Figura que muestra comparaciones de tamaño de partículas de suelo (arena, limo
-y arcilla) con elementos circulares comunes (baloncesto, pelota de golf y
-semillas de
-amapola)](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/ball-texture-spanish.png){width="3in"}
+![](https://raw.githack.com/WA-Department-of-Agriculture/soils/main/figures/ball-texture-spanish.png){width="3in"
+fig-alt="Figura que muestra comparaciones de tamaño de partículas de suelo (arena, limo y arcilla) con elementos circulares comunes (baloncesto, pelota de golf y semillas de amapola)"}
 
 <!-- Image wrapped around text for HTML -->
 
@@ -63,7 +61,7 @@ del suelo, o agregados, a la desintegración. Los agregados se forman cuando las
 partículas del suelo se asocian con materia orgánica, raíces de plantas, hifas
 fúngicas y "pegamentos" hechos por microorganismos del suelo. El agua y el
 viento pueden descomponer los agregados inestables, mientras que los agregados
-estables pueden reducir la erosión y aumentar la infiltración de agua, el
+estables pueden resistir la erosión y aumentar la infiltración de agua, el
 drenaje y la capacidad de almacenamiento. La estabilidad de los agregados es un
 excelente ejemplo de cómo la vida biológica afecta las propiedades físicas del
 suelo. Los suelos con alto contenido de arcilla tienden a tener una mayor

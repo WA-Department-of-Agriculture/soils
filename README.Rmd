@@ -27,6 +27,15 @@ knitr::opts_chunk$set(
 )
 ```
 
+📢 **Announcing Dirt Data Reports: a no-code soil health reporting tool built on
+{soils} using Shiny**
+
+👉 Try it [here](https://wsda.shinyapps.io/dirt-data-reports/) if you don't need
+full customization or prefer not to code.
+
+📖 Read more about it in this [blog
+post](https://washingtonsoilhealthinitiative.com/2025/09/dirt-data-reports/).
+
 # Overview
 
 Introducing {soils}: an R package for all your soil health data visualization
@@ -207,3 +216,4 @@ Report text and images were translated by Erica Tello, Eber Rivera, and Kate
 Smith with WSU Food Systems and Skagit County Extension as part of the USDA NRCS
 Innovation in Conservation program, led by Viva Farms (grant number
 NR22-13G004).
+

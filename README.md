@@ -17,14 +17,23 @@ badge](https://wa-department-of-agriculture.r-universe.dev/badges/soils)](https:
 
 <!-- badges: end -->
 
+📢 **Announcing Dirt Data Reports: a no-code soil health reporting tool
+built on {soils} using Shiny**
+
+👉 Try it [here](https://wsda.shinyapps.io/dirt-data-reports/) if you
+don’t need full customization or prefer not to code.
+
+📖 Read more about it in this [blog
+post](https://washingtonsoilhealthinitiative.com/2025/09/dirt-data-reports/).
+
 # Overview
 
-Introducing {soils}: an R package for all your soil health data
-visualization and reporting needs. {soils} provides an RStudio project
-template to generate customized, interactive soil health reports. These
-reports include plots and tables to show how the participant’s results
-compare to simple averages of results from samples of the same crop,
-same county, and across the entire project.
+{soils} is an R package for all your soil health data visualization and
+reporting needs. {soils} provides an RStudio project template to
+generate customized, interactive soil health reports. These reports
+include plots and tables to show how the participant’s results compare
+to simple averages of results from samples of the same crop, same
+county, and across the entire project.
 
 Any scientist leading a soil health survey can use {soils} to create
 custom reports for all participants. Democratize your data by giving

@@ -673,10 +673,16 @@ if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
     crs = "+proj=lonlat"
   ) |>
     sf::st_transform(3857)
+  
+  # override get_zoom within get_tiles to avoid issue when total_tiles is less
+  # than 4. this grabs the max zoom with with < 10 tiles
+  res <- maptiles:::get_bbox_and_proj(df_sf)
+  gz <- slippymath::bbox_tile_query(res$bbox_lonlat)
+  zoom <- max(gz[gz$total_tiles < 10, "zoom"])
 
   basetiles <- maptiles::get_tiles(
     df_sf,
-    provider = "Esri.WorldStreetMap",
+    provider = "Esri.WorldImagery",
     cachedir = tempdir(),
     retina = TRUE
   )
@@ -707,7 +713,10 @@ if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
 
 ## Project Results
 
-Below are tables and graphs describing the physical, biological, and chemical measurements from your soils. Each point represents a sample we collected. Take a look to see how your fields compare to others in the project. All samples were collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
+Below are tables and graphs describing the physical, biological, and chemical
+measurements from your soils. Each point represents a sample we collected. Take
+a look to see how your fields compare to others in the project. All samples were
+collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches, or 0-30 cm)\].
 
 ```{r create-measurement-group-sections}
 #| output: asis

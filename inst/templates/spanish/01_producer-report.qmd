@@ -713,10 +713,16 @@ if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
     crs = "+proj=lonlat"
   ) |>
     sf::st_transform(3857)
+  
+  # override get_zoom within get_tiles to avoid issue when total_tiles is less
+  # than 4. this grabs the max zoom with with < 10 tiles
+  res <- maptiles:::get_bbox_and_proj(df_sf)
+  gz <- slippymath::bbox_tile_query(res$bbox_lonlat)
+  zoom <- max(gz[gz$total_tiles < 10, "zoom"])
 
   basetiles <- maptiles::get_tiles(
     df_sf,
-    provider = "Esri.WorldStreetMap",
+    provider = "Esri.WorldImagery",
     cachedir = tempdir(),
     retina = TRUE
   )
@@ -747,7 +753,11 @@ if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
 
 ## Resultados del proyecto
 
-A continuación, se muestran tablas y gráficos para la textura, los indicadores de salud del suelo y las pruebas de fertilidad del suelo. Cada punto representa una muestra de este proyecto. Eche un vistazo para ver cómo se comparan sus campos con otros en el proyecto. Todas las muestras se colectaron de \[EDIT: SOIL DEPTH (e.g. 0 a 12 pulgadas)\].
+A continuación, se muestran tablas y gráficos para la textura, los indicadores
+de salud del suelo y las pruebas de fertilidad del suelo. Cada punto representa
+una muestra de este proyecto. Eche un vistazo para ver cómo se comparan sus
+campos con otros en el proyecto. Todas las muestras se colectaron de \[EDIT:
+SOIL DEPTH (e.g. 0 a 12 pulgadas)\].
 
 ```{r create-measurement-group-sections}
 #| output: asis

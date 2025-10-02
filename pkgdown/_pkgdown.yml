@@ -76,6 +76,9 @@ articles:
   contents:
   - '`examples`'
 
+news:
+  one-page: true
+
 reference:
 - title: Create a {soils} project
   contents: create_soils

@@ -3,14 +3,15 @@ data_dictionary <- read.csv(
   here::here("inst/templates/english/data/data-dictionary.csv"),
   check.names = FALSE,
   encoding = "UTF-8"
-  )
+)
 
 usethis::use_data(data_dictionary, overwrite = TRUE)
 
 # washi_data ===================================================================
 washi_data <- read.csv(
   here::here("inst/templates/english/data/washi-data.csv"),
-  check.names = FALSE)
+  check.names = FALSE
+)
 
 usethis::use_data(washi_data, overwrite = TRUE)
 
@@ -61,9 +62,10 @@ df_plot <- results_long |>
     ),
     # Label for tooltip
     label = dplyr::case_when(
-      category == "Your fields" ~ glue::glue(
-        "{field_name}<br>{crop}<br>{value} {unit}"
-      ),
+      category == "Your fields" ~
+        glue::glue(
+          "{field_id}<br>{crop}<br>{value} {unit}"
+        ),
       .default = glue::glue(
         "{county}<br>",
         "{crop}<br>",
@@ -102,7 +104,7 @@ producer_table <- producer_samples |>
     measurement_group,
     abbr,
     value,
-    "Field or Average" = field_name,
+    "Field or Average" = field_id,
     Texture = texture
   )
 

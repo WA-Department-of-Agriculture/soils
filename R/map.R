@@ -14,7 +14,7 @@
 #' washi_data |>
 #'   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
 #'   head(3) |>
-#'   prep_for_map(label_heading = field_name, label_body = crop) |>
+#'   prep_for_map(label_heading = field_id, label_body = crop) |>
 #'   dplyr::glimpse()
 prep_for_map <- function(df, label_heading, label_body) {
   testthat::expect_contains(names(df), c("longitude", "latitude"))
@@ -50,7 +50,7 @@ prep_for_map <- function(df, label_heading, label_body) {
 #' gis_df <- washi_data |>
 #'   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
 #'   head(3) |>
-#'   prep_for_map(label_heading = field_name, label_body = crop)
+#'   prep_for_map(label_heading = field_id, label_body = crop)
 #'
 #' dplyr::glimpse(gis_df)
 #'
@@ -59,7 +59,7 @@ prep_for_map <- function(df, label_heading, label_body) {
 make_leaflet <- function(
   df,
   primary_color = "#a60f2d"
-    ) {
+) {
   agol <- "https://server.arcgisonline.com/ArcGIS/rest/services/"
   testthat::expect_contains(
     names(df),

@@ -19,7 +19,7 @@ template:
 navbar:
   type: dark
   structure:
-    left: [home, primers, tutorials, examples, functions]
+    left: [home, primers, tutorials, examples, functions, news]
     right: [search, github]
   components:
     home:
@@ -55,6 +55,9 @@ navbar:
     functions:
       text: Functions
       href: reference/index.html
+    news:
+      text: "News"
+      href: news/index.html
 
 articles:
 - title: Primers
@@ -84,6 +87,7 @@ reference:
   contents: create_soils
 - title: Data wrangling
   contents:
+  - complete_texture
   - get_n_texture_by_var
   - summarize_by_project
   - summarize_by_var

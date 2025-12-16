@@ -6,4 +6,3 @@
 #' @importFrom knitr include_graphics
 ## usethis namespace: end
 NULL
-

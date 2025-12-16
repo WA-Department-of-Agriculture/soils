@@ -178,22 +178,19 @@ strip_text_color <- "white"
 <!-- Pivot data longer and join with data dictionary -->
 
 ```{r tidy-long}
-# EDIT: `washi_data` example has soil measurements in columns 12 - 42. Replace
-# this column range with the column indices of the soil measurements in your
-# dataset.
+# Get number of columns
+num_cols <- ncol(data)
 
 # Tidy data into long format and join with data dictionary
 results_long <- data |>
   dplyr::mutate(
     dplyr::across(
-      # EDIT: replace with the column range of your soil measurements
-      12:42,
+      12:num_cols,
       as.numeric
     )
   ) |>
   tidyr::pivot_longer(
-    # EDIT: replace with the column range of your soil measurements
-    cols = 12:42,
+    cols = 12:num_cols,
     names_to = "measurement"
   ) |>
   dplyr::inner_join(dictionary, by = c("measurement" = "column_name")) |>

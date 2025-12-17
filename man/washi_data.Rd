@@ -5,12 +5,12 @@
 \alias{washi_data}
 \title{Example WaSHI data}
 \format{
-\subsection{\code{washi_data} A data frame with 100 rows and 42 columns:}{
+\subsection{\code{washi_data} A data frame with 100 rows and 41 columns:}{
 
 \describe{
 \item{year}{Year of sample}
 \item{sample_id, producer_id, field_id}{Anonymized IDs}
-\item{farm_name, field_name}{Anonymized names}
+\item{farm_name}{Anonymized names}
 \item{longitude, latitude}{Truncated coordinates}
 \item{texture}{Measured soil texture}
 \item{other columns}{Column name includes measurement and units;

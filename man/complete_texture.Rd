@@ -16,8 +16,8 @@ complete_texture(df)
 and \code{clay_percent}.}
 }
 \value{
-A data frame with a new \code{texture} column and fractions rounded
-to whole numbers.
+A data frame with a new \code{texture} column and soil particle-size
+fractions rounded to whole numbers.
 }
 \description{
 Validates and completes soil particle-size fractions (sand, silt, and clay)
@@ -26,12 +26,50 @@ it is computed as 100 minus the other two. The function errors if
 insufficient information is provided.
 }
 \examples{
+
+# Example 1: Three samples classified without error
+# All soil fractions are provided and sum to 100
+
 df <- data.frame(
-  sand_percent = c(60, NA),
-  silt_percent = c(30, 20),
-  clay_percent = c(10, 20)
+  sand_percent = c(20, 45, 75),
+  silt_percent = c(65, 35, 15),
+  clay_percent = c(15, 20, 10)
 )
 
 complete_texture(df)
+
+# Example 2: Three samples with one missing fraction (computed with a warning)
+# The missing fraction is calculated as 100 minus the other two
+
+df <- data.frame(
+  sand_percent = c(NA, 60, 25),
+  silt_percent = c(50, 10, 40),
+  clay_percent = c(50, 40, NA)
+)
+
+complete_texture(df)
+
+# Example 3: Error when a sample has insufficient data
+# One row is missing two soil fractions and cannot be classified
+
+df <- data.frame(
+  sand_percent = c(40, NA, 65),
+  silt_percent = c(40, 55, 5),
+  clay_percent = c(20, NA, 30)
+)
+
+try(complete_texture(df))
+
+# Example 4: Warn when soil texture was not measured
+# Samples with all fractions missing are assumed to have no texture data.
+# These samples trigger a warning and are not assigned a texture class.
+
+  df <- data.frame(
+   sand_percent = c(NA, NA, 30),
+   silt_percent = c(NA, NA, 30),
+   clay_percent = c(NA, NA, 40)
+ )
+
+ complete_texture(df)
 
 }

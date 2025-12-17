@@ -27,6 +27,6 @@ Prep data to gis df
 washi_data |>
   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
   head(3) |>
-  prep_for_map(label_heading = field_name, label_body = crop) |>
+  prep_for_map(label_heading = field_id, label_body = crop) |>
   dplyr::glimpse()
 }

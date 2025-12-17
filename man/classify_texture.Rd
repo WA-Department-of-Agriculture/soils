@@ -4,7 +4,9 @@
 \alias{classify_texture}
 \title{Classify USDA soil texture}
 \source{
-Thresholds for texture classification are from the USDA NRCS Soil Texture Calculator, found at \href{https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator}.
+Thresholds for texture classification are from the USDA NRCS Soil
+Texture Calculator found at
+\url{https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator}.
 }
 \usage{
 classify_texture(df)

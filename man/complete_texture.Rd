@@ -3,6 +3,11 @@
 \name{complete_texture}
 \alias{complete_texture}
 \title{Complete soil fractions and assign texture class}
+\source{
+Thresholds for texture classification are from the USDA NRCS Soil
+Texture Calculator found at
+\url{https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator}.
+}
 \usage{
 complete_texture(df)
 }

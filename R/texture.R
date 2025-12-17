@@ -106,7 +106,9 @@ complete_texture_fractions <- function(df) {
 #'
 #' @return A data frame with an added \code{texture} column.
 #'
-#' @source Thresholds for texture classification are from the USDA NRCS Soil Texture Calculator, found at \href{https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator}.
+#' @source Thresholds for texture classification are from the USDA NRCS Soil
+#'   Texture Calculator found at
+#'   <https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator>.
 #'
 #' @keywords internal
 classify_texture <- function(df) {
@@ -205,6 +207,10 @@ classify_texture <- function(df) {
 #'
 #' @return A data frame with a new \code{texture} column and fractions rounded
 #'   to whole numbers.
+#'
+#' @source Thresholds for texture classification are from the USDA NRCS Soil
+#'   Texture Calculator found at
+#'   <https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator>.
 #'
 #' @examples
 #' df <- data.frame(

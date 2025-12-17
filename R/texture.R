@@ -21,26 +21,37 @@ validate_texture_fractions <- function(df) {
       )
     )
 
-  # Error if not enough data to classify (missing >=2 fractions)
-  not_enough_rows <- which(df$missing_n >= 2)
+  # Error if not enough data to classify (missing 2 fractions)
+  one_fraction_rows <- which(df$missing_n == 2)
 
-  if (length(not_enough_rows) > 0) {
+  if (length(one_fraction_rows) > 0) {
     cli::cli_abort(
       c(
         "x" = "There is not enough soil fraction data to classify texture.",
-        "i" = "{.strong {length(not_enough_rows)}} row{?s} with insufficient data (row{?s}: {not_enough_rows}).",
+        "i" = "{.strong {length(one_fraction_rows)}} row{?s} with insufficient data (row ind{?ex/ices}: {one_fraction_rows}).",
         "i" = "Provide at least two of {.field sand_percent}, {.field silt_percent}, and {.field clay_percent} for each row."
       )
     )
   }
 
   # Warn if one missing fraction (will be computed)
-  compute_rows <- which(df$missing_n == 1)
-  if (length(compute_rows) > 0) {
+  two_fraction_rows <- which(df$missing_n == 1)
+  if (length(two_fraction_rows) > 0) {
     cli::cli_warn(
       c(
         "One soil fraction is missing and will be calculated as 100 minus the other two.",
-        "i" = "{.strong {length(compute_rows)}} row{?s} with a calculated fraction (row{?s}: {compute_rows})."
+        "i" = "{.strong {length(two_fraction_rows)}} row{?s} with a calculated fraction (row ind{?ex/ices}: {two_fraction_rows})."
+      )
+    )
+  }
+
+  # Warn if one missing all fractions (cannot classify texture)
+  # Do not error in case texture was not measured
+  zero_fraction_rows <- which(df$missing_n == 3)
+  if (length(zero_fraction_rows) > 0) {
+    cli::cli_warn(
+      c(
+        "i" = "{length(zero_fraction_rows)} row{?s} {?is/are} missing all three fractions (row ind{?ex/ices}: {zero_fraction_rows}) and will not be assigned a soil texture class."
       )
     )
   }
@@ -56,7 +67,7 @@ validate_texture_fractions <- function(df) {
     cli::cli_abort(
       c(
         "x" = "{.field sand_percent}, {.field silt_percent}, and {.field clay_percent} do not sum to 100.",
-        "i" = "{.strong {length(not_100_rows)}} row{?s} with invalid sum{?s} (row{?s} {not_100_rows})."
+        "i" = "{.strong {length(not_100_rows)}} row{?s} with invalid sum{?s} (row ind{?ex/ices}: {not_100_rows})."
       )
     )
   }
@@ -205,21 +216,59 @@ classify_texture <- function(df) {
 #' @param df A data frame containing \code{sand_percent}, \code{silt_percent},
 #'   and \code{clay_percent}.
 #'
-#' @return A data frame with a new \code{texture} column and fractions rounded
-#'   to whole numbers.
+#' @return A data frame with a new \code{texture} column and soil particle-size
+#'   fractions rounded to whole numbers.
 #'
 #' @source Thresholds for texture classification are from the USDA NRCS Soil
 #'   Texture Calculator found at
 #'   <https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator>.
 #'
 #' @examples
+#'
+#' # Example 1: Three samples classified without error
+#' # All soil fractions are provided and sum to 100
+#'
 #' df <- data.frame(
-#'   sand_percent = c(60, NA),
-#'   silt_percent = c(30, 20),
-#'   clay_percent = c(10, 20)
+#'   sand_percent = c(20, 45, 75),
+#'   silt_percent = c(65, 35, 15),
+#'   clay_percent = c(15, 20, 10)
 #' )
 #'
 #' complete_texture(df)
+#'
+#' # Example 2: Three samples with one missing fraction (computed with a warning)
+#' # The missing fraction is calculated as 100 minus the other two
+#'
+#' df <- data.frame(
+#'   sand_percent = c(NA, 60, 25),
+#'   silt_percent = c(50, 10, 40),
+#'   clay_percent = c(50, 40, NA)
+#' )
+#'
+#' complete_texture(df)
+#'
+#' # Example 3: Error when a sample has insufficient data
+#' # One row is missing two soil fractions and cannot be classified
+#'
+#' df <- data.frame(
+#'   sand_percent = c(40, NA, 65),
+#'   silt_percent = c(40, 55, 5),
+#'   clay_percent = c(20, NA, 30)
+#' )
+#'
+#' try(complete_texture(df))
+#'
+#' # Example 4: Warn when soil texture was not measured
+#' # Samples with all fractions missing are assumed to have no texture data.
+#' # These samples trigger a warning and are not assigned a texture class.
+#'
+#'   df <- data.frame(
+#'    sand_percent = c(NA, NA, 30),
+#'    silt_percent = c(NA, NA, 30),
+#'    clay_percent = c(NA, NA, 40)
+#'  )
+#'
+#'  complete_texture(df)
 #'
 #' @export
 complete_texture <- function(df) {

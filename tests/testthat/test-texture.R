@@ -12,7 +12,7 @@ test_that("errors when one row has two or more missing soil fractions", {
 
   expect_error(
     complete_texture(df),
-    regexp = "1)."
+    regexp = "row index: 1)."
   )
 })
 
@@ -30,7 +30,7 @@ test_that("errors when multiple rows have two or more missing soil fractions", {
 
   expect_error(
     complete_texture(df),
-    regexp = "1 and 3)"
+    regexp = "row indices: 1 and 3)"
   )
 })
 
@@ -48,7 +48,7 @@ test_that("warns and computes missing fraction for single row", {
 
   expect_warning(
     out <- complete_texture(df),
-    regexp = "row.*(row: 1)"
+    regexp = "row index: 1)"
   )
 
   expect_equal(out$sand_percent[1], 10)
@@ -75,6 +75,42 @@ test_that("warns and computes missing fraction for multiple rows", {
   expect_equal(out$clay_percent[3], 40)
 })
 
+test_that("warns when single row is missing all fractions", {
+  df <- data.frame(
+    sand_percent = c(NA, 30),
+    silt_percent = c(NA, 30),
+    clay_percent = c(NA, 40)
+  )
+
+  expect_warning(
+    complete_texture(df),
+    regexp = "is missing all"
+  )
+
+  expect_warning(
+    complete_texture(df),
+    regexp = "row index: 1)"
+  )
+})
+
+test_that("warns when multiple rows are missing all fractions", {
+  df <- data.frame(
+    sand_percent = c(NA, NA, 30),
+    silt_percent = c(NA, NA, 30),
+    clay_percent = c(NA, NA, 40)
+  )
+
+  expect_warning(
+    complete_texture(df),
+    regexp = "are missing all"
+  )
+
+  expect_warning(
+    complete_texture(df),
+    regexp = "row indices: 1 and 2)"
+  )
+})
+
 
 test_that("errors when single row has invalid soil fraction sum", {
   df <- data.frame(
@@ -90,7 +126,7 @@ test_that("errors when single row has invalid soil fraction sum", {
 
   expect_error(
     complete_texture(df),
-    regexp = "row.*(row 2)."
+    regexp = "row index: 2)"
   )
 })
 
@@ -108,10 +144,9 @@ test_that("errors when multiple rows have invalid soil fraction sums", {
 
   expect_error(
     complete_texture(df),
-    regexp = "rows.*1.*2)"
+    regexp = "indices: 1 and 2)"
   )
 })
-
 
 test_that("assigns Sandy Loam when fractions are complete", {
   df <- data.frame(

@@ -87,7 +87,7 @@ reference:
   contents: create_soils
 - title: Data wrangling
   contents:
-  - complete_texture
+  - classify_texture
   - get_n_texture_by_var
   - summarize_by_project
   - summarize_by_var

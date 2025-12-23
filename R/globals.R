@@ -2,6 +2,7 @@ utils::globalVariables(c(
   "abbr",
   "abbr_unit",
   "angle",
+  "bad_cols",
   "category",
   "clay",
   "clay_percent",

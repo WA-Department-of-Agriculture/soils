@@ -17,7 +17,8 @@ soils_example <- function(file = NULL) {
     dir(system.file("extdata", package = "soils"))
   } else {
     system.file(
-      "extdata", file,
+      "extdata",
+      file,
       package = "soils",
       mustWork = TRUE
     )
@@ -31,7 +32,7 @@ soils_sys <- function(
   ...,
   lib.loc = NULL,
   mustWork = FALSE
-    ) {
+) {
   system.file(
     ...,
     package = "soils",
@@ -53,5 +54,12 @@ cat_red_bullet <- function(...) {
     ...,
     bullet = "bullet",
     bullet_col = "red"
+  )
+}
+
+soils_cli_vec <- function(x) {
+  withr::with_options(
+    list(cli.theme = list(vec_trunc = 5)),
+    cli::cli_vec(x)
   )
 }

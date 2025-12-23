@@ -1,81 +1,57 @@
-test_that("errors when one row has two or more missing soil fractions", {
-  df <- data.frame(
-    sand_percent = NA,
-    silt_percent = NA,
-    clay_percent = 20
-  )
-
+test_that("validate_texture_fractions errors if input is not a data frame", {
   expect_error(
-    complete_texture(df),
-    regexp = "row with insufficient data"
-  )
-
-  expect_error(
-    complete_texture(df),
-    regexp = "row index: 1)."
+    validate_texture_fractions(list(a = 1)),
+    "Input must be a <dataframe>"
   )
 })
 
-test_that("errors when multiple rows have two or more missing soil fractions", {
+
+# Validation: required columns -------------------------------------------------
+
+test_that("validate_texture_fractions errors if required columns are missing", {
   df <- data.frame(
-    sand_percent = c(NA, 50, NA),
-    silt_percent = c(NA, 40, 10),
-    clay_percent = c(20, 10, NA)
+    sand_percent = 40,
+    silt_percent = 40
   )
 
   expect_error(
-    complete_texture(df),
-    regexp = "rows with insufficient data"
+    validate_texture_fractions(df),
+    "Columns .* must be present"
+  )
+})
+
+
+# Validation: missing fraction rules -------------------------------------------
+
+test_that("errors when two fractions are missing in a row", {
+  df <- data.frame(
+    sand_percent = c(40, NA),
+    silt_percent = c(40, NA),
+    clay_percent = c(20, 30)
   )
 
   expect_error(
-    complete_texture(df),
-    regexp = "row indices: 1 and 3)"
+    validate_texture_fractions(df),
+    "must have at least two fractions"
   )
 })
 
-test_that("warns and computes missing fraction for single row", {
+
+test_that("warns when exactly one fraction is missing", {
   df <- data.frame(
-    sand_percent = c(NA, 40, 30),
-    silt_percent = c(40, 40, 30),
-    clay_percent = c(50, 20, 40)
+    sand_percent = c(NA, 40),
+    silt_percent = c(50, 40),
+    clay_percent = c(50, 20)
   )
 
   expect_warning(
-    out <- complete_texture(df),
-    regexp = "One soil fraction is missing"
+    validate_texture_fractions(df),
+    "missing one fraction"
   )
-
-  expect_warning(
-    out <- complete_texture(df),
-    regexp = "row index: 1)"
-  )
-
-  expect_equal(out$sand_percent[1], 10)
 })
 
-test_that("warns and computes missing fraction for multiple rows", {
-  df <- data.frame(
-    sand_percent = c(NA, 40, 30),
-    silt_percent = c(40, 40, 30),
-    clay_percent = c(50, 20, NA)
-  )
 
-  expect_warning(
-    out <- complete_texture(df),
-    regexp = "One soil fraction is missing"
-  )
-
-  expect_warning(
-    out <- complete_texture(df),
-    regexp = "1 and 3)"
-  )
-
-  expect_equal(out$sand_percent[1], 10)
-  expect_equal(out$clay_percent[3], 40)
-})
-
-test_that("warns when single row is missing all fractions", {
+test_that("warns when all fractions are missing", {
   df <- data.frame(
     sand_percent = c(NA, 30),
     silt_percent = c(NA, 30),
@@ -83,136 +59,196 @@ test_that("warns when single row is missing all fractions", {
   )
 
   expect_warning(
-    complete_texture(df),
-    regexp = "is missing all"
-  )
-
-  expect_warning(
-    complete_texture(df),
-    regexp = "row index: 1)"
+    validate_texture_fractions(df),
+    "missing all fractions"
   )
 })
 
-test_that("warns when multiple rows are missing all fractions", {
+
+# Validation: fraction range ---------------------------------------------------
+
+test_that("errors when any fraction is outside 0–100", {
   df <- data.frame(
-    sand_percent = c(NA, NA, 30),
-    silt_percent = c(NA, NA, 30),
-    clay_percent = c(NA, NA, 40)
+    sand_percent = c(40, 110),
+    silt_percent = c(40, 10),
+    clay_percent = c(20, 10)
   )
 
-  expect_warning(
-    complete_texture(df),
-    regexp = "are missing all"
-  )
-
-  expect_warning(
-    complete_texture(df),
-    regexp = "row indices: 1 and 2)"
+  expect_error(
+    validate_texture_fractions(df),
+    "between 0 and 100"
   )
 })
 
 
-test_that("errors when single row has invalid soil fraction sum", {
+# Validation: sum to 100 -------------------------------------------------------
+
+test_that("errors when complete fractions do not sum to 100", {
   df <- data.frame(
     sand_percent = c(40, 30),
     silt_percent = c(40, 30),
-    clay_percent = c(20, 50) # row 2 sums to 110
+    clay_percent = c(30, 30)
   )
 
   expect_error(
-    complete_texture(df),
-    regexp = "invalid sum"
-  )
-
-  expect_error(
-    complete_texture(df),
-    regexp = "row index: 2)"
+    validate_texture_fractions(df),
+    "sum to 100"
   )
 })
 
-test_that("errors when multiple rows have invalid soil fraction sums", {
+# Validation: combined errors and warnings -------------------------------------
+# ------------------------------------------------------------------------------
+
+test_that("validation reports all error and warning types together", {
   df <- data.frame(
-    sand_percent = c(40, 30),
-    silt_percent = c(40, 30),
-    clay_percent = c(30, 50) # both rows invalid
+    # Row 1: missing two fractions → error
+    sand_percent = c(NA, 110, 40, NA, NA),
+
+    # Row 2: out of range value → error
+    silt_percent = c(NA, 10, 40, 30, NA),
+
+    # Row 3: sums to != 100 → error
+    clay_percent = c(30, 10, 30, 40, NA)
   )
 
-  expect_error(
-    complete_texture(df),
-    regexp = "invalid sums"
-  )
+  # Row breakdown:
+  # 1 → two missing fractions (error)
+  # 2 → sand > 100 (error)
+  # 3 → sums to 110 (error)
+  # 4 → exactly one missing fraction (warning)
+  # 5 → all fractions missing (warning)
 
   expect_error(
-    complete_texture(df),
-    regexp = "indices: 1 and 2)"
+    validate_texture_fractions(df),
+    regexp = paste(
+      "validation failed", # overall failure
+      "must have at least two fractions", # insufficient data
+      "between 0 and 100", # out of range
+      "sum to 100", # invalid sum
+      "missing one fraction", # computed fraction
+      "missing all fractions", # unmeasured texture
+      sep = ".*"
+    )
   )
 })
 
-test_that("assigns Sandy Loam when fractions are complete", {
+
+# Completion: compute missing fraction -----------------------------------------
+
+test_that("complete_texture_fractions computes the missing fraction correctly", {
   df <- data.frame(
-    sand_percent = 60,
+    sand_percent = NA,
     silt_percent = 30,
-    clay_percent = 10
-  )
-
-  out <- complete_texture(df)
-
-  expect_equal(out$texture, "Sandy Loam")
-})
-
-test_that("does not drop rows or reorder data", {
-  df <- data.frame(
-    sand_percent = c(60, 40),
-    silt_percent = c(30, 40),
-    clay_percent = c(10, 20)
-  )
-
-  out <- complete_texture(df)
-
-  expect_equal(nrow(out), 2)
-  expect_equal(out$sand_percent, df$sand_percent)
-})
-
-test_that("handles edge case near texture thresholds", {
-  df <- data.frame(
-    sand_percent = 52,
-    silt_percent = 28,
     clay_percent = 20
   )
 
-  out <- complete_texture(df)
+  out <- df |>
+    complete_texture_fractions()
 
-  expect_true(out$texture == "Loam")
+  expect_equal(out$sand_percent, 50)
 })
 
-test_that("skips complete_texture() when fraction columns are missing", {
+
+# Classification: USDA texture classes -----------------------------------------
+
+test_that("assign_texture_class assigns expected USDA texture classes", {
   df <- data.frame(
-    sample_id = c("A", "B"),
-    sand_percent = c(1, 2)
+    sand_percent = c(85, 40, 20),
+    silt_percent = c(10, 40, 65),
+    clay_percent = c(5, 20, 15)
+  )
+
+  out <- assign_texture_class(df)
+
+  expect_equal(
+    out$texture,
+    c("Loamy Sand", "Loam", "Silt Loam")
+  )
+})
+
+
+test_that("rows with unmeasured texture return NA texture", {
+  df <- data.frame(
+    sand_percent = NA,
+    silt_percent = NA,
+    clay_percent = NA
   )
 
   expect_warning(
-    out <- complete_texture(df),
-    regexp = "Soil texture classification skipped."
+    out <- classify_texture(df),
+    "missing all fractions"
   )
 
-  # Data frame should be unchanged
-  expect_equal(out, df)
+  expect_true(is.na(out$texture))
 })
 
-test_that("all combinations of sand, silt, clay are classified", {
-  # Generate all combinations that sum to 100
-  df <- expand.grid(
-    sand_percent = 0:100,
-    silt_percent = 0:100,
-    clay_percent = 0:100
-  ) |>
-    dplyr::filter(sand_percent + silt_percent + clay_percent == 100)
 
-  out <- complete_texture(df) |>
-    dplyr::filter(is.na(texture)) |>
-    nrow()
+# End-to-end: classify_texture -------------------------------------------------
 
-  # There should be no rows with missing texture
-  expect_equal(out, 0)
+test_that("classify_texture completes, validates, and classifies correctly", {
+  df <- data.frame(
+    sand_percent = c(NA, 60),
+    silt_percent = c(45, 10),
+    clay_percent = c(50, 30)
+  )
+
+  expect_warning(
+    out <- classify_texture(df),
+    "missing one fraction"
+  )
+
+  expect_equal(out$sand_percent[1], 5)
+  expect_false(is.na(out$texture[2]))
+})
+
+
+# CLI messaging: singular vs plural --------------------------------------------
+
+test_that("CLI messages correctly pluralize 'Row' vs 'Rows'", {
+  df_single <- data.frame(
+    sand_percent = NA,
+    silt_percent = NA,
+    clay_percent = 30
+  )
+
+  expect_error(
+    validate_texture_fractions(df_single),
+    "Row 1 must have at least two fractions"
+  )
+
+  df_plural <- data.frame(
+    sand_percent = c(NA, NA),
+    silt_percent = c(NA, NA),
+    clay_percent = c(30, 40)
+  )
+
+  expect_error(
+    validate_texture_fractions(df_plural),
+    "Rows 1 and 2 must have at least two fractions"
+  )
+})
+
+
+test_that("CLI messages correctly pluralize 'is' vs 'are'", {
+  df_single <- data.frame(
+    sand_percent = NA,
+    silt_percent = 40,
+    clay_percent = 60
+  )
+
+  expect_warning(
+    validate_texture_fractions(df_single),
+    "Row 1 is missing one fraction"
+  )
+
+  df_plural <- data.frame(
+    sand_percent = c(NA, NA),
+    silt_percent = c(40, 30),
+    clay_percent = c(60, 70)
+  )
+
+  expect_warning(
+    validate_texture_fractions(df_plural),
+    "Rows 1 and 2 are missing one fraction"
+  )
 })

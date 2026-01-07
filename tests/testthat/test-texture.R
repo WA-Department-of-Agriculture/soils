@@ -1,3 +1,5 @@
+# Validation: require a dataframe ----------------------------------------------
+
 test_that("validate_texture_fractions errors if input is not a data frame", {
   expect_error(
     validate_texture_fractions(list(a = 1)),
@@ -50,12 +52,11 @@ test_that("warns when exactly one fraction is missing", {
   )
 })
 
-
-test_that("warns when all fractions are missing", {
+test_that("warns when all fractions are missing and texture is not provided", {
   df <- data.frame(
-    sand_percent = c(NA, 30),
-    silt_percent = c(NA, 30),
-    clay_percent = c(NA, 40)
+    sand_percent = NA,
+    silt_percent = NA,
+    clay_percent = NA
   )
 
   expect_warning(
@@ -64,6 +65,18 @@ test_that("warns when all fractions are missing", {
   )
 })
 
+test_that("does not warn when all fractions are missing but texture is provided", {
+  df <- data.frame(
+    sand_percent = NA,
+    silt_percent = NA,
+    clay_percent = NA,
+    texture = "Loam"
+  )
+
+  expect_no_warning(
+    validate_texture_fractions(df)
+  )
+})
 
 # Validation: fraction range ---------------------------------------------------
 
@@ -81,13 +94,13 @@ test_that("errors when any fraction is outside 0–100", {
 })
 
 
-# Validation: sum to 100 -------------------------------------------------------
+# Validation: sum to 100 (±1 tolerance) ----------------------------------------
 
-test_that("errors when complete fractions do not sum to 100", {
+test_that("errors when complete fractions fall outside the 99–101 tolerance", {
   df <- data.frame(
     sand_percent = c(40, 30),
     silt_percent = c(40, 30),
-    clay_percent = c(30, 30)
+    clay_percent = c(30, 42) # sums: 110 and 102
   )
 
   expect_error(
@@ -97,7 +110,6 @@ test_that("errors when complete fractions do not sum to 100", {
 })
 
 # Validation: combined errors and warnings -------------------------------------
-# ------------------------------------------------------------------------------
 
 test_that("validation reports all error and warning types together", {
   df <- data.frame(

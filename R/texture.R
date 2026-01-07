@@ -40,8 +40,18 @@ validate_texture_fractions <- function(df) {
 
   # Identify row groups --------------------------------------------------------
 
-  # Warn: Rows with 3 missing fractions assume texture was not measured
-  unmeasured_rows <- which(df$missing_n == 3)
+  # Warn: Rows with 3 missing fractions assume texture was not measured unless
+  # texture is provided
+  has_texture <- "texture" %in% names(df)
+  texture_provided <- if (has_texture) {
+    !is.na(df$texture)
+  } else {
+    rep(FALSE, nrow(df))
+  }
+
+  unmeasured_rows <- which(
+    df$missing_n == 3 & !texture_provided
+  )
 
   # Error: Rows with exactly 2 missing fractions
   insufficient_rows <- which(df$missing_n == 2)
@@ -68,10 +78,11 @@ validate_texture_fractions <- function(df) {
     dplyr::ungroup() |>
     dplyr::filter(lengths(bad_cols) > 0)
 
-  # Error: Rows with complete fractions but sum does not equal 100
+  # Error: Rows with complete fractions but sum is outside tolerance 100 +/- 1
   invalid_sum_rows <- which(
     df$missing_n == 0 &
-      (df$sand_percent + df$silt_percent + df$clay_percent) != 100
+      (df$sand_percent + df$silt_percent + df$clay_percent < 99 |
+        df$sand_percent + df$silt_percent + df$clay_percent > 101)
   )
 
   # Build error bullets --------------------------------------------------------
@@ -94,10 +105,10 @@ validate_texture_fractions <- function(df) {
     error_out_of_range <- NULL
   }
 
-  # Sum does not equal 100
+  # Sum does not equal 100 (+/- 1)
   if (length(invalid_sum_rows) > 0) {
     error_invalid_sum_rows <- cli::format_inline(
-      "{cli::qty(length(invalid_sum_rows))}{.strong Row{?s} {soils_cli_vec(invalid_sum_rows)}} must have fractions that sum to 100."
+      "{cli::qty(length(invalid_sum_rows))}{.strong Row{?s} {soils_cli_vec(invalid_sum_rows)}} must have fractions that sum to 100 (+/- 1)."
     )
   } else {
     error_invalid_sum_rows <- NULL
@@ -117,7 +128,7 @@ validate_texture_fractions <- function(df) {
   # Missing all three fractions and assume texture not measured
   if (length(unmeasured_rows) > 0) {
     warn_unmeasured_rows <- cli::format_inline(
-      "{cli::qty(length(unmeasured_rows))}{.strong Row{?s} {soils_cli_vec(unmeasured_rows)} {cli::qty(length(unmeasured_rows))}}{?is/are} missing all fractions and will not have texture classified."
+      "{cli::qty(length(unmeasured_rows))}{.strong Row{?s} {soils_cli_vec(unmeasured_rows)} {cli::qty(length(unmeasured_rows))}}{?is/are} missing all fractions and no texture was provided, so texture will remain blank."
     )
   } else {
     warn_unmeasured_rows <- NULL
@@ -146,7 +157,7 @@ validate_texture_fractions <- function(df) {
         "*" = error_out_of_range,
         "*" = error_invalid_sum_rows,
         "",
-        "i" = "Rows with assumptions to review:",
+        "i" = "Rows with assumptions:",
         "*" = warn_compute_rows,
         "*" = warn_unmeasured_rows
       ),
@@ -179,7 +190,7 @@ validate_texture_fractions <- function(df) {
         "",
         "Soil fractions are provided in the columns {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}.",
         "",
-        "i" = "Rows with assumptions to review:",
+        "i" = "Rows with assumptions:",
         "*" = warn_compute_rows,
         "*" = warn_unmeasured_rows
       ),
@@ -323,6 +334,8 @@ assign_texture_class <- function(df) {
             sand_percent > 43) ~
           "Sandy Loam",
 
+        !(is.na(texture)) ~ texture,
+
         .default = NA_character_
       )
     )
@@ -334,7 +347,7 @@ assign_texture_class <- function(df) {
 #' missing values when possible, and assigns a USDA soil texture class.
 #'
 #' @details \code{classify_texture()} applies the following validation rules and
-#' assumptions:
+#'   assumptions:
 #'
 #' \itemize{
 #'   \item Each row must contain values for at least two of
@@ -345,24 +358,32 @@ assign_texture_class <- function(df) {
 #'   \item When exactly one fraction is missing, it is calculated as
 #'   \code{100 - (sum of the other two)}.
 #'
-#'   \item All fraction values must fall within the range 0–100, and fully
-#'   specified rows must sum to exactly 100.
+#'   \item All fraction values must fall within the range 0–100. Rows with all
+#'   three fractions must sum to 100 with a &plusmn;1 tolerance (allowable range
+#'   99-101).
 #'
 #'   \item Rows with all three fractions missing are assumed to represent
 #'   samples where soil texture was not measured. These rows are retained
-#'   and returned with a missing texture class.
+#'   and returned without fraction-based classification.
+#'
+#'   \item If a \code{texture} column is provided, non-missing texture values
+#'   are preserved and are not overwritten by fraction-based classification.
+#'   This allows users to supply texture classes from external sources (e.g.,
+#'   NRCS gSSURGO) when particle-size fractions are unavailable.
 #' }
 
 #'
 #' @param df A data frame containing the columns \code{sand_percent},
-#'   \code{silt_percent}, and \code{clay_percent}.
+#'   \code{silt_percent}, and \code{clay_percent}. An optional
+#'   \code{texture} column can also be provided: if the sand/silt/clay fractions
+#'   are present, \code{texture} will be overwritten by the classified value;
+#'   if the fractions are missing, existing \code{texture} values are preserved.
 #'
 #' @return A data frame with a \code{texture} column containing USDA soil
 #'   texture classes. Soil fractions are rounded to whole numbers.
 #'
-#' @source Thresholds for texture classification are based on the USDA NRCS Soil
-#'   Texture Calculator
-#'   <https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator>.
+#' @source Thresholds for texture classification are based on the [USDA NRCS Soil
+#'   Texture Calculator](https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator).
 #'
 #' @examples
 #'
@@ -397,7 +418,7 @@ assign_texture_class <- function(df) {
 #'
 #' try(classify_texture(df))
 #'
-#' # Error when fractions do not sum to 100
+#' # Error when fractions do not sum to 100 +/- 1 (allowable range: 99-101)
 #'
 #' df <- data.frame(
 #'   sand_percent = c(40, 0, 90),

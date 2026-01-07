@@ -1,0 +1,124 @@
+# Customize & write
+
+Now that you have imported your own data, it’s time to customize the
+report content and style.
+
+Places to customize and change content are marked with the text
+“`EDIT:`”. Find all edit markers in the RStudio project with `Ctrl` +
+`Shift` + `F` to open the `Find in Files` wizard.
+
+## Report metadata and options
+
+The report metadata and options are set in the YAML and setup chunk in
+`01_producer-report.qmd`.
+
+Start with the YAML (Yet Another Markup Language) header, which is the
+content sandwiched between three dashes (`---`) at the top of the file.
+It contains document metadata, parameters, and customization options.
+
+The only fields you need to edit are:
+
+- **`title`** is what appears at the very top of the report. The logo
+  appears above the title text (see the [markdown
+  primer](https://wa-department-of-agriculture.github.io/soils/articles/markdown.html)
+  for help with image syntax).
+
+- **`subtitle`** appears below the title toward the right side.
+
+- **`params`** define the parameter values used when iteratively
+  rendering the report with the RStudio `Render` button. They must be an
+  existing combination of producer ID and year that have sample results
+  in your data.
+
+  - **`producer_id`** choose a producer ID in your data that you want to
+    render the report for.
+
+  - **`year`** choose the year of the samples for the chosen producer ID
+    to include in the report.
+
+Example changed YAML
+
+``` yaml
+# EDIT: Replace logo.png in images folder with your own and add project name.
+title: "![](images/beautiful-soil.png) The Best Soil Health Survey"
+# EDIT: Subtitle right aligned below title.
+subtitle: "Results from 2024"
+# EDIT: Choose a valid producer_id/year combo that exists in your dataset.
+params:
+  producer_id: "Sammy Sunflower"
+  year: 2024
+```
+
+Ignore the other YAML fields and values until you would like to explore
+other ways of customizing your reports. Learn about the available YAML
+fields for [HTML
+documents](https://quarto.org/docs/reference/formats/html.html) and [MS
+Word documents](https://quarto.org/docs/reference/formats/docx.html).
+
+## Report content
+
+`01_producer-report.qmd` uses the Quarto
+[`{{< include >}}`](https://quarto.org/docs/authoring/includes.html)
+shortcode to embed content within the main parameterized report.
+
+Edit the following Quarto files to fit your project and adjust/remove
+soil measurements that were tested.
+
+    ├── 03_project-summary.qmd
+    ├── 04_soil-health-background.qmd
+    ├── 05_physical-measurements.qmd
+    ├── 06_biological-measurements.qmd
+    ├── 07_chemical-measurements.qmd
+    ├── 08_looking-forward.qmd
+
+Under the `Project Results` heading in `01_producer-report.qmd`, update
+the sample depth:
+
+> All samples were collected from \[EDIT: SOIL DEPTH (e.g. 0-6 inches,
+> or 0-30 cm)\].
+
+`01_producer-report.qmd` calls `02_secion-template.qmd` as a child
+document to generate a section for each `measurement_group` defined in
+the `data-dictionary.csv`. You shouldn’t need to edit
+`02_secion-template.qmd` unless you want more advanced customization.
+
+## Style and theme
+
+The look and feel of your reports can be customized by changing the
+fonts and colors to match your branding. The plot and table outputs are
+controlled by the `set-fonts-colors` chunk in `01_producer-report.qmd`.
+HTML reports are styled by the `styles.css` file. MS Word reports are
+styled using the `word-template.docx` template file.
+
+### `set-fonts-colors` chunk
+
+The fonts and colors used in the tables and plots of the report are
+defined in this chunk. Change these values to match your own branding.
+
+### Style sheets
+
+The style sheets can be found in the `resources` directory and edited to
+customize the report appearance to match your own branding.
+
+#### HTML
+
+`styles.css` controls the appearance of HTML reports. Learn more about
+[CSS](https://quarto.org/docs/visual-editor/content.html#css-styles).
+
+    /* Edit these :root variables */
+    :root {
+        --primary-color: #023B2C;
+        --secondary-color: #335c67;
+        --link-color: #a60f2d;
+        --light-color: #F2F0E6;
+        --fg-color: white; /* color for text with colored background*/
+        --heading-font: "Georgia";
+        --body-font: "Arial";
+    }
+
+#### MS Word
+
+Open `word-template.docx` and modify the styles according to [Quarto
+documentation](https://quarto.org/docs/output-formats/ms-word-templates.html)
+and [Microsoft
+documentation](https://support.microsoft.com/en-gb/office/customize-or-create-new-styles-d38d6e47-f6fc-48eb-a607-1eb120dec563).

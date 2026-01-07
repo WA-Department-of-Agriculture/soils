@@ -1,0 +1,17 @@
+pandoc: 3.1.11
+pkgdown: 2.2.0.9000
+pkgdown_sha: c07d935583c90125586821e3b39ed52f16593e42
+articles:
+  customize: customize.html
+  data: data.html
+  examples: examples.html
+  markdown: markdown.html
+  project: project.html
+  quarto: quarto.html
+  render-example: render-example.html
+  render: render.html
+  troubleshoot: troubleshoot.html
+last_built: 2026-01-07T20:01Z
+urls:
+  reference: https://wa-department-of-agriculture.github.io/soils/reference
+  article: https://wa-department-of-agriculture.github.io/soils/articles

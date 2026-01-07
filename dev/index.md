@@ -77,7 +77,7 @@ Or install from GitHub with [{pak}](https://pak.r-lib.org/index.html):
 ``` r
 # Uncomment the below line if {pak} is not installed.
 # install.packages("pak")
-pak::pkg_install("WA-Department-of-Agriculture/soils")
+pak::pak("WA-Department-of-Agriculture/soils")
 ```
 
 Load the example datasets and functions with:

@@ -155,70 +155,90 @@ set_scales <- function(
 
   if (language == "English") {
     plot <- plot +
-      ggplot2::scale_alpha_manual(values = c(
-        "Your fields" = 1,
-        "Same county" = 0.6,
-        "Same crop" = 0.6,
-        "Other fields" = 0.5
-      )) +
-      ggplot2::scale_color_manual(values = c(
-        "Your fields" = glue::glue(primary_color, "FF"),
-        "Same county" = glue::glue("#494646", "CC"),
-        "Same crop" = glue::glue("#918D8D", "CC"),
-        "Other fields" = glue::glue(other_color, "CC")
-      )) +
-      ggplot2::scale_fill_manual(values = c(
-        "Your fields" = glue::glue(primary_color, "FF"),
-        "Same county" = glue::glue("#494646", 99),
-        "Same crop" = glue::glue("#918D8D", 99),
-        "Other fields" = glue::glue(other_color, 99)
-      )) +
-      ggplot2::scale_shape_manual(values = c(
-        "Your fields" = 22,
-        "Same county" = 8,
-        "Same crop" = 24,
-        "Other fields" = 21
-      )) +
-      ggplot2::scale_size_manual(values = c(
-        "Your fields" = 3,
-        "Same county" = 2.7,
-        "Same crop" = 1.5,
-        "Other fields" = 1.7
-      ))
+      ggplot2::scale_alpha_manual(
+        values = c(
+          "Your fields" = 1,
+          "Same county" = 0.6,
+          "Same crop" = 0.6,
+          "Other fields" = 0.5
+        )
+      ) +
+      ggplot2::scale_color_manual(
+        values = c(
+          "Your fields" = glue::glue(primary_color, "FF"),
+          "Same county" = glue::glue("#494646", "CC"),
+          "Same crop" = glue::glue("#918D8D", "CC"),
+          "Other fields" = glue::glue(other_color, "CC")
+        )
+      ) +
+      ggplot2::scale_fill_manual(
+        values = c(
+          "Your fields" = glue::glue(primary_color, "FF"),
+          "Same county" = glue::glue("#494646", 99),
+          "Same crop" = glue::glue("#918D8D", 99),
+          "Other fields" = glue::glue(other_color, 99)
+        )
+      ) +
+      ggplot2::scale_shape_manual(
+        values = c(
+          "Your fields" = 22,
+          "Same county" = 8,
+          "Same crop" = 24,
+          "Other fields" = 21
+        )
+      ) +
+      ggplot2::scale_size_manual(
+        values = c(
+          "Your fields" = 3,
+          "Same county" = 2.7,
+          "Same crop" = 1.5,
+          "Other fields" = 1.7
+        )
+      )
   }
 
   if (language == "Spanish") {
     plot <- plot +
-      ggplot2::scale_alpha_manual(values = c(
-        "Su campos" = 1,
-        "Mismo contado" = 0.6,
-        "Mismo cultivo" = 0.6,
-        "Otros campos" = 0.5
-      )) +
-      ggplot2::scale_color_manual(values = c(
-        "Su campos" = glue::glue(primary_color, "FF"),
-        "Mismo contado" = glue::glue("#494646", "CC"),
-        "Mismo cultivo" = glue::glue("#918D8D", "CC"),
-        "Otros campos" = glue::glue(other_color, "CC")
-      )) +
-      ggplot2::scale_fill_manual(values = c(
-        "Su campos" = glue::glue(primary_color, "FF"),
-        "Mismo contado" = glue::glue("#494646", 99),
-        "Mismo cultivo" = glue::glue("#918D8D", 99),
-        "Otros campos" = glue::glue(other_color, 99)
-      )) +
-      ggplot2::scale_shape_manual(values = c(
-        "Su campos" = 22,
-        "Mismo contado" = 8,
-        "Mismo cultivo" = 24,
-        "Otros campos" = 21
-      )) +
-      ggplot2::scale_size_manual(values = c(
-        "Su campos" = 3,
-        "Mismo contado" = 2.7,
-        "Mismo cultivo" = 1.5,
-        "Otros campos" = 1.7
-      ))
+      ggplot2::scale_alpha_manual(
+        values = c(
+          "Su campos" = 1,
+          "Mismo contado" = 0.6,
+          "Mismo cultivo" = 0.6,
+          "Otros campos" = 0.5
+        )
+      ) +
+      ggplot2::scale_color_manual(
+        values = c(
+          "Su campos" = glue::glue(primary_color, "FF"),
+          "Mismo contado" = glue::glue("#494646", "CC"),
+          "Mismo cultivo" = glue::glue("#918D8D", "CC"),
+          "Otros campos" = glue::glue(other_color, "CC")
+        )
+      ) +
+      ggplot2::scale_fill_manual(
+        values = c(
+          "Su campos" = glue::glue(primary_color, "FF"),
+          "Mismo contado" = glue::glue("#494646", 99),
+          "Mismo cultivo" = glue::glue("#918D8D", 99),
+          "Otros campos" = glue::glue(other_color, 99)
+        )
+      ) +
+      ggplot2::scale_shape_manual(
+        values = c(
+          "Su campos" = 22,
+          "Mismo contado" = 8,
+          "Mismo cultivo" = 24,
+          "Otros campos" = 21
+        )
+      ) +
+      ggplot2::scale_size_manual(
+        values = c(
+          "Su campos" = 3,
+          "Mismo contado" = 2.7,
+          "Mismo cultivo" = 1.5,
+          "Otros campos" = 1.7
+        )
+      )
   }
   return(plot)
 }
@@ -420,7 +440,7 @@ convert_ggiraph <- function(
   width = 6,
   height = 4
 ) {
-  if (!ggiraph::font_family_exists(body_font)) {
+  if (!gdtools::font_family_exists(body_font)) {
     cli::cli_inform(
       c(
         "Can't find font family {.arg {body_font}} on your system.",

@@ -52,6 +52,8 @@
 <h2 class="pkg-version" data-toc-text="development version" id="soils-development-version">soils (development version)<a class="anchor" aria-label="anchor" href="#soils-development-version"></a></h2>
 <ul><li><p>Remove <code>field_name</code> as a required column and adjust templates, example data, and vignettes.</p></li>
 <li><p>Added <code>complete_texture()</code>, which validates and completes sand, silt, and clay fractions, computes a missing fraction when two are provided, and assigns a USDA soil texture class. A pre-existing <code>texture</code> column is no longer required.</p></li>
+<li><p><code>01_producer-report.qmd</code> now reads in <code>sample_id</code> and <code>field_id</code> as character type (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/10" class="external-link">#10</a>).</p></li>
+<li><p><code><a href="../reference/convert_ggiraph.html">convert_ggiraph()</a></code> uses <code><a href="https://davidgohel.github.io/gdtools/reference/font_family_exists.html" class="external-link">gdtools::font_family_exists()</a></code> instead of <code>ggiraph::font_family_exists()</code> (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/12" class="external-link">#12</a>).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="soils-101">soils 1.0.1<a class="anchor" aria-label="anchor" href="#soils-101"></a></h2>

@@ -8,9 +8,13 @@
     assigns a USDA soil texture class. A pre-existing `texture` column is no
     longer required.
 
+-   `01_producer-report.qmd` now reads in `sample_id` and `field_id` as
+    character type (#10).
+
 # soils 1.0.1
 
 -   Pre-calculate zoom for the static map to fix issue when there are less than
     4 tiles
     (<https://github.com/WA-Department-of-Agriculture/dirt-data-reports/issues/110>)
     and switch to World Imagery instead of Street Map.
+

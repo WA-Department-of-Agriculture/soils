@@ -67,7 +67,9 @@ data <- read.csv(
   check.names = FALSE,
   encoding = "UTF-8",
   strip.white = TRUE
-)
+) |> 
+  # Make sure sample_id and field_id are character
+  dplyr::mutate(dplyr::across(c(sample_id, field_id), as.character))
 
 # Abort if there are duplicate sample IDs.
 if (anyDuplicated(data$sample_id)) {

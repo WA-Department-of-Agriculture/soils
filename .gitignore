@@ -13,3 +13,4 @@ inst/doc
 /doc/
 /Meta/
 scrap.R
+extract-dependencies.R

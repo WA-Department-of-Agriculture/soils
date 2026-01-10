@@ -58,8 +58,5 @@ cat_red_bullet <- function(...) {
 }
 
 soils_cli_vec <- function(x) {
-  withr::with_options(
-    list(cli.theme = list(vec_trunc = 5)),
-    cli::cli_vec(x)
-  )
+  cli::cli_vec(x, list(vec_trunc = 5))
 }

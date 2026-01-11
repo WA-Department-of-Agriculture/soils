@@ -3,28 +3,23 @@ Title: Visualize and Report Soil Health Data
 Version: 1.0.1.9000
 Authors@R: c(
     person("Jadey N", "Ryan", , "jryan@agr.wa.gov", role = c("cre", "aut"),
-      comment = c(ORCID = "0009-0004-5998-4697")
-      ),
+           comment = c(ORCID = "0009-0004-5998-4697")),
     person("Molly", "McIlquham", role = "aut",
-      comment = c(ORCID = "0000-0002-0152-969X")
-      ),
+           comment = c(ORCID = "0000-0002-0152-969X")),
     person("Kwabena A", "Sarpong", role = "aut"),
     person("Leslie M", "Michel", role = "aut"),
     person("Teal S", "Potter", role = "aut",
-      comment = c(ORCID = "0000-0002-4884-2720")
-      ),
+           comment = c(ORCID = "0000-0002-4884-2720")),
     person("Deirdre", "Griffin LaHue", role = "aut",
-      comment = c(ORCID = "0000-0001-5711-797X")
-      ),
+           comment = c(ORCID = "0000-0001-5711-797X")),
     person("Dani L", "Gelardi", role = "aut",
-      comment = c(ORCID = "0000-0002-5015-8119")
-      ),
+           comment = c(ORCID = "0000-0002-5015-8119")),
     person("Washington State Department of Agriculture", role = c("cph", "fnd"))
   )
 Description: Collection of soil health data visualization and reporting
     tools, including a RStudio project template with everything you need
-    to generate custom HTML and Microsoft Word reports for each participant 
-    in your soil health sampling project.
+    to generate custom HTML and Microsoft Word reports for each
+    participant in your soil health sampling project.
 License: MIT + file LICENSE
 URL: https://github.com/WA-Department-of-Agriculture/soils,
     https://wa-department-of-agriculture.github.io/soils/
@@ -42,8 +37,8 @@ Imports:
     officer,
     purrr,
     tidyr,
-    utils,
-    usethis
+    usethis,
+    utils
 Suggests:
     downloadthis,
     gdtools,
@@ -54,8 +49,8 @@ Suggests:
     htmlwidgets,
     knitr,
     leaflet,
-    maptiles,
     magick,
+    maptiles,
     quarto,
     ragg,
     rlang,
@@ -66,8 +61,8 @@ Suggests:
     tidyterra
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Config/testthat/edition: 3

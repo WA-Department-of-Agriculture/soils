@@ -42,6 +42,7 @@ pull_unique <- function(df, target) {
 #'
 #' @param column to check if all values are NA or empty strings
 #'
+#' @export
 is_column_empty <- function(column) {
   # Handle both NA and empty strings "" for character vectors
   all(is.na(column) | column == "")
@@ -56,6 +57,7 @@ is_column_empty <- function(column) {
 #' @param producer_info Vector of producer's values for the grouping variable.
 #' @param var Variable to group and summarize by.
 #'
+#' @export
 get_n_texture_by_var <- function(results_long, producer_info, var) {
   testthat::expect_contains(names(results_long), c("sample_id", "texture"))
 

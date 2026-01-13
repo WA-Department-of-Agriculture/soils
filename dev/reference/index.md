@@ -17,13 +17,21 @@
   : Summarize producer's samples with averages by grouping variable
 - [`get_table_headers()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/get_table_headers.md)
   : Get table headers for flextable
-- [`prep_for_map()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/prep_for_map.md)
-  : Prep data to gis df
 
 ## Map
 
-- [`make_leaflet()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_leaflet.md)
-  : Make leaflet map
+- [`prep_for_map()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/prep_for_map.md)
+  : Prepare data for interactive mapping
+
+- [`make_interactive_map()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_interactive_map.md)
+  :
+
+  Make an interactive map of soil sample locations with `leaflet`
+
+- [`make_static_map()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_static_map.md)
+  :
+
+  Make a static map of soil sample locations with `ggplot2`
 
 ## Plots
 
@@ -63,6 +71,8 @@
 
 ## Helpers
 
+- [`is_column_empty()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/is_column_empty.md)
+  : Check if a column is empty (all NA or blank)
 - [`calculate_mode()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/calculate_mode.md)
   : Calculate the mode of categorical variable
 - [`pull_unique()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/pull_unique.md)

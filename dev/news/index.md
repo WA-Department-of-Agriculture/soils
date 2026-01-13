@@ -20,6 +20,29 @@
   instead of `ggiraph::font_family_exists()`
   ([\#12](https://github.com/WA-Department-of-Agriculture/soils/issues/12)).
 
+- Added
+  [`make_static_map()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_static_map.md)
+  for creating non-interactive maps using basemap tiles and `ggplot2`
+  ([\#13](https://github.com/WA-Department-of-Agriculture/soils/issues/13)).
+  Removed dependency on `tidyterra` for static map rendering. Basemap
+  tiles are now plotted using `ggplot2` with terra-backed rasters,
+  improving stability and reducing package dependencies.
+
+- Static maps now request basemap tiles using a buffered bounding box
+  rather than point geometries. This improves robustness for very small
+  or single-point spatial extents and prevents tile grid errors when
+  samples are tightly clustered.
+
+- Renamed
+  [`make_leaflet()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_leaflet.md)
+  to
+  [`make_interactive_map()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_interactive_map.md)
+  to provide a more descriptive and consistent naming convention
+  alongside
+  [`make_static_map()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_static_map.md).
+  [`make_leaflet()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_leaflet.md)
+  will be retained for backwards compatibility.
+
 ## soils 1.0.1
 
 - Pre-calculate zoom for the static map to fix issue when there are less

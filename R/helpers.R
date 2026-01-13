@@ -38,6 +38,15 @@ pull_unique <- function(df, target) {
 # These functions are used to wrangle data for the table and plot functions in
 # producer_report.qmd ---------------------------------------------------------
 
+#' Check if a column is empty (all NA or blank)
+#'
+#' @param column to check if all values are NA or empty strings
+#'
+is_column_empty <- function(column) {
+  # Handle both NA and empty strings "" for character vectors
+  all(is.na(column) | column == "")
+}
+
 #' Calculate n samples and most frequent texture by a grouping variable
 #'
 #' This function is used in `summarize_by_var`.

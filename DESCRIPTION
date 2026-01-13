@@ -32,8 +32,10 @@ Imports:
     flextable (>= 0.9.6),
     fs,
     ggplot2 (>= 3.5.0),
+    ggrepel,
     ggtext,
     glue,
+    lifecycle,
     officer,
     purrr,
     tidyr,
@@ -43,7 +45,6 @@ Suggests:
     downloadthis,
     gdtools,
     ggiraph,
-    ggrepel,
     here,
     htmltools,
     htmlwidgets,
@@ -58,7 +59,6 @@ Suggests:
     rstudioapi,
     sf,
     testthat (>= 3.2.0),
-    tidyterra
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

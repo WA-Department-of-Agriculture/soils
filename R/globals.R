@@ -1,7 +1,10 @@
+# checkhelper::get_no_visible()
+
 utils::globalVariables(c(
   "abbr",
   "abbr_unit",
   "angle",
+  "b",
   "bad_cols",
   "category",
   "clay",
@@ -9,11 +12,14 @@ utils::globalVariables(c(
   "dummy",
   "Field or Average",
   "field_id",
+  "g",
+  "geometry",
   "headers",
   "label",
   "measurement_group",
   "missing_n",
   "n",
+  "r",
   "sample_id",
   "sand",
   "sand_percent",
@@ -22,5 +28,7 @@ utils::globalVariables(c(
   "tables",
   "texture",
   "unit",
-  "value"
+  "value",
+  "x",
+  "y"
 ))

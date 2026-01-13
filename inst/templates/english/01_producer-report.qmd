@@ -67,7 +67,7 @@ data <- read.csv(
   check.names = FALSE,
   encoding = "UTF-8",
   strip.white = TRUE
-) |> 
+) |>
   # Make sure sample_id and field_id are character
   dplyr::mutate(dplyr::across(c(sample_id, field_id), as.character))
 
@@ -623,10 +623,10 @@ gis_ft <- gis_df |>
   )
 
 # If crop is empty, remove the column from the printed table
-if (NA %in% gis_ft$Crop) gis_ft <- gis_df |> dplyr::select(-Crop)
+if (is_column_empty(gis_ft$Crop)) gis_ft <- gis_ft |> dplyr::select(-Crop)
 
 # If longitude or latitude are empty, remove the columns from the printed table
-if (NA %in% gis_ft$Longitude | NA %in% gis_ft$Latitude) {
+if (is_column_empty(gis_ft$Longitude) & is_column_empty(gis_ft$Latitude)) {
   gis_ft <- gis_ft |> dplyr::select(-c(Longitude, Latitude))
 }
 
@@ -646,8 +646,8 @@ gis_ft |>
 ```{r html-map}
 #| eval: !expr out_type == "html"
 
-if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
-  soils::make_leaflet(
+if (!is_column_empty(gis_df$longitude) & !is_column_empty(gis_df$latitude)) {
+  soils::make_interactive_map(
     gis_df,
     primary_color = primary_color
   )
@@ -656,42 +656,14 @@ if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
 
 ```{r static-map}
 #| eval: !expr out_type == "docx"
-#| out-width: 6in
-
-if (!NA %in% gis_df$longitude & !NA %in% gis_df$latitude) {
-  df_sf <- sf::st_as_sf(
-    x = gis_df,
-    coords = c("longitude", "latitude"),
-    crs = "+proj=lonlat"
-  ) |>
-    sf::st_transform(3857)
-  
-  # override get_zoom within get_tiles to avoid issue when total_tiles is less
-  # than 4. this grabs the max zoom with with < 10 tiles
-  res <- maptiles:::get_bbox_and_proj(df_sf)
-  gz <- slippymath::bbox_tile_query(res$bbox_lonlat)
-  zoom <- max(gz[gz$total_tiles < 10, "zoom"])
-
-  basetiles <- maptiles::get_tiles(
-    df_sf,
+if (!is_column_empty(gis_df$longitude) & !is_column_empty(gis_df$latitude)) {
+  map <- make_static_map(
+    gis_df,
+    label = "field_id",
     provider = "Esri.WorldImagery",
-    cachedir = tempdir(),
-    retina = TRUE
+    body_font = body_font,
+    primary_color = primary_color
   )
-
-  map <- ggplot2::ggplot(df_sf) +
-    tidyterra::geom_spatraster_rgb(data = basetiles) +
-    ggplot2::geom_sf(color = primary_color, size = 3) +
-    ggrepel::geom_label_repel(
-      ggplot2::aes(label = field_id, geometry = geometry),
-      stat = "sf_coordinates",
-      family = body_font,
-      size = 3,
-      point.padding = 2,
-      min.segment.length = 0
-    ) +
-    ggplot2::coord_sf(crs = 3857) +
-    ggplot2::theme_void()
 
   ggplot2::ggsave(glue::glue("{path}/map.png"), map, dpi = 300)
 

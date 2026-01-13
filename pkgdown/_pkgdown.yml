@@ -92,9 +92,11 @@ reference:
   - summarize_by_project
   - summarize_by_var
   - get_table_headers
-  - prep_for_map
 - title: Map
-  contents: make_leaflet
+  contents:
+  - prep_for_map
+  - make_interactive_map
+  - make_static_map
 - title: Plots
   contents:
   - make_texture_triangle
@@ -112,6 +114,7 @@ reference:
   - style_ft
 - title: Helpers
   contents:
+  - is_column_empty
   - calculate_mode
   - pull_unique
 - title: Example data

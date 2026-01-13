@@ -2,31 +2,35 @@
 % Please edit documentation in R/map.R
 \name{prep_for_map}
 \alias{prep_for_map}
-\title{Prep data to gis df}
+\title{Prepare data for interactive mapping}
 \usage{
 prep_for_map(df, label_heading, label_body)
 }
 \arguments{
-\item{df}{Dataframe containing columns: \code{longitude}, \code{latitude}, and two
-columns with values you want to appear in the map label and popup.}
+\item{df}{A data frame containing at minimum \code{longitude} and
+\code{latitude} columns.}
 
-\item{label_heading}{Column in \code{df} that you want to appear as the bold point
-label on your map, as well as the first line of the popup when the user
-clicks a point.}
+\item{label_heading}{A column in \code{df} used as the bold heading for each
+map feature. This value appears as the point label and as the first line of
+the popup.}
 
-\item{label_body}{Column in \code{df} that you want to appear as body text below
-the \code{label_heading} in the popup.}
+\item{label_body}{A column in \code{df} used as body text displayed below the
+heading in the popup.}
 }
 \value{
-Dataframe to be input into \code{make_leaflet()}.
+A data frame with additional \code{label} and \code{popup} columns,
+suitable for input into \code{make_interactive_map()}.
 }
 \description{
-Prep data to gis df
+Prepare a dataframe for use in interactive maps by creating formatted
+label and popup columns from user-specified variables. This function is
+intended for use prior to \code{make_interactive_map()}.
 }
 \examples{
 washi_data |>
   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
+  dplyr::select(c(latitude, longitude, farm_name, crop)) |>
   head(3) |>
-  prep_for_map(label_heading = field_id, label_body = crop) |>
+  prep_for_map(label_heading = farm_name, label_body = crop) |>
   dplyr::glimpse()
 }

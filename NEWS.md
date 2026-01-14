@@ -3,21 +3,26 @@
 -   Remove `field_name` as a required column and adjust templates, example data,
     and vignettes.
 
+-   `01_producer-report.qmd` now reads in `sample_id` and `field_id` as
+    character type, which fixes unwanted commas in numeric IDs (#10).
+
 -   Added `complete_texture()`, which validates and completes sand, silt, and
     clay fractions, computes a missing fraction when two are provided, and
     assigns a USDA soil texture class. A pre-existing `texture` column is no
     longer required.
 
--   `01_producer-report.qmd` now reads in `sample_id` and `field_id` as
-    character type (#10).
+-   Fixed texture triangle rendering to require at least one complete sand,
+    silt, and clay sample. Incomplete texture rows are now dropped early,
+    preventing errors when producer data include partial texture information
+    (#15).
 
 -   `convert_ggiraph()` uses `gdtools::font_family_exists()` instead of
     `ggiraph::font_family_exists()` (#12).
 
 -   Added `make_static_map()` for creating non-interactive maps using basemap
     tiles and `ggplot2` (#13). Removed dependency on `tidyterra` for static map
-    rendering. Basemap tiles are now plotted using `ggplot2` with terra-backed
-    rasters, improving stability and reducing package dependencies.
+    rendering. Basemap tiles are now plotted using `ggplot2`, improving
+    stability and reducing package dependencies.
 
 -   Static maps now request basemap tiles using a buffered bounding box rather
     than point geometries. This improves robustness for very small or

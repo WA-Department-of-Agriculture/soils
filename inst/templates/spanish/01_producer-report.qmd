@@ -263,14 +263,14 @@ results_long <- results_long |>
 
 ```{r prep-gis-df}
 # Prep data for GIS table and map
-gis_df <- producer_samples |> 
-  dplyr::distinct(sample_id, .keep_all = TRUE) |> 
-  dplyr::arrange(field_id) |> 
+gis_df <- producer_samples |>
+  dplyr::distinct(sample_id, .keep_all = TRUE) |>
+  dplyr::arrange(field_id) |>
   soils::prep_for_map(
-  label_heading = field_id,
-  # If crop is empty, omit from popup
-  label_body = ifelse(!is.na(crop), crop, "")
-)
+    label_heading = field_id,
+    # If crop is empty, omit from popup
+    label_body = ifelse(!is.na(crop), crop, "")
+  )
 ```
 
 <!-- Data wrangling for flextables -->
@@ -479,9 +479,6 @@ df_plot <- df_plot[order(df_plot$category, decreasing = TRUE), ]
 ```
 
 ```{r prep-texture-triangle}
-# Make sure dataset has sand, silt, and clay measurements
-texture <- dplyr::filter(producer_samples, abbr %in% c("Arena", "Limo", "Arcilla"))
-
 # Select only the texture variables from the plot df and pivot so each texture
 # is in its own column
 texture_df <- df_plot |>
@@ -499,26 +496,26 @@ texture_df <- df_plot |>
     dplyr::contains("silt"),
     dplyr::contains("clay"),
     category
-  )
+  ) |>
+  # Filter out incomplete rows
+  tidyr::drop_na()
 
 # Split by category then drop category column
 texture_list <- split(texture_df, texture_df$category) |>
   purrr::map(\(df) dplyr::select(df, -category))
 
-# Does producer have sand, silt, and clay for at least 1 sample?
-producer_texture <- texture_df |>
+# Make texture triangle only if producer have sand, silt, and clay for at least
+# one sample
+make_tt <- texture_df |>
   dplyr::filter(category == "Su campos") |>
-  dplyr::select(-category)
-
-make_tt <- all(grepl(
-  "sand|silt|clay",
-  colnames(producer_texture),
-  ignore.case = TRUE
-)) & ncol(producer_texture) == 3
+  soils::has_complete_row(
+    c("sand_percent", "silt_percent", "clay_percent")
+  )
 ```
 
 ```{r make-texture-triangle}
-# Only create texture triangle if above prep-texture-triangle ran
+# Only create texture triangle if there is at least one sample with complete
+# texture fraction data
 if (make_tt) {
   # Since the texture triangle is made with base R plotting functions, we need to
   # set our graphics device to save it as a PNG for embedding in our report.

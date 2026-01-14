@@ -263,14 +263,14 @@ results_long <- results_long |>
 
 ```{r prep-gis-df}
 # Prep data for GIS table and map
-gis_df <- producer_samples |> 
-  dplyr::distinct(sample_id, .keep_all = TRUE) |> 
-  dplyr::arrange(field_id) |> 
+gis_df <- producer_samples |>
+  dplyr::distinct(sample_id, .keep_all = TRUE) |>
+  dplyr::arrange(field_id) |>
   soils::prep_for_map(
-  label_heading = field_id,
-  # If crop is empty, omit from popup
-  label_body = ifelse(!is.na(crop), crop, "")
-)
+    label_heading = field_id,
+    # If crop is empty, omit from popup
+    label_body = ifelse(!is.na(crop), crop, "")
+  )
 ```
 
 <!-- Data wrangling for flextables -->
@@ -461,112 +461,115 @@ texture_df <- df_plot |>
     dplyr::contains("silt"),
     dplyr::contains("clay"),
     category
-  )
+  ) |> 
+  # Filter out incomplete rows
+  tidyr::drop_na()
 
 # Split by category then drop category column
 texture_list <- split(texture_df, texture_df$category) |>
   purrr::map(\(df) dplyr::select(df, -category))
 
-# Does producer have sand, silt, and clay for at least 1 sample?
-producer_texture <- texture_df |>
-  dplyr::filter(category == "Your fields") |>
-  dplyr::select(-category)
-
-make_tt <- all(grepl(
-  "sand|silt|clay",
-  colnames(producer_texture),
-  ignore.case = TRUE
-)) & ncol(producer_texture) == 3
+# Make texture triangle only if producer have sand, silt, and clay for at least
+# one sample
+make_tt <- texture_df |> 
+  dplyr::filter(category == "Your fields") |> 
+  soils::has_complete_row(
+  c("sand_percent", "silt_percent", "clay_percent")
+)
 ```
 
 ```{r make-texture-triangle}
-# Since the texture triangle is made with base R plotting functions, we need to
-# set our graphics device to save it as a PNG for embedding in our report.
-ragg::agg_png(
-  "figure-output/texture-triangle.png",
-  res = 150,
-  width = 1200,
-  height = 1000,
-  scaling = 1
-)
+# Only create texture triangle if there is at least one sample with complete
+# texture fraction data
+if (make_tt) {
+  # Since the texture triangle is made with base R plotting functions, we need to
+  # set our graphics device to save it as a PNG for embedding in our report.
+  ragg::agg_png(
+    "figure-output/texture-triangle.png",
+    res = 150,
+    width = 1200,
+    height = 1000,
+    scaling = 1
+  )
 
-# Create the texture triangle
-soils::make_texture_triangle(body_font = body_font)
+  # Create the texture triangle
+  soils::make_texture_triangle(body_font = body_font)
 
-# The two character code glued to the end of the six character hex color is the
-# opacity level. The opacity value ranges from 00 to FF, with 00 being fully
-# transparent and FF being fully opaque. See a chart to find the opacity code
-# for the level of transparency you want: https://drawne.com/hex-opacity/.
+  # The two character code glued to the end of the six character hex color is the
+  # opacity level. The opacity value ranges from 00 to FF, with 00 being fully
+  # transparent and FF being fully opaque. See a chart to find the opacity code
+  # for the level of transparency you want: https://drawne.com/hex-opacity/.
 
-# Add points for 'Other fields' on the bottom
-soils::add_texture_points(
-  texture_list$`Other fields`,
-  color = glue::glue(other_color, "CC"),
-  bg = glue::glue(other_color, 99),
-  pch = 21,
-  size = 1.36
-)
+  # Add points for 'Other fields' on the bottom
+  soils::add_texture_points(
+    texture_list$`Other fields`,
+    color = glue::glue(other_color, "CC"),
+    bg = glue::glue(other_color, 99),
+    pch = 21,
+    size = 1.36
+  )
 
-# Next add points for 'Same crop'
-soils::add_texture_points(
-  texture_list$`Same crop`,
-  color = glue::glue("#918D8D", "CC"),
-  bg = glue::glue("#918D8D", 99),
-  pch = 24,
-  size = 1.36
-)
+  # Next add points for 'Same crop'
+  soils::add_texture_points(
+    texture_list$`Same crop`,
+    color = glue::glue("#918D8D", "CC"),
+    bg = glue::glue("#918D8D", 99),
+    pch = 24,
+    size = 1.36
+  )
 
-# Next add points for 'Same county'
-soils::add_texture_points(
-  texture_list$`Same county`,
-  color = glue::glue("#494646", "CC"),
-  bg = glue::glue("#494646", 99),
-  pch = 8,
-  size = 2
-)
+  # Next add points for 'Same county'
+  soils::add_texture_points(
+    texture_list$`Same county`,
+    color = glue::glue("#494646", "CC"),
+    bg = glue::glue("#494646", 99),
+    pch = 8,
+    size = 2
+  )
 
-# Lastly, add points for 'Your fields' on top of the other layers
-soils::add_texture_points(
-  texture_list$`Your fields`,
-  color = glue::glue(primary_color, "FF"),
-  bg = glue::glue(primary_color, "CC"),
-  pch = 22,
-  size = 2.4
-)
+  # Lastly, add points for 'Your fields' on top of the other layers
+  soils::add_texture_points(
+    texture_list$`Your fields`,
+    color = glue::glue(primary_color, "FF"),
+    bg = glue::glue(primary_color, "CC"),
+    pch = 22,
+    size = 2.4
+  )
 
-# Add the legend
-soils::add_legend(
-  legend = c(
-    "Your fields",
-    "Same county",
-    "Same crop",
-    "Other fields"
-  ),
-  color = c(
-    primary_color,
-    secondary_color,
-    "#918D8D",
-    other_color
-  ),
-  pt.bg = c(
-    glue::glue(primary_color, "CC"),
-    glue::glue("#494646", 99),
-    glue::glue("#918D8D", 99),
-    glue::glue(other_color, 99)
-  ),
-  pch = c(22, 8, 24, 21),
-  size = c(2.4, 2, 1.36, 1.36),
-  vertical_spacing = 1.5,
-)
+  # Add the legend
+  soils::add_legend(
+    legend = c(
+      "Your fields",
+      "Same county",
+      "Same crop",
+      "Other fields"
+    ),
+    color = c(
+      primary_color,
+      secondary_color,
+      "#918D8D",
+      other_color
+    ),
+    pt.bg = c(
+      glue::glue(primary_color, "CC"),
+      glue::glue("#494646", 99),
+      glue::glue("#918D8D", 99),
+      glue::glue(other_color, 99)
+    ),
+    pch = c(22, 8, 24, 21),
+    size = c(2.4, 2, 1.36, 1.36),
+    vertical_spacing = 1.5,
+  )
 
-# Turn off the graphics device to save the figure
-invisible(dev.off())
+  # Turn off the graphics device to save the figure
+  invisible(dev.off())
 
-# Remove the extra white space around the figure if magick is installed
-if (requireNamespace("magick", quietly = TRUE)) {
-  tt <- magick::image_read("figure-output/texture-triangle.png")
-  tt <- magick::image_trim(tt)
-  magick::image_write(tt, "figure-output/texture-triangle.png")
+  # Remove the extra white space around the figure if magick is installed
+  if (requireNamespace("magick", quietly = TRUE)) {
+    tt <- magick::image_read("figure-output/texture-triangle.png")
+    tt <- magick::image_trim(tt)
+    magick::image_write(tt, "figure-output/texture-triangle.png")
+  }
 }
 ```
 

@@ -37,7 +37,6 @@ function is intended as a non-interactive alternative to
 \code{make_interactive_map()}.
 }
 \examples{
-\donttest{
 gis_df <- washi_data |>
   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
   dplyr::select(c(latitude, longitude, farm_name)) |>
@@ -45,6 +44,7 @@ gis_df <- washi_data |>
 
 dplyr::glimpse(gis_df)
 
+\dontrun{
 static_map <- make_static_map(gis_df, label = farm_name)
 static_map
 }

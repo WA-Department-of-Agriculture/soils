@@ -51,7 +51,6 @@ A `{ggplot2}` object representing the static map.
 ## Examples
 
 ``` r
-# \donttest{
 gis_df <- washi_data |>
   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
   dplyr::select(c(latitude, longitude, farm_name)) |>
@@ -64,8 +63,8 @@ dplyr::glimpse(gis_df)
 #> $ longitude <int> -119, -123, -122
 #> $ farm_name <chr> "Farm 150", "Farm 085", "Farm 058"
 
+if (FALSE) { # \dontrun{
 static_map <- make_static_map(gis_df, label = farm_name)
 static_map
-
-# }
+} # }
 ```

@@ -73,6 +73,8 @@
 
 - [`is_column_empty()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/is_column_empty.md)
   : Check if a column is empty (all NA or blank)
+- [`has_complete_row()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/has_complete_row.md)
+  : Check for at least one complete row for required columns
 - [`calculate_mode()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/calculate_mode.md)
   : Calculate the mode of categorical variable
 - [`pull_unique()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/pull_unique.md)

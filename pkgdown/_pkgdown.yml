@@ -115,6 +115,7 @@ reference:
 - title: Helpers
   contents:
   - is_column_empty
+  - has_complete_row
   - calculate_mode
   - pull_unique
 - title: Example data

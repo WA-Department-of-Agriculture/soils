@@ -263,8 +263,10 @@ results_long <- results_long |>
 
 ```{r prep-gis-df}
 # Prep data for GIS table and map
-gis_df <- soils::prep_for_map(
-  producer_samples,
+gis_df <- producer_samples |> 
+  dplyr::distinct(sample_id, .keep_all = TRUE) |> 
+  dplyr::arrange(field_id) |> 
+  soils::prep_for_map(
   label_heading = field_id,
   # If crop is empty, omit from popup
   label_body = ifelse(!is.na(crop), crop, "")
@@ -646,7 +648,7 @@ gis_ft |>
 ```{r html-map}
 #| eval: !expr out_type == "html"
 
-if (!is_column_empty(gis_df$longitude) & !is_column_empty(gis_df$latitude)) {
+if (soils::has_complete_row(gis_df, c("latitude", "longitude"))) {
   soils::make_interactive_map(
     gis_df,
     primary_color = primary_color
@@ -656,10 +658,10 @@ if (!is_column_empty(gis_df$longitude) & !is_column_empty(gis_df$latitude)) {
 
 ```{r static-map}
 #| eval: !expr out_type == "docx"
-if (!is_column_empty(gis_df$longitude) & !is_column_empty(gis_df$latitude)) {
+if (soils::has_complete_row(gis_df, c("latitude", "longitude"))) {
   map <- make_static_map(
     gis_df,
-    label = "field_id",
+    label = field_id,
     provider = "Esri.WorldImagery",
     body_font = body_font,
     primary_color = primary_color

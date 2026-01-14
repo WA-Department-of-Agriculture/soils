@@ -48,6 +48,29 @@ is_column_empty <- function(column) {
   all(is.na(column) | column == "")
 }
 
+#' Check for at least one complete row for required columns
+#'
+#' Returns TRUE if the data frame contains at least one row where all
+#' specified columns are non-missing.
+#'
+#' @param df A data frame.
+#' @param cols A character vector of column names that must be complete.
+#'
+#' @return Logical scalar. TRUE if at least one complete row exists.
+#' @export
+has_complete_row <- function(df, cols) {
+  # Required columns must exist
+  if (!all(cols %in% colnames(df))) {
+    return(FALSE)
+  }
+
+  df |>
+    dplyr::select(dplyr::all_of(cols)) |>
+    stats::complete.cases() |>
+    any()
+}
+
+
 #' Calculate n samples and most frequent texture by a grouping variable
 #'
 #' This function is used in `summarize_by_var`.

@@ -191,6 +191,7 @@ function(el, x){
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' gis_df <- washi_data |>
 #'   dplyr::distinct(latitude, longitude, .keep_all = TRUE) |>
 #'   dplyr::select(c(latitude, longitude, farm_name)) |>
@@ -200,6 +201,7 @@ function(el, x){
 #'
 #' static_map <- make_static_map(gis_df, label = farm_name)
 #' static_map
+#' }
 make_static_map <- function(
   df,
   label = field_id,

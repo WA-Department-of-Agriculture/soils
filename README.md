@@ -126,7 +126,7 @@ project**](https://wa-department-of-agriculture.github.io/soils/articles/project
 tutorial. Choose between two report templates: **English** or
 **Spanish**.
 
-<iframe src="https://drive.google.com/file/d/1LsuC4YR0rXjBUEk4eeoIaoYbaLGcARzr/preview" width="640" height="360" allow="autoplay">
+[create-soils.webm](https://github.com/WA-Department-of-Agriculture/soils/assets/95007373/12a01cf7-0efc-4948-b41e-a826dd86e6f6)
 
 ## 2. Render the example reports
 

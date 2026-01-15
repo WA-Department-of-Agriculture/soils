@@ -31,34 +31,33 @@ Imports:
     dplyr,
     flextable (>= 0.9.6),
     fs,
+    ggiraph,
+    gdtools,
     ggplot2 (>= 3.5.0),
     ggrepel,
     ggtext,
     glue,
-    lifecycle,
-    officer,
-    purrr,
-    tidyr,
-    usethis,
-    utils
-Suggests:
-    downloadthis,
-    gdtools,
-    ggiraph,
-    here,
     htmltools,
     htmlwidgets,
     knitr,
     leaflet,
-    magick,
     maptiles,
+    officer,
+    purrr,
     quarto,
-    ragg,
-    rlang,
-    rmarkdown,
     rstudioapi,
     sf,
     testthat (>= 3.2.0),
+    tidyr,
+    utils,
+    usethis
+Suggests:
+    downloadthis,
+    here,
+    magick,
+    ragg,
+    rlang,
+    rmarkdown
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

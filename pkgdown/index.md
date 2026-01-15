@@ -1,5 +1,5 @@
 
-# soils <a href="https://wa-department-of-agriculture.github.io/soils/"><img src="../man/figures/logo.png" data-align="right" height="138" /></a>
+# soils <a href="https://wa-department-of-agriculture.github.io/soils/"><img src="../man/figures/logo.png" align="right" height="138"/></a>
 
 <!-- badges: start -->
 

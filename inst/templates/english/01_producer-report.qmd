@@ -461,7 +461,7 @@ texture_df <- df_plot |>
     dplyr::contains("silt"),
     dplyr::contains("clay"),
     category
-  ) |> 
+  ) |>
   # Filter out incomplete rows
   tidyr::drop_na()
 
@@ -471,11 +471,11 @@ texture_list <- split(texture_df, texture_df$category) |>
 
 # Make texture triangle only if producer have sand, silt, and clay for at least
 # one sample
-make_tt <- texture_df |> 
-  dplyr::filter(category == "Your fields") |> 
+make_tt <- texture_df |>
+  dplyr::filter(category == "Your fields") |>
   soils::has_complete_row(
-  c("sand_percent", "silt_percent", "clay_percent")
-)
+    c("sand_percent", "silt_percent", "clay_percent")
+  )
 ```
 
 ```{r make-texture-triangle}
@@ -628,10 +628,13 @@ gis_ft <- gis_df |>
   )
 
 # If crop is empty, remove the column from the printed table
-if (is_column_empty(gis_ft$Crop)) gis_ft <- gis_ft |> dplyr::select(-Crop)
+if (soils::is_column_empty(gis_ft$Crop)) {
+  gis_ft <- gis_ft |> dplyr::select(-Crop)
+}
 
 # If longitude or latitude are empty, remove the columns from the printed table
-if (is_column_empty(gis_ft$Longitude) & is_column_empty(gis_ft$Latitude)) {
+if (soils::is_column_empty(gis_ft$Longitude) &
+  soils::is_column_empty(gis_ft$Latitude)) {
   gis_ft <- gis_ft |> dplyr::select(-c(Longitude, Latitude))
 }
 

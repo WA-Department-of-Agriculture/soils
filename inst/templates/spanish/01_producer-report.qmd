@@ -662,10 +662,13 @@ gis_ft <- gis_df |>
   )
 
 # If crop is empty, remove the column from the printed table
-if (is_column_empty(gis_ft$Cultivo)) gis_ft <- gis_ft |> dplyr::select(-Cultivo)
+if (soils::is_column_empty(gis_ft$Cultivo)) {
+  gis_ft <- gis_ft |> dplyr::select(-Cultivo)
+}
 
 # If longitude or latitude are empty, remove the columns from the printed table
-if (is_column_empty(gis_ft$Longitud) & is_column_empty(gis_ft$Latitud)) {
+if (soils::is_column_empty(gis_ft$Longitud) &
+  soils::is_column_empty(gis_ft$Latitud)) {
   gis_ft <- gis_ft |> dplyr::select(-c(Longitud, Latitud))
 }
 

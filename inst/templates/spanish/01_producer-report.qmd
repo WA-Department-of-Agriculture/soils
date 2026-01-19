@@ -504,7 +504,7 @@ texture_df <- df_plot |>
 texture_list <- split(texture_df, texture_df$category) |>
   purrr::map(\(df) dplyr::select(df, -category))
 
-# Make texture triangle only if producer have sand, silt, and clay for at least
+# Make texture triangle only if producer has sand, silt, and clay for at least
 # one sample
 make_tt <- texture_df |>
   dplyr::filter(category == "Su campos") |>

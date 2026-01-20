@@ -10,11 +10,12 @@ Thresholds for texture classification are based on the \href{https://www.nrcs.us
 classify_texture(df)
 }
 \arguments{
-\item{df}{A data frame containing the columns \code{sand_percent},
-\code{silt_percent}, and \code{clay_percent}. An optional
-\code{texture} column can also be provided: if the sand/silt/clay fractions
-are present, \code{texture} will be overwritten by the classified value;
-if the fractions are missing, existing \code{texture} values are preserved.}
+\item{df}{A data frame containing the columns \code{sample_id},
+\code{sand_percent}, \code{silt_percent}, and \code{clay_percent}. An
+optional \code{texture} column can also be provided: if the sand/silt/clay
+fractions are present, \code{texture} will be overwritten by the classified
+value; if the fractions are missing, existing \code{texture} values are
+preserved.}
 }
 \value{
 A data frame with a \code{texture} column containing USDA soil
@@ -29,21 +30,21 @@ missing values when possible, and assigns a USDA soil texture class.
 assumptions:
 
 \itemize{
-\item Each row must contain values for at least two of
+\item Each sample must contain values for at least two of
 \code{sand_percent}, \code{silt_percent}, and \code{clay_percent}.
-Rows with fewer than two provided fractions must be corrected before
+Samples with fewer than two provided fractions must be corrected before
 texture classification can proceed.
 
 \item When exactly one fraction is missing, it is calculated as
 \code{100 - (sum of the other two)}.
 
-\item All fraction values must fall within the range 0–100. Rows with all
+\item All fraction values must fall within the range 0–100. Samples with all
 three fractions must sum to 100 with a ±1 tolerance (allowable range
 99-101).
 
-\item Rows with all three fractions missing are assumed to represent
-samples where soil texture was not measured. These rows are retained
-and returned without fraction-based classification.
+\item Samples with all three fractions missing are assumed to not have
+texture measured. These samples are retained and returned without
+fraction-based classification.
 
 \item If a \code{texture} column is provided, non-missing texture values
 are preserved and are not overwritten by fraction-based classification.
@@ -56,6 +57,7 @@ NRCS gSSURGO) when particle-size fractions are unavailable.
 # Three samples classified without error
 
 df <- data.frame(
+  sample_id = c(1, 2, 3),
   sand_percent = c(20, 45, 75),
   silt_percent = c(65, 35, 15),
   clay_percent = c(15, 20, 10)
@@ -64,9 +66,10 @@ df <- data.frame(
 classify_texture(df)
 
 # Error when a sample has insufficient data
-# One row is missing two soil fractions
+# One sample is missing two soil fractions
 
 df <- data.frame(
+  sample_id = c(1, 2, 3),
   sand_percent = c(40, NA, 65),
   silt_percent = c(40, 55, 5),
   clay_percent = c(20, NA, 30)
@@ -77,6 +80,7 @@ try(classify_texture(df))
 # Error when any fraction is outside the allowable range (0-100)
 
 df <- data.frame(
+  sample_id = c(1, 2, 3),
   sand_percent = c(40, 0, 65),
   silt_percent = c(40, 55, 5),
   clay_percent = c(20, 110, 30)
@@ -87,6 +91,7 @@ try(classify_texture(df))
 # Error when fractions do not sum to 100 +/- 1 (allowable range: 99-101)
 
 df <- data.frame(
+  sample_id = c(1, 2, 3),
   sand_percent = c(40, 0, 90),
   silt_percent = c(40, 55, 5),
   clay_percent = c(20, 45, 30)
@@ -98,6 +103,7 @@ try(classify_texture(df))
 # The missing fraction is calculated as 100 minus the other two
 
 df <- data.frame(
+  sample_id = c(1, 2, 3),
   sand_percent = c(NA, 60, 25),
   silt_percent = c(45, 10, 40),
   clay_percent = c(50, 30, 35)
@@ -106,9 +112,10 @@ df <- data.frame(
 classify_texture(df)
 
 # Warn when soil texture was not measured
-# Rows with all fractions missing return a blank texture class
+# Samples with all fractions missing return a blank texture class
 
   df <- data.frame(
+   sample_id = c(1, 2, 3),
    sand_percent = c(NA, NA, 30),
    silt_percent = c(NA, NA, 30),
    clay_percent = c(NA, NA, 40)

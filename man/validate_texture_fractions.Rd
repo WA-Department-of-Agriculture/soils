@@ -7,17 +7,17 @@
 validate_texture_fractions(df)
 }
 \arguments{
-\item{df}{A data frame containing \code{sand_percent}, \code{silt_percent},
-and \code{clay_percent}.}
+\item{df}{A data frame containing \code{sample_id}, \code{sand_percent},
+\code{silt_percent}, and \code{clay_percent}.}
 }
 \value{
 A data frame with a helper column \code{missing_n} indicating the
-number of missing fractions per row.
+number of missing fractions per sample.
 }
 \description{
 Internal helper that validates the presence of soil particle-size fractions
 (sand, silt, and clay). Rounds fractions prior to validation. Errors if two
-or more fractions are missing in any row and warns if exactly one fraction is
-missing.
+or more fractions are missing for any sample and warns if exactly one
+fraction is missing.
 }
 \keyword{internal}

@@ -27,6 +27,7 @@ test_that("validate_texture_fractions errors if required columns are missing", {
 
 test_that("errors when two fractions are missing in a row", {
   df <- data.frame(
+    sample_id = c(1, 2),
     sand_percent = c(40, NA),
     silt_percent = c(40, NA),
     clay_percent = c(20, 30)
@@ -41,6 +42,7 @@ test_that("errors when two fractions are missing in a row", {
 
 test_that("warns when exactly one fraction is missing", {
   df <- data.frame(
+    sample_id = c(1, 2),
     sand_percent = c(NA, 40),
     silt_percent = c(50, 40),
     clay_percent = c(50, 20)
@@ -54,6 +56,7 @@ test_that("warns when exactly one fraction is missing", {
 
 test_that("warns when all fractions are missing and texture is not provided", {
   df <- data.frame(
+    sample_id = c(1, 2),
     sand_percent = NA,
     silt_percent = NA,
     clay_percent = NA
@@ -67,10 +70,11 @@ test_that("warns when all fractions are missing and texture is not provided", {
 
 test_that("does not warn when all fractions are missing but texture is provided", {
   df <- data.frame(
+    sample_id = c(1, 2),
+    texture = "Loam",
     sand_percent = NA,
     silt_percent = NA,
-    clay_percent = NA,
-    texture = "Loam"
+    clay_percent = NA
   )
 
   expect_no_warning(
@@ -82,6 +86,7 @@ test_that("does not warn when all fractions are missing but texture is provided"
 
 test_that("errors when any fraction is outside 0–100", {
   df <- data.frame(
+    sample_id = c(1, 2),
     sand_percent = c(40, 110),
     silt_percent = c(40, 10),
     clay_percent = c(20, 10)
@@ -98,6 +103,7 @@ test_that("errors when any fraction is outside 0–100", {
 
 test_that("errors when complete fractions fall outside the 99–101 tolerance", {
   df <- data.frame(
+    sample_id = c(1, 2),
     sand_percent = c(40, 30),
     silt_percent = c(40, 30),
     clay_percent = c(30, 42) # sums: 110 and 102
@@ -113,17 +119,18 @@ test_that("errors when complete fractions fall outside the 99–101 tolerance", 
 
 test_that("validation reports all error and warning types together", {
   df <- data.frame(
-    # Row 1: missing two fractions → error
+    sample_id = c(1, 2, 3, 4, 5),
+    # Sample 1: missing two fractions → error
     sand_percent = c(NA, 110, 40, NA, NA),
 
-    # Row 2: out of range value → error
+    # Sample 2: out of range value → error
     silt_percent = c(NA, 10, 40, 30, NA),
 
-    # Row 3: sums to != 100 → error
+    # Sample 3: sums to != 100 → error
     clay_percent = c(30, 10, 30, 40, NA)
   )
 
-  # Row breakdown:
+  # Sample breakdown:
   # 1 → two missing fractions (error)
   # 2 → sand > 100 (error)
   # 3 → sums to 110 (error)
@@ -149,6 +156,7 @@ test_that("validation reports all error and warning types together", {
 
 test_that("complete_texture_fractions computes the missing fraction correctly", {
   df <- data.frame(
+    sample_id = 1,
     sand_percent = NA,
     silt_percent = 30,
     clay_percent = 20
@@ -165,6 +173,7 @@ test_that("complete_texture_fractions computes the missing fraction correctly", 
 
 test_that("assign_texture_class assigns expected USDA texture classes", {
   df <- data.frame(
+    sample_id = c(1, 2, 3),
     sand_percent = c(85, 40, 20),
     silt_percent = c(10, 40, 65),
     clay_percent = c(5, 20, 15)
@@ -181,6 +190,7 @@ test_that("assign_texture_class assigns expected USDA texture classes", {
 
 test_that("rows with unmeasured texture return NA texture", {
   df <- data.frame(
+    sample_id = 1,
     sand_percent = NA,
     silt_percent = NA,
     clay_percent = NA
@@ -199,6 +209,7 @@ test_that("rows with unmeasured texture return NA texture", {
 
 test_that("classify_texture completes, validates, and classifies correctly", {
   df <- data.frame(
+    sample_id = c(1, 2),
     sand_percent = c(NA, 60),
     silt_percent = c(45, 10),
     clay_percent = c(50, 30)
@@ -216,8 +227,9 @@ test_that("classify_texture completes, validates, and classifies correctly", {
 
 # CLI messaging: singular vs plural --------------------------------------------
 
-test_that("CLI messages correctly pluralize 'Row' vs 'Rows'", {
+test_that("CLI messages correctly pluralize 'Sample' vs 'Samples'", {
   df_single <- data.frame(
+    sample_id = 1,
     sand_percent = NA,
     silt_percent = NA,
     clay_percent = 30
@@ -225,10 +237,11 @@ test_that("CLI messages correctly pluralize 'Row' vs 'Rows'", {
 
   expect_error(
     validate_texture_fractions(df_single),
-    "Row 1 must have at least two fractions"
+    "Sample 1 must have at least two fractions"
   )
 
   df_plural <- data.frame(
+    sample_id = c(1, 2),
     sand_percent = c(NA, NA),
     silt_percent = c(NA, NA),
     clay_percent = c(30, 40)
@@ -236,13 +249,14 @@ test_that("CLI messages correctly pluralize 'Row' vs 'Rows'", {
 
   expect_error(
     validate_texture_fractions(df_plural),
-    "Rows 1 and 2 must have at least two fractions"
+    "Samples 1 and 2 must have at least two fractions"
   )
 })
 
 
 test_that("CLI messages correctly pluralize 'is' vs 'are'", {
   df_single <- data.frame(
+    sample_id = 1,
     sand_percent = NA,
     silt_percent = 40,
     clay_percent = 60
@@ -250,10 +264,11 @@ test_that("CLI messages correctly pluralize 'is' vs 'are'", {
 
   expect_warning(
     validate_texture_fractions(df_single),
-    "Row 1 is missing one fraction"
+    "Sample 1 is missing one fraction"
   )
 
   df_plural <- data.frame(
+    sample_id = c(1, 2),
     sand_percent = c(NA, NA),
     silt_percent = c(40, 30),
     clay_percent = c(60, 70)
@@ -261,6 +276,6 @@ test_that("CLI messages correctly pluralize 'is' vs 'are'", {
 
   expect_warning(
     validate_texture_fractions(df_plural),
-    "Rows 1 and 2 are missing one fraction"
+    "Samples 1 and 2 are missing one fraction"
   )
 })

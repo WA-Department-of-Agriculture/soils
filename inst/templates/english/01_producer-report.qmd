@@ -94,21 +94,6 @@ dictionary <- read.csv(
   strip.white = TRUE
 )
 
-dictionary <- dictionary |>
-  dplyr::mutate(
-    # Concatenate abbr and unit with html break for the table and plot labels
-    abbr_unit = glue::glue("{abbr}<br>{unit}"),
-    # Set the order of how measurement groups will appear within the report
-    # based on the order found in the data dictionary
-    group_order = dplyr::cur_group_id(),
-    # Set the order of how measurements will appear within each measurement
-    # group based on the order found in the data dictionary
-    measurement_order = seq_along(column_name),
-    .by = measurement_group
-  )
-
-# Get vector of measurement groups from dictionary
-measurement_groups <- unique(dictionary$measurement_group)
 ```
 
 ```{r data-validation}
@@ -174,6 +159,66 @@ other_color <- "#ccc29c"
 strip_color <- "#335c67"
 # facet strip text color
 strip_text_color <- "white"
+```
+
+<!-- Texture validation and classification -->
+
+```{r texture-validate-classify}
+# If sand, silt, and clay columns are present, validate & classify texture
+if (all(c("sand_percent", "silt_percent", "clay_percent") %in% names(data))) {
+  data <- soils::classify_texture(data)
+}
+
+# If texture is in data but not dictionary, add to dictionary before the texture
+# fractions
+if ("texture" %in% names(data) & !"texture" %in% dictionary$column_name) {
+  # Identify where to insert texture (before the first fraction column)
+  insert_before <- which(
+    dictionary$column_name %in%
+      c("sand_percent", "silt_percent", "clay_percent")
+  )[1]
+
+  # Define the texture dictionary row
+  texture_row <- data.frame(
+    measurement_group = "Physical",
+    column_name = "texture",
+    abbr = "Texture",
+    unit = "",
+    stringsAsFactors = FALSE
+  )
+
+  # Insert texture row at the correct position
+  if (!is.na(insert_before)) {
+    dictionary <- dplyr::bind_rows(
+      dictionary[seq_len(insert_before - 1), ],
+      texture_row,
+      dictionary[insert_before:nrow(dictionary), ]
+    )
+  } else {
+    # Fallback: append to the end of Physical group if fractions not present
+    dictionary <- dplyr::bind_rows(dictionary, texture_row)
+  }
+}
+```
+
+<!-- Format measurement labels and set ordering -->
+
+```{r process-dictionary}
+dictionary <- dictionary |>
+  dplyr::mutate(
+    # Concatenate abbr and unit with html break for the table and plot labels
+    abbr_unit = glue::glue("{abbr}<br>{unit}"),
+    # Set the order of how measurement groups will appear within the report
+    # based on the order found in the data dictionary
+    group_order = dplyr::cur_group_id(),
+    # Set the order of how measurements will appear within each measurement
+    # group based on the order found in the data dictionary
+    measurement_order = seq_along(column_name),
+    .by = measurement_group
+  )
+
+# Get vector of measurement groups from dictionary
+measurement_groups <- unique(dictionary$measurement_group)
 ```
 
 <!-- Pivot data longer and join with data dictionary -->

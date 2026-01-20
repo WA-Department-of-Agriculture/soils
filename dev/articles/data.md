@@ -129,13 +129,16 @@ mismatches](#datadictionary-mismatches).
   as the producer. Can be blank.
 
 - `longitude <int>` and `latitude <int>` are used to map each sample
-  point using the
-  [{leaflet}](https://rstudio.github.io/leaflet/index.html) package.
-  Coordinates must be in decimal degrees using WGS 84 (aka EPSG:4326).
-  If blank, the map will not be included.
+  point using. If blank, the map will not be included.
 
-  column is not used in the texture triangle plot, which is instead
-  created from percentage sand, silt, and clay measurement results.
+- `texture <chr>` is used in the “physical” measurement group table.
+  This column is not used in the texture triangle plot, which is instead
+  created from percentage sand, silt, and clay measurement results. If
+  at least two of `sand_percent`, `silt_percent`, and `clay_percent` are
+  provided, `texture` will be classified according to the USDA NRCS
+  textural classification. See
+  [`classify_texture()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/classify_texture.md)
+  for more information.
 
 - **Each soil measurement** must have its own column in the dataset and
   a corresponding row in the data dictionary, as shown in [Dictionary

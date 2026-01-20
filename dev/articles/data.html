@@ -541,16 +541,17 @@ tips for maps.</p></li>
 samples from the same county as the producer. Can be blank.</p></li>
 <li><p><code>crop &lt;chr&gt;</code> is used to group and summarize
 samples from the same crop as the producer. Can be blank.</p></li>
-<li>
-<p><code>longitude &lt;int&gt;</code> and
+<li><p><code>longitude &lt;int&gt;</code> and
 <code>latitude &lt;int&gt;</code> are used to map each sample point
-using the <a href="https://rstudio.github.io/leaflet/index.html" class="external-link">{leaflet}</a>
-package. Coordinates must be in decimal degrees using WGS 84 (aka
-EPSG:4326). If blank, the map will not be included.</p>
-<p>column is not used in the texture triangle plot, which is instead
-created from percentage sand, silt, and clay measurement
-results.</p>
-</li>
+using. If blank, the map will not be included.</p></li>
+<li><p><code>texture &lt;chr&gt;</code> is used in the “physical”
+measurement group table. This column is not used in the texture triangle
+plot, which is instead created from percentage sand, silt, and clay
+measurement results. If at least two of <code>sand_percent</code>,
+<code>silt_percent</code>, and <code>clay_percent</code> are provided,
+<code>texture</code> will be classified according to the USDA NRCS
+textural classification. See <code><a href="../reference/classify_texture.html">classify_texture()</a></code> for more
+information.</p></li>
 <li>
 <p><strong>Each soil measurement</strong> must have its own column
 in the dataset and a corresponding row in the data dictionary, as shown

@@ -322,7 +322,6 @@ gis_df <- producer_samples |>
 ```{r calculate-averages}
 # Calculate averages by crop, county, and project
 crop_summary <- results_long |>
-  dplyr::filter(!is.na(crop)) |>
   soils::summarize_by_var(
     producer_samples,
     var = crop
@@ -332,12 +331,15 @@ crop_summary <- results_long |>
     `Field or Average` = gsub("Average", "Promedio", `Field or Average`)
   ) |>
   dplyr::rename(
-    `Campo o Promedio` = `Field or Average`,
-    Textura = Texture
+    `Campo o Promedio` = `Field or Average`
   )
 
+if ("Texture" %in% names(crop_summary)) {
+  crop_summary <- crop_summary |>
+    dplyr::rename(Textura = Texture)
+}
+
 county_summary <- results_long |>
-  dplyr::filter(!is.na(county)) |>
   soils::summarize_by_var(
     producer_samples,
     var = county
@@ -347,9 +349,13 @@ county_summary <- results_long |>
     `Field or Average` = gsub("Average", "Promedio", `Field or Average`)
   ) |>
   dplyr::rename(
-    `Campo o Promedio` = `Field or Average`,
-    Textura = Texture
+    `Campo o Promedio` = `Field or Average`
   )
+
+if ("Texture" %in% names(county_summary)) {
+  county_summary <- county_summary |>
+    dplyr::rename(Textura = Texture)
+}
 
 project_summary <- soils::summarize_by_project(results_long) |>
   dplyr::mutate(
@@ -361,9 +367,13 @@ project_summary <- soils::summarize_by_project(results_long) |>
     )
   ) |>
   dplyr::rename(
-    `Campo o Promedio` = `Field or Average`,
-    Textura = Texture
+    `Campo o Promedio` = `Field or Average`
   )
+
+if ("Texture" %in% names(project_summary)) {
+  project_summary <- project_summary |>
+    dplyr::rename(Textura = Texture)
+}
 ```
 
 ```{r combine-producer-and-summaries}
@@ -374,8 +384,14 @@ producer_table <- producer_samples |>
     abbr,
     value,
     "Campo o Promedio" = field_id,
-    Textura = texture
+    dplyr::any_of("texture")
   )
+
+# Rename texture if present
+if ("texture" %in% names(producer_table)) {
+  producer_table <- producer_table |>
+    dplyr::rename(Textura = texture)
+}
 
 # Bind together into one df and round values to 2 digits
 df_table <- dplyr::bind_rows(
@@ -391,12 +407,18 @@ df_table <- dplyr::bind_rows(
 
 ```{r split-into-groups}
 # Split into list with each measurement group as its own df and pivot wider
+id_cols <- if ("Textura" %in% names(df_table)) {
+  c("Campo o Promedio", "Textura")
+} else {
+  "Campo o Promedio"
+}
+
 groups <- df_table |>
   split(df_table$measurement_group) |>
   purrr::map(\(x) {
     tidyr::pivot_wider(
       x,
-      id_cols = c("Campo o Promedio", Textura),
+      id_cols = dplyr::all_of(id_cols),
       names_from = abbr
     )
   })
@@ -404,24 +426,25 @@ groups <- df_table |>
 
 ```{r physical-group-tweaks}
 # Special wrangling for texture
+if ("Textura" %in% names(df_table)) {
+  # Extract physical df from averages list
+  physical <- list("Mediciones físicas" = groups$`Mediciones físicas`)
 
-# Extract physical df from averages list
-physical <- list("Mediciones físicas" = groups$`Mediciones físicas`)
+  # Remove texture from all dataframes except physical
+  groups <- purrr::map(
+    subset(
+      groups,
+      !(names(groups) == "Mediciones físicas")
+    ),
+    \(x) dplyr::select(x, -Textura)
+  )
 
-# Remove texture from all dataframes except physical
-groups <- purrr::map(
-  subset(
-    groups,
-    !(names(groups) == "Mediciones físicas")
-  ),
-  \(x) dplyr::select(x, -Textura)
-)
+  # Add physical df back to the averages list
+  groups <- c(groups, physical)
 
-# Add physical df back to the averages list
-groups <- c(groups, physical)
-
-# Remove this intermediate variable from env
-rm(physical)
+  # Remove this intermediate variable from env
+  rm(physical)
+}
 ```
 
 ```{r remove-rows-with-one-observation}

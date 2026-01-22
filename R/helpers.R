@@ -8,7 +8,6 @@
 #' calculate_mode(washi_data$crop)
 #'
 #' @export
-#'
 
 calculate_mode <- function(x) {
   uniqx <- unique(stats::na.omit(x))

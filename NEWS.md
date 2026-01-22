@@ -8,8 +8,14 @@
 
 -   Added `complete_texture()`, which validates and completes sand, silt, and
     clay fractions, computes a missing fraction when two are provided, and
-    assigns a USDA soil texture class. A pre-existing `texture` column is no
-    longer required.
+    assigns a USDA soil texture class.
+
+-   A pre-existing `texture` column is no longer required.
+
+    -   `get_n_texture_by_var()` is deprecated and its logic was folded into
+        `summarize_by_var()`.
+    -   Internal helpers and the `01_producer-report.qmd` template were updated
+        to compute texture only when present (#21).
 
 -   Fixed texture triangle rendering to require at least one complete sand,
     silt, and clay sample. Incomplete texture rows are now dropped early,
@@ -39,3 +45,4 @@
     4 tiles
     (<https://github.com/WA-Department-of-Agriculture/dirt-data-reports/issues/110>)
     and switch to World Imagery instead of Street Map.
+

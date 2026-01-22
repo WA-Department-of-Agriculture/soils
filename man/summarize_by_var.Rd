@@ -8,12 +8,17 @@ summarize_by_var(results_long, producer_samples, var)
 }
 \arguments{
 \item{results_long}{Dataframe in tidy, long format with columns: \code{sample_id},
-\code{texture}, \code{measurement_group}, \code{abbr}, \code{value}.}
+\code{measurement_group}, \code{abbr}, \code{value}.}
 
 \item{producer_samples}{Dataframe in tidy, long format with columns:
 \code{measurement_group}, \code{abbr}, \code{value}.}
 
 \item{var}{Variable to summarize by.}
+}
+\value{
+A data frame summarizing the average values by measurement group,
+\code{abbr}, and the specified grouping variable. Includes a "Field or Average"
+column and, if present, a \code{Texture} column.
 }
 \description{
 Summarize producer's samples with averages by grouping variable

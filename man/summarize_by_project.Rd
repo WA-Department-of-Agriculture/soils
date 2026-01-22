@@ -8,7 +8,12 @@ summarize_by_project(results_long)
 }
 \arguments{
 \item{results_long}{Dataframe in tidy, long format with columns: \code{sample_id},
-\code{texture}, \code{measurement_group}, \code{abbr}, \code{value}.}
+\code{measurement_group}, \code{abbr}, \code{value}.}
+}
+\value{
+A data frame summarizing the average values across the project by
+\code{measurement_group} and \code{abbr}. Includes a "Field or Average" column and,
+if present, a \code{Texture} column.
 }
 \description{
 Summarize samples across the project

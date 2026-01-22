@@ -37,7 +37,7 @@ validate_texture_fractions <- function(df) {
   # Standardize inputs and calculate number of missing fractions
   df <- df |>
     dplyr::mutate(
-      dplyr::across(dplyr::where(is.numeric), round),
+      dplyr::across(c("sand_percent", "silt_percent", "clay_percent"), round),
       missing_n = rowSums(
         is.na(cbind(sand_percent, silt_percent, clay_percent))
       )

@@ -1,6 +1,8 @@
 # checkhelper::get_no_visible()
 
 utils::globalVariables(c(
+  ".",
+  ".data",
   "abbr",
   "abbr_unit",
   "angle",
@@ -29,6 +31,7 @@ utils::globalVariables(c(
   "texture",
   "unit",
   "value",
+  "var_label",
   "x",
   "y"
 ))

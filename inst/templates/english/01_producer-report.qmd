@@ -93,7 +93,6 @@ dictionary <- read.csv(
   encoding = "UTF-8",
   strip.white = TRUE
 )
-
 ```
 
 ```{r data-validation}
@@ -323,14 +322,12 @@ gis_df <- producer_samples |>
 ```{r calculate-averages}
 # Calculate averages by crop, county, and project
 crop_summary <- results_long |>
-  dplyr::filter(!is.na(crop)) |>
   soils::summarize_by_var(
     producer_samples,
     var = crop
   )
 
 county_summary <- results_long |>
-  dplyr::filter(!is.na(county)) |>
   soils::summarize_by_var(
     producer_samples,
     var = county
@@ -347,8 +344,14 @@ producer_table <- producer_samples |>
     abbr,
     value,
     "Field or Average" = field_id,
-    Texture = texture
+    dplyr::any_of("texture")
   )
+
+# Rename texture if present
+if ("texture" %in% names(producer_table)) {
+  producer_table <- producer_table |>
+    dplyr::rename(Texture = texture)
+}
 
 # Bind together into one df and round values to 2 digits
 df_table <- dplyr::bind_rows(
@@ -364,12 +367,18 @@ df_table <- dplyr::bind_rows(
 
 ```{r split-into-groups}
 # Split into list with each measurement group as its own df and pivot wider
+id_cols <- if ("Texture" %in% names(df_table)) {
+  c("Field or Average", "Texture")
+} else {
+  "Field or Average"
+}
+
 groups <- df_table |>
   split(df_table$measurement_group) |>
   purrr::map(\(x) {
     tidyr::pivot_wider(
       x,
-      id_cols = c("Field or Average", Texture),
+      id_cols = dplyr::all_of(id_cols),
       names_from = abbr
     )
   })
@@ -377,24 +386,25 @@ groups <- df_table |>
 
 ```{r physical-group-tweaks}
 # Special wrangling for texture
+if ("Texture" %in% names(df_table)) {
+  # Extract physical df from averages list
+  physical <- list(Physical = groups$Physical)
 
-# Extract physical df from averages list
-physical <- list(Physical = groups$Physical)
+  # Remove texture from all dataframes except physical
+  groups <- purrr::map(
+    subset(
+      groups,
+      !(names(groups) == "Physical")
+    ),
+    \(x) dplyr::select(x, -Texture)
+  )
 
-# Remove texture from all dataframes except physical
-groups <- purrr::map(
-  subset(
-    groups,
-    !(names(groups) == "Physical")
-  ),
-  \(x) dplyr::select(x, -Texture)
-)
+  # Add physical df back to the averages list
+  groups <- c(groups, physical)
 
-# Add physical df back to the averages list
-groups <- c(groups, physical)
-
-# Remove this intermediate variable from env
-rm(physical)
+  # Remove this intermediate variable from env
+  rm(physical)
+}
 ```
 
 ```{r remove-rows-with-one-observation}

@@ -2,19 +2,24 @@
 % Please edit documentation in R/helpers.R
 \name{has_complete_row}
 \alias{has_complete_row}
-\title{Check for at least one complete row for required columns}
+\title{Check if a data frame has at least one complete row for the specified columns}
 \usage{
 has_complete_row(df, cols)
 }
 \arguments{
 \item{df}{A data frame.}
 
-\item{cols}{A character vector of column names that must be complete.}
+\item{cols}{A character vector of column names to check.}
 }
 \value{
-Logical scalar. TRUE if at least one complete row exists.
+Logical scalar. TRUE if at least one row has all specified columns
+complete, FALSE otherwise.
 }
 \description{
-Returns TRUE if the data frame contains at least one row where all
-specified columns are non-missing.
+Returns TRUE if there is at least one row in the data frame where all
+specified columns are non-missing (no \code{NA} values).
+}
+\examples{
+has_complete_row(washi_data, c("crop", "county"))
+
 }

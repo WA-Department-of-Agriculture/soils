@@ -2,13 +2,16 @@
 % Please edit documentation in R/helpers.R
 \name{is_column_empty}
 \alias{is_column_empty}
-\title{Check if a column is empty (all NA or blank)}
+\title{Check if a column is empty}
 \usage{
 is_column_empty(column)
 }
 \arguments{
-\item{column}{to check if all values are NA or empty strings}
+\item{column}{A vector to check.}
+}
+\value{
+Logical scalar. TRUE if all values are \code{NA} or empty strings, FALSE otherwise.
 }
 \description{
-Check if a column is empty (all NA or blank)
+Returns TRUE if all values in a vector are missing (\code{NA}) or blank strings (\code{""}).
 }

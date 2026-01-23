@@ -531,7 +531,8 @@ sync_dictionary_texture <- function(data, dictionary, language = "English") {
   measurement_group <- switch(
     language,
     English = "Physical",
-    Spanish = "Mediciones físicas"
+    # Mediciones físicas. Use unicode escape to avoid R CMD warning.
+    Spanish = "Mediciones f\u00EDsicas"
   )
 
   # Detect which columns are present in data but missing in dictionary

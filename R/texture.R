@@ -380,7 +380,7 @@ assign_texture_class <- function(df) {
 #'   \item When exactly one fraction is missing, it is calculated as
 #'   `100 - (sum of the other two)`.
 #'
-#'   \item All fraction values must fall within the range 0–100. Samples with all
+#'   \item All fraction values must fall within the range 0-100. Samples with all
 #'   three fractions must sum to 100 with a &plusmn;1 tolerance (allowable range
 #'   99-101).
 #'

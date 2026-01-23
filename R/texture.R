@@ -195,14 +195,6 @@ validate_texture_fractions <- function(df) {
       call = NULL
     )
   }
-
-  # Success with no error or warning
-  if (isFALSE(error_present) && isFALSE(warning_present)) {
-    cli::cli_alert_success(
-      "Soil texture successfully validated."
-    )
-  }
-
   return(df)
 }
 
@@ -257,7 +249,10 @@ assign_texture_class <- function(df) {
   # Add texture column if not present
   if (!"texture" %in% colnames(df)) {
     df <- df |>
-      dplyr::mutate(texture = NA_character_, .before = "sand_percent")
+      dplyr::mutate(
+        texture = NA_character_,
+        .before = c("sand_percent", "silt_percent", "clay_percent")
+      )
   }
 
   # Add texture class

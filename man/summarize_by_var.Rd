@@ -8,7 +8,8 @@ summarize_by_var(results_long, producer_samples, var)
 }
 \arguments{
 \item{results_long}{Dataframe in tidy, long format with columns: \code{sample_id},
-\code{measurement_group}, \code{abbr}, \code{value}.}
+\code{measurement_group}, \code{abbr}, and \code{value}. If a \code{texture} column is present,
+the most frequent texture (mode) is included in the output.}
 
 \item{producer_samples}{Dataframe in tidy, long format with columns:
 \code{measurement_group}, \code{abbr}, \code{value}.}
@@ -16,9 +17,10 @@ summarize_by_var(results_long, producer_samples, var)
 \item{var}{Variable to summarize by.}
 }
 \value{
-A data frame summarizing the average values by measurement group,
-\code{abbr}, and the specified grouping variable. Includes a "Field or Average"
-column and, if present, a \code{Texture} column.
+A data frame with a "Field or Average" column summarizing the average
+values by measurement group, \code{abbr}, and the specified grouping variable.
+If a \code{texture} column is present, the data frame will contain a \code{Texture}
+column containing the most frequent texture class per grouping variable.
 }
 \description{
 Summarize producer's samples with averages by grouping variable

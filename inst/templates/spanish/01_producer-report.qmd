@@ -163,41 +163,12 @@ strip_text_color <- "white"
 <!-- Texture validation and classification -->
 
 ```{r texture-validate-classify}
-# If sand, silt, and clay columns are present, validate & classify texture
-if (all(c("sand_percent", "silt_percent", "clay_percent") %in% names(data))) {
-  data <- soils::classify_texture(data)
-}
+# Validate and classify soil texture (requires at least two of:
+# sand_percent, silt_percent, clay_percent)
+data <- soils::classify_texture(data)
 
-# If texture is in data but not dictionary, add to dictionary before the texture
-# fractions
-if ("texture" %in% names(data) & !"texture" %in% dictionary$column_name) {
-  # Identify where to insert texture (before the first fraction column)
-  insert_before <- which(
-    dictionary$column_name %in%
-      c("sand_percent", "silt_percent", "clay_percent")
-  )[1]
-
-  # Define the texture dictionary row
-  texture_row <- data.frame(
-    measurement_group = "Mediciones físicas",
-    column_name = "texture",
-    abbr = "Textura",
-    unit = "",
-    stringsAsFactors = FALSE
-  )
-
-  # Insert texture row at the correct position
-  if (!is.na(insert_before)) {
-    dictionary <- dplyr::bind_rows(
-      dictionary[seq_len(insert_before - 1), ],
-      texture_row,
-      dictionary[insert_before:nrow(dictionary), ]
-    )
-  } else {
-    # Fallback: append to the end of Physical group if fractions not present
-    dictionary <- dplyr::bind_rows(dictionary, texture_row)
-  }
-}
+# Add texture and fraction rows to the dictionary if created during classification
+dictionary <- soils::sync_dictionary_texture(data, dictionary, "Spanish")
 ```
 
 <!-- Format measurement labels and set ordering -->

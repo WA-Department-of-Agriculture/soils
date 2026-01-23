@@ -1,15 +1,19 @@
 #' Validate soil texture fractions
 #'
-#' Internal helper that validates the presence of soil particle-size fractions
-#' (sand, silt, and clay). Rounds fractions prior to validation. Errors if two
-#' or more fractions are missing for any sample and warns if exactly one
-#' fraction is missing.
+#' Internal helper that validates soil particle-size fractions (sand, silt,
+#' and clay). If exactly two of the three fraction columns are present, the
+#' missing column is created and filled with `NA`. If fewer than two fraction
+#' columns are present, texture validation and classification are skipped.
 #'
-#' @param df A data frame containing \code{sample_id}, \code{sand_percent},
-#'   \code{silt_percent}, and \code{clay_percent}.
+#' Fractions are rounded prior to validation. Errors if two or more fractions
+#' are missing for any sample and warns if exactly one fraction is missing.
 #'
-#' @return A data frame with a helper column \code{missing_n} indicating the
-#'   number of missing fractions per sample.
+#' @param df A data frame containing `sample_id` and at least two of
+#'   `sand_percent`, `silt_percent`, and `clay_percent`.
+#'
+#' @return A data frame with validated soil texture fraction columns
+#'   (`sand_percent`, `silt_percent`, `clay_percent`). If exactly two of the
+#'   fractions are present, the third is computed as `100 - sum(other two)`.
 #'
 #' @keywords internal
 validate_texture_fractions <- function(df) {
@@ -20,16 +24,37 @@ validate_texture_fractions <- function(df) {
     ))
   }
 
-  # Abort if sample_id, sand, silt, and clay are not present
-  if (
-    !all(
-      c("sample_id", "sand_percent", "silt_percent", "clay_percent") %in%
-        names(df)
-    )
-  ) {
-    cli::cli_abort(
+  # Abort if sample_id is missing
+  if (!"sample_id" %in% names(df)) {
+    cli::cli_abort(c(
+      "x" = "Column {.field sample_id} must be present in your data."
+    ))
+  }
+
+  # If at least two fraction columns are provided, create the third. Otherwise,
+  # return the df and inform the user that there is insufficient data to
+  # validate and classify texture.
+  fraction_cols <- c("sand_percent", "silt_percent", "clay_percent")
+  present_fractions <- fraction_cols[fraction_cols %in% names(df)]
+  missing_fraction <- setdiff(fraction_cols, present_fractions)
+
+  if (length(present_fractions) < 2) {
+    cli::cli_inform(
       c(
-        "x" = "Columns {.field sample_id}, {.field sand_percent}, {.field clay_percent}, and {.field silt_percent} must be present in your data."
+        "i" = "Not enough soil fraction data to validate or classify texture.",
+        "*" = "Provide at least two of {.field sand_percent}, {.field silt_percent}, and {.field clay_percent} columns to enable texture validation and classification."
+      )
+    )
+    return(df)
+  }
+
+  if (length(present_fractions) == 2 && length(missing_fraction) == 1) {
+    df[[missing_fraction]] <- NA_real_
+
+    cli::cli_inform(
+      c(
+        "i" = "Exactly two soil fraction columns detected.",
+        "*" = "Created missing column {.field {missing_fraction}} to allow texture validation."
       )
     )
   }
@@ -195,6 +220,10 @@ validate_texture_fractions <- function(df) {
       call = NULL
     )
   }
+
+  # Drop helper column before returning validated data
+  df <- df |>
+    dplyr::select(-missing_n)
   return(df)
 }
 
@@ -455,5 +484,4 @@ classify_texture <- function(df) {
     validate_texture_fractions() |>
     complete_texture_fractions() |>
     assign_texture_class() |>
-    dplyr::select(-missing_n)
 }

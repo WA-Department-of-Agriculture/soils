@@ -18,10 +18,27 @@ test_that("validate_texture_fractions errors if required columns are missing", {
 
   expect_error(
     validate_texture_fractions(df),
-    "Columns .* must be present"
+    "sample_id must be present"
   )
 })
 
+# Validation: two fraction columns provided ------------------------------------
+
+test_that("creates the third fraction column when exactly two are provided", {
+  df <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40
+  )
+
+  expect_warning(
+    out <- validate_texture_fractions(df),
+    "missing one fraction"
+  )
+
+  expect_equal(out$clay_percent, NA_real_)
+  expect_true(is.na(out$clay_percent))
+})
 
 # Validation: missing fraction rules -------------------------------------------
 
@@ -168,6 +185,28 @@ test_that("complete_texture_fractions computes the missing fraction correctly", 
   expect_equal(out$sand_percent, 50)
 })
 
+# Completion: computes new fraction --------------------------------------------
+
+test_that("complete_texture_fractions computes the missing fraction after validation", {
+  df <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40
+  )
+
+  # Catch the warning from exactly one missing fraction
+  expect_warning(
+    validated <- validate_texture_fractions(df),
+    regexp = "missing one fraction"
+  )
+
+  # The missing column should exist but still NA until completed
+  expect_equal(validated$clay_percent, NA_real_)
+
+  # Compute the missing fraction
+  completed <- complete_texture_fractions(validated)
+  expect_equal(completed$clay_percent, 20)
+})
 
 # Classification: USDA texture classes -----------------------------------------
 

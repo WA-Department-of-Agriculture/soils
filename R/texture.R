@@ -230,10 +230,10 @@ validate_texture_fractions <- function(df) {
 #' Complete missing soil texture fractions
 #'
 #' Internal helper that computes a missing soil fraction (sand, silt, or clay)
-#' when exactly one is missing, using \code{100 - (sum of the other two)}.
+#' when exactly one is missing, using `100 - (sum of the other two)`.
 #'
-#' @param df A data frame containing \code{sand_percent},
-#'   \code{silt_percent}, and \code{clay_percent}.
+#' @param df A data frame containing `sand_percent`,
+#'   `silt_percent`, and `clay_percent.`
 #'
 #' @return A data frame with completed soil fraction percentages.
 #'
@@ -264,10 +264,10 @@ complete_texture_fractions <- function(df) {
 #' Internal helper that assigns a USDA soil texture class based on completed
 #' sand, silt, and clay percentages.
 #'
-#' @param df A data frame containing completed \code{sand_percent},
-#'   \code{silt_percent}, and \code{clay_percent}.
+#' @param df A data frame containing completed `sand_percent`,
+#'   `silt_percent`, and `clay_percent.`
 #'
-#' @return A data frame with an added \code{texture} column.
+#' @return A data frame with an added `texture` column.
 #'
 #' @source Thresholds for texture classification are from the USDA NRCS Soil
 #'   Texture Calculator found at
@@ -368,17 +368,17 @@ assign_texture_class <- function(df) {
 #' Validates soil particle-size fractions (sand, silt, and clay), completes
 #' missing values when possible, and assigns a USDA soil texture class.
 #'
-#' @details \code{classify_texture()} applies the following validation rules and
+#' @details `classify_texture()` applies the following validation rules and
 #'   assumptions:
 #'
 #' \itemize{
 #'   \item Each sample must contain values for at least two of
-#'   \code{sand_percent}, \code{silt_percent}, and \code{clay_percent}.
+#'   `sand_percent`, `silt_percent`, and `clay_percent`.
 #'   Samples with fewer than two provided fractions must be corrected before
 #'   texture classification can proceed.
 #'
 #'   \item When exactly one fraction is missing, it is calculated as
-#'   \code{100 - (sum of the other two)}.
+#'   `100 - (sum of the other two)`.
 #'
 #'   \item All fraction values must fall within the range 0–100. Samples with all
 #'   three fractions must sum to 100 with a &plusmn;1 tolerance (allowable range
@@ -388,20 +388,20 @@ assign_texture_class <- function(df) {
 #'   texture measured. These samples are retained and returned without
 #'   fraction-based classification.
 #'
-#'   \item If a \code{texture} column is provided, non-missing texture values
+#'   \item If a `texture` column is provided, non-missing texture values
 #'   are preserved and are not overwritten by fraction-based classification.
 #'   This allows users to supply texture classes from external sources (e.g.,
 #'   NRCS gSSURGO) when particle-size fractions are unavailable.
 #' }
 #'
-#' @param df A data frame containing the columns \code{sample_id},
-#'   \code{sand_percent}, \code{silt_percent}, and \code{clay_percent}. An
-#'   optional \code{texture} column can also be provided: if the sand/silt/clay
-#'   fractions are present, \code{texture} will be overwritten by the classified
-#'   value; if the fractions are missing, existing \code{texture} values are
+#' @param df A data frame containing the columns `sample_id`,
+#'   `sand_percent`, `silt_percent`, and `clay_percent`. An
+#'   optional `texture` column can also be provided: if the sand/silt/clay
+#'   fractions are present, `texture` will be overwritten by the classified
+#'   value; if the fractions are missing, existing `texture` values are
 #'   preserved.
 #'
-#' @return A data frame with a \code{texture} column containing USDA soil
+#' @return A data frame with a `texture` column containing USDA soil
 #'   texture classes. Soil fractions are rounded to whole numbers.
 #'
 #' @source Thresholds for texture classification are based on the [USDA NRCS Soil

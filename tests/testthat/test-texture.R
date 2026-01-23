@@ -318,3 +318,147 @@ test_that("CLI messages correctly pluralize 'is' vs 'are'", {
     "Samples 1 and 2 are missing one fraction"
   )
 })
+
+# Sync dictionary with new texture columns -------------------------------------
+
+test_that("returns unchanged dictionary if no new columns", {
+  data <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20
+  )
+
+  dictionary <- data.frame(
+    measurement_group = rep("Mediciones físicas", 3),
+    column_name = c("sand_percent", "silt_percent", "clay_percent"),
+    abbr = c("Arena", "Limo", "Arcilla"),
+    unit = c("%", "%", "%"),
+    stringsAsFactors = FALSE
+  )
+
+  out <- sync_dictionary_texture(data, dictionary, "Spanish")
+
+  expect_equal(out, dictionary)
+})
+
+test_that("adds texture column if missing", {
+  data <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20,
+    texture = "Loam"
+  )
+
+  dictionary <- data.frame(
+    measurement_group = rep("Mediciones físicas", 3),
+    column_name = c("sand_percent", "silt_percent", "clay_percent"),
+    abbr = c("Arena", "Limo", "Arcilla"),
+    unit = c("%", "%", "%"),
+    stringsAsFactors = FALSE
+  )
+
+  out <- sync_dictionary_texture(data, dictionary, language = "Spanish")
+
+  expect_true("texture" %in% out$column_name)
+  expect_equal(out$column_name[1], "texture")
+  expect_equal(out$abbr[1], "Textura")
+})
+
+test_that("adds missing fractions to dictionary", {
+  data <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20
+  )
+
+  # Dictionary missing silt_percent and clay_percent
+  dictionary <- data.frame(
+    measurement_group = "Mediciones físicas",
+    column_name = "sand_percent",
+    abbr = "Arena",
+    unit = "%",
+    stringsAsFactors = FALSE
+  )
+
+  out <- sync_dictionary_texture(data, dictionary, language = "Spanish")
+
+  expect_true(all(
+    c("sand_percent", "silt_percent", "clay_percent") %in% out$column_name
+  ))
+  expect_equal(out$column_name[1], "sand_percent") # original first
+  expect_equal(out$measurement_group[1], "Mediciones físicas")
+})
+
+test_that("adds texture/fractions when physical group is missing", {
+  data <- data.frame(
+    sample_id = 1,
+    texture = "Loam",
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20
+  )
+
+  # Dictionary has only a chemical group
+  dictionary <- data.frame(
+    measurement_group = "Mediciones químicas",
+    column_name = "pH",
+    abbr = "pH",
+    unit = "",
+    stringsAsFactors = FALSE
+  )
+
+  out <- sync_dictionary_texture(data, dictionary, language = "Spanish")
+
+  # Physical group rows added
+  expect_true(all(
+    c("texture", "sand_percent", "silt_percent", "clay_percent") %in%
+      out$column_name
+  ))
+
+  # Original chemical row still exists
+  expect_true("pH" %in% out$column_name)
+
+  # Texture and fractions appear at the top of the dictionary
+  phys_rows <- out[out$measurement_group == "Mediciones físicas", ]
+  expect_equal(
+    phys_rows$column_name,
+    c("texture", "sand_percent", "silt_percent", "clay_percent")
+  )
+})
+
+test_that("respects language argument for abbreviations", {
+  data <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20,
+    texture = "Loam"
+  )
+
+  dictionary_es <- data.frame(
+    measurement_group = "Mediciones físicas",
+    column_name = c("sand_percent"),
+    abbr = c("Arena"),
+    unit = c("%"),
+    stringsAsFactors = FALSE
+  )
+
+  dictionary_en <- data.frame(
+    measurement_group = "Physical",
+    column_name = c("sand_percent"),
+    abbr = c("Sand"),
+    unit = c("%"),
+    stringsAsFactors = FALSE
+  )
+
+  out_es <- sync_dictionary_texture(data, dictionary_es, language = "Spanish")
+  expect_equal(out_es$abbr[1], "Textura")
+  expect_equal(out_es$abbr[2:4], c("Arena", "Limo", "Arcilla"))
+
+  out_en <- sync_dictionary_texture(data, dictionary_en, language = "English")
+  expect_equal(out_en$abbr[1], "Texture")
+  expect_equal(out_en$abbr[2:4], c("Sand", "Silt", "Clay"))
+})

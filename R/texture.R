@@ -483,5 +483,109 @@ classify_texture <- function(df) {
   df |>
     validate_texture_fractions() |>
     complete_texture_fractions() |>
-    assign_texture_class() |>
+    assign_texture_class()
+}
+
+#' Synchronize dictionary with texture and fractions added by classify_texture()
+#'
+#' Adds missing `texture` and soil particle-size fraction columns to the dictionary
+#' in a fixed order for the physical measurement group.
+#' Intended for internal use but exported so it can be called in templates.
+#'
+#' @param data Data frame potentially containing `texture`, `sand_percent`,
+#'   `silt_percent`, and `clay_percent`.
+#' @param dictionary Data frame with columns `measurement_group`,
+#'   `column_name`, `abbr`, and `unit`.
+#' @param language Either `"English"` or `"Spanish"`. Default `"English"`.
+#'
+#' @return Updated dictionary with any missing texture/fraction rows inserted
+#'   in the order: `texture`, `sand_percent`, `silt_percent`, `clay_percent`.
+#'   Returns the original dictionary if no rows were added.
+#' @keywords internal
+#' @export
+sync_dictionary_texture <- function(data, dictionary, language = "English") {
+  language <- rlang::arg_match(language, c("English", "Spanish"))
+
+  texture_cols <- c("texture", "sand_percent", "silt_percent", "clay_percent")
+
+  fraction_abbr <- switch(
+    language,
+    English = c(
+      sand_percent = "Sand",
+      silt_percent = "Silt",
+      clay_percent = "Clay"
+    ),
+    Spanish = c(
+      sand_percent = "Arena",
+      silt_percent = "Limo",
+      clay_percent = "Arcilla"
+    )
+  )
+
+  texture_abbr <- switch(
+    language,
+    English = "Texture",
+    Spanish = "Textura"
+  )
+
+  measurement_group <- switch(
+    language,
+    English = "Physical",
+    Spanish = "Mediciones físicas"
+  )
+
+  # Detect which columns are present in data but missing in dictionary
+  cols_to_add <- texture_cols[
+    texture_cols %in% names(data) & !texture_cols %in% dictionary$column_name
+  ]
+  if (length(cols_to_add) == 0) {
+    return(dictionary)
+  }
+
+  # Build rows
+  rows <- purrr::map(
+    texture_cols,
+    function(col) {
+      if (!col %in% cols_to_add) {
+        return(NULL)
+      }
+
+      if (col == "texture") {
+        data.frame(
+          measurement_group = measurement_group,
+          column_name = "texture",
+          abbr = texture_abbr,
+          unit = "",
+          stringsAsFactors = FALSE
+        )
+      } else {
+        data.frame(
+          measurement_group = measurement_group,
+          column_name = col,
+          abbr = fraction_abbr[[col]],
+          unit = "%",
+          stringsAsFactors = FALSE
+        )
+      }
+    }
+  ) |>
+    purrr::compact() |>
+    dplyr::bind_rows()
+
+  # Add rows then arrange texture, sand, silt, clay at top of physical group
+  dictionary <- dictionary |>
+    dplyr::group_by(measurement_group) |>
+    dplyr::bind_rows(rows) |>
+    dplyr::arrange(
+      dplyr::case_when(
+        measurement_group == measurement_group ~
+          match(column_name, texture_cols),
+        # Fallback if there is no physical measurement group, add to the end of
+        # the dictionary
+        .default = nrow(dictionary) + 1
+      )
+    ) |>
+    dplyr::ungroup()
+
+  dictionary
 }

@@ -219,26 +219,3 @@ summarize_by_project <- function(results_long) {
 
   return(summary)
 }
-
-#' Get table headers for flextable
-#'
-#' This function uses the data dictionary to create a new dataframe of the
-#' abbreviations and units for each measurement group for flextable
-#'
-#' @param dictionary Dataframe containing columns `measurement_group`, `abbr`,
-#'   `unit`.
-#' @param group Character `measurement_group` value.
-#'
-#' @export
-get_table_headers <- function(dictionary, group) {
-  testthat::expect_contains(
-    names(dictionary),
-    c("measurement_group", "abbr", "unit")
-  )
-
-  dictionary |>
-    dplyr::filter(measurement_group == group) |>
-    dplyr::select(abbr, unit) |>
-    dplyr::mutate(key = abbr, .after = abbr) |>
-    rbind(c("Field or Average", "Field or Average", ""))
-}

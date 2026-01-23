@@ -1,3 +1,26 @@
+#' Get table headers for flextable
+#'
+#' Internal helper that uses the data dictionary to construct
+#' flextable column headers for a single measurement group.
+#'
+#' @param dictionary Data frame containing columns `measurement_group`, `abbr`,
+#'   `unit`.
+#' @param group Character `measurement_group` value.
+#'
+#' @export
+get_table_headers <- function(dictionary, group) {
+  testthat::expect_contains(
+    names(dictionary),
+    c("measurement_group", "abbr", "unit")
+  )
+
+  dictionary |>
+    dplyr::filter(measurement_group == group) |>
+    dplyr::select(abbr, unit) |>
+    dplyr::mutate(key = abbr, .after = abbr) |>
+    rbind(c("Field or Average", "Field or Average", ""))
+}
+
 #' Conditional formatting of flextable background cell colors
 #'
 #' Color the background cells based on how the value compares to the project

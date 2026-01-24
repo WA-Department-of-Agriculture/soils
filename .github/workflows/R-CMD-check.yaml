@@ -44,6 +44,7 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+         pak-lockfile: false
 
       - uses: r-lib/actions/check-r-package@v2
         with:

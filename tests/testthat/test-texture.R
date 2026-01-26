@@ -222,10 +222,10 @@ test_that("assign_texture_class assigns expected USDA texture classes", {
   )
 })
 
-
 test_that("rows with unmeasured texture return NA texture", {
   df <- data.frame(
     sample_id = 1,
+    texture = NA,
     sand_percent = NA,
     silt_percent = NA,
     clay_percent = NA
@@ -287,7 +287,6 @@ test_that("CLI messages correctly pluralize 'Sample' vs 'Samples'", {
     "Samples 1 and 2 have fewer than two fractions"
   )
 })
-
 
 test_that("CLI messages correctly pluralize 'is' vs 'are'", {
   df_single <- data.frame(

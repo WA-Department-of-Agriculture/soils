@@ -60,7 +60,7 @@ validate_texture_fractions <- function(df) {
     cli::cli_inform(
       c(
         "i" = "Exactly two soil fraction columns detected.",
-        "*" = "Created missing column {.field {missing_fraction}} to allow texture validation."
+        "*" = "Created missing column {.field {missing_fraction}} to allow texture validation and classification."
       )
     )
   }
@@ -479,10 +479,26 @@ assign_texture_class <- function(df) {
 #' classify_texture(df)
 #' @export
 classify_texture <- function(df) {
-  frac_cols <- c("sand_percent", "silt_percent", "clay_percent")
+  # Validate first
+  df <- validate_texture_fractions(df)
 
+  # Determine which fraction columns exist
+  fraction_cols <- intersect(
+    c("sand_percent", "silt_percent", "clay_percent"),
+    names(df)
+  )
+
+  # Check whether at least one sample has enough fraction data
+  has_fraction_data <- length(fraction_cols) >= 2 &&
+    any(rowSums(!is.na(df[fraction_cols])) >= 2)
+
+  # Early return of unchanged data if there is insufficient data
+  if (isFALSE(has_fraction_data)) {
+    return(df)
+  }
+
+  # Otherwise, complete texture fractions and classify texture
   df |>
-    validate_texture_fractions() |>
     complete_texture_fractions() |>
     assign_texture_class()
 }

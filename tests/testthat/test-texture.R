@@ -7,7 +7,6 @@ test_that("validate_texture_fractions errors if input is not a data frame", {
   )
 })
 
-
 # Validation: required columns -------------------------------------------------
 
 test_that("validate_texture_fractions errors if required columns are missing", {
@@ -42,7 +41,7 @@ test_that("creates the third fraction column when exactly two are provided", {
 
 # Validation: missing fraction rules -------------------------------------------
 
-test_that("errors when two fractions are missing in a row", {
+test_that("warns when exactly two fractions are missing in a row", {
   df <- data.frame(
     sample_id = c(1, 2),
     sand_percent = c(40, NA),
@@ -50,12 +49,11 @@ test_that("errors when two fractions are missing in a row", {
     clay_percent = c(20, 30)
   )
 
-  expect_error(
+  expect_warning(
     validate_texture_fractions(df),
-    "must have at least two fractions"
+    "fewer than two fractions"
   )
 })
-
 
 test_that("warns when exactly one fraction is missing", {
   df <- data.frame(
@@ -81,7 +79,7 @@ test_that("warns when all fractions are missing and texture is not provided", {
 
   expect_warning(
     validate_texture_fractions(df),
-    "missing all fractions"
+    "fewer than two fractions"
   )
 })
 
@@ -148,7 +146,7 @@ test_that("validation reports all error and warning types together", {
   )
 
   # Sample breakdown:
-  # 1 → two missing fractions (error)
+  # 1 → two missing fractions (warning)
   # 2 → sand > 100 (error)
   # 3 → sums to 110 (error)
   # 4 → exactly one missing fraction (warning)
@@ -158,16 +156,14 @@ test_that("validation reports all error and warning types together", {
     validate_texture_fractions(df),
     regexp = paste(
       "validation failed", # overall failure
-      "must have at least two fractions", # insufficient data
       "between 0 and 100", # out of range
       "sum to 100", # invalid sum
+      "fewer than two fractions", # insufficient data
       "missing one fraction", # computed fraction
-      "missing all fractions", # unmeasured texture
       sep = ".*"
     )
   )
 })
-
 
 # Completion: compute missing fraction -----------------------------------------
 
@@ -237,7 +233,7 @@ test_that("rows with unmeasured texture return NA texture", {
 
   expect_warning(
     out <- classify_texture(df),
-    "missing all fractions"
+    "skipped"
   )
 
   expect_true(is.na(out$texture))
@@ -274,9 +270,9 @@ test_that("CLI messages correctly pluralize 'Sample' vs 'Samples'", {
     clay_percent = 30
   )
 
-  expect_error(
+  expect_warning(
     validate_texture_fractions(df_single),
-    "Sample 1 must have at least two fractions"
+    "Sample 1 has fewer than two fractions"
   )
 
   df_plural <- data.frame(
@@ -286,9 +282,9 @@ test_that("CLI messages correctly pluralize 'Sample' vs 'Samples'", {
     clay_percent = c(30, 40)
   )
 
-  expect_error(
+  expect_warning(
     validate_texture_fractions(df_plural),
-    "Samples 1 and 2 must have at least two fractions"
+    "Samples 1 and 2 have fewer than two fractions"
   )
 })
 

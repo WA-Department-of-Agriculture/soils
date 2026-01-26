@@ -1,19 +1,25 @@
 #' Validate soil texture fractions
 #'
-#' Internal helper that validates soil particle-size fractions (sand, silt,
-#' and clay). If exactly two of the three fraction columns are present, the
-#' missing column is created and filled with `NA`. If fewer than two fraction
-#' columns are present, texture validation and classification are skipped.
+#' Internal helper that validates soil particle-size fractions (sand, silt, and
+#' clay). If exactly two of the three fraction columns are present, the missing
+#' column is created and filled with `NA` to be later computed in
+#' `complete_texture_fractions()`. Samples with fewer than two provided
+#' fractions are retained but skipped during texture validation and
+#' classification.
 #'
-#' Fractions are rounded prior to validation. Errors if two or more fractions
-#' are missing for any sample and warns if exactly one fraction is missing.
+#' Fractions are rounded prior to validation. Warns if fewer than two fractions
+#' are provided or if exactly one fraction is missing. Errors if fraction values
+#' are outside the allowable range (0-100) or if complete fractions do not sum
+#' to 100 (+/- 1).
+#'
 #'
 #' @param df A data frame containing `sample_id` and at least two of
 #'   `sand_percent`, `silt_percent`, and `clay_percent`.
 #'
 #' @return A data frame with validated soil texture fraction columns
 #'   (`sand_percent`, `silt_percent`, `clay_percent`). If exactly two of the
-#'   fractions are present, the third is computed as `100 - sum(other two)`.
+#'   fractions are present, the third is created and filled with `NA` for
+#'   downstream completion.
 #'
 #' @keywords internal
 validate_texture_fractions <- function(df) {
@@ -62,7 +68,7 @@ validate_texture_fractions <- function(df) {
   # Standardize inputs and calculate number of missing fractions
   df <- df |>
     dplyr::mutate(
-      dplyr::across(c("sand_percent", "silt_percent", "clay_percent"), round),
+      dplyr::across(dplyr::all_of(fraction_cols), round),
       missing_n = rowSums(
         is.na(cbind(sand_percent, silt_percent, clay_percent))
       )
@@ -70,8 +76,7 @@ validate_texture_fractions <- function(df) {
 
   # Identify samples with warnings/errors --------------------------------------
 
-  # Warn: Samples with 3 missing fractions assume texture was not measured unless
-  # texture is provided
+  # Determine if texture is provided (if so, do not warn)
   has_texture <- "texture" %in% names(df)
   texture_provided <- if (has_texture) {
     !is.na(df$texture)
@@ -79,13 +84,11 @@ validate_texture_fractions <- function(df) {
     rep(FALSE, nrow(df))
   }
 
-  # Warn: Samples with no provided fractions
-  unmeasured_ids <- df$sample_id[
-    df$missing_n == 3 & !texture_provided
+  # Warn: Samples with fewer than two provided fractions & texture is not
+  # provided (skip classification)
+  insufficient_ids <- df$sample_id[
+    df$missing_n >= 2 & !texture_provided
   ]
-
-  # Error: Samples with exactly 2 missing fractions
-  insufficient_ids <- df$sample_id[df$missing_n == 2]
 
   # Warn: Samples with 1 missing fraction will be computed
   compute_ids <- df$sample_id[df$missing_n == 1]
@@ -93,7 +96,7 @@ validate_texture_fractions <- function(df) {
   # Error: Samples with fractions not between 0 and 100
   out_of_range_ids <- df$sample_id[
     apply(
-      df[c("sand_percent", "silt_percent", "clay_percent")],
+      df[fraction_cols],
       1,
       function(x) any(!is.na(x) & (x < 0 | x > 100))
     )
@@ -107,15 +110,6 @@ validate_texture_fractions <- function(df) {
   ]
 
   # Build error bullets --------------------------------------------------------
-
-  # Need at least 2/3 fractions
-  error_insufficient <- if (length(insufficient_ids) > 0) {
-    cli::format_inline(
-      "{cli::qty(length(insufficient_ids))} {.strong Sample{?s} {soils_cli_vec(insufficient_ids)}} must have at least two fractions."
-    )
-  } else {
-    NULL
-  }
 
   # Fraction not between 0 and 100
   error_out_of_range <- if (length(out_of_range_ids) > 0) {
@@ -137,6 +131,15 @@ validate_texture_fractions <- function(df) {
 
   # Build warning bullets ------------------------------------------------------
 
+  # Fewer than two fractions provided (skip classification)
+  warn_insufficient <- if (length(insufficient_ids) > 0) {
+    cli::format_inline(
+      "{cli::qty(length(insufficient_ids))}{.strong Sample{?s} {soils_cli_vec(insufficient_ids)} {cli::qty(length(insufficient_ids))}}{?has/have} fewer than two fractions and will be skipped during texture classification."
+    )
+  } else {
+    NULL
+  }
+
   # Missing fraction computed as 100 minus the other two
   warn_compute <- if (length(compute_ids) > 0) {
     cli::format_inline(
@@ -146,25 +149,16 @@ validate_texture_fractions <- function(df) {
     NULL
   }
 
-  # Missing all three fractions and assume texture not measured
-  warn_unmeasured <- if (length(unmeasured_ids) > 0) {
-    cli::format_inline(
-      "{cli::qty(length(unmeasured_ids))}{.strong Sample{?s} {soils_cli_vec(unmeasured_ids)} {cli::qty(length(unmeasured_ids))}}{?is/are} missing all fractions and no texture was provided, so texture will remain blank."
-    )
-  } else {
-    NULL
-  }
-
   # Emit error and/or warning messages -----------------------------------------
 
   error_present <- any(
-    !is.null(error_insufficient) |
-      !is.null(error_out_of_range) |
+    !is.null(error_out_of_range) |
       !is.null(error_invalid_sum)
   )
 
   warning_present <- any(
-    !is.null(warn_compute) | !is.null(warn_unmeasured)
+    !is.null(warn_insufficient) |
+      !is.null(warn_compute)
   )
 
   # Error and warning
@@ -176,13 +170,12 @@ validate_texture_fractions <- function(df) {
         "Soil fractions are provided in the columns {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}.",
         "",
         "i" = "Samples with errors to correct:",
-        "*" = error_insufficient,
         "*" = error_out_of_range,
         "*" = error_invalid_sum,
         "",
         "i" = "Samples with assumptions:",
-        "*" = warn_compute,
-        "*" = warn_unmeasured
+        "*" = warn_insufficient,
+        "*" = warn_compute
       ),
       call = NULL
     )
@@ -197,7 +190,6 @@ validate_texture_fractions <- function(df) {
         "Soil fractions are provided in the columns {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}.",
         "",
         "i" = "Samples with errors to correct:",
-        "*" = error_insufficient,
         "*" = error_out_of_range,
         "*" = error_invalid_sum
       ),
@@ -214,8 +206,8 @@ validate_texture_fractions <- function(df) {
         "Soil fractions are provided in the columns {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}.",
         "",
         "i" = "Samples with assumptions:",
-        "*" = warn_compute,
-        "*" = warn_unmeasured
+        "*" = warn_insufficient,
+        "*" = warn_compute
       ),
       call = NULL
     )
@@ -372,40 +364,47 @@ assign_texture_class <- function(df) {
 #'   assumptions:
 #'
 #' \itemize{
-#'   \item Each sample must contain values for at least two of
-#'   `sand_percent`, `silt_percent`, and `clay_percent`.
-#'   Samples with fewer than two provided fractions must be corrected before
-#'   texture classification can proceed.
+#'   \item **Eligibility**
+#'   \itemize{
+#'     \item Each sample must contain values for at least two of
+#'     `sand_percent`, `silt_percent`, and `clay_percent` to be eligible for
+#'     fraction-based texture classification.
+#'   }
 #'
-#'   \item When exactly one fraction is missing, it is calculated as
-#'   `100 - (sum of the other two)`.
+#'   \item **Errors** (cause validation to fail)
+#'   \itemize{
+#'     \item All fraction values must fall within the range 0–100.
+#'     \item Samples with all three fractions must sum to 100 with a
+#'     &plusmn;1 tolerance (allowable range 99–101).
+#'   }
 #'
-#'   \item All fraction values must fall within the range 0-100. Samples with all
-#'   three fractions must sum to 100 with a &plusmn;1 tolerance (allowable range
-#'   99-101).
+#'   \item **Warnings** (validation continues)
+#'   \itemize{
+#'     \item When exactly one fraction is missing, it is calculated as
+#'     `100 - (sum of the other two)`.
+#'     \item Samples with fewer than two provided fractions **and no** provided
+#'     texture do not have sufficient data for texture classification.
+#'     These samples are retained and returned with an `NA` texture value.
+#'   }
 #'
-#'   \item Samples with all three fractions missing are assumed to not have
-#'   texture measured. These samples are retained and returned without
-#'   fraction-based classification.
-#'
-#'   \item If a `texture` column is provided, non-missing texture values
-#'   are preserved and are not overwritten by fraction-based classification.
-#'   This allows users to supply texture classes from external sources (e.g.,
-#'   NRCS gSSURGO) when particle-size fractions are unavailable.
+#'   \item **Special cases** (no warning or error)
+#'   \itemize{
+#'     \item Samples with fewer than two provided fractions **and** a provided
+#'     texture will preserve the texture without modification.
+#'   }
 #' }
 #'
-#' @param df A data frame containing the columns `sample_id`,
-#'   `sand_percent`, `silt_percent`, and `clay_percent`. An
-#'   optional `texture` column can also be provided: if the sand/silt/clay
-#'   fractions are present, `texture` will be overwritten by the classified
-#'   value; if the fractions are missing, existing `texture` values are
-#'   preserved.
+#' @param df A data frame containing the columns `sample_id`, `sand_percent`,
+#'   `silt_percent`, and `clay_percent`. An optional `texture` column can also
+#'   be provided.
 #'
-#' @return A data frame with a `texture` column containing USDA soil
-#'   texture classes. Soil fractions are rounded to whole numbers.
+#' @return A data frame with a `texture` column containing USDA soil texture
+#'   classes (if enough soil fraction data are provided). Soil fractions are
+#'   rounded to whole numbers.
 #'
-#' @source Thresholds for texture classification are based on the [USDA NRCS Soil
-#'   Texture Calculator](https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator).
+#' @source Thresholds for texture classification are based on the [USDA NRCS
+#'   Soil Texture
+#'   Calculator](https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator).
 #'
 #' @examples
 #'
@@ -419,18 +418,6 @@ assign_texture_class <- function(df) {
 #' )
 #'
 #' classify_texture(df)
-#'
-#' # Error when a sample has insufficient data
-#' # One sample is missing two soil fractions
-#'
-#' df <- data.frame(
-#'   sample_id = c(1, 2, 3),
-#'   sand_percent = c(40, NA, 65),
-#'   silt_percent = c(40, 55, 5),
-#'   clay_percent = c(20, NA, 30)
-#' )
-#'
-#' try(classify_texture(df))
 #'
 #' # Error when any fraction is outside the allowable range (0-100)
 #'
@@ -466,20 +453,34 @@ assign_texture_class <- function(df) {
 #'
 #' classify_texture(df)
 #'
-#' # Warn when soil texture was not measured
-#' # Samples with all fractions missing return a blank texture class
+#' # Warn when a sample has insufficient data and classification is skipped
+#' # One sample is missing two soil fractions
 #'
-#'   df <- data.frame(
-#'    sample_id = c(1, 2, 3),
-#'    sand_percent = c(NA, NA, 30),
-#'    silt_percent = c(NA, NA, 30),
-#'    clay_percent = c(NA, NA, 40)
-#'  )
+#' df <- data.frame(
+#'   sample_id = c(1, 2, 3),
+#'   sand_percent = c(40, NA, 65),
+#'   silt_percent = c(40, 55, 5),
+#'   clay_percent = c(20, NA, 30)
+#' )
 #'
-#'  classify_texture(df)
+#' classify_texture(df)
 #'
+#' # No fractions provided, but texture is supplied
+#' # No warning; existing texture is preserved
+#'
+#' df <- data.frame(
+#'   sample_id = c(1, 2),
+#'   sand_percent = c(NA, NA),
+#'   silt_percent = c(NA, NA),
+#'   clay_percent = c(NA, NA),
+#'   texture = c("Loam", "Sandy loam")
+#' )
+#'
+#' classify_texture(df)
 #' @export
 classify_texture <- function(df) {
+  frac_cols <- c("sand_percent", "silt_percent", "clay_percent")
+
   df |>
     validate_texture_fractions() |>
     complete_texture_fractions() |>

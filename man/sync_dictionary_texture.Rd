@@ -21,8 +21,8 @@ in the order: \code{texture}, \code{sand_percent}, \code{silt_percent}, \code{cl
 Returns the original dictionary if no rows were added.
 }
 \description{
-Adds missing \code{texture} and soil particle-size fraction columns to the dictionary
-in a fixed order for the physical measurement group.
-Intended for internal use but exported so it can be called in templates.
+Adds missing \code{texture} and soil particle-size fraction columns to the
+dictionary in a fixed order for the physical measurement group. Intended for
+internal use but exported so it can be called in templates.
 }
 \keyword{internal}

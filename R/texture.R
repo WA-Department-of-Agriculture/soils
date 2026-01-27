@@ -26,7 +26,8 @@ validate_texture_fractions <- function(df) {
   # Abort if df is not a dataframe
   if (!is.data.frame(df)) {
     cli::cli_abort(c(
-      "x" = "Input must be a {.cls dataframe} with columns {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}."
+      "x" = "Input must be a {.cls dataframe} with columns\
+      {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}."
     ))
   }
 
@@ -48,7 +49,9 @@ validate_texture_fractions <- function(df) {
     cli::cli_inform(
       c(
         "i" = "Not enough soil fraction data to validate or classify texture.",
-        "*" = "Provide at least two of {.field sand_percent}, {.field silt_percent}, and {.field clay_percent} columns to enable texture validation and classification."
+        "*" = "Provide at least two of {.field sand_percent},\
+        {.field silt_percent}, and {.field clay_percent} columns\
+        to enable texture validation and classification."
       )
     )
     return(df)
@@ -60,7 +63,8 @@ validate_texture_fractions <- function(df) {
     cli::cli_inform(
       c(
         "i" = "Exactly two soil fraction columns detected.",
-        "*" = "Created missing column {.field {missing_fraction}} to allow texture validation and classification."
+        "*" = "Created missing column {.field {missing_fraction}}\
+        to allow texture validation and classification."
       )
     )
   }
@@ -102,7 +106,7 @@ validate_texture_fractions <- function(df) {
     )
   ]
 
-  # Error: Samples with complete fractions but sum is outside tolerance 100 +/- 1
+  # Error: Samples with complete fractions and sum outside tolerance 100 +/- 1
   invalid_sum_ids <- df$sample_id[
     df$missing_n == 0 &
       (df$sand_percent + df$silt_percent + df$clay_percent < 99 |
@@ -114,7 +118,9 @@ validate_texture_fractions <- function(df) {
   # Fraction not between 0 and 100
   error_out_of_range <- if (length(out_of_range_ids) > 0) {
     cli::format_inline(
-      "{cli::qty(length(out_of_range_ids))}{.strong Sample{?s} {soils_cli_vec(out_of_range_ids)}} must have all fraction values between 0 and 100."
+      "{cli::qty(length(out_of_range_ids))}{.strong Sample{?s}\
+      {soils_cli_vec(out_of_range_ids)}} must have all fraction\
+      values between 0 and 100."
     )
   } else {
     NULL
@@ -123,7 +129,9 @@ validate_texture_fractions <- function(df) {
   # Sum does not equal 100 (+/- 1)
   error_invalid_sum <- if (length(invalid_sum_ids) > 0) {
     cli::format_inline(
-      "{cli::qty(length(invalid_sum_ids))}{.strong Sample{?s} {soils_cli_vec(invalid_sum_ids)}} must have fractions that sum to 100 (+/- 1)."
+      "{cli::qty(length(invalid_sum_ids))}{.strong Sample{?s}\
+      {soils_cli_vec(invalid_sum_ids)}} must have fractions that\
+      sum to 100 (+/- 1)."
     )
   } else {
     NULL
@@ -134,7 +142,11 @@ validate_texture_fractions <- function(df) {
   # Fewer than two fractions provided (skip classification)
   warn_insufficient <- if (length(insufficient_ids) > 0) {
     cli::format_inline(
-      "{cli::qty(length(insufficient_ids))}{.strong Sample{?s} {soils_cli_vec(insufficient_ids)} {cli::qty(length(insufficient_ids))}}{?has/have} fewer than two fractions and will be skipped during texture classification."
+      "{cli::qty(length(insufficient_ids))}{.strong Sample{?s}\
+      {soils_cli_vec(insufficient_ids)}\
+      {cli::qty(length(insufficient_ids))}}{?has/have}\
+      fewer than two fractions and will be skipped during texture\
+      classification."
     )
   } else {
     NULL
@@ -143,7 +155,9 @@ validate_texture_fractions <- function(df) {
   # Missing fraction computed as 100 minus the other two
   warn_compute <- if (length(compute_ids) > 0) {
     cli::format_inline(
-      "{cli::qty(length(compute_ids))}{.strong Sample{?s} {soils_cli_vec(compute_ids)} {cli::qty(length(compute_ids))}}{?is/are} missing one fraction and will be calculated as 100 minus the other two."
+      "{cli::qty(length(compute_ids))}{.strong Sample{?s}\
+      {soils_cli_vec(compute_ids)} {cli::qty(length(compute_ids))}}{?is/are}\
+      missing one fraction and will be calculated as 100 minus the other two."
     )
   } else {
     NULL
@@ -167,7 +181,8 @@ validate_texture_fractions <- function(df) {
       c(
         "x" = "{.strong Soil texture validation failed.}",
         "",
-        "Soil fractions are provided in the columns {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}.",
+        "Soil fractions are provided in the columns {.field sand_percent},\
+        {.field clay_percent}, and {.field silt_percent}.",
         "",
         "i" = "Samples with errors to correct:",
         "*" = error_out_of_range,
@@ -187,7 +202,8 @@ validate_texture_fractions <- function(df) {
       c(
         "x" = "{.strong Soil texture validation failed.}",
         "",
-        "Soil fractions are provided in the columns {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}.",
+        "Soil fractions are provided in the columns {.field sand_percent},\
+        {.field clay_percent}, and {.field silt_percent}.",
         "",
         "i" = "Samples with errors to correct:",
         "*" = error_out_of_range,
@@ -203,7 +219,8 @@ validate_texture_fractions <- function(df) {
       c(
         "!" = "{.strong Soil texture validation completed with assumptions.}",
         "",
-        "Soil fractions are provided in the columns {.field sand_percent}, {.field clay_percent}, and {.field silt_percent}.",
+        "Soil fractions are provided in the columns {.field sand_percent},\
+        {.field clay_percent}, and {.field silt_percent}.",
         "",
         "i" = "Samples with assumptions:",
         "*" = warn_insufficient,
@@ -505,9 +522,9 @@ classify_texture <- function(df) {
 
 #' Synchronize dictionary with texture and fractions added by classify_texture()
 #'
-#' Adds missing `texture` and soil particle-size fraction columns to the dictionary
-#' in a fixed order for the physical measurement group.
-#' Intended for internal use but exported so it can be called in templates.
+#' Adds missing `texture` and soil particle-size fraction columns to the
+#' dictionary in a fixed order for the physical measurement group. Intended for
+#' internal use but exported so it can be called in templates.
 #'
 #' @param data Data frame potentially containing `texture`, `sand_percent`,
 #'   `silt_percent`, and `clay_percent`.

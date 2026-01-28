@@ -1,3 +1,45 @@
+# coerce_to_numeric() ------------------------------------------------
+
+test_that("coerce_to_numeric converts numeric columns and warns on coercion", {
+  # Contains metadata columns (year, sample_id, field_id, texture)
+  # Contains measurement columns with numeric values and strings that should be coerced to NA
+  example_data <- data.frame(
+    year = c(2023, 2023, 2024),
+    sample_id = c("S1", "S2", "S3"),
+    field_id = c("A", "A", "B"),
+    texture = c("Silt loam", "Silt loam", "Clay loam"),
+    ph = c("6.5", "ND", "7.1"), # ND should become NA
+    nh4_n_mg_kg = c("12.3", "<1", ""), # "<1" and "" should become NA
+    no3_n_mg_kg = c("5.2", "8.1", "NA"), # "NA" should become NA
+    stringsAsFactors = FALSE
+  )
+
+  measurement_cols = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
+
+  # Expect a warning when character values are coerced to NA
+  expect_warning(
+    data_numeric <- coerce_to_numeric(example_data, measurement_cols),
+    regexp = "Some measurement values were coerced to `NA`"
+  )
+
+  # Metadata columns remain unchanged
+  expect_equal(data_numeric$year, example_data$year)
+  expect_equal(data_numeric$sample_id, example_data$sample_id)
+  expect_equal(data_numeric$field_id, example_data$field_id)
+  expect_equal(data_numeric$texture, example_data$texture)
+
+  # Measurement columns are numeric
+  expect_type(data_numeric$ph, "double")
+  expect_type(data_numeric$nh4_n_mg_kg, "double")
+  expect_type(data_numeric$no3_n_mg_kg, "double")
+
+  # NAs were created correctly from problematic string values
+  expect_true(is.na(data_numeric$ph[2])) # "ND" -> NA
+  expect_true(is.na(data_numeric$nh4_n_mg_kg[2])) # "<1" -> NA
+  expect_true(is.na(data_numeric$nh4_n_mg_kg[3])) # "" -> NA
+  expect_true(is.na(data_numeric$no3_n_mg_kg[3])) # "NA" -> NA
+})
+
 # calculate_mode() -------------------------------------------------------------
 
 test_that("calculate_mode returns the most frequent value", {

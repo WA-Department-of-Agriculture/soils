@@ -55,6 +55,41 @@ if (fs::dir_exists(path)) fs::dir_delete(path)
 fs::dir_create(path)
 ```
 
+<!-- Set styling variables -->
+
+```{r set-fonts-colors}
+# EDIT: Replace any font names and colors to match your branding.
+header_font <- "Georgia"
+body_font <- "Arial"
+
+# Flextable colors -----------------------------------------------------
+
+# header background color
+header_color <- "#023B2C"
+# header text color
+header_text_color <- "white"
+# body darker background color
+darker_color <- "#ccc29c"
+# body lighter background color
+lighter_color <- "#F2F0E6"
+# border color
+border_color <- "#3E3D3D"
+
+# Map and plot colors -----------------------------------------------------
+
+# point color for producer samples
+primary_color <- "#a60f2d"
+# point color for samples in same categories as producer
+secondary_color <- "#3E3D3D"
+# point color for all other samples in project
+other_color <- "#ccc29c"
+
+# facet strip background color
+strip_color <- "#335c67"
+# facet strip text color
+strip_text_color <- "white"
+```
+
 <!-- Load data and dictionary -->
 
 ```{r load-data, include=FALSE}
@@ -95,71 +130,6 @@ dictionary <- read.csv(
 )
 ```
 
-```{r data-validation}
-# OPTIONAL EDIT: If you have extra columns in `data`, add them to this vector.
-required_data_cols <- c(
-  "year",
-  "sample_id",
-  "farm_name",
-  "producer_id",
-  "field_id",
-  "county",
-  "crop",
-  "longitude",
-  "latitude",
-  "texture"
-)
-
-required_dict_cols <- c(
-  "measurement_group",
-  "column_name",
-  "abbr",
-  "unit"
-)
-
-# Check all column names in `data` are in the `required_cols` vector or
-# `column_name` column of `dictionary`.
-testthat::expect_in(names(data), c(required_data_cols, dictionary$column_name))
-
-# Check that `dictionary` has required column names.
-testthat::expect_contains(names(dictionary), required_dict_cols)
-```
-
-<!-- Set styling variables -->
-
-```{r set-fonts-colors}
-# EDIT: Replace any font names and colors to match your branding.
-header_font <- "Georgia"
-body_font <- "Arial"
-
-# Flextable colors -----------------------------------------------------
-
-# header background color
-header_color <- "#023B2C"
-# header text color
-header_text_color <- "white"
-# body darker background color
-darker_color <- "#ccc29c"
-# body lighter background color
-lighter_color <- "#F2F0E6"
-# border color
-border_color <- "#3E3D3D"
-
-# Map and plot colors -----------------------------------------------------
-
-# point color for producer samples
-primary_color <- "#a60f2d"
-# point color for samples in same categories as producer
-secondary_color <- "#3E3D3D"
-# point color for all other samples in project
-other_color <- "#ccc29c"
-
-# facet strip background color
-strip_color <- "#335c67"
-# facet strip text color
-strip_text_color <- "white"
-```
-
 <!-- Texture validation and classification -->
 
 ```{r texture-validate-classify}
@@ -194,21 +164,36 @@ measurement_groups <- unique(dictionary$measurement_group)
 <!-- Pivot data longer and join with data dictionary -->
 
 ```{r tidy-long}
-# Get number of columns
-num_cols <- ncol(data)
+# OPTIONAL EDIT: If you have extra metadata columns in `data`, add them to this
+# vector. All other columns are assumed to be quantitative measurements and will
+# be coerced to numeric. Non-numeric values (e.g. "ND", "NA", "", "-", "<1")
+# will be converted to NA and excluded from tables and plots.
+metadata_cols <- c(
+  "year",
+  "sample_id",
+  "farm_name",
+  "producer_id",
+  "field_id",
+  "county",
+  "crop",
+  "longitude",
+  "latitude",
+  "texture"
+)
+
+# Get measurement columns
+measurement_cols <- data |>
+  dplyr::select(-dplyr::any_of(metadata_cols)) |> 
+  colnames()
+
+# Coerce measurement columns to numeric. This will emit a warning of which
+# columns have coerced a value to NA.
+data <- soils::coerce_to_numeric(data, measurement_cols)
 
 # Tidy data into long format and join with data dictionary
 results_long <- data |>
-  dplyr::mutate(
-    # EDIT: make sure this matches the column range of your soil measurements
-    dplyr::across(
-      11:dplyr::all_of(num_cols),
-      as.numeric
-    )
-  ) |>
   tidyr::pivot_longer(
-    # EDIT: make sure this matches the column range of your soil measurements
-    cols = 11:dplyr::all_of(num_cols),
+    cols = dplyr::all_of(measurement_cols),
     names_to = "measurement"
   ) |>
   dplyr::inner_join(dictionary, by = c("measurement" = "column_name")) |>

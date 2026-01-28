@@ -47,6 +47,11 @@
     descriptive and consistent naming convention alongside `make_static_map()`.
     `make_leaflet()` will be retained for backwards compatibility.
 
+-   Measurements must be quantitative. Modify template to dynamically select
+    measurement columns (based on provided vector of metadata columns) (#24) and
+    coerce measurement columns to numeric with new function
+    `coerce_to_numeric()` (#11 and #26).
+
 # soils 1.0.1
 
 -   Pre-calculate zoom for the static map to fix issue when there are less than

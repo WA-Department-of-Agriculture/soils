@@ -114,6 +114,7 @@ reference:
   - get_table_headers
 - title: Helpers
   contents:
+  - coerce_to_numeric
   - is_column_empty
   - has_complete_row
   - calculate_mode

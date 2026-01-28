@@ -31,6 +31,7 @@ test_that("has_complete_row detects rows with complete columns", {
 })
 
 # summarize_by_var() -----------------------------------------------------------
+
 test_that("summarize_by_var calculates averages and texture per group", {
   # Numeric-only example data for summarization
   df_numeric <- data.frame(
@@ -51,7 +52,55 @@ test_that("summarize_by_var calculates averages and texture per group", {
   expect_true("Texture" %in% names(summary))
 })
 
+test_that("summarize_by_var filters out groups with only 1 sample", {
+  # Example long-format data
+  results_long <- data.frame(
+    sample_id = c("S1", "S2", "S3", "S4", "S5"),
+    measurement_group = c(
+      "Chemical",
+      "Chemical",
+      "Chemical",
+      "Chemical",
+      "Chemical"
+    ),
+    abbr = c("pH", "pH", "pH", "pH", "pH"),
+    value = c(6.5, 7.0, 6.8, 5.5, 5.7),
+    crop = c("Corn", "Corn", "Corn", "Corn", "Wheat"),
+    texture = c("Loam", "Loam", "Loam", "Clay", "Clay")
+  )
+
+  # Producer samples (only including a subset)
+  producer_samples <- data.frame(
+    measurement_group = c("Chemical", "Chemical"),
+    abbr = c("pH", "pH"),
+    value = c(6.5, 5.5),
+    crop = c("Corn", "Wheat")
+  )
+
+  # Summarize by crop
+  summary <- summarize_by_var(results_long, producer_samples, crop)
+
+  # Check that all groups with n = 1 are removed
+  expect_false(any(grepl(
+    "^Wheat Average \\n\\(1 Fields\\)",
+    summary$`Field or Average`
+  )))
+
+  # Check that Corn group remains
+  expect_true(any(grepl("^Corn Average", summary$`Field or Average`)))
+
+  # Check that the value column is numeric and average is correct
+  corn_summary <- summary |>
+    dplyr::filter(grepl("^Corn Average", `Field or Average`))
+  expect_equal(
+    round(corn_summary$value, 2),
+    round(mean(c(6.5, 7.0, 6.8, 5.5)), 4)
+  )
+})
+
+
 # summarize_by_project() -------------------------------------------------------
+
 test_that("summarize_by_project calculates project averages and texture mode", {
   # Numeric-only example data for summarization
   df_numeric <- data.frame(

@@ -384,7 +384,7 @@ id_cols <- if ("Textura" %in% names(df_table)) {
   "Campo o Promedio"
 }
 
-groups <- df_table |>
+tables <- df_table |>
   split(df_table$measurement_group) |>
   purrr::map(\(x) {
     tidyr::pivot_wider(
@@ -399,36 +399,36 @@ groups <- df_table |>
 # Special wrangling for texture
 if ("Textura" %in% names(df_table)) {
   # Extract physical df from averages list
-  physical <- list("Mediciones físicas" = groups$`Mediciones físicas`)
+  physical <- list("Mediciones físicas" = tables$`Mediciones físicas`)
 
   # Remove texture from all dataframes except physical
-  groups <- purrr::map(
+  tables <- purrr::map(
     subset(
-      groups,
-      !(names(groups) == "Mediciones físicas")
+      tables,
+      !(names(tables) == "Mediciones físicas")
     ),
     \(x) dplyr::select(x, -Textura)
   )
 
   # Add physical df back to the averages list
-  groups <- c(groups, physical)
+  tables <- c(tables, physical)
 
   # Remove this intermediate variable from env
   rm(physical)
 }
-```
-
-```{r remove-rows-with-one-observation}
-# Delete any county or crop averages where n = 1 or county/crop is blank.
-tables <- groups |>
-  purrr::map(
-    subset,
-    !grepl("(^1 Campos)|NA", `Campo o Promedio`)
-  )
 
 # Order list of tables based on how they appear in dictionary. Important that
 # tables and headers are in the same order for the make-flextables chunk.
 tables <- tables[measurement_groups]
+```
+
+```{r remove-rows-with-one-observation}
+# Delete any county or crop averages where n = 1 or county/crop is blank.
+tables <- tables |>
+  purrr::map(
+    subset,
+    !grepl("\\(1 Campos\\)|NA", `Campo o Promedio`)
+  )
 ```
 
 ```{r get-headers-for-flextable}

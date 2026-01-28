@@ -179,6 +179,10 @@ summarize_by_var <- function(results_long, producer_samples, var) {
     ) |>
     dplyr::select(-c(n, {{ var }}, var_label))
 
+  # Filter out n = 1 or NA
+  summary <- summary |>
+    dplyr::filter(!grepl("\\(1 Fields\\)|NA", `Field or Average`))
+
   return(summary)
 }
 

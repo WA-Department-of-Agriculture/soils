@@ -1,33 +1,35 @@
 #' Coerce measurement columns to numeric and warn on coercion
 #'
-#' Coerces all non-metadata columns in a data frame to numeric. Character values
+#' Intended for use during data ingestion and validation in the reporting
+#' workflow.
+#'
+#' Non-numeric values in specified measurement columns, such as character values
 #' commonly used to represent missing or censored measurements (e.g. `"ND"`,
-#' `"<1"`, `"-"`, or `""`) will be converted to `NA`. A warning is emitted if any
-#' non-missing values are coerced to `NA` during conversion.
+#' `"<1"`, `"-"`, or `""`), are coerced to `NA`. Warnings are emitted when
+#' non-missing values are coerced to `NA`, and when a column contains only `NA`
+#' values after coercion, indicating it may be omitted from downstream summaries
+#' or visualizations.
 #'
 #' @param data A data frame containing both metadata and quantitative
 #'   measurement columns.
-#' @param measurement_cols A character vector of column names to coerce to numeric.
+#' @param measurement_cols A character vector of column names to coerce to
+#'   numeric.
 #'
-#' @return A data frame where specified measurement columns have been coerced to numeric.
-#'
-#' @details
-#' This function is intended for use during data ingestion and validation.
-#' Measurement values that cannot be safely interpreted as numeric are set to
-#' `NA` and excluded from downstream summaries, tables, and plots.
+#' @return A data frame where specified measurement columns have been coerced to
+#'   numeric.
 #'
 #' @examples
 #' # Example data
 #' example_data <- data.frame(
-#'   year       = c(2023, 2023, 2024),
-#'   sample_id  = c("S1", "S2", "S3"),
-#'   field_id   = c("A", "A", "B"),
-#'   texture    = c("Silt loam", "Silt loam", "Clay loam"),
-#'   ph         = c("6.5", "ND", "7.1"),
-#'   nh4_n_mg_kg = c("12.3", "<1", ""),
-#'   no3_n_mg_kg = c("5.2", "8.1", "NA"),
+#'   year        = c(2023, 2023, 2024),
+#'   sample_id   = c("S1", "S2", "S3"),
+#'   field_id    = c("A", "A", "B"),
+#'   ph          = c("6.5", "ND", "7.1"),       # partial NA (1 ND -> NA)
+#'   nh4_n_mg_kg = c("12.3", "<1", ""),         # partial NA (2 non-numeric -> NA)
+#'   no3_n_mg_kg = c("NA", "NA", "NA"),         # fully NA
 #'   stringsAsFactors = FALSE
 #' )
+#'
 #'
 #' # Specify the measurement columns
 #' measurement_cols = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
@@ -36,14 +38,12 @@
 #' clean_data <- coerce_to_numeric(example_data, measurement_cols)
 #'
 #' @export
-coerce_to_numeric <- function(
-  data,
-  measurement_cols
-) {
+coerce_to_numeric <- function(data, measurement_cols) {
   # Abort if measurement_cols is missing
   if (missing(measurement_cols)) {
     cli::cli_abort(
-      "Please provide a vector of `measurement_cols` to coerce to numeric."
+      "Please provide a vector of `measurement_cols`\
+                   to coerce to numeric."
     )
   }
 
@@ -59,52 +59,75 @@ coerce_to_numeric <- function(
   }
 
   # Preserve original values for NA-coercion check
-  data_original <- data |>
-    dplyr::select(dplyr::all_of(measurement_cols))
+  data_original <- data |> dplyr::select(dplyr::all_of(measurement_cols))
 
-  # Coerce measurements to numeric
-  # Suppress warnings because this function emits its own warnings
+  # Coerce measurements to numeric (suppress warnings)
   suppressWarnings(
     data_numeric <- data |>
       dplyr::mutate(
-        dplyr::across(
-          dplyr::all_of(measurement_cols),
-          as.numeric
-        )
+        dplyr::across(dplyr::all_of(measurement_cols), as.numeric)
       )
   )
-  # Count NAs introduced by coercion
+
+  # Count NAs introduced by coercion (partial NAs)
   na_created <- purrr::map_int(
     measurement_cols,
     ~ sum(!is.na(data_original[[.x]]) & is.na(data_numeric[[.x]]))
   )
-
-  # Assign names
   names(na_created) <- measurement_cols
 
-  # Create warning with bullet points of affected columns and how many values
-  # were coerced
-  if (any(na_created > 0)) {
-    affected <- na_created[na_created > 0]
+  # Initialize warning messages container
+  warn_messages <- character(0)
 
-    bullets <- purrr::imap_chr(
-      affected,
+  # Partial NAs (some values coerced)
+  partial_na <- na_created[na_created > 0]
+  if (length(partial_na) > 0) {
+    bullets_partial <- purrr::imap_chr(
+      partial_na,
       ~ glue::glue(
         "{{.field { .y }}} ({ .x } {if (.x == 1) 'value' else 'values'})"
       )
     )
+    names(bullets_partial) <- rep("*", length(bullets_partial))
 
-    # Set names for the bullets to render in cli
-    names(bullets) <- rep("*", length(bullets))
-
-    cli::cli_warn(
-      c(
-        "i" = "Some measurement values were coerced to `NA` during numeric\
-        conversion due to character values such as `ND`, `<1`, or `-`.",
-        "i" = "{.strong Affected columns}:",
-        bullets
-      )
+    warn_messages <- c(
+      warn_messages,
+      "i" = "Some column values were coerced to `NA`.\
+      Check your data for non-numeric values like `ND` or `<1`.",
+      "",
+      "i" = "{.strong Affected columns}:",
+      bullets_partial
     )
+  }
+
+  # Fully NA columns (all values coerced)
+  all_na <- purrr::map_lgl(
+    rlang::set_names(measurement_cols),
+    ~ all(is.na(data_numeric[[.x]]))
+  )
+
+  all_na <- all_na[all_na]
+
+  if (length(all_na) > 0) {
+    bullets_all_na <- purrr::imap_chr(
+      all_na,
+      ~ glue::glue("{{.field { .y }}} (all values are `NA`)")
+    )
+
+    names(bullets_all_na) <- rep("*", length(bullets_all_na))
+
+    warn_messages <- c(
+      warn_messages,
+      "",
+      "!" = "{.strong These columns contain only `NA` values\
+      and may be omitted}:",
+      bullets_all_na
+    )
+  }
+
+  # Emit all collected warnings at once
+  if (length(warn_messages) > 0) {
+    cli::cli_warn(warn_messages)
   }
 
   return(data_numeric)

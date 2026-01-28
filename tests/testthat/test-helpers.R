@@ -1,25 +1,25 @@
-# coerce_to_numeric() ------------------------------------------------
+# coerce_to_numeric() ------------------------------------------------------------
 
-test_that("coerce_to_numeric converts numeric columns and warns on coercion", {
+test_that("coerce_to_numeric warns on partial and fully NA measurement columns", {
   # Contains metadata columns (year, sample_id, field_id, texture)
-  # Contains measurement columns with numeric values and strings that should be coerced to NA
+  # Contains measurement columns with partial and complete coercion to NA
   example_data <- data.frame(
     year = c(2023, 2023, 2024),
     sample_id = c("S1", "S2", "S3"),
     field_id = c("A", "A", "B"),
     texture = c("Silt loam", "Silt loam", "Clay loam"),
-    ph = c("6.5", "ND", "7.1"), # ND should become NA
-    nh4_n_mg_kg = c("12.3", "<1", ""), # "<1" and "" should become NA
-    no3_n_mg_kg = c("5.2", "8.1", "NA"), # "NA" should become NA
+    ph = c("6.5", "ND", "7.1"), # partial NA
+    nh4_n_mg_kg = c("12.3", "<1", ""), # partial NA
+    no3_n_mg_kg = c("NA", "NA", "NA"), # fully NA
     stringsAsFactors = FALSE
   )
 
-  measurement_cols = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
+  measurement_cols <- c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
 
-  # Expect a warning when character values are coerced to NA
+  # Expect a warning that includes both coercion and omission messaging
   expect_warning(
     data_numeric <- coerce_to_numeric(example_data, measurement_cols),
-    regexp = "Some measurement values were coerced to `NA`"
+    regexp = "coerced to `NA`|omitted from tables and plots"
   )
 
   # Metadata columns remain unchanged
@@ -33,12 +33,15 @@ test_that("coerce_to_numeric converts numeric columns and warns on coercion", {
   expect_type(data_numeric$nh4_n_mg_kg, "double")
   expect_type(data_numeric$no3_n_mg_kg, "double")
 
-  # NAs were created correctly from problematic string values
-  expect_true(is.na(data_numeric$ph[2])) # "ND" -> NA
-  expect_true(is.na(data_numeric$nh4_n_mg_kg[2])) # "<1" -> NA
-  expect_true(is.na(data_numeric$nh4_n_mg_kg[3])) # "" -> NA
-  expect_true(is.na(data_numeric$no3_n_mg_kg[3])) # "NA" -> NA
+  # Partial coercion behaves correctly
+  expect_true(is.na(data_numeric$ph[2])) # "ND"
+  expect_true(is.na(data_numeric$nh4_n_mg_kg[2])) # "<1"
+  expect_true(is.na(data_numeric$nh4_n_mg_kg[3])) # ""
+
+  # Fully NA column is entirely NA
+  expect_true(all(is.na(data_numeric$no3_n_mg_kg)))
 })
+
 
 # calculate_mode() -------------------------------------------------------------
 

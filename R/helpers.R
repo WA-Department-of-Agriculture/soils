@@ -95,7 +95,7 @@ coerce_to_numeric <- function(data, measurement_cols) {
       "i" = "Some column values were coerced to `NA`.\
       Check your data for non-numeric values like `ND` or `<1`.",
       "",
-      "i" = "{.strong Affected columns}:",
+      "!" = "{.strong Affected columns}:",
       bullets_partial
     )
   }
@@ -119,8 +119,8 @@ coerce_to_numeric <- function(data, measurement_cols) {
     warn_messages <- c(
       warn_messages,
       "",
-      "!" = "{.strong These columns contain only `NA` values\
-      and may be omitted}:",
+      "!" = "Columns containing only `NA` values\
+      that may be omitted from downstream summaries or visualizations:",
       bullets_all_na
     )
   }

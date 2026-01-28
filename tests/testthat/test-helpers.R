@@ -19,7 +19,7 @@ test_that("coerce_to_numeric warns on partial and fully NA measurement columns",
   # Expect a warning that includes both coercion and omission messaging
   expect_warning(
     data_numeric <- coerce_to_numeric(example_data, measurement_cols),
-    regexp = "coerced to `NA`|omitted from tables and plots"
+    regexp = "coerced to `NA`.*omitted"
   )
 
   # Metadata columns remain unchanged

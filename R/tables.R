@@ -40,7 +40,7 @@ get_table_headers <- function(dictionary, group) {
 #' tables <- readRDS(tables_path)
 #'
 #' # Make the table
-#' ft <- flextable::flextable(tables$biological)
+#' ft <- flextable::flextable(tables$Biological)
 #' ft
 #'
 #' # Conditionally format background cell colors
@@ -141,7 +141,7 @@ format_ft_colors <- function(
 #' tables <- readRDS(tables_path)
 #'
 #' # Make the table
-#' ft <- flextable::flextable(tables$biological)
+#' ft <- flextable::flextable(tables$Biological)
 #' ft
 #'
 #' # Style the table
@@ -208,24 +208,24 @@ style_ft <- function(
 #' tables <- readRDS(tables_path)
 #'
 #' # Input dataframes
-#' headers$chemical
+#' headers$Chemical
 #'
-#' tables$chemical
+#' tables$Chemical
 #'
 #' # Make the flextable
 #' make_ft(
-#'   table = tables$chemical,
-#'   header = headers$chemical
+#'   table = tables$Chemical,
+#'   header = headers$Chemical
 #' ) |>
 #'   # Style the flextable
 #'   style_ft() |>
 #'   # Add the white line under the columns with the same units
-#'   unit_hline(header = headers$chemical)
+#'   unit_hline(header = headers$Chemical)
 #'
 #' # Example without `unit_hline()`
 #' make_ft(
-#'   table = tables$chemical,
-#'   header = headers$chemical
+#'   table = tables$Chemical,
+#'   header = headers$Chemical
 #' ) |>
 #'   # Style the flextable
 #'   style_ft()
@@ -265,19 +265,19 @@ unit_hline <- function(ft, header) {
 #' tables <- readRDS(tables_path)
 #'
 #' # Input dataframes
-#' headers$chemical
+#' headers$Chemical
 #'
-#' tables$chemical
+#' tables$Chemical
 #'
 #' # Make the flextable
 #' make_ft(
-#'   table = tables$chemical,
-#'   header = headers$chemical
+#'   table = tables$Chemical,
+#'   header = headers$Chemical
 #' ) |>
 #'   # Style the flextable
 #'   style_ft() |>
 #'   # Add the white line under the columns with the same units
-#'   unit_hline(header = headers$chemical)
+#'   unit_hline(header = headers$Chemical)
 #'
 make_ft <- function(table, header) {
   # Get row index of first duplicated unit for unit_hline

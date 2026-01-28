@@ -21,15 +21,29 @@ usethis::use_data(washi_data, overwrite = TRUE)
 producer <- washi_data |>
   dplyr::filter(producer_id == "WUY05")
 
+# process dictionary
+data_dictionary <- data_dictionary |>
+  dplyr::mutate(
+    # Concatenate abbr and unit with html break for the table and plot labels
+    abbr_unit = glue::glue("{abbr}<br>{unit}"),
+    # Set the order of how measurement groups will appear within the report
+    # based on the order found in the data dictionary
+    group_order = dplyr::cur_group_id(),
+    # Set the order of how measurements will appear within each measurement
+    # group based on the order found in the data dictionary
+    measurement_order = seq_along(column_name),
+    .by = measurement_group
+  )
+
 # Tidy data into long format and join with data dictionary
 results_long <- washi_data |>
-  dplyr::mutate(dplyr::across(12:42, as.numeric)) |>
+  dplyr::mutate(dplyr::across(11:41, as.numeric)) |>
   tidyr::pivot_longer(
-    cols = 12:42,
+    cols = 11:41,
     names_to = "measurement"
   ) |>
   dplyr::inner_join(data_dictionary, by = c("measurement" = "column_name")) |>
-  dplyr::arrange(measurement_group, order) |>
+  dplyr::arrange(measurement_group, measurement_order) |>
   dplyr::mutate(
     abbr = factor(
       abbr,
@@ -120,7 +134,7 @@ df_table <- dplyr::bind_rows(
   )
 
 # Split into list with each measurement group as its own df and pivot wider
-groups <- df_table |>
+tables <- df_table |>
   split(df_table$measurement_group) |>
   purrr::map(\(x) {
     tidyr::pivot_wider(
@@ -133,26 +147,19 @@ groups <- df_table |>
 # Special wrangling for texture
 
 # Extract physical df from averages list
-physical <- list(physical = groups$physical)
+physical <- list(Physical = tables$Physical)
 
 # Remove texture from all dataframes except physical
-groups <- purrr::map(
+tables <- purrr::map(
   subset(
-    groups,
-    !(names(groups) == "physical")
+    tables,
+    !(names(tables) == "Physical")
   ),
   \(x) dplyr::select(x, -Texture)
 )
 
 # Add physical df back to the averages list
-groups <- c(groups, physical)
-
-# Delete any county or crop averages where n = 1
-tables <- groups |>
-  purrr::map(
-    subset,
-    !grepl("(1 Fields)", `Field or Average`)
-  )
+tables <- c(tables, physical)
 
 saveRDS(tables, here::here("inst/extdata/tables.RDS"))
 

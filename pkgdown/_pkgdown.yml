@@ -110,6 +110,7 @@ reference:
   - make_ft
   - unit_hline
   - format_ft_colors
+  - add_field_count_note
   - style_ft
   - get_table_headers
 - title: Helpers

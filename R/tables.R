@@ -51,13 +51,9 @@ format_ft_colors <- function(
   darker_color = "#ccc29c",
   language = "English"
 ) {
-  # Language arg must be "English" or "Spanish"
-  rlang::arg_match(
-    arg = language,
-    values = c("English", "Spanish")
-  )
+  rlang::arg_match(language, c("English", "Spanish"))
 
-  # Color formatter function
+  # Color formatter
   ft <- flextable::bg(
     ft,
     bg = function(x) {
@@ -70,55 +66,90 @@ format_ft_colors <- function(
     }
   )
 
-  # Add an empty footer line
-  ft <- flextable::add_footer_lines(ft, values = "")
+  # Footnote content by language
+  footnotes <- list(
+    English = list(
+      text1 = "Values \U2265 project average have ",
+      highlight1 = "darker backgrounds. \n",
+      text2 = "Values < project average have ",
+      highlight2 = "lighter backgrounds. "
+    ),
+    Spanish = list(
+      text1 = "Valores \U2265 promedio de proyectos tienen ",
+      highlight1 = "fondos más oscuros. \n",
+      text2 = "Valores < promedio de proyectos tienen ",
+      highlight2 = "fondos más claros "
+    )
+  )
 
-  # English footnote
-  # Add the footnote content, with the backgrounds highlighted
-  if (language == "English") {
-    ft <- flextable::compose(
-      ft,
-      i = 1,
-      j = 1,
-      part = "footer",
-      value = flextable::as_paragraph(
-        "Values \U2265 project average have ",
-        flextable::as_highlight(
-          "darker backgrounds. \n",
-          darker_color
-        ),
-        "Values < project average have ",
-        flextable::as_highlight(
-          "lighter backgrounds. ",
-          lighter_color
-        )
-      )
+  fn <- footnotes[[language]]
+
+  # Check if footer exists
+  has_footer <- !is.null(ft$footer$dataset) && nrow(ft$footer$dataset) > 0
+
+  if (!has_footer) {
+    # Create an empty footer line first
+    ft <- flextable::add_footer_lines(ft, values = "")
+    row_index <- 1
+  } else {
+    # Append a new line
+    ft <- flextable::add_footer_lines(ft, values = "")
+    row_index <- nrow(ft$footer$dataset)
+  }
+
+  # Compose the footnote with highlights
+  ft <- flextable::compose(
+    ft,
+    i = row_index,
+    j = 1,
+    part = "footer",
+    value = flextable::as_paragraph(
+      fn$text1,
+      flextable::as_highlight(fn$highlight1, darker_color),
+      fn$text2,
+      flextable::as_highlight(fn$highlight2, lighter_color)
+    )
+  )
+
+  ft
+}
+
+#' Add field count footnote to a flextable
+#'
+#' Adds a footnote explaining that field counts reflect the total number of
+#' samples in the crop/county/project group, and that some measurements may be
+#' based on fewer samples if results were not available for all fields.
+#'
+#' @param ft A flextable object
+#' @param language "English" (default) or "Spanish"
+#'
+#' @export
+add_field_count_note <- function(ft, language = "English") {
+  rlang::arg_match(language, c("English", "Spanish"))
+
+  note_text <- if (language == "English") {
+    c(
+      "Field counts show total samples per group. Averages may be based on fewer samples for some measurements."
+    )
+  } else if (language == "Spanish") {
+    c(
+      "Los recuentos de campo muestran el número total de muestras por grupo. Los promedios de las mediciones pueden utilizar un número menor de muestras."
     )
   }
 
-  # Spanish footnote
-  # Add the footnote content, with the backgrounds highlighted
-  if (language == "Spanish") {
-    ft <- flextable::compose(
-      ft,
-      i = 1,
-      j = 1,
-      part = "footer",
-      value = flextable::as_paragraph(
-        "Valores \U2265 promedio de proyectos tienen ",
-        flextable::as_highlight(
-          "fondos m\u00e1s oscuros. \n",
-          darker_color
-        ),
-        "Valores < promedio de proyectos tienen ",
-        flextable::as_highlight(
-          "fondos m\u00e1s claros ",
-          lighter_color
-        )
-      )
-    )
+  # Check if a footer exists
+  has_footer <- !is.null(ft$footer$dataset) && nrow(ft$footer$dataset) > 0
+
+  if (!has_footer) {
+    # No footer yet — create one
+    ft <- flextable::add_footer_lines(ft, values = note_text)
+  } else {
+    # Footer exists — append new line
+    existing_notes <- ft$footer$dataset$text
+    ft <- flextable::add_footer_lines(ft, values = c(existing_notes, note_text))
   }
-  return(ft)
+
+  ft
 }
 
 #' Style a flextable

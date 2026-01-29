@@ -387,9 +387,11 @@ table_list <- list2DF(
 ) |>
   purrr::pmap(\(table, header) {
     soils::make_ft(table, header) |>
+      soils::add_field_count_note(language = "English") |>
       soils::format_ft_colors(
         lighter_color = lighter_color,
-        darker_color = darker_color
+        darker_color = darker_color,
+        language = "English"
       ) |>
       soils::style_ft(
         header_font = header_font,

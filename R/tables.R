@@ -76,9 +76,9 @@ format_ft_colors <- function(
     ),
     Spanish = list(
       text1 = "Valores \U2265 promedio de proyectos tienen ",
-      highlight1 = "fondos más oscuros. \n",
+      highlight1 = "fondos m\u00E1s oscuros. \n",
       text2 = "Valores < promedio de proyectos tienen ",
-      highlight2 = "fondos más claros "
+      highlight2 = "fondos m\u00E1s claros "
     )
   )
 
@@ -133,7 +133,7 @@ add_field_count_note <- function(ft, language = "English") {
     )
   } else if (language == "Spanish") {
     c(
-      "Los recuentos de campo muestran el número total de muestras por grupo. Los promedios de las mediciones pueden utilizar un número menor de muestras."
+      "Los recuentos de campo muestran el n\u00FAmero total de muestras por grupo. Los promedios de las mediciones pueden utilizar un n\u00FAmero menor de muestras."
     )
   }
 
@@ -141,10 +141,10 @@ add_field_count_note <- function(ft, language = "English") {
   has_footer <- !is.null(ft$footer$dataset) && nrow(ft$footer$dataset) > 0
 
   if (!has_footer) {
-    # No footer yet — create one
+    # No footer yet: create one
     ft <- flextable::add_footer_lines(ft, values = note_text)
   } else {
-    # Footer exists — append new line
+    # Footer exists: append new line
     existing_notes <- ft$footer$dataset$text
     ft <- flextable::add_footer_lines(ft, values = c(existing_notes, note_text))
   }

@@ -690,7 +690,7 @@ if (soils::is_column_empty(gis_ft$Cultivo)) {
 }
 
 # If longitude or latitude are empty, remove the columns from the printed table
-if (soils::is_column_empty(gis_ft$Longitud) &
+if (soils::is_column_empty(gis_ft$Longitud) ||
   soils::is_column_empty(gis_ft$Latitud)) {
   gis_ft <- gis_ft |> dplyr::select(-c(Longitud, Latitud))
 }

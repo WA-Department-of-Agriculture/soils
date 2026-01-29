@@ -6,51 +6,66 @@
 -   `01_producer-report.qmd` now reads in `sample_id` and `field_id` as
     character type, which fixes unwanted commas in numeric IDs (#10).
 
--   Data upload no longer requires a pre-existing `texture` column.
+-   **Texture updates**:
 
-    -   Added new texture helpers: `validate_texture_fractions()`,
-        `complete_texture_fractions()`, and `classify_texture()`. These validate
-        sand, silt, and clay fractions, compute a missing fraction when exactly
-        two are provided, and assign USDA soil texture classes when possible.
+    -   Data upload no longer requires a pre-existing `texture` column.
 
-    -   Updated internal helpers and the `01_producer-report.qmd` template to
-        conditionally compute texture and to synchronize the data dictionary
-        when texture or fractions are added (#21).
+        -   Added new texture helpers: `validate_texture_fractions()`,
+            `complete_texture_fractions()`, and `classify_texture()`. These
+            validate sand, silt, and clay fractions, compute a missing fraction
+            when exactly two are provided, and assign USDA soil texture classes
+            when possible.
 
-    -   Introduced `sync_dictionary_texture()` to automatically add missing
-        texture and fraction rows to the dictionary in a fixed order (`texture`,
-        `sand_percent`, `silt_percent`, `clay_percent`), with support for
-        English and Spanish labels.
+        -   Updated internal helpers and the `01_producer-report.qmd` template
+            to conditionally compute texture and to synchronize the data
+            dictionary when texture or fractions are added (#21).
 
-    -   Deprecated `get_n_texture_by_var()`; its logic is now handled directly
-        in `summarize_by_var()`, which treats texture as optional.
+        -   Introduced `sync_dictionary_texture()` to automatically add missing
+            texture and fraction rows to the dictionary in a fixed order
+            (`texture`, `sand_percent`, `silt_percent`, `clay_percent`), with
+            support for English and Spanish labels.
 
--   Fixed texture triangle rendering to require at least one complete sand,
-    silt, and clay sample. Incomplete texture rows are now dropped early,
-    preventing errors when producer data include partial texture information
-    (#15).
+        -   Deprecated `get_n_texture_by_var()`; its logic is now handled
+            directly in `summarize_by_var()`, which treats texture as optional.
 
--   `convert_ggiraph()` uses `gdtools::font_family_exists()` instead of
-    `ggiraph::font_family_exists()` (#12).
+    -   Fixed texture triangle rendering to require at least one complete sand,
+        silt, and clay sample. Incomplete texture rows are now dropped early,
+        preventing errors when producer data include partial texture information
+        (#15).
 
--   Added `make_static_map()` for creating non-interactive maps using basemap
-    tiles and `ggplot2` (#13). Removed dependency on `tidyterra` for static map
-    rendering. Basemap tiles are now plotted using `ggplot2`, improving
-    stability and reducing package dependencies.
+-   **Plot and map updates**:
 
--   Static maps now request basemap tiles using a buffered bounding box rather
-    than point geometries. This improves robustness for very small or
-    single-point spatial extents and prevents tile grid errors when samples are
-    tightly clustered.
+    -   `convert_ggiraph()` uses `gdtools::font_family_exists()` instead of
+        `ggiraph::font_family_exists()`, which is no longer exported from
+        `ggiraph` (#12).
 
--   Renamed `make_leaflet()` to `make_interactive_map()` to provide a more
-    descriptive and consistent naming convention alongside `make_static_map()`.
-    `make_leaflet()` will be retained for backwards compatibility.
+    -   Added `make_static_map()` for creating non-interactive maps using
+        basemap tiles and `ggplot2` (#13). Removed dependency on `tidyterra` for
+        static map rendering. Basemap tiles are now plotted using `ggplot2`,
+        improving stability and reducing package dependencies.
 
--   Measurements must be quantitative. Modify template to dynamically select
-    measurement columns (based on provided vector of metadata columns) (#24) and
-    coerce measurement columns to numeric with new function
-    `coerce_to_numeric()` (#11 and #26).
+    -   Static maps now request basemap tiles using a buffered bounding box
+        rather than point geometries. This improves robustness for very small or
+        single-point spatial extents and prevents tile grid errors when samples
+        are tightly clustered.
+
+    -   Renamed `make_leaflet()` to `make_interactive_map()` to provide a more
+        descriptive and consistent naming convention alongside
+        `make_static_map()`. `make_leaflet()` will be retained for backwards
+        compatibility.
+
+-   **Measurement handling updates**:
+
+    -   Measurements must be quantitative. Modified template to dynamically
+        select measurement columns (based on provided vector of metadata
+        columns) (#24) and coerce measurement columns to numeric with new
+        function `coerce_to_numeric()` (#11 and #26).
+
+    -   Added a footnote to all tables with new function
+        `add_field_count_note()` to clarify that field counts reflect the total
+        samples contributing to each average, which may be fewer than the total
+        samples for some measurements now that qualitative measurements are
+        coerced to numeric.
 
 # soils 1.0.1
 

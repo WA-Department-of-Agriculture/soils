@@ -10,8 +10,10 @@ is_column_empty(column)
 \item{column}{A vector to check.}
 }
 \value{
-Logical scalar. TRUE if all values are \code{NA} or empty strings, FALSE otherwise.
+Logical scalar. TRUE if all values are \code{NA} or empty strings, FALSE
+otherwise.
 }
 \description{
-Returns TRUE if all values in a vector are missing (\code{NA}) or blank strings (\code{""}).
+Returns TRUE if all values in a vector are missing (\code{NA}) or blank strings
+(\code{""}).
 }

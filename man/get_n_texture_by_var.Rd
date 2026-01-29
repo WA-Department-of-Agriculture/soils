@@ -7,21 +7,23 @@
 get_n_texture_by_var(results_long, producer_info, var)
 }
 \arguments{
-\item{results_long}{Data frame in tidy, long format containing \code{sample_id} and \code{texture}.}
+\item{results_long}{Data frame in tidy, long format containing \code{sample_id}
+and \code{texture}.}
 
 \item{producer_info}{Vector of producer values for the grouping variable.}
 
 \item{var}{Variable to group and summarize by.}
 }
 \value{
-Deprecated. Previously returned a data frame with \code{n} and \code{Texture} by group.
+Deprecated. Previously returned a data frame with \code{n} and \code{Texture}
+by group.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
-This function is deprecated. Its functionality has been incorporated
-directly into \code{summarize_by_var()}. Do not use directly in new code.
+This function is deprecated. Its functionality has been incorporated directly
+into \code{summarize_by_var()}. Do not use directly in new code.
 }
 \seealso{
 summarize_by_var

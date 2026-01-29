@@ -10,34 +10,37 @@ coerce_to_numeric(data, measurement_cols)
 \item{data}{A data frame containing both metadata and quantitative
 measurement columns.}
 
-\item{measurement_cols}{A character vector of column names to coerce to numeric.}
+\item{measurement_cols}{A character vector of column names to coerce to
+numeric.}
 }
 \value{
-A data frame where specified measurement columns have been coerced to numeric.
+A data frame where specified measurement columns have been coerced to
+numeric.
 }
 \description{
-Coerces all non-metadata columns in a data frame to numeric. Character values
-commonly used to represent missing or censored measurements (e.g. \code{"ND"},
-\code{"<1"}, \code{"-"}, or \code{""}) will be converted to \code{NA}. A warning is emitted if any
-non-missing values are coerced to \code{NA} during conversion.
+Intended for use during data ingestion and validation in the reporting
+workflow.
 }
 \details{
-This function is intended for use during data ingestion and validation.
-Measurement values that cannot be safely interpreted as numeric are set to
-\code{NA} and excluded from downstream summaries, tables, and plots.
+Non-numeric values in specified measurement columns, such as character values
+commonly used to represent missing or censored measurements (e.g. \code{"ND"},
+\code{"<1"}, \code{"-"}, or \code{""}), are coerced to \code{NA}. Warnings are emitted when
+non-missing values are coerced to \code{NA}, and when a column contains only \code{NA}
+values after coercion, indicating it may be omitted from downstream summaries
+or visualizations.
 }
 \examples{
 # Example data
 example_data <- data.frame(
-  year       = c(2023, 2023, 2024),
-  sample_id  = c("S1", "S2", "S3"),
-  field_id   = c("A", "A", "B"),
-  texture    = c("Silt loam", "Silt loam", "Clay loam"),
-  ph         = c("6.5", "ND", "7.1"),
-  nh4_n_mg_kg = c("12.3", "<1", ""),
-  no3_n_mg_kg = c("5.2", "8.1", "NA"),
+  year        = c(2023, 2023, 2024),
+  sample_id   = c("S1", "S2", "S3"),
+  field_id    = c("A", "A", "B"),
+  ph          = c("6.5", "ND", "7.1"),   # partial NA (1 ND -> NA)
+  nh4_n_mg_kg = c("12.3", "<1", ""),     # partial NA (2 non-numeric -> NA)
+  no3_n_mg_kg = c("NA", "NA", "NA"),     # fully NA
   stringsAsFactors = FALSE
 )
+
 
 # Specify the measurement columns
 measurement_cols = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")

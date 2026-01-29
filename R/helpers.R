@@ -24,9 +24,9 @@
 #'   year        = c(2023, 2023, 2024),
 #'   sample_id   = c("S1", "S2", "S3"),
 #'   field_id    = c("A", "A", "B"),
-#'   ph          = c("6.5", "ND", "7.1"),       # partial NA (1 ND -> NA)
-#'   nh4_n_mg_kg = c("12.3", "<1", ""),         # partial NA (2 non-numeric -> NA)
-#'   no3_n_mg_kg = c("NA", "NA", "NA"),         # fully NA
+#'   ph          = c("6.5", "ND", "7.1"),   # partial NA (1 ND -> NA)
+#'   nh4_n_mg_kg = c("12.3", "<1", ""),     # partial NA (2 non-numeric -> NA)
+#'   no3_n_mg_kg = c("NA", "NA", "NA"),     # fully NA
 #'   stringsAsFactors = FALSE
 #' )
 #'
@@ -156,7 +156,8 @@ calculate_mode <- function(x) {
 #' Extract unique values from a single column of a data frame
 #'
 #' @param df A data frame containing the column of interest.
-#' @param target Column to extract unique values from (string or unquoted symbol).
+#' @param target Column to extract unique values from (string or unquoted
+#'   symbol).
 #'
 #' @return A vector of unique values from the specified column.
 #'
@@ -173,11 +174,13 @@ pull_unique <- function(df, target) {
 
 #' Check if a column is empty
 #'
-#' Returns TRUE if all values in a vector are missing (`NA`) or blank strings (`""`).
+#' Returns TRUE if all values in a vector are missing (`NA`) or blank strings
+#' (`""`).
 #'
 #' @param column A vector to check.
 #'
-#' @return Logical scalar. TRUE if all values are `NA` or empty strings, FALSE otherwise.
+#' @return Logical scalar. TRUE if all values are `NA` or empty strings, FALSE
+#'   otherwise.
 #'
 #' @export
 is_column_empty <- function(column) {
@@ -217,14 +220,16 @@ has_complete_row <- function(df, cols) {
 #'
 #' `r lifecycle::badge("deprecated")`
 #'
-#' This function is deprecated. Its functionality has been incorporated
-#' directly into `summarize_by_var()`. Do not use directly in new code.
+#' This function is deprecated. Its functionality has been incorporated directly
+#' into `summarize_by_var()`. Do not use directly in new code.
 #'
-#' @param results_long Data frame in tidy, long format containing `sample_id` and `texture`.
+#' @param results_long Data frame in tidy, long format containing `sample_id`
+#'   and `texture`.
 #' @param producer_info Vector of producer values for the grouping variable.
 #' @param var Variable to group and summarize by.
 #'
-#' @return Deprecated. Previously returned a data frame with `n` and `Texture` by group.
+#' @return Deprecated. Previously returned a data frame with `n` and `Texture`
+#'   by group.
 #'
 #' @seealso summarize_by_var
 #' @export

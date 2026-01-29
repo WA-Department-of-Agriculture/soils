@@ -9,7 +9,8 @@ pull_unique(df, target)
 \arguments{
 \item{df}{A data frame containing the column of interest.}
 
-\item{target}{Column to extract unique values from (string or unquoted symbol).}
+\item{target}{Column to extract unique values from (string or unquoted
+symbol).}
 }
 \value{
 A vector of unique values from the specified column.

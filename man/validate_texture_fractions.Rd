@@ -7,17 +7,27 @@
 validate_texture_fractions(df)
 }
 \arguments{
-\item{df}{A data frame containing \code{sample_id}, \code{sand_percent},
-\code{silt_percent}, and \code{clay_percent}.}
+\item{df}{A data frame containing \code{sample_id} and at least two of
+\code{sand_percent}, \code{silt_percent}, and \code{clay_percent}.}
 }
 \value{
-A data frame with a helper column \code{missing_n} indicating the
-number of missing fractions per sample.
+A data frame with validated soil texture fraction columns
+(\code{sand_percent}, \code{silt_percent}, \code{clay_percent}). If exactly two of the
+fractions are present, the third is created and filled with \code{NA} for
+downstream completion.
 }
 \description{
-Internal helper that validates the presence of soil particle-size fractions
-(sand, silt, and clay). Rounds fractions prior to validation. Errors if two
-or more fractions are missing for any sample and warns if exactly one
-fraction is missing.
+Internal helper that validates soil particle-size fractions (sand, silt, and
+clay). If exactly two of the three fraction columns are present, the missing
+column is created and filled with \code{NA} to be later computed in
+\code{complete_texture_fractions()}. Samples with fewer than two provided
+fractions are retained but skipped during texture validation and
+classification.
+}
+\details{
+Fractions are rounded prior to validation. Warns if fewer than two fractions
+are provided or if exactly one fraction is missing. Errors if fraction values
+are outside the allowable range (0-100) or if complete fractions do not sum
+to 100 (+/- 1).
 }
 \keyword{internal}

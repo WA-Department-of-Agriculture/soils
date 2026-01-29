@@ -91,7 +91,6 @@ reference:
   - get_n_texture_by_var
   - summarize_by_project
   - summarize_by_var
-  - get_table_headers
 - title: Map
   contents:
   - prep_for_map
@@ -112,8 +111,10 @@ reference:
   - unit_hline
   - format_ft_colors
   - style_ft
+  - get_table_headers
 - title: Helpers
   contents:
+  - coerce_to_numeric
   - is_column_empty
   - has_complete_row
   - calculate_mode

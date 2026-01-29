@@ -13,7 +13,7 @@ assign_texture_class(df)
 }
 \arguments{
 \item{df}{A data frame containing completed \code{sand_percent},
-\code{silt_percent}, and \code{clay_percent}.}
+\code{silt_percent}, and \code{clay_percent.}}
 }
 \value{
 A data frame with an added \code{texture} column.

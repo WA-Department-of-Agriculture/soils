@@ -2,18 +2,27 @@
 % Please edit documentation in R/helpers.R
 \name{get_n_texture_by_var}
 \alias{get_n_texture_by_var}
-\title{Calculate n samples and most frequent texture by a grouping variable}
+\title{Calculate number of samples and most frequent texture (deprecated)}
 \usage{
 get_n_texture_by_var(results_long, producer_info, var)
 }
 \arguments{
-\item{results_long}{Dataframe in tidy, long format with columns: \code{sample_id},
-\code{texture}.}
+\item{results_long}{Data frame in tidy, long format containing \code{sample_id} and \code{texture}.}
 
-\item{producer_info}{Vector of producer's values for the grouping variable.}
+\item{producer_info}{Vector of producer values for the grouping variable.}
 
 \item{var}{Variable to group and summarize by.}
 }
+\value{
+Deprecated. Previously returned a data frame with \code{n} and \code{Texture} by group.
+}
 \description{
-This function is used in \code{summarize_by_var}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
+This function is deprecated. Its functionality has been incorporated
+directly into \code{summarize_by_var()}. Do not use directly in new code.
+}
+\seealso{
+summarize_by_var
 }

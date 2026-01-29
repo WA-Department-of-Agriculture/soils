@@ -39,7 +39,7 @@ tables_path <- soils_example("tables.RDS")
 tables <- readRDS(tables_path)
 
 # Make the table
-ft <- flextable::flextable(tables$biological)
+ft <- flextable::flextable(tables$Biological)
 ft
 
 # Style the table

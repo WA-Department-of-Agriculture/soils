@@ -32,11 +32,10 @@ validate_texture_fractions <- function(df) {
   }
 
   # Abort if sample_id is missing
-  if (!"sample_id" %in% names(df)) {
-    cli::cli_abort(c(
-      "x" = "Column {.field sample_id} must be present in your data."
-    ))
-  }
+  abort_if_missing_cols(
+    df,
+    "sample_id"
+  )
 
   # If at least two fraction columns are provided, create the third. Otherwise,
   # return the df and inform the user that there is insufficient data to

@@ -6,6 +6,10 @@
 -   `01_producer-report.qmd` now reads in `sample_id` and `field_id` as
     character type, which fixes unwanted commas in numeric IDs (#10).
 
+-   Replaced internal `testthat` checks for missing required columns with a
+    custom cli-based helper, `abort_if_missing_cols()`, to provide clearer,
+    user-facing error messages (#14).
+
 -   **Texture updates**:
 
     -   Data upload no longer requires a pre-existing `texture` column.

@@ -17,7 +17,7 @@ test_that("validate_texture_fractions errors if required columns are missing", {
 
   expect_error(
     validate_texture_fractions(df),
-    "sample_id must be present"
+    "required column: sample_id"
   )
 })
 

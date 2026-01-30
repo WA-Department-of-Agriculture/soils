@@ -41,22 +41,17 @@
 coerce_to_numeric <- function(data, measurement_cols) {
   # Abort if measurement_cols is missing
   if (missing(measurement_cols)) {
-    cli::cli_abort(
-      "Please provide a vector of `measurement_cols`\
-                   to coerce to numeric."
-    )
+    cli::cli_abort(c(
+      "x" = "Please provide a vector of `measurement_cols` to coerce to numeric."
+    ))
   }
 
   # Abort if any measurement columns are not present in data
-  missing_cols <- setdiff(measurement_cols, colnames(data))
-  if (length(missing_cols) > 0) {
-    cli::cli_abort(
-      c(
-        "The following columns are missing from `data`:",
-        rlang::set_names(missing_cols, rep("*", length(missing_cols)))
-      )
-    )
-  }
+  abort_if_missing_cols(
+    data,
+    measurement_cols,
+    context = "These columns come from `measurement_cols` and will be converted to numeric."
+  )
 
   # Preserve original values for NA-coercion check
   data_original <- data |> dplyr::select(dplyr::all_of(measurement_cols))
@@ -234,7 +229,10 @@ has_complete_row <- function(df, cols) {
 #' @seealso summarize_by_var
 #' @export
 get_n_texture_by_var <- function(results_long, producer_info, var) {
-  testthat::expect_contains(names(results_long), c("sample_id", "texture"))
+  abort_if_missing_cols(
+    results_long,
+    cols = c("sample_id", "texture")
+  )
 
   lifecycle::deprecate_warn(
     "1.0.2",
@@ -258,7 +256,8 @@ get_n_texture_by_var <- function(results_long, producer_info, var) {
 #'   the most frequent texture (mode) is included in the output.
 #' @param producer_samples Dataframe in tidy, long format with columns:
 #'   `measurement_group`, `abbr`, `value`.
-#' @param var Variable to summarize by.
+#' @param var Variable to summarize by, which should be present in both
+#'   `results_long` and `producer_samples`.
 #'
 #' @return A data frame with a "Field or Average" column summarizing the average
 #'   values by measurement group, `abbr`, and the specified grouping variable.
@@ -267,14 +266,30 @@ get_n_texture_by_var <- function(results_long, producer_info, var) {
 #'
 #' @export
 summarize_by_var <- function(results_long, producer_samples, var) {
-  testthat::expect_contains(
-    names(producer_samples),
+  # Check for missing cols
+  var_name <- rlang::as_name(rlang::enquo(var))
+  var_context <- "Required because it was supplied to the {.arg var} argument"
+
+  abort_if_missing_cols(
+    results_long,
+    c("sample_id", "measurement_group", "abbr", "value")
+  )
+
+  abort_if_missing_cols(
+    producer_samples,
     c("measurement_group", "abbr", "value")
   )
 
-  testthat::expect_contains(
-    names(results_long),
-    c("sample_id", "measurement_group", "abbr", "value")
+  abort_if_missing_cols(
+    results_long,
+    var_name,
+    context = var_context
+  )
+
+  abort_if_missing_cols(
+    producer_samples,
+    var_name,
+    context = var_context
   )
 
   # Get the unique group that producer has samples for
@@ -337,8 +352,9 @@ summarize_by_var <- function(results_long, producer_samples, var) {
 #'
 #' @export
 summarize_by_project <- function(results_long) {
-  testthat::expect_contains(
-    names(results_long),
+  # Check for missing columns
+  abort_if_missing_cols(
+    results_long,
     c("sample_id", "measurement_group", "abbr", "value")
   )
 

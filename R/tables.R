@@ -9,10 +9,8 @@
 #'
 #' @export
 get_table_headers <- function(dictionary, group) {
-  testthat::expect_contains(
-    names(dictionary),
-    c("measurement_group", "abbr", "unit")
-  )
+  # Check for missing columns
+  abort_if_missing_cols(dictionary, c("measurement_group", "abbr", "unit"))
 
   dictionary |>
     dplyr::filter(measurement_group == group) |>

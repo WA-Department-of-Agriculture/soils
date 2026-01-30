@@ -183,7 +183,7 @@ metadata_cols <- c(
 
 # Identify measurement columns
 measurement_cols <- data |>
-  dplyr::select(-dplyr::any_of(metadata_cols)) |> 
+  dplyr::select(-dplyr::any_of(metadata_cols)) |>
   colnames()
 
 # Coerce measurement columns to numeric; warns if values are converted to NA
@@ -276,17 +276,21 @@ gis_df <- producer_samples |>
 
 ```{r calculate-averages}
 # Calculate averages by crop, county, and project
-crop_summary <- results_long |>
-  soils::summarize_by_var(
-    producer_samples,
-    var = crop
-  )
+if (!soils::is_column_empty(results_long$crop)) {
+  crop_summary <- results_long |>
+    soils::summarize_by_var(
+      producer_samples,
+      var = crop
+    )
+}
 
-county_summary <- results_long |>
-  soils::summarize_by_var(
-    producer_samples,
-    var = county
-  )
+if (!soils::is_column_empty(results_long$county)) {
+  county_summary <- results_long |>
+    soils::summarize_by_var(
+      producer_samples,
+      var = county
+    )
+}
 
 project_summary <- soils::summarize_by_project(results_long)
 ```
@@ -309,14 +313,21 @@ if ("texture" %in% names(producer_table)) {
 }
 
 # Bind together into one df and round values to 2 digits
-df_table <- dplyr::bind_rows(
-  producer_table,
-  crop_summary,
-  county_summary,
-  project_summary
+df_table <- c(
+  "producer_table",
+  "crop_summary",
+  "county_summary",
+  "project_summary"
 ) |>
+  # Get the names of the df's that exist
+  purrr::keep(~ exists(.x, envir = environment())) |>
+  # Get the actual df
+  purrr::map(~ get(.x, envir = environment())) |>
+  # Combine into one df
+  dplyr::bind_rows() |>
+  # Round the values
   dplyr::mutate(
-    value = as.numeric(formatC(value, 2, drop0trailing = TRUE))
+    value = as.numeric(base::formatC(value, 2, drop0trailing = TRUE))
   )
 ```
 

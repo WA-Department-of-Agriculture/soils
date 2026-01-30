@@ -175,7 +175,8 @@ measurement included in your data.
 
 -   **`unit <chr>`**: Unit of measurement displayed in tables and plots.
 
--   **`abbr`** + **`unit`**: Must be unique for each measurement.
+-   **`abbr`** + **`unit`**: Combination of abbreviation and unit must be unique
+    for each measurement.
 
 ## Load your data into the template
 

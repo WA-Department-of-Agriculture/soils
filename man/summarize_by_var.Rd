@@ -14,7 +14,8 @@ the most frequent texture (mode) is included in the output.}
 \item{producer_samples}{Dataframe in tidy, long format with columns:
 \code{measurement_group}, \code{abbr}, \code{value}.}
 
-\item{var}{Variable to summarize by.}
+\item{var}{Variable to summarize by, which should be present in both
+\code{results_long} and \code{producer_samples}.}
 }
 \value{
 A data frame with a "Field or Average" column summarizing the average

@@ -147,7 +147,11 @@ dictionary <- soils::sync_dictionary_texture(data, dictionary, "English")
 dictionary <- dictionary |>
   dplyr::mutate(
     # Concatenate abbr and unit with html break for the table and plot labels
-    abbr_unit = glue::glue("{abbr}<br>{unit}"),
+    abbr_unit = dplyr::if_else(
+      is.na(unit) | unit == "",
+      abbr,
+      glue::glue("{abbr}<br>{unit}")
+    ),
     # Set the order of how measurement groups will appear within the report
     # based on the order found in the data dictionary
     group_order = dplyr::cur_group_id(),

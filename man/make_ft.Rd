@@ -34,18 +34,18 @@ tables_path <- soils_example("tables.RDS")
 tables <- readRDS(tables_path)
 
 # Input dataframes
-headers$chemical
+headers$Chemical
 
-tables$chemical
+tables$Chemical
 
 # Make the flextable
 make_ft(
-  table = tables$chemical,
-  header = headers$chemical
+  table = tables$Chemical,
+  header = headers$Chemical
 ) |>
   # Style the flextable
   style_ft() |>
   # Add the white line under the columns with the same units
-  unit_hline(header = headers$chemical)
+  unit_hline(header = headers$Chemical)
 
 }

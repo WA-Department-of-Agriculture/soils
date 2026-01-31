@@ -24,7 +24,8 @@
 #'   prep_for_map(label_heading = farm_name, label_body = crop) |>
 #'   dplyr::glimpse()
 prep_for_map <- function(df, label_heading, label_body) {
-  testthat::expect_contains(names(df), c("longitude", "latitude"))
+  # Check for missing columns
+  abort_if_missing_cols(df, c("longitude", "latitude"))
 
   df |>
     dplyr::mutate(
@@ -109,11 +110,10 @@ make_leaflet <- function(
 #'
 #' make_interactive_map(gis_df)
 make_interactive_map <- function(df, primary_color = "#a60f2d") {
+  # Check for missing columns
+  abort_if_missing_cols(df, c("longitude", "latitude", "label", "popup"))
+
   agol <- "https://server.arcgisonline.com/ArcGIS/rest/services/"
-  testthat::expect_contains(
-    names(df),
-    c("longitude", "latitude", "label", "popup")
-  )
 
   leaflet::leaflet(df) |>
     leaflet::addTiles(
@@ -209,6 +209,18 @@ make_static_map <- function(
   body_font = "sans",
   primary_color = "#a60f2d"
 ) {
+  # Check for missing columns
+  abort_if_missing_cols(df, c("longitude", "latitude"))
+  label_name <- rlang::as_name(rlang::enquo(label))
+  abort_if_missing_cols(
+    df,
+    label_name,
+    context = cli::format_inline(
+      "Required because it was supplied to the {.arg label} argument"
+    )
+  )
+
+  # Create sf object
   df_sf <- sf::st_as_sf(
     x = df,
     coords = c("longitude", "latitude"),

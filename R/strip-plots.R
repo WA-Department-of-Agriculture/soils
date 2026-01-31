@@ -14,7 +14,7 @@
 #'
 #' # Subset df to just biological measurement group
 #' df_plot_bio <- df_plot |>
-#'   dplyr::filter(measurement_group == "biological")
+#'   dplyr::filter(measurement_group == "Biological")
 #'
 #' # Make strip plot with all measurements and set scales based on
 #' # the category column and then apply theme.
@@ -111,7 +111,7 @@ theme_facet_strip <- function(
 
 #' # Subset df to just biological measurement group
 #' df_plot_bio <- df_plot |>
-#'   dplyr::filter(measurement_group == "biological")
+#'   dplyr::filter(measurement_group == "Biological")
 #'
 #' # Make strip plot
 #' make_strip_plot(
@@ -267,7 +267,7 @@ set_scales <- function(
 #'
 #' # Subset df to just biological measurement group
 #' df_plot_bio <- df_plot |>
-#'   dplyr::filter(measurement_group == "biological")
+#'   dplyr::filter(measurement_group == "Biological")
 #'
 #' # Make strip plot with all measurements and set scales based on
 #' # the category column and then apply theme.
@@ -410,7 +410,7 @@ make_strip_plot <- function(
 #'
 #' # Subset df to just biological measurement group
 #' df_plot_bio <- df_plot |>
-#'   dplyr::filter(measurement_group == "biological")
+#'   dplyr::filter(measurement_group == "Biological")
 #'
 #' # NOTE: the plot gets piped into the `set_scales()` function, which gets
 #' # added to `theme_facet_strip()`.

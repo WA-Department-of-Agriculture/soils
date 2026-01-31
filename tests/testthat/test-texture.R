@@ -7,7 +7,6 @@ test_that("validate_texture_fractions errors if input is not a data frame", {
   )
 })
 
-
 # Validation: required columns -------------------------------------------------
 
 test_that("validate_texture_fractions errors if required columns are missing", {
@@ -18,14 +17,31 @@ test_that("validate_texture_fractions errors if required columns are missing", {
 
   expect_error(
     validate_texture_fractions(df),
-    "Columns .* must be present"
+    "required column: sample_id"
   )
 })
 
+# Validation: two fraction columns provided ------------------------------------
+
+test_that("creates the third fraction column when exactly two are provided", {
+  df <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40
+  )
+
+  expect_warning(
+    out <- validate_texture_fractions(df),
+    "missing one fraction"
+  )
+
+  expect_equal(out$clay_percent, NA_real_)
+  expect_true(is.na(out$clay_percent))
+})
 
 # Validation: missing fraction rules -------------------------------------------
 
-test_that("errors when two fractions are missing in a row", {
+test_that("warns when exactly two fractions are missing in a row", {
   df <- data.frame(
     sample_id = c(1, 2),
     sand_percent = c(40, NA),
@@ -33,12 +49,11 @@ test_that("errors when two fractions are missing in a row", {
     clay_percent = c(20, 30)
   )
 
-  expect_error(
+  expect_warning(
     validate_texture_fractions(df),
-    "must have at least two fractions"
+    "fewer than two fractions"
   )
 })
-
 
 test_that("warns when exactly one fraction is missing", {
   df <- data.frame(
@@ -64,7 +79,7 @@ test_that("warns when all fractions are missing and texture is not provided", {
 
   expect_warning(
     validate_texture_fractions(df),
-    "missing all fractions"
+    "fewer than two fractions"
   )
 })
 
@@ -131,7 +146,7 @@ test_that("validation reports all error and warning types together", {
   )
 
   # Sample breakdown:
-  # 1 → two missing fractions (error)
+  # 1 → two missing fractions (warning)
   # 2 → sand > 100 (error)
   # 3 → sums to 110 (error)
   # 4 → exactly one missing fraction (warning)
@@ -141,16 +156,14 @@ test_that("validation reports all error and warning types together", {
     validate_texture_fractions(df),
     regexp = paste(
       "validation failed", # overall failure
-      "must have at least two fractions", # insufficient data
       "between 0 and 100", # out of range
       "sum to 100", # invalid sum
+      "fewer than two fractions", # insufficient data
       "missing one fraction", # computed fraction
-      "missing all fractions", # unmeasured texture
       sep = ".*"
     )
   )
 })
-
 
 # Completion: compute missing fraction -----------------------------------------
 
@@ -168,6 +181,28 @@ test_that("complete_texture_fractions computes the missing fraction correctly", 
   expect_equal(out$sand_percent, 50)
 })
 
+# Completion: computes new fraction --------------------------------------------
+
+test_that("complete_texture_fractions computes the missing fraction after validation", {
+  df <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40
+  )
+
+  # Catch the warning from exactly one missing fraction
+  expect_warning(
+    validated <- validate_texture_fractions(df),
+    regexp = "missing one fraction"
+  )
+
+  # The missing column should exist but still NA until completed
+  expect_equal(validated$clay_percent, NA_real_)
+
+  # Compute the missing fraction
+  completed <- complete_texture_fractions(validated)
+  expect_equal(completed$clay_percent, 20)
+})
 
 # Classification: USDA texture classes -----------------------------------------
 
@@ -187,10 +222,10 @@ test_that("assign_texture_class assigns expected USDA texture classes", {
   )
 })
 
-
 test_that("rows with unmeasured texture return NA texture", {
   df <- data.frame(
     sample_id = 1,
+    texture = NA,
     sand_percent = NA,
     silt_percent = NA,
     clay_percent = NA
@@ -198,7 +233,7 @@ test_that("rows with unmeasured texture return NA texture", {
 
   expect_warning(
     out <- classify_texture(df),
-    "missing all fractions"
+    "skipped"
   )
 
   expect_true(is.na(out$texture))
@@ -235,9 +270,9 @@ test_that("CLI messages correctly pluralize 'Sample' vs 'Samples'", {
     clay_percent = 30
   )
 
-  expect_error(
+  expect_warning(
     validate_texture_fractions(df_single),
-    "Sample 1 must have at least two fractions"
+    "Sample 1 has fewer than two fractions"
   )
 
   df_plural <- data.frame(
@@ -247,12 +282,11 @@ test_that("CLI messages correctly pluralize 'Sample' vs 'Samples'", {
     clay_percent = c(30, 40)
   )
 
-  expect_error(
+  expect_warning(
     validate_texture_fractions(df_plural),
-    "Samples 1 and 2 must have at least two fractions"
+    "Samples 1 and 2 have fewer than two fractions"
   )
 })
-
 
 test_that("CLI messages correctly pluralize 'is' vs 'are'", {
   df_single <- data.frame(
@@ -278,4 +312,148 @@ test_that("CLI messages correctly pluralize 'is' vs 'are'", {
     validate_texture_fractions(df_plural),
     "Samples 1 and 2 are missing one fraction"
   )
+})
+
+# Sync dictionary with new texture columns -------------------------------------
+
+test_that("returns unchanged dictionary if no new columns", {
+  data <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20
+  )
+
+  dictionary <- data.frame(
+    measurement_group = rep("Mediciones físicas", 3),
+    column_name = c("sand_percent", "silt_percent", "clay_percent"),
+    abbr = c("Arena", "Limo", "Arcilla"),
+    unit = c("%", "%", "%"),
+    stringsAsFactors = FALSE
+  )
+
+  out <- sync_dictionary_texture(data, dictionary, "Spanish")
+
+  expect_equal(out, dictionary)
+})
+
+test_that("adds texture column if missing", {
+  data <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20,
+    texture = "Loam"
+  )
+
+  dictionary <- data.frame(
+    measurement_group = rep("Mediciones físicas", 3),
+    column_name = c("sand_percent", "silt_percent", "clay_percent"),
+    abbr = c("Arena", "Limo", "Arcilla"),
+    unit = c("%", "%", "%"),
+    stringsAsFactors = FALSE
+  )
+
+  out <- sync_dictionary_texture(data, dictionary, language = "Spanish")
+
+  expect_true("texture" %in% out$column_name)
+  expect_equal(out$column_name[1], "texture")
+  expect_equal(out$abbr[1], "Textura")
+})
+
+test_that("adds missing fractions to dictionary", {
+  data <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20
+  )
+
+  # Dictionary missing silt_percent and clay_percent
+  dictionary <- data.frame(
+    measurement_group = "Mediciones físicas",
+    column_name = "sand_percent",
+    abbr = "Arena",
+    unit = "%",
+    stringsAsFactors = FALSE
+  )
+
+  out <- sync_dictionary_texture(data, dictionary, language = "Spanish")
+
+  expect_true(all(
+    c("sand_percent", "silt_percent", "clay_percent") %in% out$column_name
+  ))
+  expect_equal(out$column_name[1], "sand_percent") # original first
+  expect_equal(out$measurement_group[1], "Mediciones físicas")
+})
+
+test_that("adds texture/fractions when physical group is missing", {
+  data <- data.frame(
+    sample_id = 1,
+    texture = "Loam",
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20
+  )
+
+  # Dictionary has only a chemical group
+  dictionary <- data.frame(
+    measurement_group = "Mediciones químicas",
+    column_name = "pH",
+    abbr = "pH",
+    unit = "",
+    stringsAsFactors = FALSE
+  )
+
+  out <- sync_dictionary_texture(data, dictionary, language = "Spanish")
+
+  # Physical group rows added
+  expect_true(all(
+    c("texture", "sand_percent", "silt_percent", "clay_percent") %in%
+      out$column_name
+  ))
+
+  # Original chemical row still exists
+  expect_true("pH" %in% out$column_name)
+
+  # Texture and fractions appear at the top of the dictionary
+  phys_rows <- out[out$measurement_group == "Mediciones físicas", ]
+  expect_equal(
+    phys_rows$column_name,
+    c("texture", "sand_percent", "silt_percent", "clay_percent")
+  )
+})
+
+test_that("respects language argument for abbreviations", {
+  data <- data.frame(
+    sample_id = 1,
+    sand_percent = 40,
+    silt_percent = 40,
+    clay_percent = 20,
+    texture = "Loam"
+  )
+
+  dictionary_es <- data.frame(
+    measurement_group = "Mediciones físicas",
+    column_name = c("sand_percent"),
+    abbr = c("Arena"),
+    unit = c("%"),
+    stringsAsFactors = FALSE
+  )
+
+  dictionary_en <- data.frame(
+    measurement_group = "Physical",
+    column_name = c("sand_percent"),
+    abbr = c("Sand"),
+    unit = c("%"),
+    stringsAsFactors = FALSE
+  )
+
+  out_es <- sync_dictionary_texture(data, dictionary_es, language = "Spanish")
+  expect_equal(out_es$abbr[1], "Textura")
+  expect_equal(out_es$abbr[2:4], c("Arena", "Limo", "Arcilla"))
+
+  out_en <- sync_dictionary_texture(data, dictionary_en, language = "English")
+  expect_equal(out_en$abbr[1], "Texture")
+  expect_equal(out_en$abbr[2:4], c("Sand", "Silt", "Clay"))
 })

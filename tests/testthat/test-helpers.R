@@ -1,6 +1,6 @@
-# coerce_to_numeric() ------------------------------------------------------------
+# convert_to_numeric() ------------------------------------------------------------
 
-test_that("coerce_to_numeric errors if measurement_cols missing", {
+test_that("convert_to_numeric errors if measurement_cols missing", {
   # Contains metadata columns (year, sample_id, field_id, texture)
   # Contains measurement columns with partial and complete coercion to NA
   example_data <- data.frame(
@@ -14,12 +14,12 @@ test_that("coerce_to_numeric errors if measurement_cols missing", {
   measurement_cols <- c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
 
   expect_error(
-    coerce_to_numeric(example_data, measurement_cols),
+    convert_to_numeric(example_data, measurement_cols),
     regexp = "`data` must have the required columns"
   )
 })
 
-test_that("coerce_to_numeric warns on partial and fully NA columns", {
+test_that("convert_to_numeric warns on partial and fully NA columns", {
   # Contains metadata columns (year, sample_id, field_id, texture)
   # Contains measurement columns with partial and complete coercion to NA
   example_data <- data.frame(
@@ -37,8 +37,8 @@ test_that("coerce_to_numeric warns on partial and fully NA columns", {
 
   # Expect a warning that includes both coercion and omission messaging
   expect_warning(
-    data_numeric <- coerce_to_numeric(example_data, measurement_cols),
-    regexp = "coerced to `NA`.*omitted"
+    data_numeric <- convert_to_numeric(example_data, measurement_cols),
+    regexp = "converted to `NA`.*excluded"
   )
 
   # Metadata columns remain unchanged

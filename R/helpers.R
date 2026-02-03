@@ -1,21 +1,21 @@
-#' Coerce measurement columns to numeric and warn on coercion
+#' Convert measurement columns to numeric and warn on coercion
 #'
 #' Intended for use during data ingestion and validation in the reporting
 #' workflow.
 #'
 #' Non-numeric values in specified measurement columns, such as character values
 #' commonly used to represent missing or censored measurements (e.g. `"ND"`,
-#' `"<1"`, `"-"`, or `""`), are coerced to `NA`. Warnings are emitted when
-#' non-missing values are coerced to `NA`, and when a column contains only `NA`
+#' `"<1"`, `"-"`, or `""`), are converted to `NA`. Warnings are emitted when
+#' non-missing values are converted to `NA`, and when a column contains only `NA`
 #' values after coercion, indicating it may be omitted from downstream summaries
 #' or visualizations.
 #'
 #' @param data A data frame containing both metadata and quantitative
 #'   measurement columns.
-#' @param measurement_cols A character vector of column names to coerce to
+#' @param measurement_cols A character vector of column names to convert to
 #'   numeric.
 #'
-#' @return A data frame where specified measurement columns have been coerced to
+#' @return A data frame where specified measurement columns have been converted to
 #'   numeric.
 #'
 #' @examples
@@ -34,15 +34,15 @@
 #' # Specify the measurement columns
 #' measurement_cols = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
 #'
-#' # Coerce measurement columns to numeric
-#' clean_data <- coerce_to_numeric(example_data, measurement_cols)
+#' # Convert measurement columns to numeric
+#' clean_data <- convert_to_numeric(example_data, measurement_cols)
 #'
 #' @export
-coerce_to_numeric <- function(data, measurement_cols) {
+convert_to_numeric <- function(data, measurement_cols) {
   # Abort if measurement_cols is missing
   if (missing(measurement_cols)) {
     cli::cli_abort(c(
-      "x" = "Please provide a vector of `measurement_cols` to coerce to numeric."
+      "x" = "Please provide a vector of `measurement_cols` to convert to numeric."
     ))
   }
 
@@ -56,7 +56,7 @@ coerce_to_numeric <- function(data, measurement_cols) {
   # Preserve original values for NA-coercion check
   data_original <- data |> dplyr::select(dplyr::all_of(measurement_cols))
 
-  # Coerce measurements to numeric (suppress warnings)
+  # Convert measurements to numeric (suppress warnings)
   suppressWarnings(
     data_numeric <- data |>
       dplyr::mutate(
@@ -71,10 +71,7 @@ coerce_to_numeric <- function(data, measurement_cols) {
   )
   names(na_created) <- measurement_cols
 
-  # Initialize warning messages container
-  warn_messages <- character(0)
-
-  # Partial NAs (some values coerced)
+  # Partial NAs (some values converted)
   partial_na <- na_created[na_created > 0]
   if (length(partial_na) > 0) {
     bullets_partial <- purrr::imap_chr(
@@ -86,41 +83,16 @@ coerce_to_numeric <- function(data, measurement_cols) {
     names(bullets_partial) <- rep("*", length(bullets_partial))
 
     warn_messages <- c(
-      warn_messages,
-      "i" = "Some column values were coerced to `NA`.\
-      Check your data for non-numeric values like `ND` or `<1`.",
+      "i" = "Non-numeric values were converted to `NA`.\
+      (e.g., `ND` or `<1`).\
+      These values are excluded from tables and plots.",
       "",
-      "!" = "{.strong Affected columns}:",
+      "!" = "{.strong Columns with values converted to `NA`}:",
       bullets_partial
     )
   }
 
-  # Fully NA columns (all values coerced)
-  all_na <- purrr::map_lgl(
-    rlang::set_names(measurement_cols),
-    ~ all(is.na(data_numeric[[.x]]))
-  )
-
-  all_na <- all_na[all_na]
-
-  if (length(all_na) > 0) {
-    bullets_all_na <- purrr::imap_chr(
-      all_na,
-      ~ glue::glue("{{.field { .y }}} (all values are `NA`)")
-    )
-
-    names(bullets_all_na) <- rep("*", length(bullets_all_na))
-
-    warn_messages <- c(
-      warn_messages,
-      "",
-      "!" = "Columns containing only `NA` values\
-      that may be omitted from downstream summaries or visualizations:",
-      bullets_all_na
-    )
-  }
-
-  # Emit all collected warnings at once
+  # Emit warning
   if (length(warn_messages) > 0) {
     cli::cli_warn(warn_messages)
   }

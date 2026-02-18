@@ -1,6 +1,7 @@
-# Check if a column is empty (all NA or blank)
+# Check if a column is empty
 
-Check if a column is empty (all NA or blank)
+Returns TRUE if all values in a vector are missing (`NA`) or blank
+strings (`""`).
 
 ## Usage
 
@@ -12,4 +13,9 @@ is_column_empty(column)
 
 - column:
 
-  to check if all values are NA or empty strings
+  A vector to check.
+
+## Value
+
+Logical scalar. TRUE if all values are `NA` or empty strings, FALSE
+otherwise.

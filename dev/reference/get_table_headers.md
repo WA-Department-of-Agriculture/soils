@@ -1,7 +1,7 @@
 # Get table headers for flextable
 
-This function uses the data dictionary to create a new dataframe of the
-abbreviations and units for each measurement group for flextable
+Internal helper that uses the data dictionary to construct flextable
+column headers for a single measurement group.
 
 ## Usage
 
@@ -13,7 +13,7 @@ get_table_headers(dictionary, group)
 
 - dictionary:
 
-  Dataframe containing columns `measurement_group`, `abbr`, `unit`.
+  Data frame containing columns `measurement_group`, `abbr`, `unit`.
 
 - group:
 

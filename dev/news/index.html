@@ -52,12 +52,30 @@
 <h2 class="pkg-version" data-toc-text="development version" id="soils-development-version">soils (development version)<a class="anchor" aria-label="anchor" href="#soils-development-version"></a></h2>
 <ul><li><p>Remove <code>field_name</code> as a required column and adjust templates, example data, and vignettes.</p></li>
 <li><p><code>01_producer-report.qmd</code> now reads in <code>sample_id</code> and <code>field_id</code> as character type, which fixes unwanted commas in numeric IDs (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/10" class="external-link">#10</a>).</p></li>
-<li><p>Added <code>complete_texture()</code>, which validates and completes sand, silt, and clay fractions, computes a missing fraction when two are provided, and assigns a USDA soil texture class. A pre-existing <code>texture</code> column is no longer required.</p></li>
+<li><p>Replaced internal <code>testthat</code> checks for missing required columns with a custom cli-based helper, <code>abort_if_missing_cols()</code>, to provide clearer, user-facing error messages (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/14" class="external-link">#14</a>).</p></li>
+<li>
+<p><strong>Texture updates</strong>:</p>
+<ul><li>
+<p>Data upload no longer requires a pre-existing <code>texture</code> column.</p>
+<ul><li><p>Added new texture helpers: <code><a href="../reference/validate_texture_fractions.html">validate_texture_fractions()</a></code>, <code><a href="../reference/complete_texture_fractions.html">complete_texture_fractions()</a></code>, and <code><a href="../reference/classify_texture.html">classify_texture()</a></code>. These validate sand, silt, and clay fractions, compute a missing fraction when exactly two are provided, and assign USDA soil texture classes when possible.</p></li>
+<li><p>Updated internal helpers and the <code>01_producer-report.qmd</code> template to conditionally compute texture and to synchronize the data dictionary when texture or fractions are added (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/21" class="external-link">#21</a>).</p></li>
+<li><p>Introduced <code><a href="../reference/sync_dictionary_texture.html">sync_dictionary_texture()</a></code> to automatically add missing texture and fraction rows to the dictionary in a fixed order (<code>texture</code>, <code>sand_percent</code>, <code>silt_percent</code>, <code>clay_percent</code>), with support for English and Spanish labels.</p></li>
+<li><p>Deprecated <code><a href="../reference/get_n_texture_by_var.html">get_n_texture_by_var()</a></code>; its logic is now handled directly in <code><a href="../reference/summarize_by_var.html">summarize_by_var()</a></code>, which treats texture as optional.</p></li>
+</ul></li>
 <li><p>Fixed texture triangle rendering to require at least one complete sand, silt, and clay sample. Incomplete texture rows are now dropped early, preventing errors when producer data include partial texture information (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/15" class="external-link">#15</a>).</p></li>
-<li><p><code><a href="../reference/convert_ggiraph.html">convert_ggiraph()</a></code> uses <code><a href="https://davidgohel.github.io/gdtools/reference/font_family_exists.html" class="external-link">gdtools::font_family_exists()</a></code> instead of <code>ggiraph::font_family_exists()</code> (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/12" class="external-link">#12</a>).</p></li>
+</ul></li>
+<li>
+<p><strong>Plot and map updates</strong>:</p>
+<ul><li><p><code><a href="../reference/convert_ggiraph.html">convert_ggiraph()</a></code> uses <code><a href="https://davidgohel.github.io/gdtools/reference/font_family_exists.html" class="external-link">gdtools::font_family_exists()</a></code> instead of <code>ggiraph::font_family_exists()</code>, which is no longer exported from <code>ggiraph</code> (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/12" class="external-link">#12</a>).</p></li>
 <li><p>Added <code><a href="../reference/make_static_map.html">make_static_map()</a></code> for creating non-interactive maps using basemap tiles and <code>ggplot2</code> (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/13" class="external-link">#13</a>). Removed dependency on <code>tidyterra</code> for static map rendering. Basemap tiles are now plotted using <code>ggplot2</code>, improving stability and reducing package dependencies.</p></li>
 <li><p>Static maps now request basemap tiles using a buffered bounding box rather than point geometries. This improves robustness for very small or single-point spatial extents and prevents tile grid errors when samples are tightly clustered.</p></li>
 <li><p>Renamed <code><a href="../reference/make_leaflet.html">make_leaflet()</a></code> to <code><a href="../reference/make_interactive_map.html">make_interactive_map()</a></code> to provide a more descriptive and consistent naming convention alongside <code><a href="../reference/make_static_map.html">make_static_map()</a></code>. <code><a href="../reference/make_leaflet.html">make_leaflet()</a></code> will be retained for backwards compatibility.</p></li>
+</ul></li>
+<li>
+<p><strong>Measurement handling updates</strong>:</p>
+<ul><li><p>Measurements must be quantitative. Modified template to dynamically select measurement columns (based on provided vector of metadata columns) (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/24" class="external-link">#24</a>) and coerce measurement columns to numeric with new function <code>coerce_to_numeric()</code> (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/11" class="external-link">#11</a> and <a href="https://github.com/WA-Department-of-Agriculture/soils/issues/26" class="external-link">#26</a>).</p></li>
+<li><p>Added a footnote to all tables with new function <code><a href="../reference/add_field_count_note.html">add_field_count_note()</a></code> to clarify that field counts reflect the total samples contributing to each average, which may be fewer than the total samples for some measurements now that qualitative measurements are coerced to numeric.</p></li>
+</ul></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="soils-101">soils 1.0.1<a class="anchor" aria-label="anchor" href="#soils-101"></a></h2>

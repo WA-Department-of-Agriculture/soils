@@ -1,6 +1,7 @@
-# Calculate the mode of categorical variable
+# Calculate the mode of a categorical variable
 
-Calculate the mode of categorical variable
+Returns the most frequently occurring value in a character vector,
+ignoring missing values.
 
 ## Usage
 
@@ -12,11 +13,11 @@ calculate_mode(x)
 
 - x:
 
-  Character vector to calculate mode from.
+  Character vector to calculate the mode from.
 
 ## Value
 
-The value that occurred most often.
+A single value (character) that occurs most often in `x`.
 
 ## Examples
 

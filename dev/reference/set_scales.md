@@ -51,7 +51,7 @@ df_plot_path <- soils_example("df_plot.RDS")
 df_plot <- readRDS(df_plot_path)
 # Subset df to just biological measurement group
 df_plot_bio <- df_plot |>
-  dplyr::filter(measurement_group == "biological")
+  dplyr::filter(measurement_group == "Biological")
 
 # Make strip plot
 make_strip_plot(

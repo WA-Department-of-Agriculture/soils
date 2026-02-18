@@ -23,13 +23,13 @@ library(soils)
 head(washi_data, 5) |> knitr::kable()
 ```
 
-| year | sample_id   | farm_name | producer_id | field_name | field_id | county    | crop            | longitude | latitude | texture    | bd_g_cm3 | pmn_lb_ac | nh4_n_mg_kg | no3_n_mg_kg | poxc_mg_kg |  ph | ec_mmhos_cm | k_mg_kg | ca_mg_kg | mg_mg_kg | na_mg_kg | cec_meq_100g | b_mg_kg | cu_mg_kg | fe_mg_kg | mn_mg_kg | s_mg_kg | zn_mg_kg | total_c_percent | total_n_percent | ace_g_protein_kg_soil | sand_percent | silt_percent | clay_percent | min_c_96hr_mg_c_kg_day | p_olsen_mg_kg | wsa_percent | om_percent | toc_percent | whc_in_ft | inorganic_c_percent |
-|-----:|:------------|:----------|:------------|:-----------|---------:|:----------|:----------------|----------:|---------:|:-----------|---------:|----------:|------------:|------------:|-----------:|----:|------------:|--------:|---------:|---------:|---------:|-------------:|--------:|---------:|---------:|---------:|--------:|---------:|----------------:|----------------:|----------------------:|-------------:|-------------:|-------------:|-----------------------:|--------------:|------------:|-----------:|------------:|----------:|--------------------:|
-| 2023 | 23-WUY05-01 | Farm 150  | WUY05       | Field 01   |        1 | County 9  | Hay/Silage      |      -119 |       49 | Clay Loam  |     1.30 |     67.13 |         1.6 |         9.2 |        496 | 6.7 |        0.42 |     498 |     1380 |    145.2 |     16.1 |          7.8 |    0.22 |      0.6 |       26 |      1.5 |    4.29 |      1.7 |            1.85 |            0.16 |                  6.74 |           44 |           23 |           33 |                   35.6 |            15 |        88.5 |        4.5 |        1.85 |      1.01 |                  NA |
-| 2022 | 22-RHM05-02 | Farm 085  | RHM05       | Field 02   |        2 | County 18 | Green Manure    |      -123 |       47 | Sandy Loam |     0.88 |    129.97 |        21.6 |         6.1 |        571 | 5.9 |        0.05 |     198 |      780 |     96.8 |     20.7 |         10.5 |    0.09 |      0.4 |       28 |      2.7 |    9.41 |      0.8 |            2.88 |            0.18 |                 21.50 |           69 |           21 |           10 |                   30.0 |            37 |        92.6 |        5.8 |        2.88 |      1.08 |                  NA |
-| 2022 | 22-ENR07-02 | Farm 058  | ENR07       | Field 02   |        2 | County 11 | Vegetable       |      -122 |       47 | Silt Loam  |     1.21 |    122.17 |         8.1 |        25.3 |        419 | 6.3 |        0.60 |     294 |     1760 |    266.2 |     20.7 |         13.0 |    0.41 |      4.2 |      141 |      4.1 |   26.73 |      4.2 |            1.68 |            0.14 |                 10.90 |           11 |           79 |           10 |                   15.0 |            73 |        91.3 |        2.4 |        1.68 |      2.77 |                  NA |
-| 2022 | 22-ZTD04-03 | Farm 061  | ZTD04       | Field 03   |        3 | County 13 | Herb            |      -120 |       46 | Silt Loam  |     1.37 |     95.24 |        13.8 |        16.9 |        424 | 6.8 |        2.18 |     229 |     3380 |    738.1 |     80.5 |         14.4 |    0.72 |      1.1 |       37 |     11.5 |   51.70 |      2.4 |            1.40 |            0.12 |                  5.53 |           36 |           51 |           13 |                   67.5 |            30 |        94.3 |        2.9 |        1.40 |      1.93 |                  NA |
-| 2023 | 23-WUY05-03 | Farm 150  | WUY05       | Field 03   |        3 | County 9  | Pasture, Seeded |      -119 |       49 | Sandy Loam |     1.22 |    111.35 |         3.9 |         6.7 |        547 | 7.6 |        0.60 |     273 |     2820 |    193.6 |     13.8 |         10.1 |    0.25 |      0.7 |       15 |      1.7 |    3.29 |      0.8 |            1.65 |            0.16 |                  4.20 |           64 |           33 |            3 |                   50.6 |             8 |        84.6 |        6.7 |        1.53 |      1.28 |                0.12 |
+| year | sample_id   | farm_name | producer_id | field_id | county    | crop            | longitude | latitude | texture    | sand_percent | silt_percent | clay_percent | bd_g_cm3 | pmn_lb_ac | nh4_n_mg_kg | no3_n_mg_kg | poxc_mg_kg |  ph | ec_mmhos_cm | k_mg_kg | ca_mg_kg | mg_mg_kg | na_mg_kg | cec_meq_100g | b_mg_kg | cu_mg_kg | fe_mg_kg | mn_mg_kg | s_mg_kg | zn_mg_kg | total_c_percent | total_n_percent | ace_g_protein_kg_soil | min_c_96hr_mg_c_kg_day | p_olsen_mg_kg | wsa_percent | om_percent | toc_percent | whc_in_ft | inorganic_c_percent |
+|-----:|:------------|:----------|:------------|:---------|:----------|:----------------|----------:|---------:|:-----------|-------------:|-------------:|-------------:|---------:|----------:|------------:|------------:|-----------:|----:|------------:|--------:|---------:|---------:|---------:|-------------:|--------:|---------:|---------:|---------:|--------:|---------:|----------------:|----------------:|----------------------:|-----------------------:|--------------:|------------:|-----------:|------------:|----------:|--------------------:|
+| 2023 | 23-WUY05-01 | Farm 150  | WUY05       | Field 01 | County 9  | Hay/Silage      |      -119 |       49 | Clay Loam  |           44 |           23 |           33 |     1.30 |     67.13 |         1.6 |         9.2 |        496 | 6.7 |        0.42 |     498 |     1380 |    145.2 |     16.1 |          7.8 |    0.22 |      0.6 |       26 |      1.5 |    4.29 |      1.7 |            1.85 |            0.16 |                  6.74 |                   35.6 |            15 |        88.5 |        4.5 |        1.85 |      1.01 |                  NA |
+| 2022 | 22-RHM05-02 | Farm 085  | RHM05       | Field 02 | County 18 | Green Manure    |      -123 |       47 | Sandy Loam |           69 |           21 |           10 |     0.88 |    129.97 |        21.6 |         6.1 |        571 | 5.9 |        0.05 |     198 |      780 |     96.8 |     20.7 |         10.5 |    0.09 |      0.4 |       28 |      2.7 |    9.41 |      0.8 |            2.88 |            0.18 |                 21.50 |                   30.0 |            37 |        92.6 |        5.8 |        2.88 |      1.08 |                  NA |
+| 2022 | 22-ENR07-02 | Farm 058  | ENR07       | Field 02 | County 11 | Vegetable       |      -122 |       47 | Silt Loam  |           11 |           79 |           10 |     1.21 |    122.17 |         8.1 |        25.3 |        419 | 6.3 |        0.60 |     294 |     1760 |    266.2 |     20.7 |         13.0 |    0.41 |      4.2 |      141 |      4.1 |   26.73 |      4.2 |            1.68 |            0.14 |                 10.90 |                   15.0 |            73 |        91.3 |        2.4 |        1.68 |      2.77 |                  NA |
+| 2022 | 22-ZTD04-03 | Farm 061  | ZTD04       | Field 03 | County 13 | Herb            |      -120 |       46 | Silt Loam  |           36 |           51 |           13 |     1.37 |     95.24 |        13.8 |        16.9 |        424 | 6.8 |        2.18 |     229 |     3380 |    738.1 |     80.5 |         14.4 |    0.72 |      1.1 |       37 |     11.5 |   51.70 |      2.4 |            1.40 |            0.12 |                  5.53 |                   67.5 |            30 |        94.3 |        2.9 |        1.40 |      1.93 |                  NA |
+| 2023 | 23-WUY05-03 | Farm 150  | WUY05       | Field 03 | County 9  | Pasture, Seeded |      -119 |       49 | Sandy Loam |           64 |           33 |            3 |     1.22 |    111.35 |         3.9 |         6.7 |        547 | 7.6 |        0.60 |     273 |     2820 |    193.6 |     13.8 |         10.1 |    0.25 |      0.7 |       15 |      1.7 |    3.29 |      0.8 |            1.65 |            0.16 |                  4.20 |                   50.6 |             8 |        84.6 |        6.7 |        1.53 |      1.28 |                0.12 |
 
 ``` r
 head(data_dictionary, 5) |> knitr::kable()
@@ -56,18 +56,20 @@ Glimpse at the example data
 ``` r
 dplyr::glimpse(washi_data)
 #> Rows: 100
-#> Columns: 42
+#> Columns: 41
 #> $ year                   <int> 2023, 2022, 2022, 2022, 2023, 2022, 2023, 2022,…
 #> $ sample_id              <chr> "23-WUY05-01", "22-RHM05-02", "22-ENR07-02", "2…
 #> $ farm_name              <chr> "Farm 150", "Farm 085", "Farm 058", "Farm 061",…
 #> $ producer_id            <chr> "WUY05", "RHM05", "ENR07", "ZTD04", "WUY05", "B…
-#> $ field_name             <chr> "Field 01", "Field 02", "Field 02", "Field 03",…
-#> $ field_id               <int> 1, 2, 2, 3, 3, 2, 1, 2, 1, 1, 1, 1, 2, 8, 2, 1,…
+#> $ field_id               <chr> "Field 01", "Field 02", "Field 02", "Field 03",…
 #> $ county                 <chr> "County 9", "County 18", "County 11", "County 1…
 #> $ crop                   <chr> "Hay/Silage", "Green Manure", "Vegetable", "Her…
 #> $ longitude              <int> -119, -123, -122, -120, -119, -117, -118, -117,…
 #> $ latitude               <int> 49, 47, 47, 46, 49, 47, 49, 47, 48, 48, 46, 47,…
 #> $ texture                <chr> "Clay Loam", "Sandy Loam", "Silt Loam", "Silt L…
+#> $ sand_percent           <int> 44, 69, 11, 36, 64, 24, 80, 22, 62, 48, 80, 69,…
+#> $ silt_percent           <int> 23, 21, 79, 51, 33, 62, 16, 57, 26, 45, 14, 27,…
+#> $ clay_percent           <int> 33, 10, 10, 13, 3, 14, 4, 21, 12, 7, 6, 4, 10, …
 #> $ bd_g_cm3               <dbl> 1.30, 0.88, 1.21, 1.37, 1.22, 1.14, 1.44, 1.24,…
 #> $ pmn_lb_ac              <dbl> 67.13, 129.97, 122.17, 95.24, 111.35, 61.92, -7…
 #> $ nh4_n_mg_kg            <dbl> 1.6, 21.6, 8.1, 13.8, 3.9, 12.4, 2.4, 12.4, 2.3…
@@ -89,9 +91,6 @@ dplyr::glimpse(washi_data)
 #> $ total_c_percent        <dbl> 1.85, 2.88, 1.68, 1.40, 1.65, 1.55, 2.25, 2.37,…
 #> $ total_n_percent        <dbl> 0.16, 0.18, 0.14, 0.12, 0.16, 0.13, 0.15, 0.17,…
 #> $ ace_g_protein_kg_soil  <dbl> 6.74, 21.50, 10.90, 5.53, 4.20, 10.30, 7.73, 6.…
-#> $ sand_percent           <int> 44, 69, 11, 36, 64, 24, 80, 22, 62, 48, 80, 69,…
-#> $ silt_percent           <int> 23, 21, 79, 51, 33, 62, 16, 57, 26, 45, 14, 27,…
-#> $ clay_percent           <int> 33, 10, 10, 13, 3, 14, 4, 21, 12, 7, 6, 4, 10, …
 #> $ min_c_96hr_mg_c_kg_day <dbl> 35.60, 30.00, 15.00, 67.50, 50.60, 25.50, 30.60…
 #> $ p_olsen_mg_kg          <int> 15, 37, 73, 30, 8, 33, 27, 29, 40, 16, 19, 11, …
 #> $ wsa_percent            <dbl> 88.5, 92.6, 91.3, 94.3, 84.6, 86.6, 86.9, 82.5,…
@@ -101,26 +100,30 @@ dplyr::glimpse(washi_data)
 #> $ inorganic_c_percent    <dbl> NA, NA, NA, NA, 0.12, NA, NA, NA, NA, NA, NA, N…
 ```
 
+### Metadata (columns A–I: `year` through `longitude`)
+
 Your data **must have the below required columns**. However, only the
 columns in **bold** are required to have values. Put another way, your
 data must have these column names, even if every row is blank.
-Otherwise, the `data-validation` chunk in `01_producer-report.qmd` or
-{soils} functions will error. For more details, see [Data/dictionary
-mismatches](#datadictionary-mismatches).
 
 - **`year <int>`** is used to select samples to be included in the
   report.
 
-- **`sample_id <chr>`** must be unique throughout the dataset.
+- **`sample_id <chr>`** is a unique identifier for each soil sample. Can
+  be any alphanumeric value or a combination of `year`, `producer_id`,
+  and `field_id`.
 
 - `farm_name <chr>` is included at the top of the report. If blank, it
   is replaced with “Farm: `producer_id`”.
 
-- **`producer_id <chr>`** is used to select samples to be included in
-  the report.
+- **`producer_id <chr>`** is a unique identifier for each producer.
+  Reports are generated for each `producer_id` within a given year. This
+  can be an alphanumeric value or the producer’s name.
 
-- **`field_id <chr>`** must be unique across all fields for each
-  producer and is displayed in tables and tool tips for maps.
+- **`field_id <chr>`** is to distinguish fields when a producer has
+  multiple samples in the same year. Must be unique within a
+  `producer_id` and `year` combination. Can be any alphanumeric value or
+  a producer-assigned field name.
 
 - `county <chr>` is used to group and summarize samples from the same
   county as the producer. Can be blank.
@@ -128,24 +131,43 @@ mismatches](#datadictionary-mismatches).
 - `crop <chr>` is used to group and summarize samples from the same crop
   as the producer. Can be blank.
 
-- `longitude <int>` and `latitude <int>` are used to map each sample
-  point using. If blank, the map will not be included.
-
-- `texture <chr>` is used in the “physical” measurement group table.
-  This column is not used in the texture triangle plot, which is instead
-  created from percentage sand, silt, and clay measurement results. If
-  at least two of `sand_percent`, `silt_percent`, and `clay_percent` are
-  provided, `texture` will be classified according to the USDA NRCS
-  textural classification. See
-  [`classify_texture()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/classify_texture.md)
-  for more information.
+- `latitude <int>` and `longitude <int>`are used to map each sample
+  point. If blank, the map will not be included. Coordinates must be
+  provided in decimal degrees. `latitude` may range from -90 to 90.
+  `longitude` may range from -180 to 180.
 
 - **Each soil measurement** must have its own column in the dataset and
   a corresponding row in the data dictionary, as shown in [Dictionary
   template](#dictionary-template).
 
-  - Measurement columns come **after** the required columns for easy
-    selection in the [`tidy-long` chunk](#tidy-long-chunk).
+### Measurement results (columns J–AO: `texture` through `na_mg_kg`)
+
+- All measurement columns **except `texture`** must be numeric.
+  Non-numeric values (e.g., `ND`, `<1`) will be coerced to `NA` and may
+  be omitted from summaries, tables, and plots. Clean or recode censored
+  values before uploading.
+
+- `texture` may be left blank. If at least two of `sand_percent`,
+  `silt_percent`, and `clay_percent` are provided, `texture` will be
+  classified using [USDA NRCS
+  rules](https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator).
+
+  - `sand_percent`, `silt_percent`, and `clay_percent` must:
+
+    - Be between 0 and 100
+
+    - Sum to 100 (± 1)
+
+    - Include at least two values per sample (the third will be
+      calculated as 100 minus the sum of the other two)
+
+- Delete any columns for measurements not analyzed in your project.
+
+- Add columns for any additional measurements you wish to include.
+
+  **Important:** Measurement column names in the `data` must match
+  exactly match the `column_name` values in the `data_dictionary`.
+  Update `data_dictionary` after adding or removing measurements.
 
 ## Dictionary template
 
@@ -174,69 +196,34 @@ dplyr::glimpse(data_dictionary)
 Your data dictionary **must have the below required columns** for every
 soil measurement included in your data.
 
-- **`measurement_group <chr>`** determines how the soil measurements are
-  grouped. The order in which these groups appear in the report is
-  determined by the order they are listed within the data dictionary.
+- **`measurement_group <chr>`** defines how the soil measurements are
+  grouped. Groups appear in the report in the order listed in the data
+  dictionary.
+
+  - **Only the following values are currently supported. Custom groups
+    are not allowed and will fail validation.**
+
+    - **English:** Physical, Biological, Chemical, Plant Essential Macro
+      Nutrients, Plant Essential Micro Nutrients
+
+    - **Spanish:** Mediciones físicas, Mediciones biológicas, Mediciones
+      químicas, Macronutrientes esenciales para plantas, Micronutrientes
+      esenciales para plantas
 
 - **`column_name <chr>`** is used to join the dictionary with your data.
   Must exactly match the column names of the soil measurements in your
-  dataset. The order in which these measurements appear within their
-  `measurement_group` is determined by the order they are listed within
-  the data dictionary.
+  data. Within each measurement group, measurements appear in the order
+  listed in the data dictionary.
 
-- **`abbr <chr>`** and **`unit <chr>`** are how soil measurements are
-  labeled in tables with the abbreviation as the column header and unit
-  as a secondary spanning header.
+- **`abbr <chr>`**: Abbreviation used in tables and plots. Shorter
+  abbreviations improve readability.
 
-## Data/dictionary mismatches
+- **`unit <chr>`**: Unit of measurement displayed in tables and plots.
 
-Getting your data and dictionary in the proper format to render the
-report without errors will likely be the most difficult part of making
-{soils} work for your project.
+- **`abbr`** + **`unit`**: Combination of abbreviation and unit must be
+  unique for each measurement.
 
-The [`data-validation` chunk](#data-validation-chunk) and many {soils}
-functions include
-[`testthat::expect_contains()`](https://testthat.r-lib.org/reference/expect_setequal.html)
-to fail early if required columns are missing from either the data or
-the dictionary. This early failure saves time by stopping as soon as the
-missing column or data/dictionary mismatch is identified. Additionally,
-these early failed tests provide the `expected` versus `actual` values,
-making it easier to correct the issue with minimal debugging.
-
-Below are some common issues that arise and possible workarounds. These
-workarounds may make more sense after reviewing the [Your
-data](#your-data) section that includes example errors and fixes.
-
-### Extra columns in data
-
-**Soil measurements in your data but not in your dictionary** will cause
-the report to error in the `data-validation` chunk. For example,
-rendering the report will fail if your dataset contains both `pH` and
-`CEC` results but your dictionary only contains `pH`. Either add the
-`CEC` measurement to your dictionary or remove this measurement column
-from your data. If you don’t want to delete the column from your
-datasheet, you can remove it from only the data object with
-`data <- dplyr::select(data, -cec_meq_100g)` perhaps in the `load-data`
-chunk.
-
-**Additional metadata columns in your data** will also cause the report
-to error in the `data-validation` chunk. For example, if you have a
-column `phone_number` with producer phone numbers that won’t be used in
-the report, remove it from the data with the
-`data <- dplyr::select(data, -c(cec_meq_100g, phone_number))`. If you
-want to use this column in the report, then add it to the
-`required_cols` vector of the [`data-validation`
-chunk](#data-validation-chunk) so that the `testthat` function doesn’t
-error.
-
-### Extra rows in dictionary
-
-**Soil measurements in your dictionary but not in your data** will not
-error and will not affect the report. For example, the report will
-simply show the `pH` results if your dictionary contains both `pH` and
-`CEC` but your data only contains `pH` results.
-
-## Your data
+## Load your data into the template
 
 Once your project data and dictionary files match the structure of the
 examples and are saved in the `data` folder, follow along with the
@@ -293,74 +280,20 @@ dictionary <- read.csv(
 
 ### `tidy-long` chunk
 
-Ensure the column ranges in
-[`dplyr::across()`](https://dplyr.tidyverse.org/reference/across.html)
-and
-[`tidyr::pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html)
-match the column range of your soil measurements. In the example
-`washi-data.csv`, this range is `11:41`. This chunk [tidies the
-data](https://vita.had.co.nz/papers/tidy-data.pdf) from wide to long for
-summarization and visualization.
-
-In this example, imagine you have one additional metadata column before
-your measurement columns begin. This means your column range of soil
-measurements is `12:42`.
+As of {soils} version 1.0.1, measurement columns are automatically
+detected, converted to numeric, and pivoted to a tidy long format. **All
+measurement columns must be numeric**. Non-numeric values (e.g., `ND`,
+`<1`, `NA`, blanks, or other characters) are coerced to `NA` and may be
+omitted from summaries, tables, and plots. If you have additional
+metadata columns that should **not** be converted or pivoted, add them
+to the `metadata_cols` vector.
 
 Example changed chunk
 
 ``` r
-# Get index last column of data frame
-num_cols <- ncol(data)
-
-# Tidy data into long format and join with data dictionary
-results_long <- data |>
-  dplyr::mutate(
-    # EDIT: make sure this matches the column range of your soil measurements
-    dplyr::across(
-      12:dplyr::all_of(num_cols),
-      as.numeric
-    )
-  ) |>
-  tidyr::pivot_longer(
-    # EDIT: make sure this matches the column range of your soil measurements
-    cols = 12:dplyr::all_of(num_cols),
-    names_to = "measurement"
-  ) |>
-  ...
-```
-
-### `data-validation` chunk
-
-This chunk checks there are no mismatches as described in
-[Data/dictionary mismatches](#datadictionary-mismatches) by making sure
-all column names in your dataset are in either the `required_cols`
-vector or the `column_name` column of `my-dictionary.csv`.
-
-In this example, add an extra column named `tillage` in `my-data.csv`
-without changing the dictionary.
-
-After clicking the `Render` button, the report failed.
-
-``` r
-Quitting from lines 94-115 [data-validation] (01_producer-report.qmd)
-Error:
-! names(data) (`actual`) isn't fully contained within c(required_cols, dictionary$column_name) (`expected`).
-* Missing from `expected`: "tillage"
-* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_id", "county", "crop", "longitude", ...
-```
-
-This error message says the error occurred in lines 94-115 in the
-`data-validation` chunk because `tillage` was missing from the
-`expected` values, which are elements of `required_cols` and
-`dictionary$column_name`.
-
-Adding `"tillage"` to `required_cols` prevents this error.
-
-Example changed chunk
-
-``` r
-# OPTIONAL EDIT: If you have extra columns in `data`, add them to this vector.
-required_cols <- c(
+# OPTIONAL EDIT: Add any extra metadata columns in `data` that should not be
+# treated as measurements.
+metadata_cols <- c(
   "year",
   "sample_id",
   "farm_name",
@@ -370,32 +303,26 @@ required_cols <- c(
   "crop",
   "longitude",
   "latitude",
-  "texture",
-  "tillage"
+  "texture"
 )
 
-# Check all column names in `data` are in the `required_cols` vector or
-# `column_name` column of `dictionary`.
-testthat::expect_in(names(data), c(required_cols, dictionary$column_name))
+# Identify measurement columns
+measurement_cols <- data |>
+  dplyr::select(-dplyr::any_of(metadata_cols)) |>
+  colnames()
+
+# Coerce measurement columns to numeric; warns if values are converted to NA
+data <- soils::coerce_to_numeric(data, measurement_cols)
+
+# Tidy data into long format and join with data dictionary
+results_long <- data |>
+  tidyr::pivot_longer(
+    cols = dplyr::all_of(measurement_cols),
+    names_to = "measurement"
+  ) |>
+  ...
 ```
-
-To demonstrate another data/dictionary mismatch error, remove
-`cec_meq_100g` from the dictionary while keeping it in the dataset.
-
-``` r
-Quitting from lines 94-115 [data-validation] (01_producer-report.qmd)
-Error:
-! names(data) (`actual`) isn't fully contained within c(...) (`expected`).
-* Missing from `expected`: "cec_meq_100g"
-* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_id", "county", "crop", "texture", ...
-```
-
-The error occurred because `cec_meq_100g` was missing from the
-`expected` values. Either add `cec_meq_100g` back to the dictionary or
-remove this column from the dataset to fix this error.
 
 **See the [troubleshooting
 article](https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html)
 for more help on debugging errors.**
-article\](<https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html>)
-for more help on debugging errors.\*\*

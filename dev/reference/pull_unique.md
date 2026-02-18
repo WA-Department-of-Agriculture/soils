@@ -1,6 +1,6 @@
-# Pull unique values from one column of dataframe
+# Extract unique values from a single column of a data frame
 
-Pull unique values from one column of dataframe
+Extract unique values from a single column of a data frame
 
 ## Usage
 
@@ -12,21 +12,20 @@ pull_unique(df, target)
 
 - df:
 
-  Dataframe with column to extract unique values from.
+  A data frame containing the column of interest.
 
 - target:
 
-  Variable to pull unique vector of (i.e. crop or county).
+  Column to extract unique values from (string or unquoted symbol).
 
 ## Value
 
-Vector of unique values from target column.
+A vector of unique values from the specified column.
 
 ## Examples
 
 ``` r
-washi_data |>
-  pull_unique(crop)
+pull_unique(washi_data, "crop")
 #>  [1] "Hay/Silage"       "Green Manure"     "Vegetable"        "Herb"            
 #>  [5] "Pasture, Seeded"  "Cereal Grain"     "Native Land"      "Forest"          
 #>  [9] "Commercial Tree"  "Berry"            "Orchard"          "Fallow"          

@@ -20,7 +20,7 @@ Texture Calculator found at
 - df:
 
   A data frame containing completed `sand_percent`, `silt_percent`, and
-  `clay_percent`.
+  `clay_percent.`
 
 ## Value
 

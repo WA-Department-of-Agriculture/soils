@@ -1,6 +1,6 @@
-# Calculate n samples and most frequent texture by a grouping variable
+# Calculate number of samples and most frequent texture (deprecated)
 
-This function is used in `summarize_by_var`.
+**\[deprecated\]**
 
 ## Usage
 
@@ -12,12 +12,28 @@ get_n_texture_by_var(results_long, producer_info, var)
 
 - results_long:
 
-  Dataframe in tidy, long format with columns: `sample_id`, `texture`.
+  Data frame in tidy, long format containing `sample_id` and `texture`.
 
 - producer_info:
 
-  Vector of producer's values for the grouping variable.
+  Vector of producer values for the grouping variable.
 
 - var:
 
   Variable to group and summarize by.
+
+## Value
+
+Deprecated. Previously returned a data frame with `n` and `Texture` by
+group.
+
+## Details
+
+This function is deprecated. Its functionality has been incorporated
+directly into
+[`summarize_by_var()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/summarize_by_var.md).
+Do not use directly in new code.
+
+## See also
+
+summarize_by_var

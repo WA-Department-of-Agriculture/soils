@@ -44,7 +44,7 @@ tables_path <- soils_example("tables.RDS")
 tables <- readRDS(tables_path)
 
 # Input dataframes
-headers$chemical
+headers$Chemical
 #>               abbr              key     unit
 #> 1               pH               pH         
 #> 2               EC               EC mmhos/cm
@@ -54,7 +54,7 @@ headers$chemical
 #> 6      Inorganic C      Inorganic C        %
 #> 7 Field or Average Field or Average         
 
-tables$chemical
+tables$Chemical
 #> # A tibble: 6 × 7
 #>   `Field or Average`                pH    EC   CEC `Total C`   TOC `Inorganic C`
 #>   <glue>                         <dbl> <dbl> <dbl>     <dbl> <dbl>         <dbl>
@@ -71,16 +71,16 @@ tables$chemical
 
 # Make the flextable
 make_ft(
-  table = tables$chemical,
-  header = headers$chemical
+  table = tables$Chemical,
+  header = headers$Chemical
 ) |>
   # Style the flextable
   style_ft() |>
   # Add the white line under the columns with the same units
-  unit_hline(header = headers$chemical)
+  unit_hline(header = headers$Chemical)
 
 
-.cl-26972898{}.cl-26905c34{font-family:'Lato';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(255, 255, 255, 1.00);background-color:transparent;}.cl-26905c48{font-family:'Poppins';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-26905c49{font-family:'Poppins';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-26933242{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1.3;background-color:transparent;}.cl-2693324c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1.3;background-color:transparent;}.cl-26933256{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1.3;background-color:transparent;}.cl-269353e4{width:0.75in;background-color:rgba(2, 59, 44, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269353ee{width:0.75in;background-color:rgba(2, 59, 44, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269353ef{width:0.75in;background-color:rgba(2, 59, 44, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-269353f8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(62, 61, 61, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26935402{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(62, 61, 61, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26935403{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(62, 61, 61, 1.00);border-top: 1pt solid rgba(62, 61, 61, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26935404{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(62, 61, 61, 1.00);border-top: 1pt solid rgba(62, 61, 61, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}
+.cl-0e1d1388{}.cl-0e14acfc{font-family:'Lato';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(255, 255, 255, 1.00);background-color:transparent;}.cl-0e14ad1a{font-family:'Poppins';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0e14ad1b{font-family:'Poppins';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0e17afce{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1.3;background-color:transparent;}.cl-0e17afd8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1.3;background-color:transparent;}.cl-0e17afe2{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1.3;background-color:transparent;}.cl-0e17d382{width:0.75in;background-color:rgba(2, 59, 44, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0e17d396{width:0.75in;background-color:rgba(2, 59, 44, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0e17d3a0{width:0.75in;background-color:rgba(2, 59, 44, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0e17d3a1{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(62, 61, 61, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0e17d3aa{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(62, 61, 61, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0e17d3ab{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(62, 61, 61, 1.00);border-top: 1pt solid rgba(62, 61, 61, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0e17d3b4{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(62, 61, 61, 1.00);border-top: 1pt solid rgba(62, 61, 61, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}
 
 
 
@@ -191,7 +191,7 @@ Project Average
 
 \# Example without \`unit_hline()\`
 [make_ft](https://wa-department-of-agriculture.github.io/soils/dev/reference/make_ft.md)(
-table = tables\$chemical, header = headers\$chemical ) \|\> \# Style the
+table = tables\$Chemical, header = headers\$Chemical ) \|\> \# Style the
 flextable
 [style_ft](https://wa-department-of-agriculture.github.io/soils/dev/reference/style_ft.md)()
 

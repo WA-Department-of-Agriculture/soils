@@ -1,7 +1,7 @@
-# Check for at least one complete row for required columns
+# Check if a data frame has at least one complete row for the specified columns
 
-Returns TRUE if the data frame contains at least one row where all
-specified columns are non-missing.
+Returns TRUE if there is at least one row in the data frame where all
+specified columns are non-missing (no `NA` values).
 
 ## Usage
 
@@ -17,8 +17,16 @@ has_complete_row(df, cols)
 
 - cols:
 
-  A character vector of column names that must be complete.
+  A character vector of column names to check.
 
 ## Value
 
-Logical scalar. TRUE if at least one complete row exists.
+Logical scalar. TRUE if at least one row has all specified columns
+complete, FALSE otherwise.
+
+## Examples
+
+``` r
+has_complete_row(washi_data, c("crop", "county"))
+#> [1] TRUE
+```

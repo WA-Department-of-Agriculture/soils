@@ -14,7 +14,7 @@ complete_texture_fractions(df)
 - df:
 
   A data frame containing `sand_percent`, `silt_percent`, and
-  `clay_percent`.
+  `clay_percent.`
 
 ## Value
 

@@ -196,13 +196,12 @@ the USDA NRCS Innovation in Conservation program, led by Viva Farms
 - [`classify_texture()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/classify_texture.md)
   : Classify USDA soil texture from particle-size fractions
 - [`get_n_texture_by_var()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/get_n_texture_by_var.md)
-  : Calculate n samples and most frequent texture by a grouping variable
+  **\[deprecated\]** : Calculate number of samples and most frequent
+  texture (deprecated)
 - [`summarize_by_project()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/summarize_by_project.md)
   : Summarize samples across the project
 - [`summarize_by_var()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/summarize_by_var.md)
   : Summarize producer's samples with averages by grouping variable
-- [`get_table_headers()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/get_table_headers.md)
-  : Get table headers for flextable
 
 ## Map
 
@@ -252,19 +251,26 @@ the USDA NRCS Innovation in Conservation program, led by Viva Farms
   : Add bottom border to specific columns in flextable
 - [`format_ft_colors()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/format_ft_colors.md)
   : Conditional formatting of flextable background cell colors
+- [`add_field_count_note()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/add_field_count_note.md)
+  : Add field count footnote to a flextable
 - [`style_ft()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/style_ft.md)
   : Style a flextable
+- [`get_table_headers()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/get_table_headers.md)
+  : Get table headers for flextable
 
 ## Helpers
 
+- [`convert_to_numeric()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/convert_to_numeric.md)
+  : Convert measurement columns to numeric and warn on coercion
 - [`is_column_empty()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/is_column_empty.md)
-  : Check if a column is empty (all NA or blank)
+  : Check if a column is empty
 - [`has_complete_row()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/has_complete_row.md)
-  : Check for at least one complete row for required columns
+  : Check if a data frame has at least one complete row for the
+  specified columns
 - [`calculate_mode()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/calculate_mode.md)
-  : Calculate the mode of categorical variable
+  : Calculate the mode of a categorical variable
 - [`pull_unique()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/pull_unique.md)
-  : Pull unique values from one column of dataframe
+  : Extract unique values from a single column of a data frame
 
 ## Example data
 

@@ -112,12 +112,14 @@ Load {soils} and see first five rows of each dataframe
 <col width="2%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
 <col width="1%">
 <col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="2%">
 <col width="1%">
 <col width="2%">
@@ -140,9 +142,6 @@ Load {soils} and see first five rows of each dataframe
 <col width="3%">
 <col width="3%">
 <col width="4%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
 <col width="4%">
 <col width="2%">
 <col width="2%">
@@ -156,13 +155,15 @@ Load {soils} and see first five rows of each dataframe
 <th align="left">sample_id</th>
 <th align="left">farm_name</th>
 <th align="left">producer_id</th>
-<th align="left">field_name</th>
-<th align="right">field_id</th>
+<th align="left">field_id</th>
 <th align="left">county</th>
 <th align="left">crop</th>
 <th align="right">longitude</th>
 <th align="right">latitude</th>
 <th align="left">texture</th>
+<th align="right">sand_percent</th>
+<th align="right">silt_percent</th>
+<th align="right">clay_percent</th>
 <th align="right">bd_g_cm3</th>
 <th align="right">pmn_lb_ac</th>
 <th align="right">nh4_n_mg_kg</th>
@@ -184,9 +185,6 @@ Load {soils} and see first five rows of each dataframe
 <th align="right">total_c_percent</th>
 <th align="right">total_n_percent</th>
 <th align="right">ace_g_protein_kg_soil</th>
-<th align="right">sand_percent</th>
-<th align="right">silt_percent</th>
-<th align="right">clay_percent</th>
 <th align="right">min_c_96hr_mg_c_kg_day</th>
 <th align="right">p_olsen_mg_kg</th>
 <th align="right">wsa_percent</th>
@@ -202,12 +200,14 @@ Load {soils} and see first five rows of each dataframe
 <td align="left">Farm 150</td>
 <td align="left">WUY05</td>
 <td align="left">Field 01</td>
-<td align="right">1</td>
 <td align="left">County 9</td>
 <td align="left">Hay/Silage</td>
 <td align="right">-119</td>
 <td align="right">49</td>
 <td align="left">Clay Loam</td>
+<td align="right">44</td>
+<td align="right">23</td>
+<td align="right">33</td>
 <td align="right">1.30</td>
 <td align="right">67.13</td>
 <td align="right">1.6</td>
@@ -229,9 +229,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">1.85</td>
 <td align="right">0.16</td>
 <td align="right">6.74</td>
-<td align="right">44</td>
-<td align="right">23</td>
-<td align="right">33</td>
 <td align="right">35.6</td>
 <td align="right">15</td>
 <td align="right">88.5</td>
@@ -246,12 +243,14 @@ Load {soils} and see first five rows of each dataframe
 <td align="left">Farm 085</td>
 <td align="left">RHM05</td>
 <td align="left">Field 02</td>
-<td align="right">2</td>
 <td align="left">County 18</td>
 <td align="left">Green Manure</td>
 <td align="right">-123</td>
 <td align="right">47</td>
 <td align="left">Sandy Loam</td>
+<td align="right">69</td>
+<td align="right">21</td>
+<td align="right">10</td>
 <td align="right">0.88</td>
 <td align="right">129.97</td>
 <td align="right">21.6</td>
@@ -273,9 +272,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">2.88</td>
 <td align="right">0.18</td>
 <td align="right">21.50</td>
-<td align="right">69</td>
-<td align="right">21</td>
-<td align="right">10</td>
 <td align="right">30.0</td>
 <td align="right">37</td>
 <td align="right">92.6</td>
@@ -290,12 +286,14 @@ Load {soils} and see first five rows of each dataframe
 <td align="left">Farm 058</td>
 <td align="left">ENR07</td>
 <td align="left">Field 02</td>
-<td align="right">2</td>
 <td align="left">County 11</td>
 <td align="left">Vegetable</td>
 <td align="right">-122</td>
 <td align="right">47</td>
 <td align="left">Silt Loam</td>
+<td align="right">11</td>
+<td align="right">79</td>
+<td align="right">10</td>
 <td align="right">1.21</td>
 <td align="right">122.17</td>
 <td align="right">8.1</td>
@@ -317,9 +315,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">1.68</td>
 <td align="right">0.14</td>
 <td align="right">10.90</td>
-<td align="right">11</td>
-<td align="right">79</td>
-<td align="right">10</td>
 <td align="right">15.0</td>
 <td align="right">73</td>
 <td align="right">91.3</td>
@@ -334,12 +329,14 @@ Load {soils} and see first five rows of each dataframe
 <td align="left">Farm 061</td>
 <td align="left">ZTD04</td>
 <td align="left">Field 03</td>
-<td align="right">3</td>
 <td align="left">County 13</td>
 <td align="left">Herb</td>
 <td align="right">-120</td>
 <td align="right">46</td>
 <td align="left">Silt Loam</td>
+<td align="right">36</td>
+<td align="right">51</td>
+<td align="right">13</td>
 <td align="right">1.37</td>
 <td align="right">95.24</td>
 <td align="right">13.8</td>
@@ -361,9 +358,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">1.40</td>
 <td align="right">0.12</td>
 <td align="right">5.53</td>
-<td align="right">36</td>
-<td align="right">51</td>
-<td align="right">13</td>
 <td align="right">67.5</td>
 <td align="right">30</td>
 <td align="right">94.3</td>
@@ -378,12 +372,14 @@ Load {soils} and see first five rows of each dataframe
 <td align="left">Farm 150</td>
 <td align="left">WUY05</td>
 <td align="left">Field 03</td>
-<td align="right">3</td>
 <td align="left">County 9</td>
 <td align="left">Pasture, Seeded</td>
 <td align="right">-119</td>
 <td align="right">49</td>
 <td align="left">Sandy Loam</td>
+<td align="right">64</td>
+<td align="right">33</td>
+<td align="right">3</td>
 <td align="right">1.22</td>
 <td align="right">111.35</td>
 <td align="right">3.9</td>
@@ -405,9 +401,6 @@ Load {soils} and see first five rows of each dataframe
 <td align="right">1.65</td>
 <td align="right">0.16</td>
 <td align="right">4.20</td>
-<td align="right">64</td>
-<td align="right">33</td>
-<td align="right">3</td>
 <td align="right">50.6</td>
 <td align="right">8</td>
 <td align="right">84.6</td>
@@ -474,18 +467,20 @@ Glimpse at the example data
 </summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">washi_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 100</span></span>
-<span><span class="co">#&gt; Columns: 42</span></span>
+<span><span class="co">#&gt; Columns: 41</span></span>
 <span><span class="co">#&gt; $ year                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2023<span style="color: #949494;">, </span>2022<span style="color: #949494;">, </span>2022<span style="color: #949494;">, </span>2022<span style="color: #949494;">, </span>2023<span style="color: #949494;">, </span>2022<span style="color: #949494;">, </span>2023<span style="color: #949494;">, </span>2022<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ sample_id              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "23-WUY05-01"<span style="color: #949494;">, </span>"22-RHM05-02"<span style="color: #949494;">, </span>"22-ENR07-02"<span style="color: #949494;">, </span>"2…</span></span>
 <span><span class="co">#&gt; $ farm_name              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Farm 150"<span style="color: #949494;">, </span>"Farm 085"<span style="color: #949494;">, </span>"Farm 058"<span style="color: #949494;">, </span>"Farm 061"<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ producer_id            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "WUY05"<span style="color: #949494;">, </span>"RHM05"<span style="color: #949494;">, </span>"ENR07"<span style="color: #949494;">, </span>"ZTD04"<span style="color: #949494;">, </span>"WUY05"<span style="color: #949494;">, </span>"B…</span></span>
-<span><span class="co">#&gt; $ field_name             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 01"<span style="color: #949494;">, </span>"Field 02"<span style="color: #949494;">, </span>"Field 02"<span style="color: #949494;">, </span>"Field 03"<span style="color: #949494;">,</span>…</span></span>
-<span><span class="co">#&gt; $ field_id               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>3<span style="color: #949494;">, </span>3<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>8<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ field_id               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Field 01"<span style="color: #949494;">, </span>"Field 02"<span style="color: #949494;">, </span>"Field 02"<span style="color: #949494;">, </span>"Field 03"<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ county                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "County 9"<span style="color: #949494;">, </span>"County 18"<span style="color: #949494;">, </span>"County 11"<span style="color: #949494;">, </span>"County 1…</span></span>
 <span><span class="co">#&gt; $ crop                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Hay/Silage"<span style="color: #949494;">, </span>"Green Manure"<span style="color: #949494;">, </span>"Vegetable"<span style="color: #949494;">, </span>"Her…</span></span>
 <span><span class="co">#&gt; $ longitude              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> -119<span style="color: #949494;">, </span>-123<span style="color: #949494;">, </span>-122<span style="color: #949494;">, </span>-120<span style="color: #949494;">, </span>-119<span style="color: #949494;">, </span>-117<span style="color: #949494;">, </span>-118<span style="color: #949494;">, </span>-117<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ latitude               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 49<span style="color: #949494;">, </span>47<span style="color: #949494;">, </span>47<span style="color: #949494;">, </span>46<span style="color: #949494;">, </span>49<span style="color: #949494;">, </span>47<span style="color: #949494;">, </span>49<span style="color: #949494;">, </span>47<span style="color: #949494;">, </span>48<span style="color: #949494;">, </span>48<span style="color: #949494;">, </span>46<span style="color: #949494;">, </span>47<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ texture                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Clay Loam"<span style="color: #949494;">, </span>"Sandy Loam"<span style="color: #949494;">, </span>"Silt Loam"<span style="color: #949494;">, </span>"Silt L…</span></span>
+<span><span class="co">#&gt; $ sand_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 44<span style="color: #949494;">, </span>69<span style="color: #949494;">, </span>11<span style="color: #949494;">, </span>36<span style="color: #949494;">, </span>64<span style="color: #949494;">, </span>24<span style="color: #949494;">, </span>80<span style="color: #949494;">, </span>22<span style="color: #949494;">, </span>62<span style="color: #949494;">, </span>48<span style="color: #949494;">, </span>80<span style="color: #949494;">, </span>69<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ silt_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 23<span style="color: #949494;">, </span>21<span style="color: #949494;">, </span>79<span style="color: #949494;">, </span>51<span style="color: #949494;">, </span>33<span style="color: #949494;">, </span>62<span style="color: #949494;">, </span>16<span style="color: #949494;">, </span>57<span style="color: #949494;">, </span>26<span style="color: #949494;">, </span>45<span style="color: #949494;">, </span>14<span style="color: #949494;">, </span>27<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">#&gt; $ clay_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 33<span style="color: #949494;">, </span>10<span style="color: #949494;">, </span>10<span style="color: #949494;">, </span>13<span style="color: #949494;">, </span>3<span style="color: #949494;">, </span>14<span style="color: #949494;">, </span>4<span style="color: #949494;">, </span>21<span style="color: #949494;">, </span>12<span style="color: #949494;">, </span>7<span style="color: #949494;">, </span>6<span style="color: #949494;">, </span>4<span style="color: #949494;">, </span>10<span style="color: #949494;">, </span>…</span></span>
 <span><span class="co">#&gt; $ bd_g_cm3               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.30<span style="color: #949494;">, </span>0.88<span style="color: #949494;">, </span>1.21<span style="color: #949494;">, </span>1.37<span style="color: #949494;">, </span>1.22<span style="color: #949494;">, </span>1.14<span style="color: #949494;">, </span>1.44<span style="color: #949494;">, </span>1.24<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ pmn_lb_ac              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 67.13<span style="color: #949494;">, </span>129.97<span style="color: #949494;">, </span>122.17<span style="color: #949494;">, </span>95.24<span style="color: #949494;">, </span>111.35<span style="color: #949494;">, </span>61.92<span style="color: #949494;">, </span>-7…</span></span>
 <span><span class="co">#&gt; $ nh4_n_mg_kg            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.6<span style="color: #949494;">, </span>21.6<span style="color: #949494;">, </span>8.1<span style="color: #949494;">, </span>13.8<span style="color: #949494;">, </span>3.9<span style="color: #949494;">, </span>12.4<span style="color: #949494;">, </span>2.4<span style="color: #949494;">, </span>12.4<span style="color: #949494;">, </span>2.3…</span></span>
@@ -507,9 +502,6 @@ Glimpse at the example data
 <span><span class="co">#&gt; $ total_c_percent        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85<span style="color: #949494;">, </span>2.88<span style="color: #949494;">, </span>1.68<span style="color: #949494;">, </span>1.40<span style="color: #949494;">, </span>1.65<span style="color: #949494;">, </span>1.55<span style="color: #949494;">, </span>2.25<span style="color: #949494;">, </span>2.37<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ total_n_percent        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 0.16<span style="color: #949494;">, </span>0.18<span style="color: #949494;">, </span>0.14<span style="color: #949494;">, </span>0.12<span style="color: #949494;">, </span>0.16<span style="color: #949494;">, </span>0.13<span style="color: #949494;">, </span>0.15<span style="color: #949494;">, </span>0.17<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ ace_g_protein_kg_soil  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6.74<span style="color: #949494;">, </span>21.50<span style="color: #949494;">, </span>10.90<span style="color: #949494;">, </span>5.53<span style="color: #949494;">, </span>4.20<span style="color: #949494;">, </span>10.30<span style="color: #949494;">, </span>7.73<span style="color: #949494;">, </span>6.…</span></span>
-<span><span class="co">#&gt; $ sand_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 44<span style="color: #949494;">, </span>69<span style="color: #949494;">, </span>11<span style="color: #949494;">, </span>36<span style="color: #949494;">, </span>64<span style="color: #949494;">, </span>24<span style="color: #949494;">, </span>80<span style="color: #949494;">, </span>22<span style="color: #949494;">, </span>62<span style="color: #949494;">, </span>48<span style="color: #949494;">, </span>80<span style="color: #949494;">, </span>69<span style="color: #949494;">,</span>…</span></span>
-<span><span class="co">#&gt; $ silt_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 23<span style="color: #949494;">, </span>21<span style="color: #949494;">, </span>79<span style="color: #949494;">, </span>51<span style="color: #949494;">, </span>33<span style="color: #949494;">, </span>62<span style="color: #949494;">, </span>16<span style="color: #949494;">, </span>57<span style="color: #949494;">, </span>26<span style="color: #949494;">, </span>45<span style="color: #949494;">, </span>14<span style="color: #949494;">, </span>27<span style="color: #949494;">,</span>…</span></span>
-<span><span class="co">#&gt; $ clay_percent           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 33<span style="color: #949494;">, </span>10<span style="color: #949494;">, </span>10<span style="color: #949494;">, </span>13<span style="color: #949494;">, </span>3<span style="color: #949494;">, </span>14<span style="color: #949494;">, </span>4<span style="color: #949494;">, </span>21<span style="color: #949494;">, </span>12<span style="color: #949494;">, </span>7<span style="color: #949494;">, </span>6<span style="color: #949494;">, </span>4<span style="color: #949494;">, </span>10<span style="color: #949494;">, </span>…</span></span>
 <span><span class="co">#&gt; $ min_c_96hr_mg_c_kg_day <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35.60<span style="color: #949494;">, </span>30.00<span style="color: #949494;">, </span>15.00<span style="color: #949494;">, </span>67.50<span style="color: #949494;">, </span>50.60<span style="color: #949494;">, </span>25.50<span style="color: #949494;">, </span>30.60…</span></span>
 <span><span class="co">#&gt; $ p_olsen_mg_kg          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 15<span style="color: #949494;">, </span>37<span style="color: #949494;">, </span>73<span style="color: #949494;">, </span>30<span style="color: #949494;">, </span>8<span style="color: #949494;">, </span>33<span style="color: #949494;">, </span>27<span style="color: #949494;">, </span>29<span style="color: #949494;">, </span>40<span style="color: #949494;">, </span>16<span style="color: #949494;">, </span>19<span style="color: #949494;">, </span>11<span style="color: #949494;">, </span>…</span></span>
 <span><span class="co">#&gt; $ wsa_percent            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 88.5<span style="color: #949494;">, </span>92.6<span style="color: #949494;">, </span>91.3<span style="color: #949494;">, </span>94.3<span style="color: #949494;">, </span>84.6<span style="color: #949494;">, </span>86.6<span style="color: #949494;">, </span>86.9<span style="color: #949494;">, </span>82.5<span style="color: #949494;">,</span>…</span></span>
@@ -517,51 +509,89 @@ Glimpse at the example data
 <span><span class="co">#&gt; $ toc_percent            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.85<span style="color: #949494;">, </span>2.88<span style="color: #949494;">, </span>1.68<span style="color: #949494;">, </span>1.40<span style="color: #949494;">, </span>1.53<span style="color: #949494;">, </span>1.55<span style="color: #949494;">, </span>2.25<span style="color: #949494;">, </span>2.37<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ whc_in_ft              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1.01<span style="color: #949494;">, </span>1.08<span style="color: #949494;">, </span>2.77<span style="color: #949494;">, </span>1.93<span style="color: #949494;">, </span>1.28<span style="color: #949494;">, </span>2.25<span style="color: #949494;">, </span>0.84<span style="color: #949494;">, </span>2.14<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ inorganic_c_percent    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span>0.12<span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">N</span>…</span></span></code></pre></div>
-</details><p>Your data <strong>must have the below required columns</strong>.
+</details><div class="section level3">
+<h3 id="metadata-columns-ai-year-through-longitude">Metadata (columns A–I: <code>year</code> through
+<code>longitude</code>)<a class="anchor" aria-label="anchor" href="#metadata-columns-ai-year-through-longitude"></a>
+</h3>
+<p>Your data <strong>must have the below required columns</strong>.
 However, only the columns in <strong>bold</strong> are required to have
 values. Put another way, your data must have these column names, even if
-every row is blank. Otherwise, the <code>data-validation</code> chunk in
-<code>01_producer-report.qmd</code> or {soils} functions will error. For
-more details, see <a href="#datadictionary-mismatches">Data/dictionary
-mismatches</a>.</p>
+every row is blank.</p>
 <ul>
 <li><p><strong><code>year &lt;int&gt;</code></strong> is used to select
 samples to be included in the report.</p></li>
-<li><p><strong><code>sample_id &lt;chr&gt;</code></strong> must be
-unique throughout the dataset.</p></li>
+<li><p><strong><code>sample_id &lt;chr&gt;</code></strong> is a unique
+identifier for each soil sample. Can be any alphanumeric value or a
+combination of <code>year</code>, <code>producer_id</code>, and
+<code>field_id</code>.</p></li>
 <li><p><code>farm_name &lt;chr&gt;</code> is included at the top of the
 report. If blank, it is replaced with “Farm:
 <code>producer_id</code>”.</p></li>
-<li><p><strong><code>producer_id &lt;chr&gt;</code></strong> is used to
-select samples to be included in the report.</p></li>
-<li><p><strong><code>field_id &lt;chr&gt;</code></strong> must be unique
-across all fields for each producer and is displayed in tables and tool
-tips for maps.</p></li>
+<li><p><strong><code>producer_id &lt;chr&gt;</code></strong> is a unique
+identifier for each producer. Reports are generated for each
+<code>producer_id</code> within a given year. This can be an
+alphanumeric value or the producer’s name.</p></li>
+<li><p><strong><code>field_id &lt;chr&gt;</code></strong> is to
+distinguish fields when a producer has multiple samples in the same
+year. Must be unique within a <code>producer_id</code> and
+<code>year</code> combination. Can be any alphanumeric value or a
+producer-assigned field name.</p></li>
 <li><p><code>county &lt;chr&gt;</code> is used to group and summarize
 samples from the same county as the producer. Can be blank.</p></li>
 <li><p><code>crop &lt;chr&gt;</code> is used to group and summarize
 samples from the same crop as the producer. Can be blank.</p></li>
-<li><p><code>longitude &lt;int&gt;</code> and
-<code>latitude &lt;int&gt;</code> are used to map each sample point
-using. If blank, the map will not be included.</p></li>
-<li><p><code>texture &lt;chr&gt;</code> is used in the “physical”
-measurement group table. This column is not used in the texture triangle
-plot, which is instead created from percentage sand, silt, and clay
-measurement results. If at least two of <code>sand_percent</code>,
-<code>silt_percent</code>, and <code>clay_percent</code> are provided,
-<code>texture</code> will be classified according to the USDA NRCS
-textural classification. See <code><a href="../reference/classify_texture.html">classify_texture()</a></code> for more
-information.</p></li>
-<li>
-<p><strong>Each soil measurement</strong> must have its own column
+<li><p><code>latitude &lt;int&gt;</code> and
+<code>longitude &lt;int&gt;</code>are used to map each sample point. If
+blank, the map will not be included. Coordinates must be provided in
+decimal degrees. <code>latitude</code> may range from -90 to 90.
+<code>longitude</code> may range from -180 to 180.</p></li>
+<li><p><strong>Each soil measurement</strong> must have its own column
 in the dataset and a corresponding row in the data dictionary, as shown
-in <a href="#dictionary-template">Dictionary template</a>.</p>
+in <a href="#dictionary-template">Dictionary template</a>.</p></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="measurement-results-columns-jao-texture-through-na_mg_kg">Measurement results (columns J–AO: <code>texture</code> through
+<code>na_mg_kg</code>)<a class="anchor" aria-label="anchor" href="#measurement-results-columns-jao-texture-through-na_mg_kg"></a>
+</h3>
 <ul>
-<li>Measurement columns come <strong>after</strong> the required columns
-for easy selection in the <a href="#tidy-long-chunk"><code>tidy-long</code> chunk</a>.</li>
+<li><p>All measurement columns <strong>except
+<code>texture</code></strong> must be numeric. Non-numeric values (e.g.,
+<code>ND</code>, <code>&lt;1</code>) will be coerced to <code>NA</code>
+and may be omitted from summaries, tables, and plots. Clean or recode
+censored values before uploading.</p></li>
+<li>
+<p><code>texture</code> may be left blank. If at least two of
+<code>sand_percent</code>, <code>silt_percent</code>, and
+<code>clay_percent</code> are provided, <code>texture</code> will be
+classified using <a href="https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator" class="external-link">USDA
+NRCS rules</a>.</p>
+<ul>
+<li>
+<p><code>sand_percent</code>, <code>silt_percent</code>, and
+<code>clay_percent</code> must:</p>
+<ul>
+<li><p>Be between 0 and 100</p></li>
+<li><p>Sum to 100 (± 1)</p></li>
+<li><p>Include at least two values per sample (the third will be
+calculated as 100 minus the sum of the other two)</p></li>
 </ul>
 </li>
 </ul>
+</li>
+<li><p>Delete any columns for measurements not analyzed in your
+project.</p></li>
+<li>
+<p>Add columns for any additional measurements you wish to
+include.</p>
+<p><strong>Important:</strong> Measurement column names in the
+<code>data</code> must match exactly match the <code>column_name</code>
+values in the <code>data_dictionary</code>. Update
+<code>data_dictionary</code> after adding or removing
+measurements.</p>
+</li>
+</ul>
+</div>
 </div>
 <div class="section level2">
 <h2 id="dictionary-template">Dictionary template<a class="anchor" aria-label="anchor" href="#dictionary-template"></a>
@@ -587,76 +617,39 @@ Glimpse at the example data dictionary
 </details><p>Your data dictionary <strong>must have the below required
 columns</strong> for every soil measurement included in your data.</p>
 <ul>
-<li><p><strong><code>measurement_group &lt;chr&gt;</code></strong>
-determines how the soil measurements are grouped. The order in which
-these groups appear in the report is determined by the order they are
-listed within the data dictionary.</p></li>
+<li>
+<p><strong><code>measurement_group &lt;chr&gt;</code></strong>
+defines how the soil measurements are grouped. Groups appear in the
+report in the order listed in the data dictionary.</p>
+<ul>
+<li>
+<p><strong>Only the following values are currently supported. Custom
+groups are not allowed and will fail validation.</strong></p>
+<ul>
+<li><p><strong>English:</strong> Physical, Biological, Chemical, Plant
+Essential Macro Nutrients, Plant Essential Micro Nutrients</p></li>
+<li><p><strong>Spanish:</strong> Mediciones físicas, Mediciones
+biológicas, Mediciones químicas, Macronutrientes esenciales para
+plantas, Micronutrientes esenciales para plantas</p></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><p><strong><code>column_name &lt;chr&gt;</code></strong> is used to
 join the dictionary with your data. Must exactly match the column names
-of the soil measurements in your dataset. The order in which these
-measurements appear within their <code>measurement_group</code> is
-determined by the order they are listed within the data
-dictionary.</p></li>
-<li><p><strong><code>abbr &lt;chr&gt;</code></strong> and
-<strong><code>unit &lt;chr&gt;</code></strong> are how soil measurements
-are labeled in tables with the abbreviation as the column header and
-unit as a secondary spanning header.</p></li>
+of the soil measurements in your data. Within each measurement group,
+measurements appear in the order listed in the data dictionary.</p></li>
+<li><p><strong><code>abbr &lt;chr&gt;</code></strong>: Abbreviation used
+in tables and plots. Shorter abbreviations improve readability.</p></li>
+<li><p><strong><code>unit &lt;chr&gt;</code></strong>: Unit of
+measurement displayed in tables and plots.</p></li>
+<li><p><strong><code>abbr</code></strong> +
+<strong><code>unit</code></strong>: Combination of abbreviation and unit
+must be unique for each measurement.</p></li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="datadictionary-mismatches">Data/dictionary mismatches<a class="anchor" aria-label="anchor" href="#datadictionary-mismatches"></a>
-</h2>
-<p>Getting your data and dictionary in the proper format to render the
-report without errors will likely be the most difficult part of making
-{soils} work for your project.</p>
-<p>The <a href="#data-validation-chunk"><code>data-validation</code>
-chunk</a> and many {soils} functions include
-<code><a href="https://testthat.r-lib.org/reference/expect_setequal.html" class="external-link">testthat::expect_contains()</a></code> to fail early if required
-columns are missing from either the data or the dictionary. This early
-failure saves time by stopping as soon as the missing column or
-data/dictionary mismatch is identified. Additionally, these early failed
-tests provide the <code>expected</code> versus <code>actual</code>
-values, making it easier to correct the issue with minimal
-debugging.</p>
-<p>Below are some common issues that arise and possible workarounds.
-These workarounds may make more sense after reviewing the <a href="#your-data">Your data</a> section that includes example errors and
-fixes.</p>
-<div class="section level3">
-<h3 id="extra-columns-in-data">Extra columns in data<a class="anchor" aria-label="anchor" href="#extra-columns-in-data"></a>
-</h3>
-<p><strong>Soil measurements in your data but not in your
-dictionary</strong> will cause the report to error in the
-<code>data-validation</code> chunk. For example, rendering the report
-will fail if your dataset contains both <code>pH</code> and
-<code>CEC</code> results but your dictionary only contains
-<code>pH</code>. Either add the <code>CEC</code> measurement to your
-dictionary or remove this measurement column from your data. If you
-don’t want to delete the column from your datasheet, you can remove it
-from only the data object with
-<code>data &lt;- dplyr::select(data, -cec_meq_100g)</code> perhaps in
-the <code>load-data</code> chunk.</p>
-<p><strong>Additional metadata columns in your data</strong> will also
-cause the report to error in the <code>data-validation</code> chunk. For
-example, if you have a column <code>phone_number</code> with producer
-phone numbers that won’t be used in the report, remove it from the data
-with the
-<code>data &lt;- dplyr::select(data, -c(cec_meq_100g, phone_number))</code>.
-If you want to use this column in the report, then add it to the
-<code>required_cols</code> vector of the <a href="#data-validation-chunk"><code>data-validation</code> chunk</a> so
-that the <code>testthat</code> function doesn’t error.</p>
-</div>
-<div class="section level3">
-<h3 id="extra-rows-in-dictionary">Extra rows in dictionary<a class="anchor" aria-label="anchor" href="#extra-rows-in-dictionary"></a>
-</h3>
-<p><strong>Soil measurements in your dictionary but not in your
-data</strong> will not error and will not affect the report. For
-example, the report will simply show the <code>pH</code> results if your
-dictionary contains both <code>pH</code> and <code>CEC</code> but your
-data only contains <code>pH</code> results.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="your-data">Your data<a class="anchor" aria-label="anchor" href="#your-data"></a>
+<h2 id="load-your-data-into-the-template">Load your data into the template<a class="anchor" aria-label="anchor" href="#load-your-data-into-the-template"></a>
 </h2>
 <p>Once your project data and dictionary files match the structure of
 the examples and are saved in the <code>data</code> folder, follow along
@@ -717,94 +710,48 @@ Example changed chunk
 <h3 id="tidy-long-chunk">
 <code>tidy-long</code> chunk<a class="anchor" aria-label="anchor" href="#tidy-long-chunk"></a>
 </h3>
-<p>Ensure the column ranges in <code><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">dplyr::across()</a></code> and
-<code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">tidyr::pivot_longer()</a></code> match the column range of your soil
-measurements. In the example <code>washi-data.csv</code>, this range is
-<code>11:41</code>. This chunk <a href="https://vita.had.co.nz/papers/tidy-data.pdf" class="external-link">tidies the data</a>
-from wide to long for summarization and visualization.</p>
-<p>In this example, imagine you have one additional metadata column
-before your measurement columns begin. This means your column range of
-soil measurements is <code>12:42</code>.</p>
+<p>As of {soils} version 1.0.1, measurement columns are automatically
+detected, converted to numeric, and pivoted to a tidy long format.
+<strong>All measurement columns must be numeric</strong>. Non-numeric
+values (e.g., <code>ND</code>, <code>&lt;1</code>, <code>NA</code>,
+blanks, or other characters) are coerced to <code>NA</code> and may be
+omitted from summaries, tables, and plots. If you have additional
+metadata columns that should <strong>not</strong> be converted or
+pivoted, add them to the <code>metadata_cols</code> vector.</p>
 <details closed><summary>
 Example changed chunk
-</summary><div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Get index last column of data frame</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>num_cols <span class="ot">&lt;-</span> <span class="fu">ncol</span>(data)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Tidy data into long format and join with data dictionary</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>results_long <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    <span class="co"># EDIT: make sure this matches the column range of your soil measurements</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>      <span class="dv">12</span><span class="sc">:</span>dplyr<span class="sc">::</span><span class="fu">all_of</span>(num_cols),</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>      as.numeric</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    )</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>    <span class="co"># EDIT: make sure this matches the column range of your soil measurements</span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>    <span class="at">cols =</span> <span class="dv">12</span><span class="sc">:</span>dplyr<span class="sc">::</span><span class="fu">all_of</span>(num_cols),</span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measurement"</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  ...</span></code></pre></div>
-</details>
-</div>
-<div class="section level3">
-<h3 id="data-validation-chunk">
-<code>data-validation</code> chunk<a class="anchor" aria-label="anchor" href="#data-validation-chunk"></a>
-</h3>
-<p>This chunk checks there are no mismatches as described in <a href="#datadictionary-mismatches">Data/dictionary mismatches</a> by
-making sure all column names in your dataset are in either the
-<code>required_cols</code> vector or the <code>column_name</code> column
-of <code>my-dictionary.csv</code>.</p>
-<p>In this example, add an extra column named <code>tillage</code> in
-<code>my-data.csv</code> without changing the dictionary.</p>
-<p>After clicking the <code>Render</code> button, the report failed.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>Error<span class="sc">:</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(required_cols, dictionary$column_name) (`expected`).</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="st">* Missing from `expected`: "tillage"</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_id", "county", "crop", "longitude", ...</span></span></code></pre></div>
-<p>This error message says the error occurred in lines 94-115 in the
-<code>data-validation</code> chunk because <code>tillage</code> was
-missing from the <code>expected</code> values, which are elements of
-<code>required_cols</code> and <code>dictionary$column_name</code>.</p>
-<p>Adding <code>"tillage"</code> to <code>required_cols</code> prevents
-this error.</p>
-<details closed><summary>
-Example changed chunk
-</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># OPTIONAL EDIT: If you have extra columns in `data`, add them to this vector.</span></span>
-<span><span class="va">required_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"year"</span>,</span>
-<span>  <span class="st">"sample_id"</span>,</span>
-<span>  <span class="st">"farm_name"</span>,</span>
-<span>  <span class="st">"producer_id"</span>,</span>
-<span>  <span class="st">"field_id"</span>,</span>
-<span>  <span class="st">"county"</span>,</span>
-<span>  <span class="st">"crop"</span>,</span>
-<span>  <span class="st">"longitude"</span>,</span>
-<span>  <span class="st">"latitude"</span>,</span>
-<span>  <span class="st">"texture"</span>,</span>
-<span>  <span class="st">"tillage"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Check all column names in `data` are in the `required_cols` vector or</span></span>
-<span><span class="co"># `column_name` column of `dictionary`.</span></span>
-<span><span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/expect_setequal.html" class="external-link">expect_in</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">required_cols</span>, <span class="va">dictionary</span><span class="op">$</span><span class="va">column_name</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</details><p>To demonstrate another data/dictionary mismatch error, remove
-<code>cec_meq_100g</code> from the dictionary while keeping it in the
-dataset.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>Quitting from lines <span class="dv">94-115</span> [data<span class="sc">-</span>validation] (<span class="dv">01</span>_producer<span class="sc">-</span>report.qmd)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>Error<span class="sc">:</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="sc">!</span> <span class="fu">names</span>(data) (<span class="st">`</span><span class="at">actual</span><span class="st">`</span>) isn<span class="st">'t fully contained within c(...) (`expected`).</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="st">* Missing from `expected`: "cec_meq_100g"</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="st">* Present in `expected`:   "year", "sample_id", "farm_name", "producer_id", "field_id", "county", "crop", "texture", ...</span></span></code></pre></div>
-<p>The error occurred because <code>cec_meq_100g</code> was missing from
-the <code>expected</code> values. Either add <code>cec_meq_100g</code>
-back to the dictionary or remove this column from the dataset to fix
-this error.</p>
-<p><strong>See the <a href="https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html">troubleshooting
-article</a> for more help on debugging errors.</strong> article](<a href="https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html" class="uri">https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html</a>)
-for more help on debugging errors.**</p>
+</summary><div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># OPTIONAL EDIT: Add any extra metadata columns in `data` that should not be</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># treated as measurements.</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>metadata_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="st">"year"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="st">"sample_id"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="st">"farm_name"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="st">"producer_id"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="st">"field_id"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="st">"county"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="st">"crop"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="st">"longitude"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  <span class="st">"latitude"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  <span class="st">"texture"</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co"># Identify measurement columns</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>measurement_cols <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>dplyr<span class="sc">::</span><span class="fu">any_of</span>(metadata_cols)) <span class="sc">|&gt;</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>  <span class="fu">colnames</span>()</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co"># Coerce measurement columns to numeric; warns if values are converted to NA</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>data <span class="ot">&lt;-</span> soils<span class="sc">::</span><span class="fu">coerce_to_numeric</span>(data, measurement_cols)</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co"># Tidy data into long format and join with data dictionary</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>results_long <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>    <span class="at">cols =</span> dplyr<span class="sc">::</span><span class="fu">all_of</span>(measurement_cols),</span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measurement"</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>  ...</span></code></pre></div>
+</details><p><strong>See the <a href="https://wa-department-of-agriculture.github.io/soils/articles/troubleshoot.html">troubleshooting
+article</a> for more help on debugging errors.</strong></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

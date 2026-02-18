@@ -71,6 +71,9 @@ convert_to_numeric <- function(data, measurement_cols) {
   )
   names(na_created) <- measurement_cols
 
+  # Initialize warn_messages
+  warn_messages <- NULL
+
   # Partial NAs (some values converted)
   partial_na <- na_created[na_created > 0]
   if (length(partial_na) > 0) {

@@ -55,6 +55,41 @@ if (fs::dir_exists(path)) fs::dir_delete(path)
 fs::dir_create(path)
 ```
 
+<!-- Set styling variables -->
+
+```{r set-fonts-colors}
+# EDIT: Replace any font names and colors to match your branding.
+header_font <- "Georgia"
+body_font <- "Arial"
+
+# Flextable colors -----------------------------------------------------
+
+# header background color
+header_color <- "#023B2C"
+# header text color
+header_text_color <- "white"
+# body darker background color
+darker_color <- "#ccc29c"
+# body lighter background color
+lighter_color <- "#F2F0E6"
+# border color
+border_color <- "#3E3D3D"
+
+# Map and plot colors -----------------------------------------------------
+
+# point color for producer samples
+primary_color <- "#a60f2d"
+# point color for samples in same categories as producer
+secondary_color <- "#3E3D3D"
+# point color for all other samples in project
+other_color <- "#ccc29c"
+
+# facet strip background color
+strip_color <- "#335c67"
+# facet strip text color
+strip_text_color <- "white"
+```
+
 <!-- Load data and dictionary -->
 
 ```{r load-data, include=FALSE}
@@ -95,109 +130,15 @@ dictionary <- read.csv(
 )
 ```
 
-```{r data-validation}
-# OPTIONAL EDIT: If you have extra columns in `data`, add them to this vector.
-required_data_cols <- c(
-  "year",
-  "sample_id",
-  "farm_name",
-  "producer_id",
-  "field_id",
-  "county",
-  "crop",
-  "longitude",
-  "latitude",
-  "texture"
-)
-
-required_dict_cols <- c(
-  "measurement_group",
-  "column_name",
-  "abbr",
-  "unit"
-)
-
-# Check all column names in `data` are in the `required_cols` vector or
-# `column_name` column of `dictionary`.
-testthat::expect_in(names(data), c(required_data_cols, dictionary$column_name))
-
-# Check that `dictionary` has required column names.
-testthat::expect_contains(names(dictionary), required_dict_cols)
-```
-
-<!-- Set styling variables -->
-
-```{r set-fonts-colors}
-# EDIT: Replace any font names and colors to match your branding.
-header_font <- "Georgia"
-body_font <- "Arial"
-
-# Flextable colors -----------------------------------------------------
-
-# header background color
-header_color <- "#023B2C"
-# header text color
-header_text_color <- "white"
-# body darker background color
-darker_color <- "#ccc29c"
-# body lighter background color
-lighter_color <- "#F2F0E6"
-# border color
-border_color <- "#3E3D3D"
-
-# Map and plot colors -----------------------------------------------------
-
-# point color for producer samples
-primary_color <- "#a60f2d"
-# point color for samples in same categories as producer
-secondary_color <- "#3E3D3D"
-# point color for all other samples in project
-other_color <- "#ccc29c"
-
-# facet strip background color
-strip_color <- "#335c67"
-# facet strip text color
-strip_text_color <- "white"
-```
-
 <!-- Texture validation and classification -->
 
 ```{r texture-validate-classify}
-# If sand, silt, and clay columns are present, validate & classify texture
-if (all(c("sand_percent", "silt_percent", "clay_percent") %in% names(data))) {
-  data <- soils::classify_texture(data)
-}
+# Validate and classify soil texture (requires at least two of:
+# sand_percent, silt_percent, clay_percent)
+data <- soils::classify_texture(data)
 
-# If texture is in data but not dictionary, add to dictionary before the texture
-# fractions
-if ("texture" %in% names(data) & !"texture" %in% dictionary$column_name) {
-  # Identify where to insert texture (before the first fraction column)
-  insert_before <- which(
-    dictionary$column_name %in%
-      c("sand_percent", "silt_percent", "clay_percent")
-  )[1]
-
-  # Define the texture dictionary row
-  texture_row <- data.frame(
-    measurement_group = "Mediciones físicas",
-    column_name = "texture",
-    abbr = "Textura",
-    unit = "",
-    stringsAsFactors = FALSE
-  )
-
-  # Insert texture row at the correct position
-  if (!is.na(insert_before)) {
-    dictionary <- dplyr::bind_rows(
-      dictionary[seq_len(insert_before - 1), ],
-      texture_row,
-      dictionary[insert_before:nrow(dictionary), ]
-    )
-  } else {
-    # Fallback: append to the end of Physical group if fractions not present
-    dictionary <- dplyr::bind_rows(dictionary, texture_row)
-  }
-}
+# Add texture and fraction rows to the dictionary if created during classification
+dictionary <- soils::sync_dictionary_texture(data, dictionary, "Spanish")
 ```
 
 <!-- Format measurement labels and set ordering -->
@@ -206,7 +147,11 @@ if ("texture" %in% names(data) & !"texture" %in% dictionary$column_name) {
 dictionary <- dictionary |>
   dplyr::mutate(
     # Concatenate abbr and unit with html break for the table and plot labels
-    abbr_unit = glue::glue("{abbr}<br>{unit}"),
+    abbr_unit = dplyr::if_else(
+      is.na(unit) | unit == "",
+      abbr,
+      glue::glue("{abbr}<br>{unit}")
+    ),
     # Set the order of how measurement groups will appear within the report
     # based on the order found in the data dictionary
     group_order = dplyr::cur_group_id(),
@@ -223,21 +168,35 @@ measurement_groups <- unique(dictionary$measurement_group)
 <!-- Pivot data longer and join with data dictionary -->
 
 ```{r tidy-long}
-# Get number of columns
-num_cols <- ncol(data)
+# OPTIONAL EDIT: If you have extra metadata columns in `data`, add them to this
+# vector. All other columns are assumed to be quantitative measurements and will
+# be coerced to numeric. Non-numeric values (e.g. "ND", "NA", "", "-", "<1")
+# will be converted to NA and excluded from tables and plots.
+metadata_cols <- c(
+  "year",
+  "sample_id",
+  "farm_name",
+  "producer_id",
+  "field_id",
+  "county",
+  "crop",
+  "longitude",
+  "latitude",
+  "texture"
+)
+
+# Identify measurement columns
+measurement_cols <- data |>
+  dplyr::select(-dplyr::any_of(metadata_cols)) |>
+  colnames()
+
+# Coerce measurement columns to numeric; warns if values are converted to NA
+data <- soils::coerce_to_numeric(data, measurement_cols)
 
 # Tidy data into long format and join with data dictionary
 results_long <- data |>
-  dplyr::mutate(
-    # EDIT: make sure this matches the column range of your soil measurements
-    dplyr::across(
-      11:dplyr::all_of(num_cols),
-      as.numeric
-    )
-  ) |>
   tidyr::pivot_longer(
-    # EDIT: make sure this matches the column range of your soil measurements
-    cols = 11:dplyr::all_of(num_cols),
+    cols = dplyr::all_of(measurement_cols),
     names_to = "measurement"
   ) |>
   dplyr::inner_join(dictionary, by = c("measurement" = "column_name")) |>
@@ -321,35 +280,45 @@ gis_df <- producer_samples |>
 
 ```{r calculate-averages}
 # Calculate averages by crop, county, and project
-crop_summary <- results_long |>
-  dplyr::filter(!is.na(crop)) |>
-  soils::summarize_by_var(
-    producer_samples,
-    var = crop
-  ) |>
-  dplyr::mutate(
-    `Field or Average` = gsub("Fields", "Campos", `Field or Average`),
-    `Field or Average` = gsub("Average", "Promedio", `Field or Average`)
-  ) |>
-  dplyr::rename(
-    `Campo o Promedio` = `Field or Average`,
-    Textura = Texture
-  )
+if (!soils::is_column_empty(results_long$crop)) {
+  crop_summary <- results_long |>
+    soils::summarize_by_var(
+      producer_samples,
+      var = crop
+    ) |>
+    dplyr::mutate(
+      `Field or Average` = gsub("Fields", "Campos", `Field or Average`),
+      `Field or Average` = gsub("Average", "Promedio", `Field or Average`)
+    ) |>
+    dplyr::rename(
+      `Campo o Promedio` = `Field or Average`
+    )
 
-county_summary <- results_long |>
-  dplyr::filter(!is.na(county)) |>
-  soils::summarize_by_var(
-    producer_samples,
-    var = county
-  ) |>
-  dplyr::mutate(
-    `Field or Average` = gsub("Fields", "Campos", `Field or Average`),
-    `Field or Average` = gsub("Average", "Promedio", `Field or Average`)
-  ) |>
-  dplyr::rename(
-    `Campo o Promedio` = `Field or Average`,
-    Textura = Texture
-  )
+  if ("Texture" %in% names(crop_summary)) {
+    crop_summary <- crop_summary |>
+      dplyr::rename(Textura = Texture)
+  }
+}
+
+if (!soils::is_column_empty(results_long$county)) {
+  county_summary <- results_long |>
+    soils::summarize_by_var(
+      producer_samples,
+      var = county
+    ) |>
+    dplyr::mutate(
+      `Field or Average` = gsub("Fields", "Campos", `Field or Average`),
+      `Field or Average` = gsub("Average", "Promedio", `Field or Average`)
+    ) |>
+    dplyr::rename(
+      `Campo o Promedio` = `Field or Average`
+    )
+
+  if ("Texture" %in% names(county_summary)) {
+    county_summary <- county_summary |>
+      dplyr::rename(Textura = Texture)
+  }
+}
 
 project_summary <- soils::summarize_by_project(results_long) |>
   dplyr::mutate(
@@ -361,9 +330,13 @@ project_summary <- soils::summarize_by_project(results_long) |>
     )
   ) |>
   dplyr::rename(
-    `Campo o Promedio` = `Field or Average`,
-    Textura = Texture
+    `Campo o Promedio` = `Field or Average`
   )
+
+if ("Texture" %in% names(project_summary)) {
+  project_summary <- project_summary |>
+    dplyr::rename(Textura = Texture)
+}
 ```
 
 ```{r combine-producer-and-summaries}
@@ -374,29 +347,48 @@ producer_table <- producer_samples |>
     abbr,
     value,
     "Campo o Promedio" = field_id,
-    Textura = texture
+    dplyr::any_of("texture")
   )
 
+# Rename texture if present
+if ("texture" %in% names(producer_table)) {
+  producer_table <- producer_table |>
+    dplyr::rename(Textura = texture)
+}
+
 # Bind together into one df and round values to 2 digits
-df_table <- dplyr::bind_rows(
-  producer_table,
-  crop_summary,
-  county_summary,
-  project_summary
+df_table <- c(
+  "producer_table",
+  "crop_summary",
+  "county_summary",
+  "project_summary"
 ) |>
+  # Get the names of the df that exist
+  purrr::keep(~ exists(.x, envir = environment())) |>
+  # Get the actual df
+  purrr::map(~ get(.x, envir = environment())) |>
+  # Combine into one df
+  dplyr::bind_rows() |>
+  # Round the values
   dplyr::mutate(
-    value = as.numeric(formatC(value, 2, drop0trailing = TRUE))
+    value = as.numeric(base::formatC(value, 2, drop0trailing = TRUE))
   )
 ```
 
 ```{r split-into-groups}
 # Split into list with each measurement group as its own df and pivot wider
-groups <- df_table |>
+id_cols <- if ("Textura" %in% names(df_table)) {
+  c("Campo o Promedio", "Textura")
+} else {
+  "Campo o Promedio"
+}
+
+tables <- df_table |>
   split(df_table$measurement_group) |>
   purrr::map(\(x) {
     tidyr::pivot_wider(
       x,
-      id_cols = c("Campo o Promedio", Textura),
+      id_cols = dplyr::all_of(id_cols),
       names_from = abbr
     )
   })
@@ -404,37 +396,38 @@ groups <- df_table |>
 
 ```{r physical-group-tweaks}
 # Special wrangling for texture
+if ("Textura" %in% names(df_table)) {
+  # Extract physical df from averages list
+  physical <- list("Mediciones físicas" = tables$`Mediciones físicas`)
 
-# Extract physical df from averages list
-physical <- list("Mediciones físicas" = groups$`Mediciones físicas`)
-
-# Remove texture from all dataframes except physical
-groups <- purrr::map(
-  subset(
-    groups,
-    !(names(groups) == "Mediciones físicas")
-  ),
-  \(x) dplyr::select(x, -Textura)
-)
-
-# Add physical df back to the averages list
-groups <- c(groups, physical)
-
-# Remove this intermediate variable from env
-rm(physical)
-```
-
-```{r remove-rows-with-one-observation}
-# Delete any county or crop averages where n = 1 or county/crop is blank.
-tables <- groups |>
-  purrr::map(
-    subset,
-    !grepl("(^1 Campos)|NA", `Campo o Promedio`)
+  # Remove texture from all dataframes except physical
+  tables <- purrr::map(
+    subset(
+      tables,
+      !(names(tables) == "Mediciones físicas")
+    ),
+    \(x) dplyr::select(x, -Textura)
   )
+
+  # Add physical df back to the averages list
+  tables <- c(tables, physical)
+
+  # Remove this intermediate variable from env
+  rm(physical)
+}
 
 # Order list of tables based on how they appear in dictionary. Important that
 # tables and headers are in the same order for the make-flextables chunk.
 tables <- tables[measurement_groups]
+```
+
+```{r remove-rows-with-one-observation}
+# Delete any county or crop averages where n = 1 or county/crop is blank.
+tables <- tables |>
+  purrr::map(
+    subset,
+    !grepl("\\(1 Campos\\)|NA", `Campo o Promedio`)
+  )
 ```
 
 ```{r get-headers-for-flextable}
@@ -463,6 +456,7 @@ table_list <- list2DF(
 ) |>
   purrr::pmap(\(table, header) {
     soils::make_ft(table, header) |>
+      soils::add_field_count_note(language = "Spanish") |>
       soils::format_ft_colors(
         lighter_color = lighter_color,
         darker_color = darker_color,
@@ -711,7 +705,7 @@ if (soils::is_column_empty(gis_ft$Cultivo)) {
 }
 
 # If longitude or latitude are empty, remove the columns from the printed table
-if (soils::is_column_empty(gis_ft$Longitud) &
+if (soils::is_column_empty(gis_ft$Longitud) ||
   soils::is_column_empty(gis_ft$Latitud)) {
   gis_ft <- gis_ft |> dplyr::select(-c(Longitud, Latitud))
 }

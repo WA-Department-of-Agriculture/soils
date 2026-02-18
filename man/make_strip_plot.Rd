@@ -48,7 +48,7 @@ df_plot <- readRDS(df_plot_path)
 
 # Subset df to just biological measurement group
 df_plot_bio <- df_plot |>
-  dplyr::filter(measurement_group == "biological")
+  dplyr::filter(measurement_group == "Biological")
 
 # Make strip plot with all measurements and set scales based on
 # the category column and then apply theme.

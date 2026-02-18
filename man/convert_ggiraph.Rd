@@ -35,7 +35,7 @@ df_plot <- readRDS(df_plot_path)
 
 # Subset df to just biological measurement group
 df_plot_bio <- df_plot |>
-  dplyr::filter(measurement_group == "biological")
+  dplyr::filter(measurement_group == "Biological")
 
 # NOTE: the plot gets piped into the `set_scales()` function, which gets
 # added to `theme_facet_strip()`.

@@ -60,3 +60,46 @@ cat_red_bullet <- function(...) {
 soils_cli_vec <- function(x) {
   cli::cli_vec(x, list(vec_trunc = 5))
 }
+
+abort_if_missing_cols <- function(
+  df,
+  cols,
+  context = NULL,
+  arg = rlang::caller_arg(df),
+  call = rlang::caller_env()
+) {
+  missing <- setdiff(cols, names(df))
+
+  if (length(missing) == 0) {
+    return(invisible(df))
+  }
+
+  if (length(missing) == 1) {
+    msg <- c(
+      "x" = "{.arg {arg}} must have the required column: {.field {missing}}"
+    )
+  }
+
+  if (length(missing) == 2) {
+    msg <- c(
+      "x" = "{.arg {arg}} must have the required columns: {.field {missing[1]}} and\
+      {.field {missing[2]}}"
+    )
+  }
+
+  if (length(missing) >= 3) {
+    msg <- c(
+      "x" = "{.arg {arg}} must have the required columns:",
+      rlang::set_names(
+        paste0("{.field ", missing, "}"),
+        rep("*", length(missing))
+      )
+    )
+  }
+
+  if (!is.null(context)) {
+    msg <- c(msg, "i" = context)
+  }
+
+  cli::cli_abort(msg, call = rlang::caller_env())
+}

@@ -2,18 +2,19 @@
 % Please edit documentation in R/helpers.R
 \name{calculate_mode}
 \alias{calculate_mode}
-\title{Calculate the mode of categorical variable}
+\title{Calculate the mode of a categorical variable}
 \usage{
 calculate_mode(x)
 }
 \arguments{
-\item{x}{Character vector to calculate mode from.}
+\item{x}{Character vector to calculate the mode from.}
 }
 \value{
-The value that occurred most often.
+A single value (character) that occurs most often in \code{x}.
 }
 \description{
-Calculate the mode of categorical variable
+Returns the most frequently occurring value in a character vector, ignoring
+missing values.
 }
 \examples{
 calculate_mode(washi_data$crop)

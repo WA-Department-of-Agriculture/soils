@@ -2,24 +2,23 @@
 % Please edit documentation in R/helpers.R
 \name{pull_unique}
 \alias{pull_unique}
-\title{Pull unique values from one column of dataframe}
+\title{Extract unique values from a single column of a data frame}
 \usage{
 pull_unique(df, target)
 }
 \arguments{
-\item{df}{Dataframe with column to extract unique values from.}
+\item{df}{A data frame containing the column of interest.}
 
-\item{target}{Variable to pull unique vector of (i.e. crop or
-county).}
+\item{target}{Column to extract unique values from (string or unquoted
+symbol).}
 }
 \value{
-Vector of unique values from target column.
+A vector of unique values from the specified column.
 }
 \description{
-Pull unique values from one column of dataframe
+Extract unique values from a single column of a data frame
 }
 \examples{
-washi_data |>
-  pull_unique(crop)
+pull_unique(washi_data, "crop")
 
 }

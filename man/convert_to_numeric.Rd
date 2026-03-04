@@ -14,7 +14,7 @@ measurement columns.}
 numeric.}
 }
 \value{
-A data frame where specified measurement columns have been coerced to
+A data frame where specified measurement columns have been converted to
 numeric.
 }
 \description{
@@ -24,8 +24,8 @@ workflow.
 \details{
 Non-numeric values in specified measurement columns, such as character values
 commonly used to represent missing or censored measurements (e.g. \code{"ND"},
-\code{"<1"}, \code{"-"}, or \code{""}), are coerced to \code{NA}. Warnings are emitted when
-non-missing values are coerced to \code{NA}, and when a column contains only \code{NA}
+\code{"<1"}, \code{"-"}, or \code{""}), are converted to \code{NA}. Warnings are emitted when
+non-missing values are converted to \code{NA}, and when a column contains only \code{NA}
 values after coercion, indicating it may be omitted from downstream summaries
 or visualizations.
 }

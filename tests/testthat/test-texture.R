@@ -1,22 +1,22 @@
 # Validation: require a dataframe ----------------------------------------------
 
-test_that("validate_texture_fractions errors if input is not a data frame", {
+test_that("check_texture_fractions errors if input is not a data frame", {
   expect_error(
-    validate_texture_fractions(list(a = 1)),
+    check_texture_fractions(list(a = 1)),
     "Input must be a <dataframe>"
   )
 })
 
 # Validation: required columns -------------------------------------------------
 
-test_that("validate_texture_fractions errors if required columns are missing", {
+test_that("check_texture_fractions errors if required columns are missing", {
   df <- data.frame(
     sand_percent = 40,
     silt_percent = 40
   )
 
   expect_error(
-    validate_texture_fractions(df),
+    check_texture_fractions(df),
     "required column: sample_id"
   )
 })
@@ -31,7 +31,7 @@ test_that("creates the third fraction column when exactly two are provided", {
   )
 
   expect_warning(
-    out <- validate_texture_fractions(df),
+    out <- check_texture_fractions(df),
     "missing one fraction"
   )
 
@@ -50,7 +50,7 @@ test_that("warns when exactly two fractions are missing in a row", {
   )
 
   expect_warning(
-    validate_texture_fractions(df),
+    check_texture_fractions(df),
     "fewer than two fractions"
   )
 })
@@ -64,7 +64,7 @@ test_that("warns when exactly one fraction is missing", {
   )
 
   expect_warning(
-    validate_texture_fractions(df),
+    check_texture_fractions(df),
     "missing one fraction"
   )
 })
@@ -78,7 +78,7 @@ test_that("warns when all fractions are missing and texture is not provided", {
   )
 
   expect_warning(
-    validate_texture_fractions(df),
+    check_texture_fractions(df),
     "fewer than two fractions"
   )
 })
@@ -93,7 +93,7 @@ test_that("does not warn when all fractions are missing but texture is provided"
   )
 
   expect_no_warning(
-    validate_texture_fractions(df)
+    check_texture_fractions(df)
   )
 })
 
@@ -108,7 +108,7 @@ test_that("errors when any fraction is outside 0–100", {
   )
 
   expect_error(
-    validate_texture_fractions(df),
+    check_texture_fractions(df),
     "between 0 and 100"
   )
 })
@@ -125,7 +125,7 @@ test_that("errors when complete fractions fall outside the 99–101 tolerance", 
   )
 
   expect_error(
-    validate_texture_fractions(df),
+    check_texture_fractions(df),
     "sum to 100"
   )
 })
@@ -153,7 +153,7 @@ test_that("validation reports all error and warning types together", {
   # 5 → all fractions missing (warning)
 
   expect_error(
-    validate_texture_fractions(df),
+    check_texture_fractions(df),
     regexp = paste(
       "validation failed", # overall failure
       "between 0 and 100", # out of range
@@ -192,7 +192,7 @@ test_that("complete_texture_fractions computes the missing fraction after valida
 
   # Catch the warning from exactly one missing fraction
   expect_warning(
-    validated <- validate_texture_fractions(df),
+    validated <- check_texture_fractions(df),
     regexp = "missing one fraction"
   )
 
@@ -271,7 +271,7 @@ test_that("CLI messages correctly pluralize 'Sample' vs 'Samples'", {
   )
 
   expect_warning(
-    validate_texture_fractions(df_single),
+    check_texture_fractions(df_single),
     "Sample 1 has fewer than two fractions"
   )
 
@@ -283,7 +283,7 @@ test_that("CLI messages correctly pluralize 'Sample' vs 'Samples'", {
   )
 
   expect_warning(
-    validate_texture_fractions(df_plural),
+    check_texture_fractions(df_plural),
     "Samples 1 and 2 have fewer than two fractions"
   )
 })
@@ -297,7 +297,7 @@ test_that("CLI messages correctly pluralize 'is' vs 'are'", {
   )
 
   expect_warning(
-    validate_texture_fractions(df_single),
+    check_texture_fractions(df_single),
     "Sample 1 is missing one fraction"
   )
 
@@ -309,7 +309,7 @@ test_that("CLI messages correctly pluralize 'is' vs 'are'", {
   )
 
   expect_warning(
-    validate_texture_fractions(df_plural),
+    check_texture_fractions(df_plural),
     "Samples 1 and 2 are missing one fraction"
   )
 })

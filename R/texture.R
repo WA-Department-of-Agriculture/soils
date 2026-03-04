@@ -1,4 +1,4 @@
-#' Validate soil texture fractions
+#' Check soil texture fractions
 #'
 #' Internal helper that validates soil particle-size fractions (sand, silt, and
 #' clay). If exactly two of the three fraction columns are present, the missing
@@ -22,7 +22,7 @@
 #'   downstream completion.
 #'
 #' @keywords internal
-validate_texture_fractions <- function(df) {
+check_texture_fractions <- function(df) {
   # Abort if df is not a dataframe
   if (!is.data.frame(df)) {
     cli::cli_abort(c(
@@ -496,7 +496,7 @@ assign_texture_class <- function(df) {
 #' @export
 classify_texture <- function(df) {
   # Validate first
-  df <- validate_texture_fractions(df)
+  df <- check_texture_fractions(df)
 
   # Determine which fraction columns exist
   fraction_cols <- intersect(

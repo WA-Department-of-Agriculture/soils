@@ -14,7 +14,7 @@
 
     -   Data upload no longer requires a pre-existing `texture` column.
 
-        -   Added new texture helpers: `validate_texture_fractions()`,
+        -   Added new texture helpers: `check_texture_fractions()`,
             `complete_texture_fractions()`, and `classify_texture()`. These
             validate sand, silt, and clay fractions, compute a missing fraction
             when exactly two are provided, and assign USDA soil texture classes

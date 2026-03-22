@@ -1,20 +1,11 @@
-# ============================================================================
-# data_validation.R — POC for soils package validation pattern
-#
-# This file demonstrates the proposed architecture for validation functions
-# that serve both CLI (soils package) and UI (Shiny app) consumers.
+# This file contains validation functions for use in the {soils} R package (cli
+# messaging) and Dirt Data Reports (UI messaging in shiny app).
 #
 # Organization:
-#   1. Utilities  — new_issue(), format_output(), split_issues()
-#   2. Gate check — check_file_readable()
-#   3. Checks     — one function per validation check
+# 1. Utilities  — new_issue(), format_output(), split_issues()
+# 2. Gate check — check_file_readable(), is_gate_pass()
+# 3. Checks     — one function per validation check
 #
-# PROPOSED FOR SOILS PACKAGE: Everything in this file would eventually live
-# in the soils package as individual exported functions (one file per
-# function). The Shiny app would call them with output = "ui".
-#
-# For the POC, source this file and use the demo script to see both outputs.
-# ============================================================================
 
 # --- 1. Utilities -----------------------------------------------------------
 
@@ -55,7 +46,7 @@ format_output <- function(issues, output = c("cli", "ui")) {
         vapply(errors, \(x) x$message, character(1))
       )
       names(bullets) <- rep("*", length(bullets))
-      cli::cli_abort(c("x" = "Data validation failed.", bullets))
+      cli::cli_abort(c("x" = "Data validation failed.", bullets), call = NULL)
     }
 
     if (length(warnings) > 0) {
@@ -65,7 +56,8 @@ format_output <- function(issues, output = c("cli", "ui")) {
       names(bullets) <- rep("*", length(bullets))
       cli::cli_warn(c(
         "!" = "Data validation completed with warnings.",
-        bullets
+        bullets,
+        call = NULL
       ))
     }
 
@@ -94,106 +86,160 @@ split_issues <- function(issues) {
 
 # --- 2. Gate check ----------------------------------------------------------
 
-#' Check that a file is readable and return loaded data
+#' Check that file input(s) are readable and return loaded data
 #'
-#' Runs the blocking checks in sequence: required sheets exist, no duplicate
-#' headers, both sheets load, and data has rows. If all pass, returns the
-#' loaded data frames. If any fail, returns the issue list.
+#' Runs the blocking checks in sequence: required sheets (.xlsx) or files (.csv)
+#' exist, no duplicate headers, both sheets load, and data has rows. If all
+#' pass, returns the loaded data frames. If any fail, returns the issue list.
 #'
-#' @param file Path to the .xlsx file.
+#' @param file Path to the .xlsx file (must contain sheets "Data" and "Data
+#'   Dictionary" Or a character vector of length 2 with paths to .csv files
+#'   named {.file data.csv} and {.file data-dictionary.csv} (in that order).
 #' @param output "cli" (default) or "ui".
 #'
-#' @return On success: a named list with $data and $data_dict data frames.
-#'   On failure: a list of issues (same structure as other check functions).
-#'   Use is_gate_pass() to check which one you got back.
+#' @return On success: a named list with $data and $data_dict data frames. On
+#'   failure: a list of issues (same structure as other check functions). Use
+#'   is_gate_pass() to check which one you got back.
 check_file_readable <- function(file, output = c("cli", "ui")) {
   output <- match.arg(output)
   issues <- list()
 
-  # Check 1: Required sheets
-  sheets <- readxl::excel_sheets(file)
-  required <- c("Data", "Data Dictionary")
-  missing <- setdiff(required, sheets)
+  # Detect file type
+  is_excel <- length(file) == 1 && grepl("\\.xlsx$", file, ignore.case = TRUE)
+  is_csv <- all(grepl("\\.csv$", file, ignore.case = TRUE))
 
-  if (length(missing) > 0) {
-    msg <- cli::format_inline("Missing required sheets: {.val {missing}}")
-    issues <- c(issues, list(new_issue("error", msg)))
-    return(format_output(issues, output))
-  }
-
-  # Check 2: Duplicate headers in Data sheet
-  tryCatch(
-    {
-      headers <- as.character(
-        readxl::read_xlsx(file, sheet = "Data", col_names = FALSE, n_max = 1)[
-          1,
-        ]
-      )
-      headers <- headers[!is.na(headers)]
-      dups <- unique(headers[duplicated(headers)])
-
-      if (length(dups) > 0) {
-        msg <- cli::format_inline(
-          "Duplicate column headers in Data sheet: {.val {dups}}"
-        )
-        issues <- c(issues, list(new_issue("error", msg)))
-      }
-    },
-    error = function(e) NULL
-  )
-
-  # Check 2b: Duplicate headers in Data Dictionary sheet
-  tryCatch(
-    {
-      headers <- as.character(
-        readxl::read_xlsx(
-          file,
-          sheet = "Data Dictionary",
-          col_names = FALSE,
-          n_max = 1
-        )[1, ]
-      )
-      headers <- headers[!is.na(headers)]
-      dups <- unique(headers[duplicated(headers)])
-
-      if (length(dups) > 0) {
-        msg <- cli::format_inline(
-          "Duplicate column headers in Data Dictionary sheet: {.val {dups}}"
-        )
-        issues <- c(issues, list(new_issue("error", msg)))
-      }
-    },
-    error = function(e) NULL
-  )
-
-  if (length(issues) > 0) {
-    return(format_output(issues, output))
-  }
-
-  # Check 3: Load both sheets
-  data <- tryCatch(
-    readxl::read_excel(file, sheet = "Data"),
-    error = function(e) NULL
-  )
-  data_dict <- tryCatch(
-    readxl::read_excel(file, sheet = "Data Dictionary"),
-    error = function(e) NULL
-  )
-
-  if (is.null(data) || is.null(data_dict)) {
+  if (!is_excel && !is_csv) {
     msg <- cli::format_inline(
-      "Could not read Data or Data Dictionary sheet."
+      "Unsupported file type. Provide a .xlsx file or .csv files."
     )
     issues <- c(issues, list(new_issue("error", msg)))
     return(format_output(issues, output))
   }
 
-  # Check 4: Data has rows
+  # xlsx file ------------------------------------------------------------------
+
+  if (is_excel) {
+    # Check 1: Required sheets "Data" and "Data Dictionary"
+    sheets <- readxl::excel_sheets(file)
+    required <- c("Data", "Data Dictionary")
+    missing <- setdiff(required, sheets)
+
+    if (length(missing) > 0) {
+      msg <- cli::format_inline("Missing required sheets: {.val {missing}}")
+      issues <- c(issues, list(new_issue("error", msg)))
+      return(format_output(issues, output))
+    }
+
+    # Load both sheets
+    data <- tryCatch(
+      openxlsx::read.xlsx(file, sheet = "Data"),
+      error = function(e) NULL
+    )
+    data_dict <- tryCatch(
+      openxlsx::read.xlsx(file, sheet = "Data Dictionary"),
+      error = function(e) NULL
+    )
+
+    if (is.null(data) || is.null(data_dict)) {
+      msg <- cli::format_inline(
+        "Could not read one or both of Data or Data Dictionary sheet(s)."
+      )
+      issues <- c(issues, list(new_issue("error", msg)))
+      return(format_output(issues, output))
+    }
+  }
+
+  # csv files ------------------------------------------------------------------
+
+  if (is_csv) {
+    # Check 1: Required two csv files: data and dictionary
+    if (length(file) != 2) {
+      msg <- cli::format_inline(
+        "CSV input requires exactly two files: {.val data.csv} and {.val data_dictionary.csv}."
+      )
+      issues <- c(issues, list(new_issue("error", msg)))
+      return(format_output(issues, output))
+    }
+
+    file_names <- basename(file)
+
+    # Check naming convention
+    if (!grepl("data", file_names[1], ignore.case = TRUE)) {
+      msg <- cli::format_inline(
+        "The first .csv file must be the data file and its name must contain {.val data}. You provided: {.file {file_names[1]}}"
+      )
+      issues <- c(issues, list(new_issue("error", msg)))
+    }
+
+    if (!grepl("dictionary", file_names[2], ignore.case = TRUE)) {
+      msg <- cli::format_inline(
+        "The second .csv file must be the data dictionary and its name must contain {.val dictionary}. You provided: {.file {file_names[2]}}"
+      )
+      issues <- c(issues, list(new_issue("error", msg)))
+    }
+
+    if (length(issues) > 0) {
+      return(format_output(issues, output))
+    }
+
+    # Try loading both
+    data <- tryCatch(
+      read.csv(
+        file[1],
+        check.names = FALSE,
+        # Set encoding for using subscripts, superscripts, special characters
+        encoding = "UTF-8",
+        strip.white = TRUE
+      ),
+      error = function(e) NULL
+    )
+
+    data_dict <- tryCatch(
+      read.csv(
+        file[2],
+        check.names = FALSE,
+        # Set encoding for using subscripts, superscripts, special characters
+        encoding = "UTF-8",
+        strip.white = TRUE
+      ),
+      error = function(e) NULL
+    )
+
+    if (is.null(data) || is.null(data_dict)) {
+      return(format_output(issues, output))
+    }
+  }
+
+  # shared checks --------------------------------------------------------------
+
+  # Check 2a: Duplicate headers (data)
+  dups <- names(data)[duplicated(names(data))]
+  if (length(dups) > 0) {
+    msg <- cli::format_inline(
+      "Duplicate column headers in data: {.val {dups}}"
+    )
+    issues <- c(issues, list(new_issue("error", msg)))
+  }
+
+  # Check 2b: Duplicate headers (data dictionary)
+  dups <- names(data_dict)[duplicated(names(data_dict))]
+  if (length(dups) > 0) {
+    msg <- cli::format_inline(
+      "Duplicate column headers in data dictionary: {.val {dups}}"
+    )
+    issues <- c(issues, list(new_issue("error", msg)))
+  }
+
+  # Check 3: Data has rows
   if (nrow(data) == 0) {
     msg <- cli::format_inline(
-      "The Data sheet contains headers but no data rows. Please add your measurement data."
+      "The data contains headers but no rows. Please add your measurement data."
     )
     issues <- c(issues, list(new_issue("error", msg)))
+    return(format_output(issues, output))
+  }
+
+  if (length(issues) > 0) {
     return(format_output(issues, output))
   }
 
@@ -209,7 +255,6 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
 is_gate_pass <- function(gate_result) {
   !is.null(gate_result$data) && !is.null(gate_result$data_dict)
 }
-
 
 # --- 3. Independent checks (ERRORS) ----------------------------------------
 

@@ -1,0 +1,14 @@
+var,var_type,missing_allowed,unique_by,type
+year,numeric,FALSE,,data
+sample_id,,FALSE,sample_id,data
+farm_name,,TRUE,,data
+producer_id,,FALSE,,data
+field_id,,FALSE,"c(""year"", ""producer_id"")",data
+county,character,TRUE,,data
+crop,character,TRUE,,data
+longitude,numeric,TRUE,,data
+latitude,numeric,TRUE,,data
+measurement_group,character,FALSE,,dictionary
+column_name,character,FALSE,,dictionary
+abbr,character,FALSE,"c(""abbr"", ""unit"")",dictionary
+unit,character,TRUE,,dictionary

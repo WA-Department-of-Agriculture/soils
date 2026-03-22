@@ -1,8 +1,19 @@
+# required-fields.csv ==========================================================
+required_fields <- read.csv(
+  here::here("data/required-fields.csv"),
+  check.names = FALSE,
+  encoding = "UTF-8",
+  na.strings = ""
+)
+
+usethis::use_data(required_fields, internal = TRUE, overwrite = TRUE)
+
 # data_dictionary ==============================================================
 data_dictionary <- read.csv(
   here::here("inst/templates/english/data/data-dictionary.csv"),
   check.names = FALSE,
-  encoding = "UTF-8"
+  encoding = "UTF-8",
+  na.strings = ""
 )
 
 usethis::use_data(data_dictionary, overwrite = TRUE)
@@ -10,7 +21,8 @@ usethis::use_data(data_dictionary, overwrite = TRUE)
 # washi_data ===================================================================
 washi_data <- read.csv(
   here::here("inst/templates/english/data/washi-data.csv"),
-  check.names = FALSE
+  check.names = FALSE,
+  na.strings = ""
 )
 
 usethis::use_data(washi_data, overwrite = TRUE)

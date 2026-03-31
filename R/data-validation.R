@@ -16,7 +16,7 @@
 #'
 #' @return A named list with severity and message.
 new_issue <- function(severity = c("error", "warning"), message) {
-  severity <- match.arg(severity)
+  severity <- rlang::arg_match(severity)
   list(severity = severity, message = message)
 }
 
@@ -31,7 +31,7 @@ new_issue <- function(severity = c("error", "warning"), message) {
 #' @return For "ui", cleaned issue list. For "cli", invisible after
 #'   printing/aborting.
 format_output <- function(issues, output = c("cli", "ui")) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
 
   if (length(issues) == 0) {
     return(issues)
@@ -101,7 +101,7 @@ split_issues <- function(issues) {
 #'   failure: a list of issues (same structure as other check functions). Use
 #'   is_gate_pass() to check which one you got back.
 check_file_readable <- function(file, output = c("cli", "ui")) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   # Detect file type
@@ -264,7 +264,7 @@ check_required_columns <- function(
   req_fields_data,
   output = c("cli", "ui")
 ) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   required <- req_fields_data$var
@@ -286,7 +286,7 @@ check_required_dict_fields <- function(
   req_fields_dd,
   output = c("cli", "ui")
 ) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   required <- req_fields_dd$var
@@ -370,7 +370,7 @@ check_uniqueness <- function(data, req_fields_data, output = c("cli", "ui")) {
 
 #' Check 7: Data types match requirements
 check_data_types <- function(data, req_fields_data, output = c("cli", "ui")) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   map_r_type <- function(data_type) {
@@ -428,7 +428,7 @@ check_missing_values <- function(
   req_fields_data,
   output = c("cli", "ui")
 ) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   required_cols <- req_fields_data |>
@@ -459,7 +459,7 @@ check_additional_columns <- function(
   req_fields_data,
   output = c("cli", "ui")
 ) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   required <- req_fields_data$var
@@ -477,7 +477,7 @@ check_additional_columns <- function(
 
 #' Check 8.5: Percent columns within 0-100
 check_percent_range <- function(data, output = c("cli", "ui")) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   percent_cols <- intersect(
@@ -524,7 +524,7 @@ check_dict_mismatch <- function(
   req_fields_data,
   output = c("cli", "ui")
 ) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   # Guard: can't run this check without column_name in the dictionary
@@ -562,7 +562,7 @@ check_measurement_groups <- function(
   language = "english",
   output = c("cli", "ui")
 ) {
-  output <- match.arg(output)
+  output <- rlang::arg_match(output)
   issues <- list()
 
   measurement_groups <- list(

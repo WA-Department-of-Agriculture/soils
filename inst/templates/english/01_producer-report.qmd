@@ -190,8 +190,8 @@ measurement_cols <- data |>
   dplyr::select(-dplyr::any_of(metadata_cols)) |>
   colnames()
 
-# Coerce measurement columns to numeric; warns if values are converted to NA
-data <- soils::coerce_to_numeric(data, measurement_cols)
+# Convert measurement columns to numeric; warns if values are converted to NA
+data <- soils::convert_to_numeric(data, measurement_cols)
 
 # Tidy data into long format and join with data dictionary
 results_long <- data |>

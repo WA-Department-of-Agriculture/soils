@@ -62,8 +62,8 @@
 
     -   Measurements must be quantitative. Modified template to dynamically
         select measurement columns (based on provided vector of metadata
-        columns) (#24) and coerce measurement columns to numeric with new
-        function `coerce_to_numeric()` (#11 and #26).
+        columns) (#24) and convert measurement columns to numeric with new
+        function `convert_to_numeric()` (#11 and #26).
 
     -   Added a footnote to all tables with new function
         `add_field_count_note()` to clarify that field counts reflect the total

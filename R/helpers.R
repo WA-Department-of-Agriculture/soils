@@ -1,4 +1,4 @@
-#' Convert measurement columns to numeric and warn on coercion
+#' Convert measurement columns to numeric and warn
 #'
 #' Intended for use during data ingestion and validation in the reporting
 #' workflow.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{convert_to_numeric}
 \alias{convert_to_numeric}
-\title{Convert measurement columns to numeric and warn on coercion}
+\title{Convert measurement columns to numeric and warn}
 \usage{
 convert_to_numeric(data, measurement_cols)
 }

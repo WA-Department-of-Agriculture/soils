@@ -261,7 +261,7 @@ the USDA NRCS Innovation in Conservation program, led by Viva Farms
 ## Helpers
 
 - [`convert_to_numeric()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/convert_to_numeric.md)
-  : Convert measurement columns to numeric and warn on coercion
+  : Convert measurement columns to numeric and warn
 - [`is_column_empty()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/is_column_empty.md)
   : Check if a column is empty
 - [`has_complete_row()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/has_complete_row.md)

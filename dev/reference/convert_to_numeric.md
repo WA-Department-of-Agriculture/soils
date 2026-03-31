@@ -1,4 +1,4 @@
-# Convert measurement columns to numeric and warn on coercion
+# Convert measurement columns to numeric and warn
 
 Intended for use during data ingestion and validation in the reporting
 workflow.
@@ -22,15 +22,15 @@ convert_to_numeric(data, measurement_cols)
 
 ## Value
 
-A data frame where specified measurement columns have been coerced to
+A data frame where specified measurement columns have been converted to
 numeric.
 
 ## Details
 
 Non-numeric values in specified measurement columns, such as character
 values commonly used to represent missing or censored measurements (e.g.
-`"ND"`, `"<1"`, `"-"`, or `""`), are coerced to `NA`. Warnings are
-emitted when non-missing values are coerced to `NA`, and when a column
+`"ND"`, `"<1"`, `"-"`, or `""`), are converted to `NA`. Warnings are
+emitted when non-missing values are converted to `NA`, and when a column
 contains only `NA` values after coercion, indicating it may be omitted
 from downstream summaries or visualizations.
 

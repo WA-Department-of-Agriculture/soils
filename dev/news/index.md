@@ -89,8 +89,8 @@
     select measurement columns (based on provided vector of metadata
     columns)
     ([\#24](https://github.com/WA-Department-of-Agriculture/soils/issues/24))
-    and coerce measurement columns to numeric with new function
-    `coerce_to_numeric()`
+    and convert measurement columns to numeric with new function
+    [`convert_to_numeric()`](https://wa-department-of-agriculture.github.io/soils/dev/reference/convert_to_numeric.md)
     ([\#11](https://github.com/WA-Department-of-Agriculture/soils/issues/11)
     and
     [\#26](https://github.com/WA-Department-of-Agriculture/soils/issues/26)).

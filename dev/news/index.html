@@ -73,7 +73,7 @@
 </ul></li>
 <li>
 <p><strong>Measurement handling updates</strong>:</p>
-<ul><li><p>Measurements must be quantitative. Modified template to dynamically select measurement columns (based on provided vector of metadata columns) (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/24" class="external-link">#24</a>) and coerce measurement columns to numeric with new function <code>coerce_to_numeric()</code> (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/11" class="external-link">#11</a> and <a href="https://github.com/WA-Department-of-Agriculture/soils/issues/26" class="external-link">#26</a>).</p></li>
+<ul><li><p>Measurements must be quantitative. Modified template to dynamically select measurement columns (based on provided vector of metadata columns) (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/24" class="external-link">#24</a>) and convert measurement columns to numeric with new function <code><a href="../reference/convert_to_numeric.html">convert_to_numeric()</a></code> (<a href="https://github.com/WA-Department-of-Agriculture/soils/issues/11" class="external-link">#11</a> and <a href="https://github.com/WA-Department-of-Agriculture/soils/issues/26" class="external-link">#26</a>).</p></li>
 <li><p>Added a footnote to all tables with new function <code><a href="../reference/add_field_count_note.html">add_field_count_note()</a></code> to clarify that field counts reflect the total samples contributing to each average, which may be fewer than the total samples for some measurements now that qualitative measurements are coerced to numeric.</p></li>
 </ul></li>
 </ul></div>

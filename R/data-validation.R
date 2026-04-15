@@ -113,7 +113,7 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
       "Unsupported file type. Provide a .xlsx file or .csv files."
     )
     issues <- c(issues, list(new_issue("error", msg)))
-    return(format_output(issues, output))
+    return(issues)
   }
 
   # xlsx file ------------------------------------------------------------------
@@ -127,7 +127,7 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
     if (length(missing) > 0) {
       msg <- cli::format_inline("Missing required sheets: {.val {missing}}")
       issues <- c(issues, list(new_issue("error", msg)))
-      return(format_output(issues, output))
+      return(issues)
     }
 
     # Load both sheets
@@ -145,7 +145,7 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
         "Could not read one or both of {.val Data} or {.val Data Dictionary} sheet(s)."
       )
       issues <- c(issues, list(new_issue("error", msg)))
-      return(format_output(issues, output))
+      return(issues)
     }
   }
 
@@ -158,7 +158,7 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
         ".csv input requires exactly two files: {.val data.csv} and {.val data_dictionary.csv}."
       )
       issues <- c(issues, list(new_issue("error", msg)))
-      return(format_output(issues, output))
+      return(issues)
     }
 
     file_names <- basename(file)
@@ -179,7 +179,7 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
     }
 
     if (length(issues) > 0) {
-      return(format_output(issues, output))
+      return(issues)
     }
 
     # Try loading both
@@ -206,7 +206,7 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
     )
 
     if (is.null(data) || is.null(data_dict)) {
-      return(format_output(issues, output))
+      return(issues)
     }
   }
 
@@ -236,11 +236,11 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
       "{.envvar data} contains headers but no rows. Please add your measurement data."
     )
     issues <- c(issues, list(new_issue("error", msg)))
-    return(format_output(issues, output))
+    return(issues)
   }
 
   if (length(issues) > 0) {
-    return(format_output(issues, output))
+    return(issues)
   }
 
   # All gates passed — return the loaded data
@@ -259,11 +259,7 @@ is_gate_pass <- function(gate_result) {
 # --- 3. Independent checks (ERRORS) ----------------------------------------
 
 #' Check 4: Required columns
-check_required_columns <- function(
-  x,
-  output = c("cli", "ui")
-) {
-  output <- rlang::arg_match(output)
+check_required_columns <- function(x) {
   issues <- list()
 
   # Validate input structure
@@ -272,7 +268,7 @@ check_required_columns <- function(
       "Input must be a list with {.val data} and {.val data_dict}."
     )
     issues <- c(issues, list(new_issue("error", msg)))
-    return(format_output(issues, output))
+    return(issues)
   }
 
   # Map list elements to required_fields$type values
@@ -302,15 +298,11 @@ check_required_columns <- function(
     }
   }
 
-  format_output(issues, output)
+  return(issues)
 }
 
 #' Check 5: Uniqueness constraints
-check_uniqueness <- function(
-  x,
-  output = c("cli", "ui")
-) {
-  output <- rlang::arg_match(output)
+check_uniqueness <- function(x) {
   issues <- list()
 
   # Validate input structure
@@ -319,7 +311,7 @@ check_uniqueness <- function(
       "Input must be a list with {.val data} and {.val data_dict}."
     )
     issues <- c(issues, list(new_issue("error", msg)))
-    return(format_output(issues, output))
+    return(issues)
   }
 
   # Map list elements to required_fields$type values
@@ -396,15 +388,11 @@ check_uniqueness <- function(
     }
   }
 
-  format_output(issues, output)
+  return(issues)
 }
 
 #' Check 6: Data types match requirements
-check_data_types <- function(
-  x,
-  output = c("cli", "ui")
-) {
-  output <- rlang::arg_match(output)
+check_data_types <- function(x) {
   issues <- list()
 
   # Validate input structure
@@ -413,7 +401,7 @@ check_data_types <- function(
       "Input must be a list with {.val data} and {.val data_dict}."
     )
     issues <- c(issues, list(new_issue("error", msg)))
-    return(format_output(issues, output))
+    return(issues)
   }
 
   # Map list elements to required_fields$type values
@@ -476,15 +464,11 @@ check_data_types <- function(
     }
   }
 
-  format_output(issues, output)
+  return(issues)
 }
 
 #' Check 7: Missing values in required columns
-check_missing_values <- function(
-  x,
-  output = c("cli", "ui")
-) {
-  output <- rlang::arg_match(output)
+check_missing_values <- function(x) {
   issues <- list()
 
   # Validate input structure
@@ -493,7 +477,7 @@ check_missing_values <- function(
       "Input must be a list with {.val data} and {.val data_dict}."
     )
     issues <- c(issues, list(new_issue("error", msg)))
-    return(format_output(issues, output))
+    return(issues)
   }
 
   df_map <- list(
@@ -527,17 +511,13 @@ check_missing_values <- function(
     }
   }
 
-  format_output(issues, output)
+  return(issues)
 }
 
 # --- 4. Independent checks (WARNINGS) --------------------------------------
 
 #' Check 6: Data has at least one column beyond required fields
-check_additional_columns <- function(
-  data,
-  output = c("cli", "ui")
-) {
-  output <- rlang::arg_match(output)
+check_additional_columns <- function(data) {
   issues <- list()
 
   required <- required_fields |>
@@ -553,12 +533,11 @@ check_additional_columns <- function(
     issues <- c(issues, list(new_issue("warning", msg)))
   }
 
-  format_output(issues, output)
+  return(issues)
 }
 
 #' Check 8.5: Percent columns within 0-100
-check_percent_range <- function(data, output = c("cli", "ui")) {
-  output <- rlang::arg_match(output)
+check_percent_range <- function(data) {
   issues <- list()
 
   percent_cols <- intersect(
@@ -595,24 +574,20 @@ check_percent_range <- function(data, output = c("cli", "ui")) {
     }
   }
 
-  format_output(issues, output)
+  return(issues)
 }
 
-check_dict_mismatch <- function(
-  data,
-  data_dict,
-  req_fields_data,
-  output = c("cli", "ui")
-) {
-  output <- rlang::arg_match(output)
+check_dict_mismatch <- function(data, data_dict) {
   issues <- list()
 
   # Guard: can't run this check without column_name in the dictionary
   if (!"column_name" %in% colnames(data_dict)) {
-    return(format_output(issues, output))
+    return(issues)
   }
 
-  required <- req_fields_data$var
+  required <- required_fields |>
+    dplyr::filter(type == "data") |>
+    dplyr::pull(var)
   additional <- setdiff(colnames(data), required)
   dict_names <- data_dict$column_name
 
@@ -633,16 +608,11 @@ check_dict_mismatch <- function(
     issues <- c(issues, list(new_issue("warning", msg)))
   }
 
-  format_output(issues, output)
+  return(issues)
 }
 
 #' Check 10: Valid measurement groups
-check_measurement_groups <- function(
-  data_dict,
-  language = "english",
-  output = c("cli", "ui")
-) {
-  output <- rlang::arg_match(output)
+check_measurement_groups <- function(data_dict, language = "english") {
   issues <- list()
 
   measurement_groups <- list(
@@ -689,6 +659,9 @@ check_measurement_groups <- function(
     )
     issues <- c(issues, list(new_issue("warning", msg)))
   }
+
+  return(issues)
+}
 
   format_output(issues, output)
 }

@@ -663,10 +663,26 @@ check_measurement_groups <- function(data_dict, language = "english") {
   return(issues)
 }
 
+# --- 5. Wrapper to run all check functions ------------------------------------
+
+validate_dataset <- function(gate_result, output = c("cli", "ui")) {
+  output <- rlang::arg_match(output)
+
+  issues <- c(
+    check_required_columns(gate_result),
+    check_uniqueness(gate_result),
+    check_data_types(gate_result),
+    check_missing_values(gate_result),
+    check_additional_columns(gate_result$data),
+    check_percent_range(gate_result$data),
+    check_dict_mismatch(gate_result$data, gate_result$data_dict),
+    check_measurement_groups(gate_result$data_dict)
+  )
+
   format_output(issues, output)
 }
 
-# --- 5. Excel spreadsheet with issues -----------------------------------------
+# --- 6. Excel spreadsheet with issues -----------------------------------------
 
 create_error_xlsx <- function(
   input_path,

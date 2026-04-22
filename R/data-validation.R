@@ -95,6 +95,22 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
       check_context(context)
     }
 
+    # Warnings
+
+    if (length(warnings) > 0) {
+      bullets <- cli::ansi_strip(
+        vapply(warnings, \(x) x$message, character(1))
+      )
+      names(bullets) <- rep("*", length(bullets))
+      cli::cli_warn(c(
+        "!" = context$warning,
+        bullets,
+        call = NULL
+      ))
+    }
+
+    # Errors
+
     if (length(errors) > 0) {
       bullets <- cli::ansi_strip(
         vapply(errors, \(x) x$message, character(1))
@@ -107,18 +123,6 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
         ),
         call = NULL
       )
-    }
-
-    if (length(warnings) > 0) {
-      bullets <- cli::ansi_strip(
-        vapply(warnings, \(x) x$message, character(1))
-      )
-      names(bullets) <- rep("*", length(bullets))
-      cli::cli_warn(c(
-        "!" = context$warning,
-        bullets,
-        call = NULL
-      ))
     }
 
     return(invisible(issues))

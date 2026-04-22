@@ -743,17 +743,18 @@ validate_dataset <- function(gate_result, output = c("cli", "ui")) {
   format_output(issues, output)
 }
 
-# --- 6. Excel spreadsheet with issues -----------------------------------------
+# 6. Create issue xlsx ---------------------------------------------------------
 
-create_error_xlsx <- function(
+create_issue_xlsx <- function(
   input_path,
   output_path,
-  issues,
-  req_fields_data = NULL
+  issues
 ) {
-  wb <- openxlsx::loadWorkbook(input_path)
+  wb <- openxlsx2::wb_load(input_path)
 
-  # --- Errors tab ---
+  # Issues tab -----------------------------------------------------------------
+
+  issues <- format_output(issues, "ui")
 
   error_df <- data.frame(
     Severity = vapply(issues, \(x) x$severity, character(1)),
@@ -761,73 +762,61 @@ create_error_xlsx <- function(
     stringsAsFactors = FALSE
   )
 
-  openxlsx::addWorksheet(wb, "Errors")
-  openxlsx::writeData(wb, "Errors", error_df)
+  wb$add_worksheet("Issues")
+  wb$add_data(sheet = "Issues", x = error_df)
 
-  # Style the header row
-  header_style <- openxlsx::createStyle(
-    textDecoration = "bold",
-    border = "Bottom",
-    borderStyle = "thin"
+  # Style the header row (bold + bottom border)
+  wb$add_font(
+    sheet = "Issues",
+    dims = "A1:B1",
+    bold = TRUE
   )
-  openxlsx::addStyle(
-    wb,
-    "Errors",
-    style = header_style,
-    rows = 1,
-    cols = 1:2
+  wb$add_border(
+    sheet = "Issues",
+    dims = "A1:B1",
+    bottom_border = "thin"
   )
 
-  # Style error rows (red fill)
+  # Style error rows
   error_rows <- which(error_df$Severity == "error") + 1
   if (length(error_rows) > 0) {
-    error_style <- openxlsx::createStyle(
-      fontColour = "#9C0006"
-    )
-    openxlsx::addStyle(
-      wb,
-      "Errors",
-      style = error_style,
-      rows = error_rows,
-      cols = 1:2,
-      gridExpand = TRUE
+    error_dims <- openxlsx2::wb_dims(rows = error_rows, cols = 1:2)
+    wb$add_font(
+      sheet = "Issues",
+      dims = error_dims,
+      color = openxlsx2::wb_color(hex = "9C0006")
     )
   }
 
-  # Style warning rows (yellow fill)
+  # Style warning rows
   warning_rows <- which(error_df$Severity == "warning") + 1
   if (length(warning_rows) > 0) {
-    warning_style <- openxlsx::createStyle(
-      fontColour = "#9C6500"
-    )
-    openxlsx::addStyle(
-      wb,
-      "Errors",
-      style = warning_style,
-      rows = warning_rows,
-      cols = 1:2,
-      gridExpand = TRUE
+    warning_dims <- openxlsx2::wb_dims(rows = warning_rows, cols = 1:2)
+    wb$add_font(
+      sheet = "Issues",
+      dims = warning_dims,
+      color = openxlsx2::wb_color(hex = "9C6500")
     )
   }
 
-  openxlsx::setColWidths(wb, "Errors", cols = 1, widths = 12)
-  openxlsx::setColWidths(wb, "Errors", cols = 2, widths = 80)
+  wb$set_col_widths(sheet = "Issues", cols = 1, widths = 12)
+  wb$set_col_widths(sheet = "Issues", cols = 2, widths = 80)
 
-  # --- Conditional formatting on Data sheet ---
+  # Data tab -------------------------------------------------------------------
 
-  if (!is.null(req_fields_data) && "Data" %in% names(wb)) {
+  if ("Data" %in% wb$sheet_names) {
     # Get column headers from Data sheet to map names to positions
-    data_headers <- openxlsx::read.xlsx(
+    data_headers <- openxlsx2::wb_to_df(
       wb,
       sheet = "Data",
       rows = 1,
-      colNames = FALSE
+      col_names = FALSE
     )
-    data_headers <- as.character(data_headers[1, ])
+    data_headers <- as.character(unlist(data_headers[1, ]))
 
-    # Number of data rows (excluding header)
-    n_rows <- wb$worksheets[[which(names(wb) == "Data")]]$sheet_data$rows
-    max_row <- max(as.numeric(n_rows), na.rm = TRUE)
+    # Figure out how many rows are in the Data sheet
+    data_full <- openxlsx2::wb_to_df(wb, sheet = "Data", col_names = TRUE)
+    max_row <- nrow(data_full) + 1 # +1 because row 1 is the header
     if (max_row < 2) {
       max_row <- 1000
     } # fallback
@@ -837,20 +826,18 @@ create_error_xlsx <- function(
       which(data_headers == col_name)
     }
 
-    #1. Blanks in required columns (missing_allowed == FALSE)
-    required_cols <- req_fields_data |>
+    # 1. Blanks in required columns (missing_allowed == FALSE)
+    required_cols <- required_fields |>
       dplyr::filter(missing_allowed == "FALSE", var %in% data_headers) |>
       dplyr::pull(var)
 
     for (col_name in required_cols) {
       idx <- col_index(col_name)
       if (length(idx) == 1) {
-        openxlsx::conditionalFormatting(
-          wb,
-          "Data",
-          cols = idx,
-          rows = 2:max_row,
-          type = "blanks"
+        wb$add_conditional_formatting(
+          sheet = "Data",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+          type = "containsBlanks"
         )
       }
     }
@@ -864,25 +851,19 @@ create_error_xlsx <- function(
     for (col_name in percent_cols) {
       idx <- col_index(col_name)
       if (length(idx) == 1) {
-        col_letter <- openxlsx::int2col(idx)
+        col_letter <- openxlsx2::int2col(idx)
 
         # Values < 0
-        openxlsx::conditionalFormatting(
-          wb,
-          "Data",
-          cols = idx,
-          rows = 2:max_row,
-          type = "expression",
+        wb$add_conditional_formatting(
+          sheet = "Data",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
           rule = paste0(col_letter, "2<0")
         )
 
         # Values > 100
-        openxlsx::conditionalFormatting(
-          wb,
-          "Data",
-          cols = idx,
-          rows = 2:max_row,
-          type = "expression",
+        wb$add_conditional_formatting(
+          sheet = "Data",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
           rule = paste0(col_letter, "2>100")
         )
       }
@@ -892,16 +873,145 @@ create_error_xlsx <- function(
     if ("sample_id" %in% data_headers) {
       idx <- col_index("sample_id")
       if (length(idx) == 1) {
-        openxlsx::conditionalFormatting(
-          wb,
-          "Data",
-          cols = idx,
-          rows = 2:max_row,
-          type = "duplicates"
+        wb$add_conditional_formatting(
+          sheet = "Data",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+          type = "duplicatedValues"
+        )
+      }
+    }
+
+    # 4. Duplicate field_id within producer_id + year combo
+    if (all(c("producer_id", "year", "field_id") %in% data_headers)) {
+      idx_prod <- col_index("producer_id")
+      idx_year <- col_index("year")
+      idx_field <- col_index("field_id")
+
+      if (all(lengths(list(idx_prod, idx_year, idx_field)) == 1)) {
+        # Convert to Excel column letters
+        col_prod <- openxlsx2::int2col(idx_prod)
+        col_year <- openxlsx2::int2col(idx_year)
+        col_field <- openxlsx2::int2col(idx_field)
+
+        # COUNTIFS across all three columns
+        rule <- sprintf(
+          "COUNTIFS($%s$2:$%s$%d,$%s2,$%s$2:$%s$%d,$%s2,$%s$2:$%s$%d,$%s2)>1",
+          col_prod,
+          col_prod,
+          max_row,
+          col_prod,
+          col_year,
+          col_year,
+          max_row,
+          col_year,
+          col_field,
+          col_field,
+          max_row,
+          col_field
+        )
+
+        # Apply only to field_id column
+        wb$add_conditional_formatting(
+          sheet = "Data",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx_field),
+          type = "expression",
+          rule = rule
         )
       }
     }
   }
 
-  openxlsx::saveWorkbook(wb, output_path, overwrite = TRUE)
+  # Data dictionary tab --------------------------------------------------------
+
+  if ("Data Dictionary" %in% wb$sheet_names) {
+    # Get column headers from Data Dictionary sheet to map names to positions
+    dd_headers <- openxlsx2::wb_to_df(
+      wb,
+      sheet = "Data Dictionary",
+      rows = 1,
+      col_names = FALSE
+    )
+    dd_headers <- as.character(unlist(dd_headers[1, ]))
+
+    # Figure out how many rows are in the Data Dictionary sheet
+    dd_full <- openxlsx2::wb_to_df(
+      wb,
+      sheet = "Data Dictionary",
+      col_names = TRUE
+    )
+    max_row <- nrow(dd_full) + 1 # +1 because row 1 is the header
+    if (max_row < 2) {
+      max_row <- 1000
+    } # fallback
+
+    # Helper to get column index by name
+    col_index <- function(col_name) {
+      which(dd_headers == col_name)
+    }
+
+    # 1. Blanks in required columns (missing_allowed == FALSE)
+    required_cols <- required_fields |>
+      dplyr::filter(missing_allowed == "FALSE", var %in% dd_headers) |>
+      dplyr::pull(var)
+
+    for (col_name in required_cols) {
+      idx <- col_index(col_name)
+      if (length(idx) == 1) {
+        wb$add_conditional_formatting(
+          sheet = "Data Dictionary",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+          type = "containsBlanks"
+        )
+      }
+    }
+
+    # 2. Duplicate abbr + unit combo
+    if (all(c("abbr", "unit") %in% dd_headers)) {
+      idx_abbr <- col_index("abbr")
+      idx_unit <- col_index("unit")
+
+      if (length(idx_abbr) == 1 && length(idx_unit) == 1) {
+        # Convert to Excel column letters
+        col_abbr <- openxlsx2::int2col(idx_abbr)
+        col_unit <- openxlsx2::int2col(idx_unit)
+
+        # COUNTIFS: same unit + same abbr appears more than once
+        rule <- sprintf(
+          "COUNTIFS($%s$2:$%s$%d,$%s2,$%s$2:$%s$%d,$%s2)>1",
+          col_unit,
+          col_unit,
+          max_row,
+          col_unit,
+          col_abbr,
+          col_abbr,
+          max_row,
+          col_abbr
+        )
+
+        # Apply only to abbr column
+        wb$add_conditional_formatting(
+          sheet = "Data Dictionary",
+          dims = openxlsx2::wb_dims(
+            rows = 2:max_row,
+            cols = c(idx_abbr, idx_unit)
+          ),
+          type = "expression",
+          rule = rule
+        )
+      }
+    }
+  }
+
+  openxlsx2::wb_save(wb, output_path, overwrite = TRUE)
+
+  if (interactive()) {
+    cli::cli_bullets(c(
+      "v" = "Issue report written to {.file {output_path}}",
+      "i" = "Click to open:",
+      " " = sprintf(
+        "{.run fs::file_show(%s)}",
+        shQuote(output_path)
+      )
+    ))
+  }
 }

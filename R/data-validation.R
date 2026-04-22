@@ -20,6 +20,45 @@ new_issue <- function(severity = c("error", "warning"), message) {
   list(severity = severity, message = message)
 }
 
+#' Check context for format_output
+#'
+#' @param context
+#'
+#' @return
+check_context <- function(context) {
+  if (!is.list(context) || is.null(names(context))) {
+    cli::cli_abort(
+      "{.arg context} must be a named list with elements {.val error} and {.val warning}.",
+      call = NULL
+    )
+  }
+
+  required <- c("error", "warning")
+
+  if (!all(required %in% names(context))) {
+    cli::cli_abort(
+      "{.arg context} must contain {.val error} and {.val warning}.",
+      call = NULL
+    )
+  }
+
+  if (!all(vapply(context[required], is.character, logical(1)))) {
+    cli::cli_abort(
+      "{.arg context$error} and {.arg context$warning} must be character.",
+      call = NULL
+    )
+  }
+
+  if (!all(vapply(context[required], length, integer(1)) == 1)) {
+    cli::cli_abort(
+      "{.arg context$error} and {.arg context$warning} must be length-1.",
+      call = NULL
+    )
+  }
+
+  invisible(TRUE)
+}
+
 #' Format validation issues for CLI or UI output
 #'
 #' For CLI: errors trigger cli_abort(), warnings trigger cli_warn().
@@ -27,26 +66,47 @@ new_issue <- function(severity = c("error", "warning"), message) {
 #'
 #' @param issues List of issues created by new_issue().
 #' @param output "cli" (default) for console, "ui" for Shiny.
+#' @param context
 #'
 #' @return For "ui", cleaned issue list. For "cli", invisible after
 #'   printing/aborting.
-format_output <- function(issues, output = c("cli", "ui")) {
+format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
   output <- rlang::arg_match(output)
 
   if (length(issues) == 0) {
     return(issues)
   }
 
+  # cli output for {soils}
   if (output == "cli") {
     errors <- Filter(\(x) x$severity == "error", issues)
     warnings <- Filter(\(x) x$severity == "warning", issues)
+
+    # Default context messages ------------------------------------------------
+    if (is.null(context)) {
+      context <- list(
+        error = "Process failed.",
+        warning = "Process completed with warnings."
+      )
+    }
+
+    # Verify that context is a named list with error and warning text
+    if (!is.null(context)) {
+      check_context(context)
+    }
 
     if (length(errors) > 0) {
       bullets <- cli::ansi_strip(
         vapply(errors, \(x) x$message, character(1))
       )
       names(bullets) <- rep("*", length(bullets))
-      cli::cli_abort(c("x" = "Data validation failed.", bullets), call = NULL)
+      cli::cli_abort(
+        c(
+          "x" = context$error,
+          bullets
+        ),
+        call = NULL
+      )
     }
 
     if (length(warnings) > 0) {
@@ -55,7 +115,7 @@ format_output <- function(issues, output = c("cli", "ui")) {
       )
       names(bullets) <- rep("*", length(bullets))
       cli::cli_warn(c(
-        "!" = "Data validation completed with warnings.",
+        "!" = context$warning,
         bullets,
         call = NULL
       ))
@@ -64,7 +124,8 @@ format_output <- function(issues, output = c("cli", "ui")) {
     return(invisible(issues))
   }
 
-  # UI: strip ANSI codes from messages
+  # UI output for create_issue_xlsx() and Dirt Data Reports: strip ANSI codes
+  # from messages
   lapply(issues, \(x) {
     x$message <- cli::ansi_strip(x$message)
     x

@@ -739,48 +739,7 @@ check_additional_columns <- function(data) {
   return(issues)
 }
 
-# Check 9: Percent columns within 0-100
-check_percent_range <- function(data) {
-  issues <- list()
-
-  percent_cols <- intersect(
-    c("sand_percent", "silt_percent", "clay_percent"),
-    colnames(data)
-  )
-
-  for (col in percent_cols) {
-    bad <- !is.na(data[[col]]) & (data[[col]] < 0 | data[[col]] > 100)
-
-    if (any(bad)) {
-      if ("sample_id" %in% colnames(data)) {
-        bad_ids <- data$sample_id[bad]
-        bad_ids <- bad_ids[!is.na(bad_ids)]
-      } else {
-        bad_ids <- character(0)
-      }
-
-      if (length(bad_ids) > 0 && length(bad_ids) <= 5) {
-        msg <- cli::format_inline(
-          "{.field {col}} has values outside [0, 100]. Check sample IDs: {.val {bad_ids}}"
-        )
-      } else if (length(bad_ids) > 5) {
-        msg <- cli::format_inline(
-          "{.field {col}} has values outside [0, 100]. {length(bad_ids)} samples are out of range."
-        )
-      } else {
-        msg <- cli::format_inline(
-          "{.field {col}} has values outside [0, 100]. {sum(bad)} row{?s} affected."
-        )
-      }
-
-      issues <- c(issues, list(new_issue("warning", msg)))
-    }
-  }
-
-  return(issues)
-}
-
-# Check 10: data and data dictionary mismatch
+# Check 9: data and data dictionary mismatch
 check_dict_mismatch <- function(data, data_dict) {
   issues <- list()
 
@@ -815,7 +774,7 @@ check_dict_mismatch <- function(data, data_dict) {
   return(issues)
 }
 
-# Check 11: Valid measurement groups
+# Check 10: Valid measurement groups
 check_measurement_groups <- function(data_dict, language = "english") {
   issues <- list()
 
@@ -876,7 +835,7 @@ validate_dataset <- function(gate_result) {
     check_data_types(gate_result),
     check_missing_values(gate_result),
     check_additional_columns(gate_result$data),
-    check_percent_range(gate_result$data),
+    check_texture_fractions(gate_result$data),
     check_dict_mismatch(gate_result$data, gate_result$data_dict),
     check_measurement_groups(gate_result$data_dict)
   )
@@ -926,7 +885,7 @@ create_issue_xlsx <- function(
     wb$add_font(
       sheet = "Issues",
       dims = error_dims,
-      color = openxlsx2::wb_color(hex = "9C0006")
+      color = openxlsx2::wb_color(hex = "#9C0006")
     )
   }
 
@@ -937,12 +896,27 @@ create_issue_xlsx <- function(
     wb$add_font(
       sheet = "Issues",
       dims = warning_dims,
-      color = openxlsx2::wb_color(hex = "9C6500")
+      color = openxlsx2::wb_color(hex = "#9C6500")
     )
   }
 
+  # Set column widths
   wb$set_col_widths(sheet = "Issues", cols = 1, widths = 12)
-  wb$set_col_widths(sheet = "Issues", cols = 2, widths = 80)
+  wb$set_col_widths(sheet = "Issues", cols = 2, widths = 120)
+
+  # Style error conditional formatting
+  wb$add_dxfs_style(
+    name = "error_style",
+    font_color = openxlsx2::wb_color(hex = "#9C0006"),
+    bg_fill = openxlsx2::wb_color(hex = "#FFC7CE")
+  )
+
+  # Style warning conditional formatting
+  wb$add_dxfs_style(
+    name = "warning_style",
+    font_color = openxlsx2::wb_color(hex = "#9C5700"),
+    bg_fill = openxlsx2::wb_color(hex = "#FFEB9C")
+  )
 
   # Data tab -------------------------------------------------------------------
 
@@ -979,51 +953,26 @@ create_issue_xlsx <- function(
         wb$add_conditional_formatting(
           sheet = "Data",
           dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
-          type = "containsBlanks"
+          type = "containsBlanks",
+          style = "error_style"
         )
       }
     }
 
-    # 2. Percent columns outside 0-100
-    percent_cols <- intersect(
-      c("sand_percent", "silt_percent", "clay_percent"),
-      data_headers
-    )
-
-    for (col_name in percent_cols) {
-      idx <- col_index(col_name)
-      if (length(idx) == 1) {
-        col_letter <- openxlsx2::int2col(idx)
-
-        # Values < 0
-        wb$add_conditional_formatting(
-          sheet = "Data",
-          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
-          rule = paste0(col_letter, "2<0")
-        )
-
-        # Values > 100
-        wb$add_conditional_formatting(
-          sheet = "Data",
-          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
-          rule = paste0(col_letter, "2>100")
-        )
-      }
-    }
-
-    # 3. Duplicate sample_id
+    # 2. Duplicate sample_id
     if ("sample_id" %in% data_headers) {
       idx <- col_index("sample_id")
       if (length(idx) == 1) {
         wb$add_conditional_formatting(
           sheet = "Data",
           dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
-          type = "duplicatedValues"
+          type = "duplicatedValues",
+          style = "error_style"
         )
       }
     }
 
-    # 4. Duplicate field_id within producer_id + year combo
+    # 3. Duplicate field_id within producer_id + year combo
     if (all(c("producer_id", "year", "field_id") %in% data_headers)) {
       idx_prod <- col_index("producer_id")
       idx_year <- col_index("year")
@@ -1057,8 +1006,119 @@ create_issue_xlsx <- function(
           sheet = "Data",
           dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx_field),
           type = "expression",
-          rule = rule
+          rule = rule,
+          style = "error_style"
         )
+      }
+    }
+
+    # 4. Texture fraction validation (from check_texture_fractions)
+    texture_cols <- c("sand_percent", "silt_percent", "clay_percent")
+
+    if (all(texture_cols %in% data_headers)) {
+      idx_sand <- col_index("sand_percent")
+      idx_silt <- col_index("silt_percent")
+      idx_clay <- col_index("clay_percent")
+
+      if (all(lengths(list(idx_sand, idx_silt, idx_clay)) == 1)) {
+        col_sand <- openxlsx2::int2col(idx_sand)
+        col_silt <- openxlsx2::int2col(idx_silt)
+        col_clay <- openxlsx2::int2col(idx_clay)
+        col_tex <- openxlsx2::int2col(col_index("texture"))
+
+        # Error: values outside 0–100
+        for (col_name in texture_cols) {
+          idx <- col_index(col_name)
+          if (length(idx) == 1) {
+            col_letter <- openxlsx2::int2col(idx)
+
+            # Values < 0
+            wb$add_conditional_formatting(
+              sheet = "Data",
+              dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+              rule = paste0(col_letter, "2<0"),
+              style = "error_style"
+            )
+
+            # Values > 100
+            wb$add_conditional_formatting(
+              sheet = "Data",
+              dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+              rule = paste0(col_letter, "2>100"),
+              style = "error_style"
+            )
+          }
+        }
+
+        # Error: sum not ~100 (only when all 3 present)
+        rule_sum <- sprintf(
+          "AND((ISNUMBER($%s2)+ISNUMBER($%s2)+ISNUMBER($%s2))=3,OR($%s2+$%s2+$%s2<99,$%s2+$%s2+$%s2>101))",
+          col_sand,
+          col_silt,
+          col_clay,
+          col_sand,
+          col_silt,
+          col_clay,
+          col_sand,
+          col_silt,
+          col_clay
+        )
+
+        wb$add_conditional_formatting(
+          sheet = "Data",
+          dims = openxlsx2::wb_dims(
+            rows = 2:max_row,
+            cols = c(idx_sand, idx_silt, idx_clay)
+          ),
+          type = "expression",
+          rule = rule_sum,
+          style = "error_style"
+        )
+
+        # Warning: two fractions missing + texture class is missing
+        rule_insufficient <- sprintf(
+          "AND(ISBLANK($%s2), (ISBLANK($%s2)+ISBLANK($%s2)+ISBLANK($%s2))>=2)",
+          col_tex,
+          col_sand,
+          col_silt,
+          col_clay
+        )
+
+        wb$add_conditional_formatting(
+          sheet = "Data",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx_sand:idx_clay),
+          type = "expression",
+          rule = rule_insufficient,
+          style = "warning_style"
+        )
+
+        # Warning: one texture fraction is missing
+        for (col_name in texture_cols) {
+          idx <- col_index(col_name)
+
+          if (length(idx) == 1) {
+            col_letter <- openxlsx2::int2col(idx)
+
+            rule <- sprintf(
+              "AND(
+        ISBLANK(%s2),
+        (ISBLANK(%s2)+ISBLANK(%s2)+ISBLANK(%s2))=1
+      )",
+              col_letter,
+              openxlsx2::int2col(col_index("sand_percent")),
+              openxlsx2::int2col(col_index("silt_percent")),
+              openxlsx2::int2col(col_index("clay_percent"))
+            )
+
+            wb$add_conditional_formatting(
+              sheet = "Data",
+              dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+              type = "expression",
+              rule = rule,
+              style = "warning_style"
+            )
+          }
+        }
       }
     }
   }
@@ -1102,7 +1162,8 @@ create_issue_xlsx <- function(
         wb$add_conditional_formatting(
           sheet = "Data Dictionary",
           dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
-          type = "containsBlanks"
+          type = "containsBlanks",
+          style = "error_style"
         )
       }
     }
@@ -1138,7 +1199,8 @@ create_issue_xlsx <- function(
             cols = c(idx_abbr, idx_unit)
           ),
           type = "expression",
-          rule = rule
+          rule = rule,
+          style = "error_style"
         )
       }
     }
@@ -1149,7 +1211,7 @@ create_issue_xlsx <- function(
   if (interactive()) {
     cli::cli_bullets(c(
       "v" = "Issue report written to {.file {output_path}}",
-      "i" = "Click to open:",
+      "i" = "Click to copy to console and run to open:",
       " " = sprintf(
         "{.run fs::file_show(%s)}",
         shQuote(output_path)

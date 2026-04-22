@@ -144,111 +144,181 @@ split_issues <- function(issues) {
   )
 }
 
-
-# --- 2. Gate check ----------------------------------------------------------
-
-#' Check that file input(s) are readable and return loaded data
+#' Read soils input
 #'
-#' Runs the blocking checks in sequence: required sheets (.xlsx) or files (.csv)
-#' exist, no duplicate headers, both sheets load, and data has rows. If all
-#' pass, returns the loaded data frames. If any fail, returns the issue list.
+#' @param file
 #'
-#' @param file Path to the .xlsx file (must contain sheets "Data" and "Data
-#'   Dictionary" Or a character vector of length 2 with paths to .csv files
-#'   named {.file data.csv} and {.file data-dictionary.csv} (in that order).
-#' @param output "cli" (default) or "ui".
+#' @returns
+#' @export
 #'
-#' @return On success: a named list with $data and $data_dict data frames. On
-#'   failure: a list of issues (same structure as other check functions). Use
-#'   is_gate_pass() to check which one you got back.
-check_file_readable <- function(file, output = c("cli", "ui")) {
+#' @examples
+read_soils_input <- function(file, output = c("cli", "ui"), ...) {
   output <- rlang::arg_match(output)
   issues <- list()
 
-  # Detect file type
+  # Catch multiple arguments instead of a character vector ---------------------
+
+  extra_args <- list(...)
+
+  if (length(extra_args) > 0) {
+    all_files <- c(file, unlist(extra_args))
+
+    # Only trigger this message if at least one input looks like a .csv
+    if (any(grepl("\\.csv$", all_files, ignore.case = TRUE))) {
+      msg1 <- cli::format_inline(
+        "You supplied multiple {.file .csv} files as separate arguments: {.val {all_files}}."
+      )
+      issues <- c(issues, list(new_issue("error", msg1)))
+      msg2 <- cli::format_inline(
+        "Use a character vector instead: {.code c({paste0('\"', all_files, '\"', collapse = ', ')})}."
+      )
+      issues <- c(issues, list(new_issue("error", msg2)))
+      return(format_output(
+        issues,
+        output,
+        context = list(
+          error = "Multiple file arguments detected.",
+          warning = ""
+        )
+      ))
+    }
+  }
+
+  # Detect file type ----------------------------------------------------------
+
   is_excel <- length(file) == 1 && grepl("\\.xlsx$", file, ignore.case = TRUE)
-  is_csv <- all(grepl("\\.csv$", file, ignore.case = TRUE))
+  is_csv <- length(file) == 2 && all(grepl("\\.csv$", file, ignore.case = TRUE))
 
   if (!is_excel && !is_csv) {
     msg <- cli::format_inline(
-      "Unsupported file type. Provide a .xlsx file or .csv files."
+      "Provide a single {.file .xlsx} file, or two {.file .csv} files as {.code c(\"data.csv\", \"data-dictionary.csv\")}."
     )
     issues <- c(issues, list(new_issue("error", msg)))
-    return(issues)
+    return(format_output(
+      issues,
+      output,
+      context = list(
+        error = "Invalid input.",
+        warning = ""
+      )
+    ))
   }
 
-  # xlsx file ------------------------------------------------------------------
+  # Read Excel -----------------------------------------------------------------
 
   if (is_excel) {
-    # Check 1: Required sheets "Data" and "Data Dictionary"
-    sheets <- readxl::excel_sheets(file)
+    wb <- tryCatch(
+      openxlsx2::wb_load(file),
+      error = function(e) NULL
+    )
+
+    sheets <- tryCatch(
+      openxlsx2::wb_get_sheet_names(wb),
+      error = function(e) NULL
+    )
+
+    if (is.null(wb) || is.null(sheets)) {
+      return(format_output(
+        list(new_issue("error", "Could not read Excel file.")),
+        output,
+        context = list(
+          error = "Failed to load input data.",
+          warning = ""
+        )
+      ))
+    }
+
     required <- c("Data", "Data Dictionary")
     missing <- setdiff(required, sheets)
 
     if (length(missing) > 0) {
-      msg <- cli::format_inline("Missing required sheets: {.val {missing}}")
-      issues <- c(issues, list(new_issue("error", msg)))
-      return(issues)
-    }
-
-    # Load both sheets
-    data <- tryCatch(
-      openxlsx::read.xlsx(file, sheet = "Data"),
-      error = function(e) NULL
-    )
-    data_dict <- tryCatch(
-      openxlsx::read.xlsx(file, sheet = "Data Dictionary"),
-      error = function(e) NULL
-    )
-
-    if (is.null(data) || is.null(data_dict)) {
       msg <- cli::format_inline(
-        "Could not read one or both of {.val Data} or {.val Data Dictionary} sheet(s)."
+        "Missing required sheets: {.val {missing}}"
       )
       issues <- c(issues, list(new_issue("error", msg)))
-      return(issues)
+      return(format_output(
+        issues,
+        output,
+        context = list(
+          error = "Failed to load input data.",
+          warning = ""
+        )
+      ))
+    }
+
+    data <- tryCatch(
+      openxlsx2::wb_to_df(wb, "Data"),
+      error = function(e) NULL
+    )
+
+    data_dict <- tryCatch(
+      openxlsx2::wb_to_df(wb, "Data Dictionary"),
+      error = function(e) NULL
+    )
+
+    if (is.null(data) && is.null(data_dict)) {
+      msg <- cli::format_inline(
+        "Could not read both Data and Data Dictionary sheets."
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
+    } else if (is.null(data)) {
+      msg <- cli::format_inline(
+        "Could not read Data sheet"
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
+    } else if (is.null(data_dict)) {
+      msg <- cli::format_inline(
+        "Could not read Data Dictionary sheet."
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
+    }
+
+    if (length(issues) > 0) {
+      return(format_output(
+        issues,
+        output,
+        context = list(
+          error = "Failed to load input data."
+        )
+      ))
     }
   }
 
-  # csv files ------------------------------------------------------------------
+  # Read CSV -------------------------------------------------------------------
 
   if (is_csv) {
-    # Check 1: Required two csv files: data and dictionary
-    if (length(file) != 2) {
+    if (!grepl("data", file[1], ignore.case = TRUE)) {
       msg <- cli::format_inline(
-        ".csv input requires exactly two files: {.val data.csv} and {.val data_dictionary.csv}."
-      )
-      issues <- c(issues, list(new_issue("error", msg)))
-      return(issues)
-    }
-
-    file_names <- basename(file)
-
-    # Check naming convention
-    if (!grepl("data", file_names[1], ignore.case = TRUE)) {
-      msg <- cli::format_inline(
-        "The first .csv file must be the data file and its name must contain {.envvar data}. You provided: {.file {file_names[1]}}"
+        "First file must be the data file and include {.val data} in the filename. You provided: {.file {file[1]}}"
       )
       issues <- c(issues, list(new_issue("error", msg)))
     }
 
-    if (!grepl("dictionary", file_names[2], ignore.case = TRUE)) {
+    if (!grepl("dictionary", file[2], ignore.case = TRUE)) {
       msg <- cli::format_inline(
-        "The second .csv file must be the data dictionary and its name must contain {.val dictionary}. You provided: {.file {file_names[2]}}"
+        "Second file must be the data dictionary and include {.val dictionary} in the filename. You provided: {.file {file[2]}}"
       )
       issues <- c(issues, list(new_issue("error", msg)))
     }
 
     if (length(issues) > 0) {
-      return(issues)
+      return(format_output(
+        issues,
+        output,
+        context = list(
+          error = "Failed to load input data.",
+          warning = ""
+        )
+      ))
     }
 
-    # Try loading both
     data <- tryCatch(
       read.csv(
         file[1],
         check.names = FALSE,
-        # Set encoding for using subscripts, superscripts, special characters
         encoding = "UTF-8",
         strip.white = TRUE
       ),
@@ -259,53 +329,125 @@ check_file_readable <- function(file, output = c("cli", "ui")) {
       read.csv(
         file[2],
         check.names = FALSE,
-        # Set encoding for using subscripts, superscripts, special characters
         encoding = "UTF-8",
         strip.white = TRUE
       ),
       error = function(e) NULL
     )
 
-    if (is.null(data) || is.null(data_dict)) {
-      return(issues)
+    if (is.null(data) && is.null(data_dict)) {
+      msg <- cli::format_inline(
+        "Could not read both {.file {basename(file[1])}} and {.file {basename(file[2])}}."
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
+    } else if (is.null(data)) {
+      msg <- cli::format_inline(
+        "Could not read {.file {basename(file[1])}}."
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
+    } else if (is.null(data_dict)) {
+      msg <- cli::format_inline(
+        "Could not read {.file {basename(file[2])}}."
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
+    }
+
+    if (length(issues) > 0) {
+      return(format_output(
+        issues,
+        output,
+        context = list(
+          error = "Failed to load input data."
+        )
+      ))
     }
   }
 
-  # Shared checks --------------------------------------------------------------
+  # Success --------------------------------------------------------------------
 
-  # Check 2a: Duplicate headers (data)
+  list(
+    data = data,
+    data_dict = data_dict,
+    source = if (is_excel) "excel" else "csv",
+    file = file
+  )
+}
+
+# --- 2. Gate check ----------------------------------------------------------
+
+#' Check that inputs return loaded data with the correct structure
+#'
+#' Runs the blocking checks in sequence: there are no duplicate headers and data
+#' has rows. If all pass, returns the loaded data frames. If any fail, returns
+#' the issue list.
+#'
+#' @param input Named list with data and data dictionary
+#' @param output "cli" (default) or "ui".
+#'
+#' @return On success: a named list with $data and $data_dict data frames. On
+#'   failure: a list of issues (same structure as other check functions). Use
+#'   is_gate_pass() to check which one you got back.
+check_input_structure <- function(input, output = c("cli", "ui")) {
+  output <- rlang::arg_match(output)
+  issues <- list()
+
+  # Validate structure --------------------------------------------------------
+
+  if (!all(c("data", "data_dict") %in% names(input))) {
+    msg <- cli::format_inline(
+      "Input must contain {.val data} and {.val data_dict}."
+    )
+    return(list(new_issue("error", msg)))
+  }
+
+  data <- input$data
+  data_dict <- input$data_dict
+
+  # Shared blocking checks -----------------------------------------------------
+
+  # Duplicate headers (data)
   dups <- names(data)[duplicated(names(data))]
   if (length(dups) > 0) {
     msg <- cli::format_inline(
-      "Duplicate column headers in {.envvar data}: {.val {dups}}"
+      "Data has duplicate column headers: {.val {dups}}"
     )
     issues <- c(issues, list(new_issue("error", msg)))
   }
 
-  # Check 2b: Duplicate headers (data dictionary)
+  # Duplicate headers (dictionary)
   dups <- names(data_dict)[duplicated(names(data_dict))]
   if (length(dups) > 0) {
     msg <- cli::format_inline(
-      "Duplicate column headers in {.envvar dictionary}: {.val {dups}}"
+      "Data Dictionary has duplicate column headers: {.val {dups}}"
     )
     issues <- c(issues, list(new_issue("error", msg)))
   }
 
-  # Check 3: Data has rows
+  # Data must have rows
   if (nrow(data) == 0) {
     msg <- cli::format_inline(
-      "{.envvar data} contains headers but no rows. Please add your measurement data."
+      "Data contains headers but no rows."
     )
-    issues <- c(issues, list(new_issue("error", msg)))
-    return(issues)
+    return(c(issues, list(new_issue("error", msg))))
   }
+
+  # Return ---------------------------------------------------------------------
 
   if (length(issues) > 0) {
-    return(issues)
+    return(format_output(
+      issues,
+      output,
+      context = list(
+        error = "Detected issues with input structure.",
+        warning = ""
+      )
+    ))
   }
 
-  # All gates passed — return the loaded data
-  list(data = data, data_dict = data_dict)
+  return(input) # pass through unchanged
 }
 
 #' Check if the gate returned loaded data (pass) or issues (fail)
@@ -317,9 +459,9 @@ is_gate_pass <- function(gate_result) {
   !is.null(gate_result$data) && !is.null(gate_result$data_dict)
 }
 
-# --- 3. Independent checks (ERRORS) ----------------------------------------
+# --- 3. Errors: independent checks --------------------------------------------
 
-#' Check 4: Required columns
+# Check 4: Required columns
 check_required_columns <- function(x) {
   issues <- list()
 
@@ -362,7 +504,7 @@ check_required_columns <- function(x) {
   return(issues)
 }
 
-#' Check 5: Uniqueness constraints
+# Check 5: Uniqueness constraints
 check_uniqueness <- function(x) {
   issues <- list()
 
@@ -452,7 +594,7 @@ check_uniqueness <- function(x) {
   return(issues)
 }
 
-#' Check 6: Data types match requirements
+# Check 6: Data types match requirements
 check_data_types <- function(x) {
   issues <- list()
 
@@ -528,7 +670,7 @@ check_data_types <- function(x) {
   return(issues)
 }
 
-#' Check 7: Missing values in required columns
+# Check 7: Missing values in required columns
 check_missing_values <- function(x) {
   issues <- list()
 
@@ -575,9 +717,9 @@ check_missing_values <- function(x) {
   return(issues)
 }
 
-# --- 4. Independent checks (WARNINGS) --------------------------------------
+# --- 4. Warnings: independent checks ------------------------------------------
 
-#' Check 6: Data has at least one column beyond required fields
+# Check 8: Data has at least one column beyond required fields
 check_additional_columns <- function(data) {
   issues <- list()
 
@@ -589,7 +731,7 @@ check_additional_columns <- function(data) {
 
   if (length(additional) < 1) {
     msg <- cli::format_inline(
-      "{.envvar data} has no columns beyond the required columns. Add at least one measurement column."
+      "Data has no columns beyond the required columns. Add at least one measurement column."
     )
     issues <- c(issues, list(new_issue("warning", msg)))
   }
@@ -597,7 +739,7 @@ check_additional_columns <- function(data) {
   return(issues)
 }
 
-#' Check 8.5: Percent columns within 0-100
+# Check 9: Percent columns within 0-100
 check_percent_range <- function(data) {
   issues <- list()
 
@@ -638,6 +780,7 @@ check_percent_range <- function(data) {
   return(issues)
 }
 
+# Check 10: data and data dictionary mismatch
 check_dict_mismatch <- function(data, data_dict) {
   issues <- list()
 
@@ -672,7 +815,7 @@ check_dict_mismatch <- function(data, data_dict) {
   return(issues)
 }
 
-#' Check 10: Valid measurement groups
+# Check 11: Valid measurement groups
 check_measurement_groups <- function(data_dict, language = "english") {
   issues <- list()
 
@@ -695,7 +838,7 @@ check_measurement_groups <- function(data_dict, language = "english") {
 
   language <- tolower(language)
   if (!language %in% names(measurement_groups)) {
-    return(format_output(issues, output))
+    return(issues)
   }
 
   valid <- enc2native(measurement_groups[[language]])
@@ -705,7 +848,7 @@ check_measurement_groups <- function(data_dict, language = "english") {
       "Missing {.field measurement_group} column in {.envvar dictionary}"
     )
     issues <- c(issues, list(new_issue("warning", msg)))
-    return(format_output(issues, output))
+    return(issues)
   }
 
   actual <- enc2native(
@@ -724,11 +867,9 @@ check_measurement_groups <- function(data_dict, language = "english") {
   return(issues)
 }
 
-# --- 5. Wrapper to run all check functions ------------------------------------
+# 5. Wrapper to run all check functions ----------------------------------------
 
-validate_dataset <- function(gate_result, output = c("cli", "ui")) {
-  output <- rlang::arg_match(output)
-
+validate_dataset <- function(gate_result) {
   issues <- c(
     check_required_columns(gate_result),
     check_uniqueness(gate_result),
@@ -740,7 +881,8 @@ validate_dataset <- function(gate_result, output = c("cli", "ui")) {
     check_measurement_groups(gate_result$data_dict)
   )
 
-  format_output(issues, output)
+  issues <- unique(issues)
+  return(issues)
 }
 
 # 6. Create issue xlsx ---------------------------------------------------------

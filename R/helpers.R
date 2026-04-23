@@ -38,69 +38,54 @@
 #' clean_data <- convert_to_numeric(example_data, measurement_cols)
 #'
 #' @export
-convert_to_numeric <- function(data, measurement_cols) {
-  # Abort if measurement_cols is missing
-  if (missing(measurement_cols)) {
-    cli::cli_abort(c(
-      "x" = "Please provide a vector of `measurement_cols` to convert to numeric."
-    ))
+convert_to_numeric <- function(
+  data,
+  data_dict,
+  output = c("cli", "ui"),
+  validate = TRUE
+) {
+  output <- rlang::arg_match(output)
+
+  # Derive measurement columns
+  if (!"column_name" %in% names(data_dict)) {
+    cli::cli_abort(
+      "Data Dictionary is missing {.field column_name}, which should list the measurement column names in Data."
+    )
   }
 
-  # Abort if any measurement columns are not present in data
-  abort_if_missing_cols(
-    data,
-    measurement_cols,
-    context = "These columns come from `measurement_cols` and will be converted to numeric."
-  )
+  non_measurement <- c("texture", "Texture")
 
-  # Preserve original values for NA-coercion check
-  data_original <- data |> dplyr::select(dplyr::all_of(measurement_cols))
+  measurement_cols <- data_dict$column_name |>
+    setdiff(non_measurement) |>
+    intersect(names(data))
 
-  # Convert measurements to numeric (suppress warnings)
+  if (validate) {
+    issues <- check_numeric_conversion(data, data_dict)
+
+    if (length(issues) > 0) {
+      format_output(
+        issues,
+        output,
+        context = list(
+          error = "Numeric conversion failed.",
+          warning = "Numeric conversion completed with warnings."
+        )
+      )
+
+      if (any(vapply(issues, \(x) x$severity == "error", logical(1)))) {
+        stop("Numeric conversion failed.")
+      }
+    }
+  }
+
+  # Perform conversion --------------------------------------------------------
+
   suppressWarnings(
-    data_numeric <- data |>
+    data |>
       dplyr::mutate(
         dplyr::across(dplyr::all_of(measurement_cols), as.numeric)
       )
   )
-
-  # Count NAs introduced by coercion (partial NAs)
-  na_created <- purrr::map_int(
-    measurement_cols,
-    ~ sum(!is.na(data_original[[.x]]) & is.na(data_numeric[[.x]]))
-  )
-  names(na_created) <- measurement_cols
-
-  # Initialize warn_messages
-  warn_messages <- NULL
-
-  # Partial NAs (some values converted)
-  partial_na <- na_created[na_created > 0]
-  if (length(partial_na) > 0) {
-    bullets_partial <- purrr::imap_chr(
-      partial_na,
-      ~ glue::glue(
-        "{{.field { .y }}} ({ .x } {if (.x == 1) 'value' else 'values'})"
-      )
-    )
-    names(bullets_partial) <- rep("*", length(bullets_partial))
-
-    warn_messages <- c(
-      "i" = "Non-numeric values were converted to `NA`.\
-      (e.g., `ND` or `<1`).\
-      These values are excluded from tables and plots.",
-      "",
-      "!" = "{.strong Columns with values converted to `NA`}:",
-      bullets_partial
-    )
-  }
-
-  # Emit warning
-  if (length(warn_messages) > 0) {
-    cli::cli_warn(warn_messages)
-  }
-
-  return(data_numeric)
 }
 
 #' Calculate the mode of a categorical variable

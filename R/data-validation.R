@@ -99,7 +99,7 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
 
     if (length(warnings) > 0) {
       bullets <- cli::ansi_strip(
-        vapply(warnings, \(x) x$message, character(1))
+        unlist(lapply(warnings, \(x) x$message))
       )
       names(bullets) <- rep("*", length(bullets))
       cli::cli_warn(c(
@@ -113,7 +113,7 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
 
     if (length(errors) > 0) {
       bullets <- cli::ansi_strip(
-        vapply(errors, \(x) x$message, character(1))
+        unlist(lapply(errors, \(x) x$message))
       )
       names(bullets) <- rep("*", length(bullets))
       cli::cli_abort(
@@ -156,37 +156,9 @@ split_issues <- function(issues) {
 #' @export
 #'
 #' @examples
-read_soils_input <- function(file, output = c("cli", "ui"), ...) {
+read_soils_input <- function(file, ..., output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
   issues <- list()
-
-  # Catch multiple arguments instead of a character vector ---------------------
-
-  extra_args <- list(...)
-
-  if (length(extra_args) > 0) {
-    all_files <- c(file, unlist(extra_args))
-
-    # Only trigger this message if at least one input looks like a .csv
-    if (any(grepl("\\.csv$", all_files, ignore.case = TRUE))) {
-      msg1 <- cli::format_inline(
-        "You supplied multiple {.file .csv} files as separate arguments: {.val {all_files}}."
-      )
-      issues <- c(issues, list(new_issue("error", msg1)))
-      msg2 <- cli::format_inline(
-        "Use a character vector instead: {.code c({paste0('\"', all_files, '\"', collapse = ', ')})}."
-      )
-      issues <- c(issues, list(new_issue("error", msg2)))
-      return(format_output(
-        issues,
-        output,
-        context = list(
-          error = "Multiple file arguments detected.",
-          warning = ""
-        )
-      ))
-    }
-  }
 
   # Detect file type ----------------------------------------------------------
 
@@ -194,10 +166,19 @@ read_soils_input <- function(file, output = c("cli", "ui"), ...) {
   is_csv <- length(file) == 2 && all(grepl("\\.csv$", file, ignore.case = TRUE))
 
   if (!is_excel && !is_csv) {
-    msg <- cli::format_inline(
-      "Provide a single {.file .xlsx} file, or two {.file .csv} files as {.code c(\"data.csv\", \"data-dictionary.csv\")}."
+    msg1 <- cli::format_inline(
+      "Provide either:"
     )
-    issues <- c(issues, list(new_issue("error", msg)))
+    issues <- c(issues, list(new_issue("error", msg1)))
+
+    msg2 <- cli::format_inline(
+      "a single {.file .xlsx} file with {.val Data} and {.val Data Dictionary} sheets, or"
+    )
+    issues <- c(issues, list(new_issue("error", msg2)))
+    msg3 <- cli::format_inline(
+      "two {.file .csv} files as {.code c(\"data.csv\", \"data-dictionary.csv\")}."
+    )
+    issues <- c(issues, list(new_issue("error", msg3)))
     return(format_output(
       issues,
       output,
@@ -778,7 +759,62 @@ check_dict_mismatch <- function(data, data_dict) {
   return(issues)
 }
 
-# Check 10: Valid measurement groups
+# Check 10: Check for non-numeric data in measurement columns
+check_numeric_conversion <- function(data, data_dict) {
+  issues <- list()
+
+  # Validate inputs -----------------------------------------------------------
+
+  non_measurement <- c("texture", "Texture")
+
+  measurement_cols <- data_dict$column_name |>
+    setdiff(non_measurement) |>
+    intersect(names(data))
+
+  # Preserve original values --------------------------------------------------
+
+  data_original <- data[, measurement_cols, drop = FALSE]
+
+  # Convert (suppress warnings) -----------------------------------------------
+
+  suppressWarnings(
+    data_numeric <- data |>
+      dplyr::mutate(
+        dplyr::across(dplyr::all_of(measurement_cols), as.numeric)
+      )
+  )
+
+  # Detect NA coercion --------------------------------------------------------
+
+  na_created <- purrr::map_int(
+    measurement_cols,
+    ~ sum(!is.na(data_original[[.x]]) & is.na(data_numeric[[.x]]))
+  )
+  names(na_created) <- measurement_cols
+
+  partial_na <- na_created[na_created > 0]
+
+  if (length(partial_na) > 0) {
+    bullets <- purrr::imap_chr(
+      partial_na,
+      ~ cli::format_inline(
+        "{.field { .y }} ({ .x } {if (.x == 1) 'value' else 'values'})"
+      )
+    )
+
+    msg <- c(
+      "Non-numeric values were converted to `NA` (e.g., `ND`, `<1`).",
+      "Measurement columns affected:",
+      stats::setNames(bullets, rep("*", length(bullets)))
+    )
+
+    issues <- c(issues, list(new_issue("warning", msg)))
+  }
+
+  issues
+}
+
+# Check 11: Valid measurement groups
 check_measurement_groups <- function(data_dict, language = "english") {
   issues <- list()
 
@@ -841,6 +877,7 @@ validate_dataset <- function(gate_result) {
     check_additional_columns(gate_result$data),
     check_texture_fractions(gate_result$data),
     check_dict_mismatch(gate_result$data, gate_result$data_dict),
+    check_numeric_conversion(gate_result$data, gate_result$data_dict),
     check_measurement_groups(gate_result$data_dict)
   )
 

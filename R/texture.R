@@ -40,7 +40,7 @@ check_texture_fractions <- function(x) {
   present <- intersect(fraction_cols, names(x))
   missing <- setdiff(fraction_cols, present)
 
-  # Not enough fractions (warning) --------------------------------------------
+  # Not enough fractions (warning) ---------------------------------------------
 
   if (length(present) < 2) {
     msg <- cli::format_inline(
@@ -50,7 +50,22 @@ check_texture_fractions <- function(x) {
     return(issues)
   }
 
-  # Prepare calculations ------------------------------------------------------
+  # Fractions are not numeric (warning) ----------------------------------------
+  non_numeric_cols <- fraction_cols[
+    fraction_cols %in%
+      names(x) &
+      !vapply(x[fraction_cols], is.numeric, logical(1))
+  ]
+
+  if (length(non_numeric_cols) > 0) {
+    msg <- cli::format_inline(
+      "Texture validation skipped: {.val {non_numeric_cols}} must be numeric."
+    )
+    issues <- c(issues, list(new_issue("warning", msg)))
+    return(issues)
+  }
+
+  # Prepare calculations -------------------------------------------------------
 
   df_calc <- x |>
     dplyr::mutate(

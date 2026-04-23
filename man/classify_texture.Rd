@@ -7,7 +7,7 @@
 Thresholds for texture classification are based on the \href{https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator}{USDA NRCS Soil Texture Calculator}.
 }
 \usage{
-classify_texture(df)
+classify_texture(df, validate = TRUE, output = c("cli", "ui"))
 }
 \arguments{
 \item{df}{A data frame containing the columns \code{sample_id}, \code{sand_percent},

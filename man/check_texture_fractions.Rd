@@ -4,30 +4,33 @@
 \alias{check_texture_fractions}
 \title{Check soil texture fractions}
 \usage{
-check_texture_fractions(df)
+check_texture_fractions(x)
 }
 \arguments{
-\item{df}{A data frame containing \code{sample_id} and at least two of
-\code{sand_percent}, \code{silt_percent}, and \code{clay_percent}.}
+\item{x}{A named list containing at least a \code{data} data frame.}
 }
 \value{
-A data frame with validated soil texture fraction columns
-(\code{sand_percent}, \code{silt_percent}, \code{clay_percent}). If exactly two of the
-fractions are present, the third is created and filled with \code{NA} for
-downstream completion.
+A list of issues (errors and/or warnings). Returns an empty list if
+no issues are found.
 }
 \description{
-Internal helper that validates soil particle-size fractions (sand, silt, and
-clay). If exactly two of the three fraction columns are present, the missing
-column is created and filled with \code{NA} to be later computed in
-\code{complete_texture_fractions()}. Samples with fewer than two provided
-fractions are retained but skipped during texture validation and
-classification.
+Validates soil particle-size fractions (sand, silt, and clay) in the input
+dataset. Requires a \code{sample_id} column and at least two of \code{sand_percent},
+\code{silt_percent}, and \code{clay_percent} to perform validation.
 }
 \details{
-Fractions are rounded prior to validation. Warns if fewer than two fractions
-are provided or if exactly one fraction is missing. Errors if fraction values
-are outside the allowable range (0-100) or if complete fractions do not sum
-to 100 (+/- 1).
+This function does not modify the data. It returns a list of validation
+issues that can be combined with other \verb{check_*()} functions and formatted
+using \code{format_output()}.
+
+Validation rules:
+\itemize{
+\item Warns if fewer than two fraction columns are provided (texture
+validation cannot be performed).
+\item Warns when exactly one fraction is missing (it can be computed later).
+\item Errors if any fraction values are outside the range 0–100.
+\item Errors if all three fractions are present but do not sum to 100
+(±1 tolerance).
+}
 }
 \keyword{internal}

@@ -4,7 +4,7 @@
 \alias{convert_to_numeric}
 \title{Convert measurement columns to numeric and warn}
 \usage{
-convert_to_numeric(data, measurement_cols)
+convert_to_numeric(data, data_dict, output = c("cli", "ui"), validate = TRUE)
 }
 \arguments{
 \item{data}{A data frame containing both metadata and quantitative

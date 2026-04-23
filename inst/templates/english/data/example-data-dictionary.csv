@@ -1,0 +1,33 @@
+﻿measurement_group,column_name,abbr,unit
+Physical,texture,Texture,
+Physical,sand_percent,Sand,%
+Physical,silt_percent,Silt,%
+Physical,clay_percent,Clay,%
+Physical,bd_g_cm3,Bulk Density,g/cm³
+Physical,wsa_percent,Agg. Stability,%
+Physical,whc_in_ft,WHC,in/ft
+Biological,om_percent,Organic Matter,%
+Biological,min_c_96hr_mg_c_kg_day,Min C,mg/kg/day
+Biological,poxc_mg_kg,POXC,ppm
+Biological,pmn_lb_ac,PMN,lb/ac
+Biological,ace_g_protein_kg_soil,ACE Protein,g/kg
+Chemical,ph,pH,
+Chemical,ec_mmhos_cm,EC,mmhos/cm
+Chemical,cec_meq_100g,CEC,cmolc/kg
+Chemical,total_c_percent,Total C,%
+Chemical,toc_percent,TOC,%
+Chemical,inorganic_c_percent,Inorganic C,%
+Plant Essential Macro Nutrients,total_n_percent,Total N,%
+Plant Essential Macro Nutrients,no3_n_mg_kg,NO₃-N,ppm
+Plant Essential Macro Nutrients,nh4_n_mg_kg,NH₄-N,ppm
+Plant Essential Macro Nutrients,p_olsen_mg_kg,P,ppm
+Plant Essential Macro Nutrients,k_mg_kg,K,ppm
+Plant Essential Macro Nutrients,ca_mg_kg,Ca,ppm
+Plant Essential Macro Nutrients,mg_mg_kg,Mg,ppm
+Plant Essential Macro Nutrients,s_mg_kg,S,ppm
+Plant Essential Micro Nutrients,b_mg_kg,B,ppm
+Plant Essential Micro Nutrients,fe_mg_kg,Fe,ppm
+Plant Essential Micro Nutrients,mn_mg_kg,Mn,ppm
+Plant Essential Micro Nutrients,cu_mg_kg,Cu,ppm
+Plant Essential Micro Nutrients,zn_mg_kg,Zn,ppm
+Plant Essential Micro Nutrients,na_mg_kg,Na,ppm

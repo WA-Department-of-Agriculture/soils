@@ -77,16 +77,16 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
     return(issues)
   }
 
-  # cli output for {soils}
+  # cli output -----------------------------------------------------------------
   if (output == "cli") {
     errors <- Filter(\(x) x$severity == "error", issues)
     warnings <- Filter(\(x) x$severity == "warning", issues)
 
-    # Default context messages ------------------------------------------------
+    # Default context messages
     if (is.null(context)) {
       context <- list(
-        error = "Process failed.",
-        warning = "Process completed with warnings."
+        error = "Please correct the following {.strong errors}:",
+        warning = "Please review the following {.strong warnings}:"
       )
     }
 
@@ -96,7 +96,6 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
     }
 
     # Warnings
-
     if (length(warnings) > 0) {
       bullets <- cli::ansi_strip(
         unlist(lapply(warnings, \(x) x$message))
@@ -110,7 +109,6 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
     }
 
     # Errors
-
     if (length(errors) > 0) {
       bullets <- cli::ansi_strip(
         unlist(lapply(errors, \(x) x$message))
@@ -128,8 +126,7 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
     return(invisible(issues))
   }
 
-  # UI output for create_issue_xlsx() and Dirt Data Reports: strip ANSI codes
-  # from messages
+  # ui output ------------------------------------------------------------------
   lapply(issues, \(x) {
     x$message <- cli::ansi_strip(x$message)
     x
@@ -345,7 +342,8 @@ read_soils_input <- function(file, ..., output = c("cli", "ui")) {
         issues,
         output,
         context = list(
-          error = "Failed to load input data."
+          error = "Failed to load input data.",
+          warning = ""
         )
       ))
     }
@@ -809,12 +807,12 @@ check_numeric_conversion <- function(data, data_dict) {
     bullets <- purrr::imap_chr(
       partial_na,
       ~ cli::format_inline(
-        "{.field { .y }} ({ .x } {if (.x == 1) 'value' else 'values'})"
+        "{.val { .y }} ({ .x } {if (.x == 1) 'value' else 'values'})"
       )
     )
 
     msg <- c(
-      "Non-numeric values were converted to `NA` (e.g., `ND`, `<1`).",
+      "Non-numeric values were converted to NA (e.g., ND, <1).",
       "Measurement columns affected:",
       stats::setNames(bullets, rep("*", length(bullets)))
     )
@@ -879,7 +877,7 @@ check_measurement_groups <- function(data_dict, language = "english") {
 
 # 5. Wrapper to run all check functions ----------------------------------------
 
-validate_dataset <- function(gate_result, output = c("cli", "ui")) {
+run_all_checks <- function(gate_result, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
 
   issues <- c(
@@ -895,16 +893,5 @@ validate_dataset <- function(gate_result, output = c("cli", "ui")) {
 
   issues <- unique(issues)
 
-  if (length(issues) > 0) {
-    format_output(
-      issues,
-      output,
-      context = list(
-        error = "Please correct the following errors:",
-        warning = "Please review the following warnings:"
-      )
-    )
-  } else {
-    cli::cli_alert_success("Data successfully validated!")
-  }
+  return(issues)
 }

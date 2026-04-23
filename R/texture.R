@@ -380,22 +380,24 @@ assign_texture_class <- function(df) {
 #'
 #' classify_texture(df)
 #' @export
-classify_texture <- function(df, output = c("cli", "ui")) {
+classify_texture <- function(df, validate = TRUE, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
-  issues <- list()
 
-  # Validate first
-  issues <- check_texture_fractions(df)
+  if (isTRUE(validate)) {
+    issues <- list()
+    # Validate first
+    issues <- check_texture_fractions(df)
 
-  if (length(issues) > 0) {
-    format_output(
-      issues,
-      output,
-      context = list(
-        error = "Texture validation failed.",
-        warning = "Texture validation completed with warnings. "
+    if (length(issues) > 0) {
+      format_output(
+        issues,
+        output,
+        context = list(
+          error = "Texture validation failed.",
+          warning = "Texture validation completed with warnings. "
+        )
       )
-    )
+    }
   }
 
   # Determine which fraction columns exist
@@ -410,13 +412,15 @@ classify_texture <- function(df, output = c("cli", "ui")) {
 
   # Early return of unchanged data if there is insufficient data
   if (isFALSE(has_fraction_data)) {
+    cli::cli_alert_warning("Insufficient data to classify soil texture.")
     return(df)
+  } else {
+    # Otherwise, complete texture fractions and classify texture
+    df |>
+      complete_texture_fractions() |>
+      assign_texture_class()
+    cli::cli_alert_success("Soil texture successfully classified.")
   }
-
-  # Otherwise, complete texture fractions and classify texture
-  df |>
-    complete_texture_fractions() |>
-    assign_texture_class()
 }
 
 #' Synchronize dictionary with texture and fractions added by classify_texture()

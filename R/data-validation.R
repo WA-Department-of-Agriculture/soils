@@ -383,40 +383,62 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
 
   if (!all(c("data", "data_dict") %in% names(input))) {
     msg <- cli::format_inline(
-      "Input must contain {.val data} and {.val data_dict}."
+      "Input must be a named list with {.val data} and {.val data_dict}."
     )
     return(list(new_issue("error", msg)))
   }
 
-  data <- input$data
-  data_dict <- input$data_dict
+  # Single unified map ---------------------------------------------------------
 
+  df_map <- list(
+    data = list(
+      df = input$data,
+      label = "Data",
+      type = "data"
+    ),
+    data_dict = list(
+      df = input$data_dict,
+      label = "Data Dictionary",
+      type = "dictionary"
+    )
+  )
   # Shared blocking checks -----------------------------------------------------
 
-  # Duplicate headers (data)
-  dups <- names(data)[duplicated(names(data))]
-  if (length(dups) > 0) {
-    msg <- cli::format_inline(
-      "Data has duplicate column headers: {.val {dups}}"
-    )
-    issues <- c(issues, list(new_issue("error", msg)))
-  }
+  for (nm in names(df_map)) {
+    obj <- df_map[[nm]]
+    df <- obj$df
+    label <- obj$label
+    type <- obj$type
 
-  # Duplicate headers (dictionary)
-  dups <- names(data_dict)[duplicated(names(data_dict))]
-  if (length(dups) > 0) {
-    msg <- cli::format_inline(
-      "Data Dictionary has duplicate column headers: {.val {dups}}"
-    )
-    issues <- c(issues, list(new_issue("error", msg)))
-  }
+    # 1. Duplicate headers
+    dups <- names(df)[duplicated(names(df))]
+    if (length(dups) > 0) {
+      msg <- cli::format_inline(
+        "{.env {label}} has duplicate column headers: {.val {dups}}"
+      )
+      issues <- c(issues, list(new_issue("error", msg)))
+    }
 
-  # Data must have rows
-  if (nrow(data) == 0) {
-    msg <- cli::format_inline(
-      "Data contains headers but no rows."
-    )
-    return(c(issues, list(new_issue("error", msg))))
+    # 2. Required columns
+    required <- required_fields |>
+      dplyr::filter(.data$type == .env$type) |>
+      dplyr::pull(var)
+
+    missing <- setdiff(required, colnames(df))
+    if (length(missing) > 0) {
+      msg <- cli::format_inline(
+        "{label} is missing required columns: {.val {missing}}"
+      )
+      issues <- c(issues, list(new_issue("error", msg)))
+    }
+
+    # 3. Must have at least one row
+    if (nrow(df) == 0) {
+      msg <- cli::format_inline(
+        "{label} contains headers but no rows."
+      )
+      issues <- c(issues, list(new_issue("error", msg)))
+    }
   }
 
   # Return ---------------------------------------------------------------------
@@ -446,50 +468,7 @@ is_gate_pass <- function(gate_result) {
 
 # --- 3. Errors: independent checks --------------------------------------------
 
-# Check 4: Required columns
-check_required_columns <- function(x) {
-  issues <- list()
-
-  # Validate input structure
-  if (!all(c("data", "data_dict") %in% names(x))) {
-    msg <- cli::format_inline(
-      "Input must be a list with {.val data} and {.val data_dict}."
-    )
-    issues <- c(issues, list(new_issue("error", msg)))
-    return(issues)
-  }
-
-  # Map list elements to required_fields$type values
-  df_map <- list(
-    data = "data",
-    data_dict = "dictionary"
-  )
-
-  for (nm in names(df_map)) {
-    df <- x[[nm]]
-    type <- df_map[[nm]]
-
-    # Get required columns for this type
-    required <- required_fields |>
-      dplyr::filter(.data$type == .env$type) |>
-      dplyr::pull(var)
-
-    # Check missing
-    missing <- setdiff(required, colnames(df))
-
-    if (length(missing) > 0) {
-      msg <- cli::format_inline(
-        "{.envvar {type}} is missing required columns: {.val {missing}}"
-      )
-
-      issues <- c(issues, list(new_issue("error", msg)))
-    }
-  }
-
-  return(issues)
-}
-
-# Check 5: Uniqueness constraints
+# Uniqueness constraints
 check_uniqueness <- function(x) {
   issues <- list()
 
@@ -579,7 +558,7 @@ check_uniqueness <- function(x) {
   return(issues)
 }
 
-# Check 6: Data types match requirements
+# Data types match requirements
 check_data_types <- function(x) {
   issues <- list()
 
@@ -655,7 +634,7 @@ check_data_types <- function(x) {
   return(issues)
 }
 
-# Check 7: Missing values in required columns
+# Missing values in required columns
 check_missing_values <- function(x) {
   issues <- list()
 
@@ -704,7 +683,7 @@ check_missing_values <- function(x) {
 
 # --- 4. Warnings: independent checks ------------------------------------------
 
-# Check 8: Data has at least one column beyond required fields
+# Data has at least one column beyond required fields
 check_additional_columns <- function(data) {
   issues <- list()
 
@@ -724,7 +703,7 @@ check_additional_columns <- function(data) {
   return(issues)
 }
 
-# Check 9: data and data dictionary mismatch
+# Data Dictionary "column_name" matches Data
 check_dict_mismatch <- function(data, data_dict) {
   issues <- list()
 
@@ -759,7 +738,7 @@ check_dict_mismatch <- function(data, data_dict) {
   return(issues)
 }
 
-# Check 10: Check for non-numeric data in measurement columns
+# Check for non-numeric data in measurement columns
 check_numeric_conversion <- function(data, data_dict) {
   issues <- list()
 
@@ -814,7 +793,7 @@ check_numeric_conversion <- function(data, data_dict) {
   issues
 }
 
-# Check 11: Valid measurement groups
+# Valid measurement groups
 check_measurement_groups <- function(data_dict, language = "english") {
   issues <- list()
 
@@ -870,7 +849,6 @@ check_measurement_groups <- function(data_dict, language = "english") {
 
 validate_dataset <- function(gate_result) {
   issues <- c(
-    check_required_columns(gate_result),
     check_uniqueness(gate_result),
     check_data_types(gate_result),
     check_missing_values(gate_result),

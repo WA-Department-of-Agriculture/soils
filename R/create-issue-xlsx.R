@@ -97,7 +97,7 @@ create_issue_xlsx <- function(
 
   # Wrap text
   n <- nrow(error_df) + 1
-  issue_dims = wb_dims(rows = 1:n, cols = 1:2)
+  issue_dims = openxlsx2::wb_dims(rows = 1:n, cols = 1:2)
 
   wb$add_cell_style(
     sheet = "Issues",
@@ -136,7 +136,7 @@ create_issue_xlsx <- function(
     which(data_headers == col_name)
   }
 
-  # Blanks in required columns (missing_allowed == FALSE) --------------------
+  ## Blanks in required columns (missing_allowed == FALSE) ---------------------
   required_cols <- required_fields |>
     dplyr::filter(missing_allowed == FALSE, var %in% data_headers) |>
     dplyr::pull(var)
@@ -153,7 +153,8 @@ create_issue_xlsx <- function(
     }
   }
 
-  # Duplicate sample_id ------------------------------------------------------
+  ## Duplicate sample_id -------------------------------------------------------
+
   if ("sample_id" %in% data_headers) {
     idx <- col_index("sample_id")
     if (length(idx) == 1) {
@@ -166,7 +167,8 @@ create_issue_xlsx <- function(
     }
   }
 
-  # Duplicate field_id within producer_id + year combo -----------------------
+  ## Duplicate field_id within producer_id + year combo ------------------------
+
   if (all(c("producer_id", "year", "field_id") %in% data_headers)) {
     idx_prod <- col_index("producer_id")
     idx_year <- col_index("year")
@@ -206,7 +208,7 @@ create_issue_xlsx <- function(
     }
   }
 
-  # Non-numeric values in measurement columns --------------------------------
+  ## Data columns not in dictionary --------------------------------------------
 
   measurement_cols <- dd_full |>
     dplyr::pull(column_name) |>
@@ -217,10 +219,23 @@ create_issue_xlsx <- function(
       measurement_cols != ""
   ]
 
-  measurement_cols <- intersect(measurement_cols, names(data_full))
-  measurement_cols <- setdiff(measurement_cols, "texture")
+  extra_cols <- setdiff(colnames(data_full), required_fields$var)
+  extra_cols <- setdiff(extra_cols, measurement_cols)
 
-  # (optional safety: exclude texture if present)
+  for (col_name in extra_cols) {
+    idx <- col_index(col_name)
+    if (length(idx) == 1) {
+      wb$add_fill(
+        sheet = "Data",
+        dims = openxlsx2::wb_dims(rows = 1, cols = idx),
+        color = openxlsx2::wb_color(hex = "#FFEB9C")
+      )
+    }
+  }
+
+  ## Non-numeric values in measurement columns ---------------------------------
+
+  measurement_cols <- intersect(measurement_cols, names(data_full))
   measurement_cols <- setdiff(measurement_cols, "texture")
 
   for (col_name in measurement_cols) {
@@ -245,7 +260,8 @@ create_issue_xlsx <- function(
     }
   }
 
-  # Texture fraction validation ----------------------------------------------
+  ## Texture fraction validation -----------------------------------------------
+
   texture_cols <- c("sand_percent", "silt_percent", "clay_percent")
 
   if (all(texture_cols %in% data_headers)) {
@@ -372,7 +388,7 @@ create_issue_xlsx <- function(
     which(dd_headers == col_name)
   }
 
-  # Blanks in required columns (missing_allowed == FALSE) --------------------
+  ## Blanks in required columns (missing_allowed == FALSE) ---------------------
   required_cols <- required_fields |>
     dplyr::filter(missing_allowed == FALSE, var %in% dd_headers) |>
     dplyr::pull(var)
@@ -389,7 +405,7 @@ create_issue_xlsx <- function(
     }
   }
 
-  # Duplicate abbr + unit combo ----------------------------------------------
+  ## Duplicate abbr + unit combo -----------------------------------------------
   if (all(c("abbr", "unit") %in% dd_headers)) {
     idx_abbr <- col_index("abbr")
     idx_unit <- col_index("unit")
@@ -426,13 +442,33 @@ create_issue_xlsx <- function(
     }
   }
 
+  ## Dictionary rows not in data -----------------------------------------------
+
+  if ("column_name" %in% dd_headers) {
+    idx <- which(dd_headers == "column_name")
+    col_letter <- openxlsx2::int2col(idx)
+
+    rule <- sprintf(
+      "ISNA(MATCH(%s2,Data!$1:$1,0))",
+      col_letter
+    )
+
+    wb$add_conditional_formatting(
+      sheet = "Data Dictionary",
+      dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+      type = "expression",
+      rule = rule,
+      style = "warning_style"
+    )
+  }
+
   # Save -----------------------------------------------------------------------
 
   openxlsx2::wb_save(wb, output_path, overwrite = TRUE)
 
   if (interactive()) {
     cli::cli_bullets(c(
-      "v" = "Issue report written to {.file {output_path}}",
+      "!" = "Review issue report at {.file {output_path}}",
       "i" = "Click to copy to console and run to open:",
       " " = sprintf(
         "{.run fs::file_show(%s)}",

@@ -167,15 +167,15 @@ read_soils_input <- function(file, ..., output = c("cli", "ui")) {
       "Provide either:"
     )
     issues <- c(issues, list(new_issue("error", msg1)))
-
     msg2 <- cli::format_inline(
-      "a single {.file .xlsx} file with {.val Data} and {.val Data Dictionary} sheets, or"
+      "One {.strong .xlsx} file with {.val Data} and {.val Data Dictionary} sheets, or"
     )
     issues <- c(issues, list(new_issue("error", msg2)))
     msg3 <- cli::format_inline(
-      "two {.file .csv} files as {.code c(\"data.csv\", \"data-dictionary.csv\")}."
+      "Two {.strong .csv} files with data first and dictionary second as {.code c(\"data.csv\", \"data-dictionary.csv\")}."
     )
     issues <- c(issues, list(new_issue("error", msg3)))
+
     return(format_output(
       issues,
       output,
@@ -493,7 +493,6 @@ check_uniqueness <- function(x) {
       type = "dictionary"
     )
   )
-  # Shared blocking checks -----------------------------------------------------
 
   for (nm in names(df_map)) {
     obj <- df_map[[nm]]
@@ -593,7 +592,6 @@ check_data_types <- function(x) {
       type = "dictionary"
     )
   )
-  # Shared blocking checks -----------------------------------------------------
 
   for (nm in names(df_map)) {
     obj <- df_map[[nm]]
@@ -867,7 +865,10 @@ check_measurement_groups <- function(data_dict, language = "english") {
   if (length(invalid) > 0) {
     lang_label <- stringr::str_to_title(language)
     msg <- cli::format_inline(
-      "Invalid {.field measurement_group} values: {.val {invalid}}. Valid options for {lang_label}: {.val {valid}}"
+      "Invalid {.field measurement_group} values: {.val {invalid}}.",
+      "\nValid options for {lang_label}:",
+      "\n{.val {valid}}",
+      collapse = FALSE
     )
     issues <- c(issues, list(new_issue("warning", msg)))
   }

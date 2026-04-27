@@ -18,7 +18,7 @@
 
 # fs::file_show("data/template.xlsx")
 
-# 2. EDIT: Setup file paths ----------------------------------------------------
+# 2. EDIT: Setup ---------------------------------------------------------------
 
 # Provide the path to your input data.
 #
@@ -32,17 +32,20 @@
 #    - First = Data
 #    - Second = Data Dictionary
 #
-#      input_path <- c(
-#        "data/data.csv",
-#        "data/data-dictionary.csv"
-#      )
-input_path <- "tests/test-files/no-data.xlsx"
+input_path <- c(
+  "tests/test-files/example-data-dupes.csv",
+  "tests/test-files/example-data-dictionary-dupes.csv"
+)
+input_path <- "tests/test-files/invalid-measurement-groups.xlsx"
 
 # Output file: processed data used for report generation
 output_file <- "tests/test-files/processed-data.rds"
 
 # Issues file: Excel file highlighting validation errors and warnings
 issues_file <- "tests/test-files/data-issues.xlsx"
+
+# Language to render report: "english" or "spanish"
+language <- "english"
 
 # 3. Load data -----------------------------------------------------------------
 
@@ -69,7 +72,7 @@ if (length(issues) > 0) {
 
 # Create spreadsheet with issues and conditional formatting
 if (length(issues) > 0) {
-  create_issue_xlsx(input_path, issues_file, issues)
+  create_issue_xlsx(gate_result, issues_file, issues, language)
 } else {
   cli::cli_alert_success("No issues to report!")
 }
@@ -83,6 +86,7 @@ if (length(issues) > 0) {
 process_data()
 
 # 7. Save processed data -------------------------------------------------------
+
 saveRDS()
 writexl::write_xlsx()
 

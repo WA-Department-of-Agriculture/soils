@@ -1,46 +1,53 @@
 create_issue_xlsx <- function(
-  input_path,
+  gate_result,
   output_path,
-  issues
+  issues,
+  language = c("english", "spanish")
 ) {
-  # Load data ------------------------------------------------------------------
-  wb <- openxlsx2::wb_load(input_path)
+  language <- rlang::arg_match(language)
 
-  if ("Data" %in% wb$sheet_names) {
-    # Get column headers from Data sheet to map names to positions
-    data_headers <- openxlsx2::wb_to_df(
-      wb,
-      sheet = "Data",
-      rows = 1,
-      col_names = FALSE
-    )
-    data_headers <- as.character(unlist(data_headers[1, ]))
+  # Initialize workbook and data -----------------------------------------------
 
-    # Figure out how many rows are in the Data sheet
+  if (gate_result$source == "excel") {
+    if (is.null(input_path)) {
+      cli::cli_abort("input_path is required when source is 'excel'.")
+    }
+
+    wb <- openxlsx2::wb_load(gate_result$file)
+
+    if (!all(c("Data", "Data Dictionary") %in% wb$sheet_names)) {
+      cli::cli_abort(
+        "Excel file must contain 'Data' and 'Data Dictionary' sheets."
+      )
+    }
+
     data_full <- openxlsx2::wb_to_df(wb, sheet = "Data", col_names = TRUE)
-  } else {
-    cli::cli_abort("Missing required sheet: Data.")
-  }
-
-  if ("Data Dictionary" %in% wb$sheet_names) {
-    # Get column headers from Data Dictionary sheet to map names to positions
-    dd_headers <- openxlsx2::wb_to_df(
-      wb,
-      sheet = "Data Dictionary",
-      rows = 1,
-      col_names = FALSE
-    )
-    dd_headers <- as.character(unlist(dd_headers[1, ]))
-
-    # Figure out how many rows are in the Data Dictionary sheet
     dd_full <- openxlsx2::wb_to_df(
       wb,
       sheet = "Data Dictionary",
       col_names = TRUE
     )
-  } else {
-    cli::cli_abort("Missing required sheet: Data Dictionary.")
+  } else if (gate_result$source == "csv") {
+    if (!all(c("data", "data_dict") %in% names(input))) {
+      cli::cli_abort(
+        "Input must be a list with {.val data} and {.val data_dict}."
+      )
+    }
+
+    data_full <- input$data
+    dd_full <- input$data_dict
+
+    wb <- openxlsx2::wb_workbook()
+
+    wb$add_worksheet("Data")
+    wb$add_data(wb, sheet = "Data", x = data_full, na.strings = "")
+
+    wb$add_worksheet("Data Dictionary")
+    wb$add_data(wb, sheet = "Data Dictionary", x = dd_full, na.strings = "")
   }
+
+  data_headers <- colnames(data_full)
+  dd_headers <- colnames(dd_full)
 
   # Issues tab -----------------------------------------------------------------
 
@@ -233,6 +240,52 @@ create_issue_xlsx <- function(
     }
   }
 
+  ## Wrong data type -----------------------------------------------------------
+
+  check_fields <- required_fields |>
+    dplyr::filter(type == "data") |>
+    dplyr::filter(var %in% data_headers, !is.na(var_type))
+
+  for (i in seq_len(nrow(check_fields))) {
+    col_name <- check_fields$var[i]
+    expected_type <- tolower(check_fields$var_type[i])
+
+    idx <- col_index(col_name)
+
+    if (length(idx) == 1) {
+      col_letter <- openxlsx2::int2col(idx)
+
+      # Excel rules
+      rule <- switch(
+        expected_type,
+
+        "numeric" = sprintf(
+          "AND($%s2<>\"\",NOT(ISNUMBER($%s2)))",
+          col_letter,
+          col_letter
+        ),
+
+        "character" = sprintf(
+          "AND($%s2<>\"\",ISNUMBER($%s2))",
+          col_letter,
+          col_letter
+        ),
+
+        NULL
+      )
+
+      if (!is.null(rule)) {
+        wb$add_conditional_formatting(
+          sheet = "Data",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+          type = "expression",
+          rule = rule,
+          style = "error_style"
+        )
+      }
+    }
+  }
+
   ## Non-numeric values in measurement columns ---------------------------------
 
   measurement_cols <- intersect(measurement_cols, names(data_full))
@@ -355,8 +408,8 @@ create_issue_xlsx <- function(
 
           rule <- sprintf(
             "AND(
-        ISBLANK(%s2),
-        (ISBLANK(%s2)+ISBLANK(%s2)+ISBLANK(%s2))=1
+        ISBLANK($%s2),
+        (ISBLANK($%s2)+ISBLANK($%s2)+ISBLANK($%s2))=1
       )",
             col_letter,
             openxlsx2::int2col(col_index("sand_percent")),
@@ -460,6 +513,109 @@ create_issue_xlsx <- function(
       rule = rule,
       style = "warning_style"
     )
+  }
+
+  ## Wrong data type -----------------------------------------------------------
+
+  check_fields <- required_fields |>
+    dplyr::filter(type == "data dictionary") |>
+    dplyr::filter(var %in% dd_headers, !is.na(var_type))
+
+  for (i in seq_len(nrow(check_fields))) {
+    col_name <- check_fields$var[i]
+    expected_type <- tolower(check_fields$var_type[i])
+
+    idx <- col_index(col_name)
+
+    if (length(idx) == 1) {
+      col_letter <- openxlsx2::int2col(idx)
+
+      # Excel rules
+      rule <- switch(
+        expected_type,
+
+        "numeric" = sprintf(
+          "AND($%s2<>\"\",NOT(ISNUMBER($%s2)))",
+          col_letter,
+          col_letter
+        ),
+
+        "character" = sprintf(
+          "AND($%s2<>\"\",ISNUMBER($%s2))",
+          col_letter,
+          col_letter
+        ),
+
+        NULL
+      )
+
+      if (!is.null(rule)) {
+        wb$add_conditional_formatting(
+          sheet = "Data Dictionary",
+          dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+          type = "expression",
+          rule = rule,
+          style = "error_style"
+        )
+      }
+    }
+  }
+
+  ## Invalid measurement groups -----------------------------------------------
+
+  measurement_groups <- list(
+    english = c(
+      "Physical",
+      "Biological",
+      "Chemical",
+      "Plant Essential Macro Nutrients",
+      "Plant Essential Micro Nutrients"
+    ),
+    spanish = c(
+      "Mediciones f\u00edsicas",
+      "Mediciones biol\u00f3gicas",
+      "Mediciones qu\u00edmicas",
+      "Macronutrientes esenciales para plantas",
+      "Micronutriente es esenciales para plantas"
+    )
+  )
+
+  language <- tolower(language)
+  if (!language %in% names(measurement_groups)) {
+    return(issues)
+  }
+
+  valid <- enc2native(measurement_groups[[language]])
+
+  if ("measurement_group" %in% dd_headers) {
+    idx <- which(dd_headers == "measurement_group")
+
+    if (length(idx) == 1) {
+      col_letter <- openxlsx2::int2col(idx)
+
+      # Add reference sheet with valid groups
+      wb$add_worksheet("Reference", visible = FALSE)
+      wb$add_data(sheet = "Reference", x = data.frame(groups = valid))
+      wb$add_named_region(
+        sheet = "ref",
+        dims = openxlsx2::wb_dims(cols = "A", rows = 2:length(valid)),
+        name = "valid_groups"
+      )
+
+      rule_invalid_group <- sprintf(
+        "AND(%s2<>\"\",ISNA(MATCH(%s2,valid_groups,0)))",
+        col_letter,
+        col_letter
+      )
+
+      wb$add_conditional_formatting(
+        sheet = "Data Dictionary",
+        dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
+        type = "expression",
+        rule = rule_invalid_group,
+        style = "warning_style"
+      )
+    }
   }
 
   # Save -----------------------------------------------------------------------

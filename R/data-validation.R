@@ -7,7 +7,7 @@
 # 3. Checks     — one function per validation check
 #
 
-# --- 1. Utilities -----------------------------------------------------------
+# 1. Utilities -----------------------------------------------------------
 
 #' Create a validation issue
 #'
@@ -157,24 +157,22 @@ read_soils_input <- function(file, ..., output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
   issues <- list()
 
-  # Detect file type ----------------------------------------------------------
+  # Detect file type -----------------------------------------------------------
 
   is_excel <- length(file) == 1 && grepl("\\.xlsx$", file, ignore.case = TRUE)
   is_csv <- length(file) == 2 && all(grepl("\\.csv$", file, ignore.case = TRUE))
 
   if (!is_excel && !is_csv) {
-    msg1 <- cli::format_inline(
-      "Provide either:"
+    msg <- c(
+      "Provide either:",
+      cli::format_inline(
+        "One {.strong .xlsx} file with {.val Data} and {.val Data Dictionary} sheets, or"
+      ),
+      cli::format_inline(
+        "Two {.strong .csv} files with data first and dictionary second as {.code c(\"data.csv\", \"data-dictionary.csv\")}."
+      )
     )
-    issues <- c(issues, list(new_issue("error", msg1)))
-    msg2 <- cli::format_inline(
-      "One {.strong .xlsx} file with {.val Data} and {.val Data Dictionary} sheets, or"
-    )
-    issues <- c(issues, list(new_issue("error", msg2)))
-    msg3 <- cli::format_inline(
-      "Two {.strong .csv} files with data first and dictionary second as {.code c(\"data.csv\", \"data-dictionary.csv\")}."
-    )
-    issues <- c(issues, list(new_issue("error", msg3)))
+    issues <- c(issues, list(new_issue("error", msg)))
 
     return(format_output(
       issues,
@@ -359,7 +357,7 @@ read_soils_input <- function(file, ..., output = c("cli", "ui")) {
   )
 }
 
-# --- 2. Gate check ----------------------------------------------------------
+# 2. Gate check ----------------------------------------------------------
 
 #' Check that inputs return loaded data with the correct structure
 #'
@@ -377,7 +375,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
   issues <- list()
 
-  # Validate structure --------------------------------------------------------
+  # Validate structure
 
   if (!all(c("data", "data_dict") %in% names(input))) {
     msg <- cli::format_inline(
@@ -386,7 +384,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
     return(list(new_issue("error", msg)))
   }
 
-  # Single unified map ---------------------------------------------------------
+  # Single unified map
 
   df_map <- list(
     data = list(
@@ -401,7 +399,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
     )
   )
 
-  # Shared blocking checks -----------------------------------------------------
+  # Shared blocking checks
 
   for (nm in names(df_map)) {
     obj <- df_map[[nm]]
@@ -413,7 +411,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
     dups <- names(df)[duplicated(names(df))]
     if (length(dups) > 0) {
       msg <- cli::format_inline(
-        "{.env {label}} has duplicate column headers: {.val {dups}}"
+        "{.env {.strong {label}}} has duplicate column headers: {.val {dups}}"
       )
       issues <- c(issues, list(new_issue("error", msg)))
     }
@@ -426,7 +424,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
     missing <- setdiff(required, colnames(df))
     if (length(missing) > 0) {
       msg <- cli::format_inline(
-        "{label} is missing required columns: {.val {missing}}"
+        "{.strong {label}} is missing required columns: {.val {missing}}"
       )
       issues <- c(issues, list(new_issue("error", msg)))
     }
@@ -434,13 +432,13 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
     # 3. Must have at least one row
     if (nrow(df) == 0) {
       msg <- cli::format_inline(
-        "{label} contains headers but no rows."
+        "{.strong {label}} contains headers but no rows."
       )
       issues <- c(issues, list(new_issue("error", msg)))
     }
   }
 
-  # Return ---------------------------------------------------------------------
+  # Return
 
   if (length(issues) > 0) {
     return(format_output(
@@ -465,7 +463,7 @@ is_gate_pass <- function(gate_result) {
   !is.null(gate_result$data) && !is.null(gate_result$data_dict)
 }
 
-# --- 3. Errors: independent checks --------------------------------------------
+# 3. Errors: independent checks --------------------------------------------
 
 # Uniqueness constraints
 check_uniqueness <- function(x) {
@@ -476,34 +474,33 @@ check_uniqueness <- function(x) {
     msg <- cli::format_inline(
       "Input must be a list with {.val data} and {.val data_dict}."
     )
-    issues <- c(issues, list(new_issue("error", msg)))
-    return(issues)
+    return(list(new_issue("error", msg)))
   }
 
-  # Map list elements to required_fields$type values
   df_map <- list(
-    data = list(
-      df = input$data,
-      label = "Data",
-      type = "data"
-    ),
+    data = list(df = x$data, label = "Data", type = "data"),
     data_dict = list(
-      df = input$data_dict,
+      df = x$data_dict,
       label = "Data Dictionary",
       type = "dictionary"
     )
   )
 
+  # Loop over datasets
   for (nm in names(df_map)) {
     obj <- df_map[[nm]]
     df <- obj$df
     label <- obj$label
     type <- obj$type
 
-    # Filter rules for this type
     unique_checks <- required_fields |>
-      dplyr::filter(.data$type == .env$type) |>
-      dplyr::filter(!is.na(unique_by))
+      dplyr::filter(.data$type == .env$type, !is.na(unique_by))
+
+    if (nrow(unique_checks) == 0) {
+      next
+    }
+
+    findings <- list()
 
     for (i in seq_len(nrow(unique_checks))) {
       var_name <- unique_checks$var[i]
@@ -511,10 +508,9 @@ check_uniqueness <- function(x) {
       group_by_vars <- if (
         stringr::str_detect(unique_checks$unique_by[i], "^c\\(")
       ) {
-        stringr::str_extract_all(
-          unique_checks$unique_by[i],
-          '"([^"]+)"'
-        )[[1]] |>
+        stringr::str_extract_all(unique_checks$unique_by[i], '"([^"]+)"')[[
+          1
+        ]] |>
           stringr::str_remove_all('"')
       } else {
         stringr::str_split(unique_checks$unique_by[i], ",\\s*")[[1]]
@@ -529,20 +525,20 @@ check_uniqueness <- function(x) {
       }
 
       if (length(group_by_vars) == 1 && group_by_vars == var_name) {
-        # Globally unique
+        # Global uniqueness
         duplicates <- df |>
           dplyr::count(!!rlang::sym(var_name)) |>
           dplyr::filter(n > 1)
 
         if (nrow(duplicates) > 0) {
-          dup_vals <- duplicates[[var_name]]
-          msg <- cli::format_inline(
-            "{label} has duplicate values in {.field {var_name}}: {.val {soils_cli_vec(dup_vals)}}."
+          findings[[length(findings) + 1]] <- list(
+            var = var_name,
+            group = NULL,
+            values = duplicates[[var_name]]
           )
-          issues <- c(issues, list(new_issue("error", msg)))
         }
       } else {
-        # Unique within groups
+        # Grouped uniqueness
         duplicates <- df |>
           dplyr::group_by(dplyr::across(dplyr::all_of(group_by_vars))) |>
           dplyr::add_count(!!rlang::sym(var_name), name = "field_count") |>
@@ -553,18 +549,40 @@ check_uniqueness <- function(x) {
           dplyr::ungroup()
 
         if (nrow(duplicates) > 0) {
-          group_str <- paste(group_by_vars, collapse = " and ")
-          dup_vals <- duplicates[[var_name]]
-          msg <- cli::format_inline(
-            "{label} has duplicate values in {.field {var_name}} within the combination of {group_str}: {.val {soils_cli_vec(dup_vals)}}."
+          findings[[length(findings) + 1]] <- list(
+            var = var_name,
+            group = group_by_vars,
+            values = unique(duplicates[[var_name]])
           )
-          issues <- c(issues, list(new_issue("error", msg)))
         }
       }
     }
+
+    # Emit one grouped message
+    if (length(findings) > 0) {
+      bullets <- purrr::map_chr(findings, function(f) {
+        if (is.null(f$group)) {
+          cli::format_inline(
+            "{.field {f$var}}: {.val {soils_cli_vec(f$values)}}"
+          )
+        } else {
+          group_str <- paste(f$group, collapse = " and ")
+          cli::format_inline(
+            "{.field {f$var}} (must be unique within {group_str}): {.val {soils_cli_vec(f$values)}}"
+          )
+        }
+      })
+
+      msg <- c(
+        cli::format_inline("{.strong {label}} has duplicate values:"),
+        stats::setNames(bullets, rep("*", length(bullets)))
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
+    }
   }
 
-  return(issues)
+  issues
 }
 
 # Data types match requirements
@@ -576,30 +594,33 @@ check_data_types <- function(x) {
     msg <- cli::format_inline(
       "Input must be a list with {.val data} and {.val data_dict}."
     )
-    issues <- c(issues, list(new_issue("error", msg)))
-    return(issues)
+    return(list(new_issue("error", msg)))
   }
 
   df_map <- list(
-    data = list(
-      df = input$data,
-      label = "Data",
-      type = "data"
-    ),
+    data = list(df = x$data, label = "Data", type = "data"),
     data_dict = list(
-      df = input$data_dict,
+      df = x$data_dict,
       label = "Data Dictionary",
       type = "dictionary"
     )
   )
 
+  # Normalize numeric types
+  normalize_type <- function(x) {
+    dplyr::case_when(
+      x %in% c("integer", "double") ~ "numeric",
+      TRUE ~ x
+    )
+  }
+
+  # Loop datasets
   for (nm in names(df_map)) {
     obj <- df_map[[nm]]
     df <- obj$df
     label <- obj$label
     type <- obj$type
 
-    # Filter rules for this type
     check_fields <- required_fields |>
       dplyr::filter(.data$type == .env$type) |>
       dplyr::filter(var %in% colnames(df), !is.na(var_type))
@@ -608,7 +629,7 @@ check_data_types <- function(x) {
       next
     }
 
-    # Skip columns that are entirely NA
+    # Skip fully empty columns
     non_blank <- sapply(
       df[check_fields$var],
       \(col) !all(is.na(col))
@@ -618,38 +639,44 @@ check_data_types <- function(x) {
       next
     }
 
-    # Helper function to normalize integer and double outputs from typeof() to
-    # numeric
-    normalize_type <- function(x) {
-      dplyr::case_when(
-        x %in% c("integer", "double") ~ "numeric",
-        TRUE ~ x
-      )
-    }
-
+    # Actual types
     actual_types <- sapply(
       df[, names(non_blank)[non_blank], drop = FALSE],
       typeof
     ) |>
       normalize_type()
 
+    # Find mismatches
     mismatched <- check_fields |>
       dplyr::filter(var %in% names(actual_types)) |>
       dplyr::mutate(actual_type = actual_types[.data$var]) |>
       dplyr::filter(var_type != actual_type)
 
+    # Collect findings
     if (nrow(mismatched) > 0) {
-      for (i in seq_len(nrow(mismatched))) {
-        r <- mismatched[i, ]
-        msg <- cli::format_inline(
-          "{label} has incorrect data type in {.field {r$var}} (expected {.val {r$var_type}}, found {.val {r$actual_type}})."
-        )
-        issues <- c(issues, list(new_issue("error", msg)))
-      }
+      bullets <- purrr::pmap_chr(
+        list(
+          var = mismatched$var,
+          expected = mismatched$var_type,
+          actual = mismatched$actual_type
+        ),
+        \(var, expected, actual) {
+          cli::format_inline(
+            "{.field {var}} (expected {expected}, found {actual})"
+          )
+        }
+      )
+
+      msg <- c(
+        cli::format_inline("{.strong {label}} has incorrect data types:"),
+        stats::setNames(bullets, rep("*", length(bullets)))
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
     }
   }
 
-  return(issues)
+  issues
 }
 
 # Missing values in required columns
@@ -661,23 +688,19 @@ check_missing_values <- function(x) {
     msg <- cli::format_inline(
       "Input must be a list with {.val data} and {.val data_dict}."
     )
-    issues <- c(issues, list(new_issue("error", msg)))
-    return(issues)
+    return(list(new_issue("error", msg)))
   }
 
   df_map <- list(
-    data = list(
-      df = input$data,
-      label = "Data",
-      type = "data"
-    ),
+    data = list(df = x$data, label = "Data", type = "data"),
     data_dict = list(
-      df = input$data_dict,
+      df = x$data_dict,
       label = "Data Dictionary",
       type = "dictionary"
     )
   )
 
+  # Loop over datasets
   for (nm in names(df_map)) {
     obj <- df_map[[nm]]
     df <- obj$df
@@ -685,8 +708,7 @@ check_missing_values <- function(x) {
     type <- obj$type
 
     required_cols <- required_fields |>
-      dplyr::filter(.data$type == .env$type) |>
-      dplyr::filter(missing_allowed == FALSE) |>
+      dplyr::filter(.data$type == .env$type, missing_allowed == FALSE) |>
       dplyr::filter(var %in% colnames(df)) |>
       dplyr::pull(var)
 
@@ -694,19 +716,38 @@ check_missing_values <- function(x) {
       next
     }
 
-    for (col in required_cols) {
-      n_missing <- sum(is.na(df[[col]]))
+    # Collect missing counts
+    missing_counts <- purrr::map_int(
+      required_cols,
+      ~ sum(is.na(df[[.x]]))
+    )
+    names(missing_counts) <- required_cols
 
-      if (n_missing > 0) {
-        msg <- cli::format_inline(
-          "{label} has {n_missing} missing value{?s} in {.field {col}}. This column does not allow blank values."
-        )
-        issues <- c(issues, list(new_issue("error", msg)))
-      }
+    missing_counts <- missing_counts[missing_counts > 0]
+
+    # Emit one grouped issue per dataset
+    if (length(missing_counts) > 0) {
+      bullets <- purrr::imap_chr(
+        missing_counts,
+        \(n, col) {
+          cli::format_inline(
+            "{.field {col}}: {n} missing value{?s}"
+          )
+        }
+      )
+
+      msg <- c(
+        cli::format_inline(
+          "{.strong {label}} has missing values in required columns:"
+        ),
+        stats::setNames(bullets, rep("*", length(bullets)))
+      )
+
+      issues <- c(issues, list(new_issue("error", msg)))
     }
   }
 
-  return(issues)
+  issues
 }
 
 # Data has at least one column beyond required fields
@@ -729,7 +770,7 @@ check_additional_columns <- function(data) {
   return(issues)
 }
 
-# --- 4. Warnings: independent checks ------------------------------------------
+# 4. Warnings: independent checks ------------------------------------------
 
 # Data Dictionary "column_name" matches Data
 check_dict_mismatch <- function(data, data_dict) {
@@ -770,7 +811,7 @@ check_dict_mismatch <- function(data, data_dict) {
 check_numeric_conversion <- function(data, data_dict) {
   issues <- list()
 
-  ## Validate inputs -----------------------------------------------------------
+  # Validate inputs
 
   non_measurement <- c("texture", "Texture")
 
@@ -778,11 +819,11 @@ check_numeric_conversion <- function(data, data_dict) {
     setdiff(non_measurement) |>
     intersect(names(data))
 
-  ## Preserve original values --------------------------------------------------
+  # Preserve original values
 
   data_original <- data[, measurement_cols, drop = FALSE]
 
-  ## Convert (suppress warnings) -----------------------------------------------
+  # Convert (suppress warnings)
 
   suppressWarnings(
     data_numeric <- data |>
@@ -791,7 +832,7 @@ check_numeric_conversion <- function(data, data_dict) {
       )
   )
 
-  ## Detect NA coercion --------------------------------------------------------
+  # Detect NA coercion
 
   na_created <- purrr::map_int(
     measurement_cols,
@@ -805,7 +846,7 @@ check_numeric_conversion <- function(data, data_dict) {
     bullets <- purrr::imap_chr(
       partial_na,
       ~ cli::format_inline(
-        "{.val { .y }} ({ .x } {if (.x == 1) 'value' else 'values'})"
+        "{.field { .y }} ({ .x } {if (.x == 1) 'value' else 'values'})"
       )
     )
 
@@ -890,7 +931,6 @@ check_coordinates <- function(data) {
     return(issues)
   }
 
-  # Optional but recommended guard
   has_sample_id <- "sample_id" %in% names(data)
 
   # Skip if both are entirely NA
@@ -902,7 +942,7 @@ check_coordinates <- function(data) {
   lat <- suppressWarnings(as.numeric(data$latitude))
   lon <- suppressWarnings(as.numeric(data$longitude))
 
-  ## Latitude out of range -----------------------------------------------------
+  # Latitude out of range
 
   bad_lat <- which(!is.na(lat) & (lat < -90 | lat > 90))
 
@@ -916,7 +956,7 @@ check_coordinates <- function(data) {
     issues <- c(issues, list(new_issue("error", msg)))
   }
 
-  ## Longitude out of range ----------------------------------------------------
+  # Longitude out of range
 
   bad_lon <- which(!is.na(lon) & (lon < -180 | lon > 180))
 
@@ -930,7 +970,7 @@ check_coordinates <- function(data) {
     issues <- c(issues, list(new_issue("error", msg)))
   }
 
-  ## Incomplete coordinate pairs -----------------------------------------------
+  # Incomplete coordinate pairs
 
   incomplete <- which(is.na(lat) != is.na(lon))
 
@@ -938,7 +978,7 @@ check_coordinates <- function(data) {
     ids <- if (has_sample_id) data$sample_id[incomplete] else incomplete
 
     msg <- cli::format_inline(
-      "Incomplete coordinate pairs: one of {.field latitude} or {.field longitude} is missing for: {.val {soils_cli_vec(ids)}}."
+      "Incomplete coordinate pair (one of {.field latitude} or {.field longitude} is missing) for: {.val {soils_cli_vec(ids)}}."
     )
 
     issues <- c(issues, list(new_issue("error", msg)))

@@ -36,7 +36,7 @@ input_path <- c(
   "tests/test-files/example-data-dupes.csv",
   "tests/test-files/example-data-dictionary-dupes.csv"
 )
-input_path <- "tests/test-files/invalid-coordinates.xlsx"
+input_path <- "tests/test-files/missing-req-values.xlsx"
 
 # Output file: processed data used for report generation
 output_file <- "tests/test-files/processed-data.rds"

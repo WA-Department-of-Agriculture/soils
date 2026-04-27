@@ -429,6 +429,73 @@ create_issue_xlsx <- function(
     }
   }
 
+  ## Coordinate validation ------------------------------------------------------
+
+  idx_lat <- which(data_headers == "latitude")
+  idx_lon <- which(data_headers == "longitude")
+
+  if (length(idx_lat) == 1) {
+    col_lat <- openxlsx2::int2col(idx_lat)
+
+    # Latitude out of range
+    rule_lat <- sprintf(
+      "AND(%s2<>\"\",OR(%s2<-90,%s2>90))",
+      col_lat,
+      col_lat,
+      col_lat
+    )
+
+    wb$add_conditional_formatting(
+      sheet = "Data",
+      dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx_lat),
+      type = "expression",
+      rule = rule_lat,
+      style = "error_style"
+    )
+  }
+
+  if (length(idx_lon) == 1) {
+    col_lon <- openxlsx2::int2col(idx_lon)
+
+    # Longitude out of range
+    rule_lon <- sprintf(
+      "AND(%s2<>\"\",OR(%s2<-180,%s2>180))",
+      col_lon,
+      col_lon,
+      col_lon
+    )
+
+    wb$add_conditional_formatting(
+      sheet = "Data",
+      dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx_lon),
+      type = "expression",
+      rule = rule_lon,
+      style = "error_style"
+    )
+  }
+
+  # One coordinate missing (but not both)
+  if (length(idx_lat) == 1 && length(idx_lon) == 1) {
+    col_lat <- openxlsx2::int2col(idx_lat)
+    col_lon <- openxlsx2::int2col(idx_lon)
+
+    rule_missing_pair <- sprintf(
+      "AND(OR(%s2=\"\",%s2=\"\"),NOT(AND(%s2=\"\",%s2=\"\")))",
+      col_lat,
+      col_lon,
+      col_lat,
+      col_lon
+    )
+
+    wb$add_conditional_formatting(
+      sheet = "Data",
+      dims = openxlsx2::wb_dims(rows = 2:max_row, cols = c(idx_lat, idx_lon)),
+      type = "expression",
+      rule = rule_missing_pair,
+      style = "error_style"
+    )
+  }
+
   # Data dictionary tab --------------------------------------------------------
 
   max_row <- nrow(dd_full) + 1 # +1 because row 1 is the header
@@ -597,7 +664,7 @@ create_issue_xlsx <- function(
       wb$add_worksheet("Reference", visible = FALSE)
       wb$add_data(sheet = "Reference", x = data.frame(groups = valid))
       wb$add_named_region(
-        sheet = "ref",
+        sheet = "Reference",
         dims = openxlsx2::wb_dims(cols = "A", rows = 2:length(valid)),
         name = "valid_groups"
       )

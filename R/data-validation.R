@@ -770,7 +770,7 @@ check_dict_mismatch <- function(data, data_dict) {
 check_numeric_conversion <- function(data, data_dict) {
   issues <- list()
 
-  # Validate inputs -----------------------------------------------------------
+  ## Validate inputs -----------------------------------------------------------
 
   non_measurement <- c("texture", "Texture")
 
@@ -778,11 +778,11 @@ check_numeric_conversion <- function(data, data_dict) {
     setdiff(non_measurement) |>
     intersect(names(data))
 
-  # Preserve original values --------------------------------------------------
+  ## Preserve original values --------------------------------------------------
 
   data_original <- data[, measurement_cols, drop = FALSE]
 
-  # Convert (suppress warnings) -----------------------------------------------
+  ## Convert (suppress warnings) -----------------------------------------------
 
   suppressWarnings(
     data_numeric <- data |>
@@ -791,7 +791,7 @@ check_numeric_conversion <- function(data, data_dict) {
       )
   )
 
-  # Detect NA coercion --------------------------------------------------------
+  ## Detect NA coercion --------------------------------------------------------
 
   na_created <- purrr::map_int(
     measurement_cols,
@@ -876,6 +876,77 @@ check_measurement_groups <- function(data_dict, language = "english") {
   return(issues)
 }
 
+check_coordinates <- function(data) {
+  issues <- list()
+
+  coord_fields <- c("latitude", "longitude")
+
+  missing <- setdiff(coord_fields, names(data))
+  if (length(missing) > 0) {
+    msg <- cli::format_inline(
+      "Missing coordinate columns: {.val {missing}}"
+    )
+    issues <- c(issues, list(new_issue("error", msg)))
+    return(issues)
+  }
+
+  # Optional but recommended guard
+  has_sample_id <- "sample_id" %in% names(data)
+
+  # Skip if both are entirely NA
+  if (all(is.na(data$latitude)) && all(is.na(data$longitude))) {
+    return(issues)
+  }
+
+  # Coerce safely
+  lat <- suppressWarnings(as.numeric(data$latitude))
+  lon <- suppressWarnings(as.numeric(data$longitude))
+
+  ## Latitude out of range -----------------------------------------------------
+
+  bad_lat <- which(!is.na(lat) & (lat < -90 | lat > 90))
+
+  if (length(bad_lat) > 0) {
+    ids <- if (has_sample_id) data$sample_id[bad_lat] else bad_lat
+
+    msg <- cli::format_inline(
+      "{.field latitude} has values outside valid range (-90 to 90) for: {.val {soils_cli_vec(ids)}}."
+    )
+
+    issues <- c(issues, list(new_issue("error", msg)))
+  }
+
+  ## Longitude out of range ----------------------------------------------------
+
+  bad_lon <- which(!is.na(lon) & (lon < -180 | lon > 180))
+
+  if (length(bad_lon) > 0) {
+    ids <- if (has_sample_id) data$sample_id[bad_lon] else bad_lon
+
+    msg <- cli::format_inline(
+      "{.field longitude} has values outside valid range (-180 to 180) for: {.val {soils_cli_vec(ids)}}."
+    )
+
+    issues <- c(issues, list(new_issue("error", msg)))
+  }
+
+  ## Incomplete coordinate pairs -----------------------------------------------
+
+  incomplete <- which(is.na(lat) != is.na(lon))
+
+  if (length(incomplete) > 0) {
+    ids <- if (has_sample_id) data$sample_id[incomplete] else incomplete
+
+    msg <- cli::format_inline(
+      "Incomplete coordinate pairs: one of {.field latitude} or {.field longitude} is missing for: {.val {soils_cli_vec(ids)}}."
+    )
+
+    issues <- c(issues, list(new_issue("error", msg)))
+  }
+
+  issues
+}
+
 # 5. Wrapper to run all check functions ----------------------------------------
 
 run_all_checks <- function(gate_result, output = c("cli", "ui")) {
@@ -889,6 +960,7 @@ run_all_checks <- function(gate_result, output = c("cli", "ui")) {
     check_additional_columns(gate_result$data),
     check_dict_mismatch(gate_result$data, gate_result$data_dict),
     check_texture_fractions(gate_result$data),
+    check_coordinates(gate_result$data),
     check_measurement_groups(gate_result$data_dict)
   )
 

@@ -57,6 +57,11 @@ create_issue_xlsx <- function(
 
   issues <- format_output(issues, "ui")
 
+  guidance <- c(
+    "Errors must be corrected before proceeding.",
+    "Warnings indicate potential issues. Processing can continue, but review is recommended."
+  )
+
   error_df <- data.frame(
     Severity = vapply(issues, \(x) x$severity, character(1)),
     Message = vapply(
@@ -68,24 +73,34 @@ create_issue_xlsx <- function(
   )
 
   wb$add_worksheet("Issues")
-  wb$add_data(sheet = "Issues", x = error_df)
+  wb$add_data(sheet = "Issues", x = guidance)
+  wb$add_data(sheet = "Issues", x = error_df, start_row = 4)
 
   # Styling --------------------------------------------------------------------
+
+  # Style the guidance
+  wb$add_font(
+    sheet = "Issues",
+    dims = openxlsx2::wb_dims(rows = 1:2, cols = 1:2),
+    italic = TRUE,
+    color = openxlsx2::wb_color(hex = "#595959")
+  )
 
   # Style the header row (bold + bottom border)
   wb$add_font(
     sheet = "Issues",
-    dims = "A1:B1",
+    dims = "A4:B4",
     bold = TRUE
   )
   wb$add_border(
     sheet = "Issues",
-    dims = "A1:B1",
-    bottom_border = "thin"
+    dims = "A4:B4",
+    bottom_border = "thin",
+    right_border = "none"
   )
 
   # Style error rows
-  error_rows <- which(error_df$Severity == "error") + 1
+  error_rows <- which(error_df$Severity == "error") + 4
   if (length(error_rows) > 0) {
     error_dims <- openxlsx2::wb_dims(rows = error_rows, cols = 1:2)
     wb$add_font(
@@ -96,7 +111,7 @@ create_issue_xlsx <- function(
   }
 
   # Style warning rows
-  warning_rows <- which(error_df$Severity == "warning") + 1
+  warning_rows <- which(error_df$Severity == "warning") + 4
   if (length(warning_rows) > 0) {
     warning_dims <- openxlsx2::wb_dims(rows = warning_rows, cols = 1:2)
     wb$add_font(
@@ -107,8 +122,8 @@ create_issue_xlsx <- function(
   }
 
   # Wrap text
-  n <- nrow(error_df) + 1
-  issue_dims = openxlsx2::wb_dims(rows = 1:n, cols = 1:2)
+  n <- nrow(error_df) + 4
+  issue_dims = openxlsx2::wb_dims(rows = 5:n, cols = 1:2)
 
   wb$add_cell_style(
     sheet = "Issues",
@@ -118,16 +133,17 @@ create_issue_xlsx <- function(
   )
 
   # Set column widths
-  wb$set_col_widths(sheet = "Issues", cols = 1:2, width = "auto")
+  wb$set_col_widths(sheet = "Issues", cols = 1, widths = 12)
+  wb$set_col_widths(sheet = "Issues", cols = 2, widths = 120)
 
-  # Style error
+  # Style error conditional formatting
   wb$add_dxfs_style(
     name = "error_style",
     font_color = openxlsx2::wb_color(hex = "#9C0006"),
     bg_fill = openxlsx2::wb_color(hex = "#FFC7CE")
   )
 
-  # Style warning
+  # Style warning conditional formatting
   wb$add_dxfs_style(
     name = "warning_style",
     font_color = openxlsx2::wb_color(hex = "#9C5700"),

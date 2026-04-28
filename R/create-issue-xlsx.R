@@ -753,9 +753,10 @@ create_issue_xlsx <- function(
       # Add reference sheet with valid groups
       wb$add_worksheet("Reference", visible = FALSE)
       wb$add_data(sheet = "Reference", x = data.frame(groups = valid))
+      valid_rows <- length(valid) + 1
       wb$add_named_region(
         sheet = "Reference",
-        dims = openxlsx2::wb_dims(cols = "A", rows = 2:length(valid)),
+        dims = openxlsx2::wb_dims(cols = "A", rows = 2:valid_rows),
         name = "valid_groups"
       )
 

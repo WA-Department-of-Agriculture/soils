@@ -28,24 +28,28 @@
 #    - "Data"
 #    - "Data Dictionary"
 #
-# b) Two .csv files:
-#    - First = Data
-#    - Second = Data Dictionary
+#    Example:
+#    input_path <- "data/data-and-dictionary.xlsx"
 #
+# b) Two .csv files as a character vector:
+#    - First = "data.csv"
+#    - Second = "data-dictionary.csv"
+#
+#    Example:
+#    input_path <- c("data/data.csv", "data/data-dictionary.csv")
+
 input_path <- c(
-  "tests/test-files/example-data-dupes.csv",
-  "tests/test-files/example-data-dictionary-dupes.csv"
+  "tests/test-files/csv/dupes-data.csv",
+  "tests/test-files/csv/dupes-data-dictionary.csv"
 )
-input_path <- "tests/test-files/missing-req-values.xlsx"
+
+input_path <- "tests/test-files/excel/invalid-measurement-groups.xlsx"
 
 # Output file: processed data used for report generation
 output_file <- "tests/test-files/processed-data.rds"
 
 # Issues file: Excel file highlighting validation errors and warnings
 issues_file <- "tests/test-files/data-issues.xlsx"
-
-# Language to render report: "english" or "spanish"
-language <- "english"
 
 # 3. Load data -----------------------------------------------------------------
 

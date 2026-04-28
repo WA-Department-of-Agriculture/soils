@@ -40,11 +40,17 @@ create_issue_xlsx <- function(
     wb <- openxlsx2::wb_workbook()
 
     wb$add_worksheet("Data")
-    wb$add_data(wb, sheet = "Data", x = data_full, na.strings = "")
+    wb$add_data(sheet = "Data", x = data_full, na.strings = "")
+    wb$set_col_widths(sheet = "Data", cols = 1:ncol(data_full), widths = "auto")
 
     wb$add_worksheet("Data Dictionary")
-    wb$add_data(wb, sheet = "Data Dictionary", x = dd_full, na.strings = "")
-  }
+    wb$add_data(sheet = "Data Dictionary", x = dd_full, na.strings = "")
+    wb$add_data(sheet = "Data", x = data_full, na.strings = "")
+    wb$set_col_widths(
+      sheet = "Data Dictionary",
+      cols = 1:ncol(dd_full),
+      widths = "auto"
+    )
 
   data_headers <- colnames(data_full)
   dd_headers <- colnames(dd_full)
@@ -114,8 +120,7 @@ create_issue_xlsx <- function(
   )
 
   # Set column widths
-  wb$set_col_widths(sheet = "Issues", cols = 1, widths = 12)
-  wb$set_col_widths(sheet = "Issues", cols = 2, widths = 120)
+  wb$set_col_widths(sheet = "Issues", cols = 1:2, width = "auto")
 
   # Style error
   wb$add_dxfs_style(
@@ -207,7 +212,10 @@ create_issue_xlsx <- function(
       # Apply only to field_id column
       wb$add_conditional_formatting(
         sheet = "Data",
-        dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx_field),
+        dims = openxlsx2::wb_dims(
+          rows = 2:max_row,
+          cols = c(idx_year, idx_prod, idx_field)
+        ),
         type = "expression",
         rule = rule,
         style = "error_style"

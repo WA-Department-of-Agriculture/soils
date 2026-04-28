@@ -528,7 +528,7 @@ check_uniqueness <- function(x) {
         # Global uniqueness
         duplicates <- df |>
           dplyr::count(!!rlang::sym(var_name)) |>
-          dplyr::filter(n > 1)
+          dplyr::filter(n > 1 & !is.na(!!rlang::sym(var_name)))
 
         if (nrow(duplicates) > 0) {
           findings[[length(findings) + 1]] <- list(
@@ -542,7 +542,7 @@ check_uniqueness <- function(x) {
         duplicates <- df |>
           dplyr::group_by(dplyr::across(dplyr::all_of(group_by_vars))) |>
           dplyr::add_count(!!rlang::sym(var_name), name = "field_count") |>
-          dplyr::filter(field_count > 1) |>
+          dplyr::filter(field_count > 1 & !is.na(!!rlang::sym(var_name))) |>
           dplyr::distinct(
             dplyr::across(dplyr::all_of(c(group_by_vars, var_name)))
           ) |>

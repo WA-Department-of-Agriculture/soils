@@ -40,6 +40,7 @@ utils::globalVariables(c(
   "value",
   "var",
   "var_label",
+  "var_type",
   "x",
   "y"
 ))

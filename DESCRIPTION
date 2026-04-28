@@ -49,6 +49,7 @@ Imports:
     quarto,
     rstudioapi,
     sf,
+    stringr,
     tidyr,
     utils,
     usethis,

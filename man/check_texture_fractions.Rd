@@ -4,10 +4,12 @@
 \alias{check_texture_fractions}
 \title{Check soil texture fractions}
 \usage{
-check_texture_fractions(x)
+check_texture_fractions(df)
 }
 \arguments{
-\item{x}{A named list containing at least a \code{data} data frame.}
+\item{df}{A dataframe containing the columns \code{sample_id},
+\code{sand_percent}, \code{silt_percent}, and \code{clay_percent}. An optional
+\code{texture} column can also be provided.}
 }
 \value{
 A list of issues (errors and/or warnings). Returns an empty list if

@@ -7,11 +7,11 @@
 complete_texture_fractions(df)
 }
 \arguments{
-\item{df}{A data frame containing \code{sand_percent},
+\item{df}{A dataframe containing \code{sand_percent},
 \code{silt_percent}, and \code{clay_percent.}}
 }
 \value{
-A data frame with completed soil fraction percentages.
+A dataframe with completed soil fraction percentages.
 }
 \description{
 Internal helper that computes a missing soil fraction (sand, silt, or clay)

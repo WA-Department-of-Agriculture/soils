@@ -1,41 +1,64 @@
-#' Convert measurement columns to numeric and warn
+#' Convert measurement columns to numeric
+#'
+#' Converts measurement columns in `data` to numeric using column names
+#' defined in the data dictionary. Optionally validates and reports
+#' non-numeric values that are coerced to `NA`.
 #'
 #' Intended for use during data ingestion and validation in the reporting
 #' workflow.
 #'
-#' Non-numeric values in specified measurement columns, such as character values
-#' commonly used to represent missing or censored measurements (e.g. `"ND"`,
-#' `"<1"`, `"-"`, or `""`), are converted to `NA`. Warnings are emitted when
-#' non-missing values are converted to `NA`, and when a column contains only `NA`
-#' values after coercion, indicating it may be omitted from downstream summaries
-#' or visualizations.
+#' Non-numeric values in measurement columns, such as character values
+#' commonly used to represent missing or censored measurements (e.g.
+#' `"ND"`, `"<1"`, `"-"`, or `""`), are converted to `NA`. When
+#' `validate = TRUE`, warnings are emitted if non-missing values are
+#' coerced to `NA`, and if entire columns become `NA` after conversion.
 #'
-#' @param data A data frame containing both metadata and quantitative
-#'   measurement columns.
-#' @param measurement_cols A character vector of column names to convert to
-#'   numeric.
+#' @param data A dataframe containing both metadata and measurement columns.
+#' @param data_dict A dataframe containing the data dictionary. Must include
+#'   a `column_name` column specifying measurement columns in `data`.
+#' @param output Character. Output format for validation messages.
+#'   One of `"cli"` (default) or `"ui"`.
+#' @param validate Logical. If `TRUE` (default), runs
+#'   `check_numeric_conversion()` and formats any resulting issues using
+#'   `format_output()`.
 #'
-#' @return A data frame where specified measurement columns have been converted to
-#'   numeric.
+#' @returns
+#' A data frame with measurement columns converted to numeric.
+#'
+#' @details
+#' Measurement columns are derived from `data_dict$column_name`, excluding
+#' known non-measurement fields such as `"texture"`. Only columns present
+#' in `data` are converted.
+#'
+#' When `validate = TRUE`:
+#' \itemize{
+#'   \item Warnings are issued for values that are coerced to `NA`
+#'   \item Errors (if any) will stop execution
+#' }
 #'
 #' @examples
+#' \dontrun{
 #' # Example data
 #' example_data <- data.frame(
 #'   year        = c(2023, 2023, 2024),
 #'   sample_id   = c("S1", "S2", "S3"),
 #'   field_id    = c("A", "A", "B"),
-#'   ph          = c("6.5", "ND", "7.1"),   # partial NA (1 ND -> NA)
-#'   nh4_n_mg_kg = c("12.3", "<1", ""),     # partial NA (2 non-numeric -> NA)
-#'   no3_n_mg_kg = c("NA", "NA", "NA"),     # fully NA
+#'   ph          = c("6.5", "ND", "7.1"),
+#'   nh4_n_mg_kg = c("12.3", "<1", ""),
+#'   no3_n_mg_kg = c("NA", "NA", "NA"),
 #'   stringsAsFactors = FALSE
 #' )
 #'
+#' example_dict <- data.frame(
+#'   column_name = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg"),
+#'   stringsAsFactors = FALSE
+#' )
 #'
-#' # Specify the measurement columns
-#' measurement_cols = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
-#'
-#' # Convert measurement columns to numeric
-#' clean_data <- convert_to_numeric(example_data, measurement_cols)
+#' clean_data <- convert_to_numeric(
+#'   data = example_data,
+#'   data_dict = example_dict
+#' )
+#' }
 #'
 #' @export
 convert_to_numeric <- function(

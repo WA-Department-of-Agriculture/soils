@@ -2,50 +2,73 @@
 % Please edit documentation in R/helpers.R
 \name{convert_to_numeric}
 \alias{convert_to_numeric}
-\title{Convert measurement columns to numeric and warn}
+\title{Convert measurement columns to numeric}
 \usage{
 convert_to_numeric(data, data_dict, output = c("cli", "ui"), validate = TRUE)
 }
 \arguments{
-\item{data}{A data frame containing both metadata and quantitative
-measurement columns.}
+\item{data}{A dataframe containing both metadata and measurement columns.}
 
-\item{measurement_cols}{A character vector of column names to convert to
-numeric.}
+\item{data_dict}{A dataframe containing the data dictionary. Must include
+a \code{column_name} column specifying measurement columns in \code{data}.}
+
+\item{output}{Character. Output format for validation messages.
+One of \code{"cli"} (default) or \code{"ui"}.}
+
+\item{validate}{Logical. If \code{TRUE} (default), runs
+\code{check_numeric_conversion()} and formats any resulting issues using
+\code{format_output()}.}
 }
 \value{
-A data frame where specified measurement columns have been converted to
-numeric.
+A data frame with measurement columns converted to numeric.
 }
 \description{
-Intended for use during data ingestion and validation in the reporting
-workflow.
+Converts measurement columns in \code{data} to numeric using column names
+defined in the data dictionary. Optionally validates and reports
+non-numeric values that are coerced to \code{NA}.
 }
 \details{
-Non-numeric values in specified measurement columns, such as character values
-commonly used to represent missing or censored measurements (e.g. \code{"ND"},
-\code{"<1"}, \code{"-"}, or \code{""}), are converted to \code{NA}. Warnings are emitted when
-non-missing values are converted to \code{NA}, and when a column contains only \code{NA}
-values after coercion, indicating it may be omitted from downstream summaries
-or visualizations.
+Intended for use during data ingestion and validation in the reporting
+workflow.
+
+Non-numeric values in measurement columns, such as character values
+commonly used to represent missing or censored measurements (e.g.
+\code{"ND"}, \code{"<1"}, \code{"-"}, or \code{""}), are converted to \code{NA}. When
+\code{validate = TRUE}, warnings are emitted if non-missing values are
+coerced to \code{NA}, and if entire columns become \code{NA} after conversion.
+
+Measurement columns are derived from \code{data_dict$column_name}, excluding
+known non-measurement fields such as \code{"texture"}. Only columns present
+in \code{data} are converted.
+
+When \code{validate = TRUE}:
+\itemize{
+\item Warnings are issued for values that are coerced to \code{NA}
+\item Errors (if any) will stop execution
+}
 }
 \examples{
+\dontrun{
 # Example data
 example_data <- data.frame(
   year        = c(2023, 2023, 2024),
   sample_id   = c("S1", "S2", "S3"),
   field_id    = c("A", "A", "B"),
-  ph          = c("6.5", "ND", "7.1"),   # partial NA (1 ND -> NA)
-  nh4_n_mg_kg = c("12.3", "<1", ""),     # partial NA (2 non-numeric -> NA)
-  no3_n_mg_kg = c("NA", "NA", "NA"),     # fully NA
+  ph          = c("6.5", "ND", "7.1"),
+  nh4_n_mg_kg = c("12.3", "<1", ""),
+  no3_n_mg_kg = c("NA", "NA", "NA"),
   stringsAsFactors = FALSE
 )
 
+example_dict <- data.frame(
+  column_name = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg"),
+  stringsAsFactors = FALSE
+)
 
-# Specify the measurement columns
-measurement_cols = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
-
-# Convert measurement columns to numeric
-clean_data <- convert_to_numeric(example_data, measurement_cols)
+clean_data <- convert_to_numeric(
+  data = example_data,
+  data_dict = example_dict
+)
+}
 
 }

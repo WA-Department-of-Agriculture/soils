@@ -1,30 +1,55 @@
-# This file contains validation functions for use in the {soils} R package (cli
-# messaging) and Dirt Data Reports (UI messaging in shiny app).
-#
-# Organization:
-# 1. Utilities  — new_issue(), format_output(), split_issues()
-# 2. Gate check — check_file_readable(), is_gate_pass()
-# 3. Checks     — one function per validation check
-#
+#' Data validation utilities and checks
+#'
+#' Internal validation framework used by the `{soils}` package and
+#' Dirt Data Reports application.
+#'
+#' This file defines a structured system for:
+#'
+#'   - Creating and managing validation issues (`new_issue()`)
+#'   - Formatting output for CLI and UI contexts (`format_output()`)
+#'   - Performing gate checks on input structure (`check_input_structure()`)
+#'   - Running independent validation checks on data and data dictionaries
+#'
+#' Validation functions return lists of issues rather than stopping execution,
+#' enabling flexible handling in both console and Shiny environments.
+#'
 
 # Utilities --------------------------------------------------------------------
 
 #' Create a validation issue
 #'
-#' @param severity "error" or "warning"
-#' @param message A character string describing the issue
+#' Constructs a standardized validation issue object used throughout
+#' the validation framework.
 #'
-#' @return A named list with severity and message.
+#' @param severity Character. One of `"error"` or `"warning"`.
+#' @param message Character. Description of the issue. May include
+#'   `cli` formatting.
+#'
+#' @returns
+#' A named list with elements:
+#' \describe{
+#'   \item{severity}{Issue severity (`"error"` or `"warning"`)}
+#'   \item{message}{Formatted message string}
+#' }
+#'
+#' @keywords internal
 new_issue <- function(severity = c("error", "warning"), message) {
   severity <- rlang::arg_match(severity)
   list(severity = severity, message = message)
 }
 
-#' Check context for format_output
+#' Validate context structure for output formatting
 #'
-#' @param context
+#' Ensures that the `context` argument supplied to `format_output()`
+#' is a properly structured named list.
 #'
-#' @return
+#' @param context Named list with elements `"error"` and `"warning"`,
+#'   each a length-1 character string.
+#'
+#' @returns
+#' Invisibly returns `TRUE` if valid. Otherwise throws an error.
+#'
+#' @keywords internal
 check_context <- function(context) {
   if (!is.list(context) || is.null(names(context))) {
     cli::cli_abort(
@@ -61,15 +86,25 @@ check_context <- function(context) {
 
 #' Format validation issues for CLI or UI output
 #'
-#' For CLI: errors trigger cli_abort(), warnings trigger cli_warn().
-#' For UI: ANSI codes are stripped, issue list is returned with clean strings.
+#' Converts a list of validation issues into formatted output suitable
+#' for either console (`cli`) or Shiny UI contexts.
 #'
-#' @param issues List of issues created by new_issue().
-#' @param output "cli" (default) for console, "ui" for Shiny.
-#' @param context
+#' @param issues List of issues created by `new_issue()`.
+#' @param output Character. One of `"cli"` (default) or `"ui"`.
+#' @param context Optional named list providing custom header messages:
+#'   \itemize{
+#'     \item `"error"`: header for error messages
+#'     \item `"warning"`: header for warning messages
+#'   }
 #'
-#' @return For "ui", cleaned issue list. For "cli", invisible after
-#'   printing/aborting.
+#' @returns
+#' \itemize{
+#'   \item `"cli"`: prints formatted messages; errors trigger `cli_abort()`,
+#'   warnings trigger `cli_warn()`. Returns invisibly.
+#'   \item `"ui"`: returns the issue list with ANSI formatting removed.
+#' }
+#'
+#' @keywords internal
 format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
   output <- rlang::arg_match(output)
 
@@ -133,11 +168,20 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
   })
 }
 
-#' Split validation issues into errors and warnings
+#' Split validation issues by severity
 #'
-#' @param issues List of issues created by new_issue().
+#' Separates a list of issues into errors and warnings.
 #'
-#' @return Named list with $errors and $warnings.
+#' @param issues List of issues created by `new_issue()`.
+#'
+#' @returns
+#' A named list with:
+#' \describe{
+#'   \item{errors}{List of error issues}
+#'   \item{warnings}{List of warning issues}
+#' }
+#'
+#' @keywords internal
 split_issues <- function(issues) {
   list(
     errors = Filter(\(x) x$severity == "error", issues),
@@ -147,18 +191,29 @@ split_issues <- function(issues) {
 
 # Gate check -------------------------------------------------------------------
 
-#' Check that inputs return loaded data with the correct structure
+#' Validate input structure
 #'
-#' Runs the blocking checks in sequence: there are no duplicate headers and data
-#' has rows. If all pass, returns the loaded data frames. If any fail, returns
-#' the issue list.
+#' Performs blocking ("gate") checks on input data before running
+#' downstream validation rules.
 #'
-#' @param input Named list with data and data dictionary
-#' @param output "cli" (default) or "ui".
+#' Checks include:
+#' \itemize{
+#'   \item Required object structure (`data`, `data_dict`)
+#'   \item Duplicate column names
+#'   \item Presence of required columns
+#'   \item At least one data row
+#' }
 #'
-#' @return On success: a named list with $data and $data_dict data frames. On
-#'   failure: a list of issues (same structure as other check functions). Use
-#'   is_gate_pass() to check which one you got back.
+#' @param input Named list with elements `data` and `data_dict`.
+#' @param output Character. One of `"cli"` (default) or `"ui"`.
+#'
+#' @returns
+#' \itemize{
+#'   \item On success: the input list (unchanged)
+#'   \item On failure: formatted issues via `format_output()`
+#' }
+#'
+#' @keywords internal
 check_input_structure <- function(input, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
   issues <- list()
@@ -242,18 +297,34 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
   return(input) # pass through unchanged
 }
 
-#' Check if the gate returned loaded data (pass) or issues (fail)
+#' Check if gate validation passed
 #'
-#' @param gate_result The return value from check_file_readable().
+#' Determines whether the result of `check_input_structure()` is valid
+#' data or a list of issues.
 #'
-#' @return TRUE if the gate passed (data frames returned), FALSE if issues.
+#' @param gate_result Output from `check_input_structure()`.
+#'
+#' @returns
+#' Logical. `TRUE` if valid data is returned, `FALSE` otherwise.
+#'
+#' @keywords internal
 is_gate_pass <- function(gate_result) {
   !is.null(gate_result$data) && !is.null(gate_result$data_dict)
 }
 
 # Errors: independent checks ---------------------------------------------------
 
-# Uniqueness constraints
+#' Check uniqueness constraints
+#'
+#' Validates that specified fields meet uniqueness requirements,
+#' either globally or within grouping variables.
+#'
+#' @param x Named list with `data` and `data_dict`.
+#'
+#' @returns
+#' A list of error issues.
+#'
+#' @keywords internal
 check_uniqueness <- function(x) {
   issues <- list()
 
@@ -373,7 +444,17 @@ check_uniqueness <- function(x) {
   issues
 }
 
-# Data types match requirements
+#' Check data types against requirements
+#'
+#' Ensures that column data types match expected types defined in
+#' `required_fields`.
+#'
+#' @param x Named list with `data` and `data_dict`.
+#'
+#' @returns
+#' A list of error issues.
+#'
+#' @keywords internal
 check_data_types <- function(x) {
   issues <- list()
 
@@ -467,7 +548,16 @@ check_data_types <- function(x) {
   issues
 }
 
-# Missing values in required columns
+#' Check for missing values in required fields
+#'
+#' Identifies missing values in columns where missing values are not allowed.
+#'
+#' @param x Named list with `data` and `data_dict`.
+#'
+#' @returns
+#' A list of error issues.
+#'
+#' @keywords internal
 check_missing_values <- function(x) {
   issues <- list()
 
@@ -538,7 +628,16 @@ check_missing_values <- function(x) {
   issues
 }
 
-# Data has at least one column beyond required fields
+#' Check for presence of additional measurement columns
+#'
+#' Ensures that the data contains at least one column beyond the required fields.
+#'
+#' @param data Data frame of input data.
+#'
+#' @returns
+#' A list of error issues.
+#'
+#' @keywords internal
 check_additional_columns <- function(data) {
   issues <- list()
 
@@ -558,153 +657,17 @@ check_additional_columns <- function(data) {
   return(issues)
 }
 
-# Warnings: independent checks -------------------------------------------------
-
-# Data Dictionary "column_name" matches Data
-check_dict_mismatch <- function(data, data_dict) {
-  issues <- list()
-
-  # Guard: can't run this check without column_name in the dictionary
-  if (!"column_name" %in% colnames(data_dict)) {
-    return(issues)
-  }
-
-  required <- required_fields |>
-    dplyr::filter(type == "data") |>
-    dplyr::pull(var)
-  additional <- setdiff(colnames(data), required)
-  dict_names <- data_dict$column_name
-
-  missing_in_dict <- setdiff(additional, dict_names)
-  missing_in_data <- setdiff(dict_names, colnames(data))
-
-  if (length(missing_in_dict) > 0) {
-    msg <- cli::format_inline(
-      "Columns in Data not documented in Data Dictionary: {.val {soils_cli_vec(missing_in_dict)}}"
-    )
-    issues <- c(issues, list(new_issue("warning", msg)))
-  }
-
-  if (length(missing_in_data) > 0) {
-    msg <- cli::format_inline(
-      "Columns in Data Dictionary not found in Data: {.val {soils_cli_vec(missing_in_data)}}"
-    )
-    issues <- c(issues, list(new_issue("warning", msg)))
-  }
-
-  return(issues)
-}
-
-# Check for non-numeric data in measurement columns
-check_numeric_conversion <- function(data, data_dict) {
-  issues <- list()
-
-  # Validate inputs
-
-  non_measurement <- c("texture", "Texture")
-
-  measurement_cols <- data_dict$column_name |>
-    setdiff(non_measurement) |>
-    intersect(names(data))
-
-  # Preserve original values
-
-  data_original <- data[, measurement_cols, drop = FALSE]
-
-  # Convert (suppress warnings)
-
-  suppressWarnings(
-    data_numeric <- data |>
-      dplyr::mutate(
-        dplyr::across(dplyr::all_of(measurement_cols), as.numeric)
-      )
-  )
-
-  # Detect NA coercion
-
-  na_created <- purrr::map_int(
-    measurement_cols,
-    ~ sum(!is.na(data_original[[.x]]) & is.na(data_numeric[[.x]]))
-  )
-  names(na_created) <- measurement_cols
-
-  partial_na <- na_created[na_created > 0]
-
-  if (length(partial_na) > 0) {
-    bullets <- purrr::imap_chr(
-      partial_na,
-      ~ cli::format_inline(
-        "{.field { .y }} ({ .x } {if (.x == 1) 'value' else 'values'})"
-      )
-    )
-
-    msg <- c(
-      "Non-numeric values were converted to NA (e.g., ND, <1).",
-      "Measurement columns affected:",
-      stats::setNames(bullets, rep("*", length(bullets)))
-    )
-
-    issues <- c(issues, list(new_issue("warning", msg)))
-  }
-
-  issues
-}
-
-# Valid measurement groups
-check_measurement_groups <- function(data_dict, language = "english") {
-  issues <- list()
-
-  measurement_groups <- list(
-    english = c(
-      "Physical",
-      "Biological",
-      "Chemical",
-      "Plant Essential Macro Nutrients",
-      "Plant Essential Micro Nutrients"
-    ),
-    spanish = c(
-      "Mediciones f\u00edsicas",
-      "Mediciones biol\u00f3gicas",
-      "Mediciones qu\u00edmicas",
-      "Macronutrientes esenciales para plantas",
-      "Micronutriente es esenciales para plantas"
-    )
-  )
-
-  language <- tolower(language)
-  if (!language %in% names(measurement_groups)) {
-    return(issues)
-  }
-
-  valid <- enc2native(measurement_groups[[language]])
-
-  if (!"measurement_group" %in% colnames(data_dict)) {
-    msg <- cli::format_inline(
-      "Missing {.field measurement_group} column in Data Dictionary"
-    )
-    issues <- c(issues, list(new_issue("warning", msg)))
-    return(issues)
-  }
-
-  actual <- enc2native(
-    data_dict$measurement_group[!is.na(data_dict$measurement_group)]
-  )
-  invalid <- setdiff(actual, valid)
-
-  if (length(invalid) > 0) {
-    lang_label <- stringr::str_to_title(language)
-    msg <- cli::format_inline(
-      "Invalid {.field measurement_group} values: {.val {invalid}}.",
-      "\nValid options for {lang_label}:",
-      "\n{.val {valid}}",
-      collapse = FALSE
-    )
-    issues <- c(issues, list(new_issue("warning", msg)))
-  }
-
-  return(issues)
-}
-
+#' Validate coordinate fields
+#'
+#' Checks that latitude and longitude columns exist, are within valid ranges,
+#' and are provided as complete pairs.
+#'
+#' @param data Data frame of input data.
+#'
+#' @returns
+#' A list of error issues.
+#'
+#' @keywords internal
 check_coordinates <- function(data) {
   issues <- list()
 
@@ -775,8 +738,200 @@ check_coordinates <- function(data) {
   issues
 }
 
+# Warnings: independent checks -------------------------------------------------
+
+#' Check for mismatches between data and data dictionary
+#'
+#' Identifies discrepancies between columns in the data and entries in the
+#' data dictionary.
+#'
+#' @param data Data frame of input data.
+#' @param data_dict Data frame of data dictionary.
+#'
+#' @returns
+#' A list of warning issues.
+#'
+#' @keywords internal
+check_dict_mismatch <- function(data, data_dict) {
+  issues <- list()
+
+  # Guard: can't run this check without column_name in the dictionary
+  if (!"column_name" %in% colnames(data_dict)) {
+    return(issues)
+  }
+
+  required <- required_fields |>
+    dplyr::filter(type == "data") |>
+    dplyr::pull(var)
+  additional <- setdiff(colnames(data), required)
+  dict_names <- data_dict$column_name
+
+  missing_in_dict <- setdiff(additional, dict_names)
+  missing_in_data <- setdiff(dict_names, colnames(data))
+
+  if (length(missing_in_dict) > 0) {
+    msg <- cli::format_inline(
+      "Columns in Data not documented in Data Dictionary: {.val {soils_cli_vec(missing_in_dict)}}"
+    )
+    issues <- c(issues, list(new_issue("warning", msg)))
+  }
+
+  if (length(missing_in_data) > 0) {
+    msg <- cli::format_inline(
+      "Columns in Data Dictionary not found in Data: {.val {soils_cli_vec(missing_in_data)}}"
+    )
+    issues <- c(issues, list(new_issue("warning", msg)))
+  }
+
+  return(issues)
+}
+
+#' Detect non-numeric values in measurement columns
+#'
+#' Attempts numeric conversion and identifies values that are coerced to `NA`.
+#'
+#' @param data Data frame of input data.
+#' @param data_dict Data frame of data dictionary.
+#'
+#' @returns
+#' A list of warning issues.
+#'
+#' @keywords internal
+check_numeric_conversion <- function(data, data_dict) {
+  issues <- list()
+
+  # Validate inputs
+
+  non_measurement <- c("texture", "Texture")
+
+  measurement_cols <- data_dict$column_name |>
+    setdiff(non_measurement) |>
+    intersect(names(data))
+
+  # Preserve original values
+
+  data_original <- data[, measurement_cols, drop = FALSE]
+
+  # Convert (suppress warnings)
+
+  suppressWarnings(
+    data_numeric <- data |>
+      dplyr::mutate(
+        dplyr::across(dplyr::all_of(measurement_cols), as.numeric)
+      )
+  )
+
+  # Detect NA coercion
+
+  na_created <- purrr::map_int(
+    measurement_cols,
+    ~ sum(!is.na(data_original[[.x]]) & is.na(data_numeric[[.x]]))
+  )
+  names(na_created) <- measurement_cols
+
+  partial_na <- na_created[na_created > 0]
+
+  if (length(partial_na) > 0) {
+    bullets <- purrr::imap_chr(
+      partial_na,
+      ~ cli::format_inline(
+        "{.field { .y }} ({ .x } {if (.x == 1) 'value' else 'values'})"
+      )
+    )
+
+    msg <- c(
+      "Non-numeric values were converted to NA (e.g., ND, <1).",
+      "Measurement columns affected:",
+      stats::setNames(bullets, rep("*", length(bullets)))
+    )
+
+    issues <- c(issues, list(new_issue("warning", msg)))
+  }
+
+  issues
+}
+
+#' Validate measurement group values
+#'
+#' Ensures that `measurement_group` values match expected controlled
+#' vocabularies.
+#'
+#' @param data_dict Data frame of data dictionary.
+#'
+#' @returns A list of warning issues.
+#'
+#' @keywords internal
+check_measurement_groups <- function(data_dict) {
+  issues <- list()
+
+  measurement_groups <- list(
+    english = c(
+      "Physical",
+      "Biological",
+      "Chemical",
+      "Plant Essential Macro Nutrients",
+      "Plant Essential Micro Nutrients"
+    ),
+    spanish = c(
+      "Mediciones f\u00edsicas",
+      "Mediciones biol\u00f3gicas",
+      "Mediciones qu\u00edmicas",
+      "Macronutrientes esenciales para plantas",
+      "Micronutriente es esenciales para plantas"
+    )
+  )
+
+  language <- tolower(language)
+  if (!language %in% names(measurement_groups)) {
+    return(issues)
+  }
+
+  valid <- enc2native(measurement_groups[[language]])
+
+  if (!"measurement_group" %in% colnames(data_dict)) {
+    msg <- cli::format_inline(
+      "Missing {.field measurement_group} column in Data Dictionary"
+    )
+    issues <- c(issues, list(new_issue("warning", msg)))
+    return(issues)
+  }
+
+  actual <- enc2native(
+    data_dict$measurement_group[!is.na(data_dict$measurement_group)]
+  )
+  invalid <- setdiff(actual, valid)
+
+  if (length(invalid) > 0) {
+    lang_label <- stringr::str_to_title(language)
+    msg <- cli::format_inline(
+      "Invalid {.field measurement_group} values: {.val {invalid}}.",
+      "\nValid options for {lang_label}:",
+      "\n{.val {valid}}",
+      collapse = FALSE
+    )
+    issues <- c(issues, list(new_issue("warning", msg)))
+  }
+
+  return(issues)
+}
+
 # Wrapper to run all check functions -------------------------------------------
 
+#' Run all validation checks
+#'
+#' Executes all non-gate validation checks and aggregates issues.
+#'
+#' @param gate_result Output from `check_input_structure()` that passed validation.
+#' @param output Character. One of `"cli"` or `"ui"`.
+#'
+#' @returns
+#' A list of validation issues (errors and warnings).
+#'
+#' @details
+#' This function assumes that gate checks have already passed. It does not
+#' perform structural validation.
+#'
+#' @keywords internal
 run_all_checks <- function(gate_result, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
 

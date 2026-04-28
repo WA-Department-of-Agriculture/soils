@@ -2,13 +2,19 @@
 % Please edit documentation in R/data-validation.R
 \name{check_context}
 \alias{check_context}
-\title{Check context for format_output}
+\title{Validate context structure for output formatting}
 \usage{
 check_context(context)
 }
 \arguments{
-\item{context}{}
+\item{context}{Named list with elements \code{"error"} and \code{"warning"},
+each a length-1 character string.}
+}
+\value{
+Invisibly returns \code{TRUE} if valid. Otherwise throws an error.
 }
 \description{
-Check context for format_output
+Ensures that the \code{context} argument supplied to \code{format_output()}
+is a properly structured named list.
 }
+\keyword{internal}

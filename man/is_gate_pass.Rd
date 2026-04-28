@@ -2,16 +2,18 @@
 % Please edit documentation in R/data-validation.R
 \name{is_gate_pass}
 \alias{is_gate_pass}
-\title{Check if the gate returned loaded data (pass) or issues (fail)}
+\title{Check if gate validation passed}
 \usage{
 is_gate_pass(gate_result)
 }
 \arguments{
-\item{gate_result}{The return value from check_file_readable().}
+\item{gate_result}{Output from \code{check_input_structure()}.}
 }
 \value{
-TRUE if the gate passed (data frames returned), FALSE if issues.
+Logical. \code{TRUE} if valid data is returned, \code{FALSE} otherwise.
 }
 \description{
-Check if the gate returned loaded data (pass) or issues (fail)
+Determines whether the result of \code{check_input_structure()} is valid
+data or a list of issues.
 }
+\keyword{internal}

@@ -2,22 +2,32 @@
 % Please edit documentation in R/data-validation.R
 \name{check_input_structure}
 \alias{check_input_structure}
-\title{Check that inputs return loaded data with the correct structure}
+\title{Validate input structure}
 \usage{
 check_input_structure(input, output = c("cli", "ui"))
 }
 \arguments{
-\item{input}{Named list with data and data dictionary}
+\item{input}{Named list with elements \code{data} and \code{data_dict}.}
 
-\item{output}{"cli" (default) or "ui".}
+\item{output}{Character. One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
-On success: a named list with $data and $data_dict data frames. On
-failure: a list of issues (same structure as other check functions). Use
-is_gate_pass() to check which one you got back.
+\itemize{
+\item On success: the input list (unchanged)
+\item On failure: formatted issues via \code{format_output()}
+}
 }
 \description{
-Runs the blocking checks in sequence: there are no duplicate headers and data
-has rows. If all pass, returns the loaded data frames. If any fail, returns
-the issue list.
+Performs blocking ("gate") checks on input data before running
+downstream validation rules.
 }
+\details{
+Checks include:
+\itemize{
+\item Required object structure (\code{data}, \code{data_dict})
+\item Duplicate column names
+\item Presence of required columns
+\item At least one data row
+}
+}
+\keyword{internal}

@@ -2,18 +2,42 @@
 % Please edit documentation in R/data-validation.R
 \name{new_issue}
 \alias{new_issue}
-\title{Create a validation issue}
+\title{Data validation utilities and checks}
 \usage{
 new_issue(severity = c("error", "warning"), message)
 }
 \arguments{
-\item{severity}{"error" or "warning"}
+\item{severity}{Character. One of \code{"error"} or \code{"warning"}.}
 
-\item{message}{A character string describing the issue}
+\item{message}{Character. Description of the issue. May include
+\code{cli} formatting.}
 }
 \value{
-A named list with severity and message.
+A named list with elements:
+\describe{
+\item{severity}{Issue severity (\code{"error"} or \code{"warning"})}
+\item{message}{Formatted message string}
+}
 }
 \description{
-Create a validation issue
+Internal validation framework used by the \code{{soils}} package and
+Dirt Data Reports application.
 }
+\details{
+This file defines a structured system for:
+\itemize{
+\item Creating and managing validation issues (\code{new_issue()})
+\item Formatting output for CLI and UI contexts (\code{format_output()})
+\item Performing gate checks on input structure (\code{check_input_structure()})
+\item Running independent validation checks on data and data dictionaries
+}
+
+Validation functions return lists of issues rather than stopping execution,
+enabling flexible handling in both console and Shiny environments.
+
+Create a validation issue
+
+Constructs a standardized validation issue object used throughout
+the validation framework.
+}
+\keyword{internal}

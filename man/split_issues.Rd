@@ -2,16 +2,21 @@
 % Please edit documentation in R/data-validation.R
 \name{split_issues}
 \alias{split_issues}
-\title{Split validation issues into errors and warnings}
+\title{Split validation issues by severity}
 \usage{
 split_issues(issues)
 }
 \arguments{
-\item{issues}{List of issues created by new_issue().}
+\item{issues}{List of issues created by \code{new_issue()}.}
 }
 \value{
-Named list with $errors and $warnings.
+A named list with:
+\describe{
+\item{errors}{List of error issues}
+\item{warnings}{List of warning issues}
+}
 }
 \description{
-Split validation issues into errors and warnings
+Separates a list of issues into errors and warnings.
 }
+\keyword{internal}

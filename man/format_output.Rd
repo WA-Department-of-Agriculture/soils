@@ -7,17 +7,25 @@
 format_output(issues, output = c("cli", "ui"), context = NULL)
 }
 \arguments{
-\item{issues}{List of issues created by new_issue().}
+\item{issues}{List of issues created by \code{new_issue()}.}
 
-\item{output}{"cli" (default) for console, "ui" for Shiny.}
+\item{output}{Character. One of \code{"cli"} (default) or \code{"ui"}.}
 
-\item{context}{}
+\item{context}{Optional named list providing custom header messages:
+\itemize{
+\item \code{"error"}: header for error messages
+\item \code{"warning"}: header for warning messages
+}}
 }
 \value{
-For "ui", cleaned issue list. For "cli", invisible after
-printing/aborting.
+\itemize{
+\item \code{"cli"}: prints formatted messages; errors trigger \code{cli_abort()},
+warnings trigger \code{cli_warn()}. Returns invisibly.
+\item \code{"ui"}: returns the issue list with ANSI formatting removed.
+}
 }
 \description{
-For CLI: errors trigger cli_abort(), warnings trigger cli_warn().
-For UI: ANSI codes are stripped, issue list is returned with clean strings.
+Converts a list of validation issues into formatted output suitable
+for either console (\code{cli}) or Shiny UI contexts.
 }
+\keyword{internal}

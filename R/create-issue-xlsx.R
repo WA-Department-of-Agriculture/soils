@@ -1,11 +1,8 @@
 create_issue_xlsx <- function(
   gate_result,
   output_path,
-  issues,
-  language = c("english", "spanish")
+  issues
 ) {
-  language <- rlang::arg_match(language)
-
   # Initialize workbook and data -----------------------------------------------
 
   if (gate_result$source == "excel") {
@@ -51,6 +48,7 @@ create_issue_xlsx <- function(
       cols = 1:ncol(dd_full),
       widths = "auto"
     )
+  }
 
   data_headers <- colnames(data_full)
   dd_headers <- colnames(dd_full)
@@ -638,15 +636,13 @@ create_issue_xlsx <- function(
 
   ## Invalid measurement groups -----------------------------------------------
 
-  measurement_groups <- list(
-    english = c(
+  valid <- enc2native(
+    c(
       "Physical",
       "Biological",
       "Chemical",
       "Plant Essential Macro Nutrients",
-      "Plant Essential Micro Nutrients"
-    ),
-    spanish = c(
+      "Plant Essential Micro Nutrients",
       "Mediciones f\u00edsicas",
       "Mediciones biol\u00f3gicas",
       "Mediciones qu\u00edmicas",
@@ -654,13 +650,6 @@ create_issue_xlsx <- function(
       "Micronutriente es esenciales para plantas"
     )
   )
-
-  language <- tolower(language)
-  if (!language %in% names(measurement_groups)) {
-    return(issues)
-  }
-
-  valid <- enc2native(measurement_groups[[language]])
 
   if ("measurement_group" %in% dd_headers) {
     idx <- which(dd_headers == "measurement_group")

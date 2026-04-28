@@ -76,7 +76,7 @@ if (length(issues) > 0) {
 
 # Create spreadsheet with issues and conditional formatting
 if (length(issues) > 0) {
-  create_issue_xlsx(gate_result, issues_file, issues, language)
+  create_issue_xlsx(gate_result, issues_file, issues)
 } else {
   cli::cli_alert_success("No issues to report!")
 }

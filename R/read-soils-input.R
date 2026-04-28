@@ -159,7 +159,7 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
   }
 
   data <- tryCatch(
-    read.csv(
+    utils::read.csv(
       file[1],
       check.names = FALSE,
       encoding = "UTF-8",
@@ -169,7 +169,7 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
   )
 
   data_dict <- tryCatch(
-    read.csv(
+    utils::read.csv(
       file[2],
       check.names = FALSE,
       encoding = "UTF-8",

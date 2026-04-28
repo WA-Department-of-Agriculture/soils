@@ -1,39 +1,111 @@
+#' Create an Excel validation report with conditional formatting
+#'
+#' Generates an Excel workbook that includes:
+#' \itemize{
+#'   \item Original `Data` and `Data Dictionary` sheets
+#'   \item An `Issues` sheet summarizing validation results
+#'   \item Conditional formatting to highlight errors and warnings directly in the data
+#' }
+#'
+#' The function supports both Excel and CSV input sources and reconstructs
+#' a formatted workbook for review and correction.
+#'
+#' @param gate_result Named list produced by `read_soils_input()` and
+#'   validated by `check_input_structure()`. Must include:
+#'   \itemize{
+#'     \item `data`: data frame of input data
+#'     \item `data_dict`: data frame of data dictionary
+#'     \item `source`: `"excel"` or `"csv"`
+#'     \item `file`: original input file path(s)
+#'   }
+#' @param output_path Character. File path where the Excel report will be saved.
+#' @param issues List of validation issues produced by `run_all_checks()`
+#'   or individual check functions.
+#'
+#' @returns
+#' Invisibly returns `NULL`. Writes an Excel file to `output_path`.
+#'
+#' @details
+#' The generated workbook includes:
+#'
+#' \strong{Issues sheet}
+#' \itemize{
+#'   \item Summary of errors and warnings
+#'   \item Styled rows by severity
+#'   \item Guidance text for interpreting results
+#' }
+#'
+#' \strong{Data and Data Dictionary sheets}
+#' \itemize{
+#'   \item Conditional formatting for:
+#'     \itemize{
+#'       \item Missing required values
+#'       \item Duplicate identifiers
+#'       \item Invalid data types
+#'       \item Out-of-range values (e.g., coordinates, texture fractions)
+#'       \item Non-numeric measurement values
+#'       \item Mismatches between data and dictionary
+#'     }
+#' }
+#'
+#' Conditional formatting mirrors validation rules to provide a
+#' spreadsheet-based review and correction workflow.
+#'
+#' @section Requirements:
+#' \itemize{
+#'   \item Relies on `required_fields` for validation rules
+#'   \item Uses `openxlsx2` for workbook creation and styling
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' # Example pipeline
+#'
+#' # Read data
+#' input <- read_soils_input("soil-data.xlsx")
+#'
+#' # Check input structure
+#' gate_result <- check_input_structure(input)
+#'
+#' # Run all validation checks
+#' issues <- run_all_checks(gate_result)
+#'
+#' # If issues exist, create spreadsheet with conditional formatting
+#' if (length(issues) > 0) {
+#'   create_issue_xlsx(gate_result, issues_file, issues)
+#' } else {
+#'   cli::cli_alert_success("No issues to report!")
+#' }
+#' }
+#' @export
+
 create_issue_xlsx <- function(
   gate_result,
   output_path,
   issues
 ) {
-  # Initialize workbook and data -----------------------------------------------
+  data_full <- gate_result$data
+  dd_full <- gate_result$data_dict
+
+  # Initialize workbook --------------------------------------------------------
 
   if (gate_result$source == "excel") {
-    if (is.null(input_path)) {
-      cli::cli_abort("input_path is required when source is 'excel'.")
-    }
+    # Preserve original formatting by loading workbook directly
+    wb <- tryCatch(
+      openxlsx2::wb_load(gate_result$file),
+      error = function(e) {
+        cli::cli_abort("Failed to load Excel file: {.file {gate_result$file}}")
+      }
+    )
 
-    wb <- openxlsx2::wb_load(gate_result$file)
-
+    # Validate expected structure exists
     if (!all(c("Data", "Data Dictionary") %in% wb$sheet_names)) {
       cli::cli_abort(
         "Excel file must contain 'Data' and 'Data Dictionary' sheets."
       )
     }
-
-    data_full <- openxlsx2::wb_to_df(wb, sheet = "Data", col_names = TRUE)
-    dd_full <- openxlsx2::wb_to_df(
-      wb,
-      sheet = "Data Dictionary",
-      col_names = TRUE
-    )
   } else if (gate_result$source == "csv") {
-    if (!all(c("data", "data_dict") %in% names(input))) {
-      cli::cli_abort(
-        "Input must be a list with {.val data} and {.val data_dict}."
-      )
-    }
-
-    data_full <- input$data
-    dd_full <- input$data_dict
-
+    # Build fresh workbook
     wb <- openxlsx2::wb_workbook()
 
     wb$add_worksheet("Data")
@@ -42,11 +114,14 @@ create_issue_xlsx <- function(
 
     wb$add_worksheet("Data Dictionary")
     wb$add_data(sheet = "Data Dictionary", x = dd_full, na.strings = "")
-    wb$add_data(sheet = "Data", x = data_full, na.strings = "")
     wb$set_col_widths(
       sheet = "Data Dictionary",
       cols = 1:ncol(dd_full),
       widths = "auto"
+    )
+  } else {
+    cli::cli_abort(
+      "Unknown input data source type: {.val {gate_result$source}}"
     )
   }
 
@@ -652,13 +727,15 @@ create_issue_xlsx <- function(
 
   ## Invalid measurement groups -----------------------------------------------
 
-  valid <- enc2native(
-    c(
+  measurement_groups <- list(
+    english = c(
       "Physical",
       "Biological",
       "Chemical",
       "Plant Essential Macro Nutrients",
-      "Plant Essential Micro Nutrients",
+      "Plant Essential Micro Nutrients"
+    ),
+    spanish = c(
       "Mediciones f\u00edsicas",
       "Mediciones biol\u00f3gicas",
       "Mediciones qu\u00edmicas",
@@ -666,6 +743,13 @@ create_issue_xlsx <- function(
       "Micronutriente es esenciales para plantas"
     )
   )
+
+  language <- tolower(language)
+  if (!language %in% names(measurement_groups)) {
+    return(issues)
+  }
+
+  valid <- enc2native(measurement_groups[[language]])
 
   if ("measurement_group" %in% dd_headers) {
     idx <- which(dd_headers == "measurement_group")

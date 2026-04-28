@@ -4,12 +4,18 @@
 \alias{run_all_checks}
 \title{Run all validation checks}
 \usage{
-run_all_checks(gate_result, output = c("cli", "ui"))
+run_all_checks(
+  gate_result,
+  output = c("cli", "ui"),
+  language = c("english", "spanish")
+)
 }
 \arguments{
 \item{gate_result}{Output from \code{check_input_structure()} that passed validation.}
 
 \item{output}{Character. One of \code{"cli"} or \code{"ui"}.}
+
+\item{language}{Character. \code{"english"} (default) or \code{"spanish"}.}
 }
 \value{
 A list of validation issues (errors and warnings).

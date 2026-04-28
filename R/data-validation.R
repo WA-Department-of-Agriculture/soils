@@ -861,7 +861,10 @@ check_numeric_conversion <- function(data, data_dict) {
 #' @returns A list of warning issues.
 #'
 #' @keywords internal
-check_measurement_groups <- function(data_dict) {
+check_measurement_groups <- function(
+  data_dict,
+  lanugage = c("english", "spanish")
+) {
   issues <- list()
 
   measurement_groups <- list(
@@ -923,6 +926,7 @@ check_measurement_groups <- function(data_dict) {
 #'
 #' @param gate_result Output from `check_input_structure()` that passed validation.
 #' @param output Character. One of `"cli"` or `"ui"`.
+#' @param language Character. `"english"` (default) or `"spanish"`.
 #'
 #' @returns
 #' A list of validation issues (errors and warnings).
@@ -932,8 +936,13 @@ check_measurement_groups <- function(data_dict) {
 #' perform structural validation.
 #'
 #' @keywords internal
-run_all_checks <- function(gate_result, output = c("cli", "ui")) {
+run_all_checks <- function(
+  gate_result,
+  output = c("cli", "ui"),
+  language = c("english", "spanish")
+) {
   output <- rlang::arg_match(output)
+  language = rlang::arg_match(language)
 
   issues <- c(
     check_missing_values(gate_result),

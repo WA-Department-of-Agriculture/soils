@@ -43,13 +43,16 @@ input_path <- c(
   "tests/test-files/csv/dupes-data-dictionary.csv"
 )
 
-input_path <- "tests/test-files/excel/invalid-measurement-groups.xlsx"
+input_path <- "tests/test-files/excel/template.xlsx"
 
 # Output file: processed data used for report generation
 output_file <- "tests/test-files/processed-data.rds"
 
 # Issues file: Excel file highlighting validation errors and warnings
 issues_file <- "tests/test-files/data-issues.xlsx"
+
+# Language: are you using the English or Spanish template?
+language <- "english"
 
 # 3. Load data -----------------------------------------------------------------
 
@@ -65,7 +68,7 @@ gate_result <- check_input_structure(input)
 # 5. Validation ----------------------------------------------------------------
 
 # Run all validation checks
-issues <- run_all_checks(gate_result)
+issues <- run_all_checks(gate_result, language = language)
 
 # Print issues to console
 if (length(issues) > 0) {
@@ -74,7 +77,7 @@ if (length(issues) > 0) {
   cli::cli_alert_success("Data successfully validated!")
 }
 
-# Create spreadsheet with issues and conditional formatting
+# If issues exist, create spreadsheet with conditional formatting
 if (length(issues) > 0) {
   create_issue_xlsx(gate_result, issues_file, issues)
 } else {

@@ -4,7 +4,7 @@
 \alias{read_soils_input}
 \title{Read soils input data}
 \usage{
-read_soils_input(file, ..., output = c("cli", "ui"))
+read_soils_input(file, output = c("cli", "ui"))
 }
 \arguments{
 \item{file}{Character vector. Either:

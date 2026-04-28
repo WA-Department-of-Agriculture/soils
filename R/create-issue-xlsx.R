@@ -13,8 +13,8 @@
 #' @param gate_result Named list produced by `read_soils_input()` and
 #'   validated by `check_input_structure()`. Must include:
 #'   \itemize{
-#'     \item `data`: data frame of input data
-#'     \item `data_dict`: data frame of data dictionary
+#'     \item `data`: dataframe of input data
+#'     \item `data_dict`: dataframe of data dictionary
 #'     \item `source`: `"excel"` or `"csv"`
 #'     \item `file`: original input file path(s)
 #'   }
@@ -23,16 +23,16 @@
 #'   or individual check functions.
 #'
 #' @returns
-#' Invisibly returns `NULL`. Writes an Excel file to `output_path`.
+#' Writes an Excel file to `output_path`.
 #'
 #' @details
 #' The generated workbook includes:
 #'
 #' \strong{Issues sheet}
 #' \itemize{
+#'   \item Guidance text for interpreting issue results
 #'   \item Summary of errors and warnings
 #'   \item Styled rows by severity
-#'   \item Guidance text for interpreting results
 #' }
 #'
 #' \strong{Data and Data Dictionary sheets}
@@ -51,16 +51,9 @@
 #' Conditional formatting mirrors validation rules to provide a
 #' spreadsheet-based review and correction workflow.
 #'
-#' @section Requirements:
-#' \itemize{
-#'   \item Relies on `required_fields` for validation rules
-#'   \item Uses `openxlsx2` for workbook creation and styling
-#' }
-#'
 #' @examples
 #' \dontrun{
 #' # Example pipeline
-#'
 #' # Read data
 #' input <- read_soils_input("soil-data.xlsx")
 #'

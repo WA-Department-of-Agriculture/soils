@@ -250,7 +250,7 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
 #' # CSV input
 #' read_soils_input(c("data.csv", "data_dictionary.csv"))
 #' }
-read_soils_input <- function(file, ..., output = c("cli", "ui")) {
+read_soils_input <- function(file, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
   issues <- list()
 

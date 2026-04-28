@@ -10,8 +10,8 @@ create_issue_xlsx(gate_result, output_path, issues)
 \item{gate_result}{Named list produced by \code{read_soils_input()} and
 validated by \code{check_input_structure()}. Must include:
 \itemize{
-\item \code{data}: data frame of input data
-\item \code{data_dict}: data frame of data dictionary
+\item \code{data}: dataframe of input data
+\item \code{data_dict}: dataframe of data dictionary
 \item \code{source}: \code{"excel"} or \code{"csv"}
 \item \code{file}: original input file path(s)
 }}
@@ -22,7 +22,7 @@ validated by \code{check_input_structure()}. Must include:
 or individual check functions.}
 }
 \value{
-Invisibly returns \code{NULL}. Writes an Excel file to \code{output_path}.
+Writes an Excel file to \code{output_path}.
 }
 \description{
 Generates an Excel workbook that includes:
@@ -40,9 +40,9 @@ The generated workbook includes:
 
 \strong{Issues sheet}
 \itemize{
+\item Guidance text for interpreting issue results
 \item Summary of errors and warnings
 \item Styled rows by severity
-\item Guidance text for interpreting results
 }
 
 \strong{Data and Data Dictionary sheets}
@@ -61,18 +61,9 @@ The generated workbook includes:
 Conditional formatting mirrors validation rules to provide a
 spreadsheet-based review and correction workflow.
 }
-\section{Requirements}{
-
-\itemize{
-\item Relies on \code{required_fields} for validation rules
-\item Uses \code{openxlsx2} for workbook creation and styling
-}
-}
-
 \examples{
 \dontrun{
 # Example pipeline
-
 # Read data
 input <- read_soils_input("soil-data.xlsx")
 

@@ -85,8 +85,10 @@ news:
 reference:
 - title: Create a {soils} project
   contents: create_soils
-- title: Data wrangling
+- title: Prepare Data
   contents:
+  - read_soils_input
+  - create_issue_xlsx
   - classify_texture
   - get_n_texture_by_var
   - summarize_by_project

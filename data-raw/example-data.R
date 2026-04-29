@@ -1,6 +1,6 @@
 # required-fields.csv ==========================================================
 required_fields <- read.csv(
-  here::here("data/required-fields.csv"),
+  here::here("inst/extdata/required-fields.csv"),
   check.names = FALSE,
   encoding = "UTF-8",
   na.strings = ""

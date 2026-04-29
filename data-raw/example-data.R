@@ -10,7 +10,7 @@ usethis::use_data(required_fields, internal = TRUE, overwrite = TRUE)
 
 # data_dictionary ==============================================================
 data_dictionary <- read.csv(
-  here::here("inst/templates/english/data/data-dictionary.csv"),
+  here::here("inst/templates/english/data/example-data-dictionary.csv"),
   check.names = FALSE,
   encoding = "UTF-8",
   na.strings = ""
@@ -20,7 +20,7 @@ usethis::use_data(data_dictionary, overwrite = TRUE)
 
 # washi_data ===================================================================
 washi_data <- read.csv(
-  here::here("inst/templates/english/data/washi-data.csv"),
+  here::here("inst/templates/english/data/example-data.csv"),
   check.names = FALSE,
   na.strings = ""
 )

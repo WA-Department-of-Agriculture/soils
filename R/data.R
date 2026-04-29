@@ -41,20 +41,3 @@
 #' @source
 #' [WaSHI State of the Soils](https://washingtonsoilhealthinitiative.com/state-of-the-soils/)
 "data_dictionary"
-
-#' Required field definitions
-#'
-#' Internal lookup table defining required columns, data types,
-#' uniqueness constraints, and missing value rules.
-#'
-#' @format A data frame with columns:
-#' \describe{
-#'   \item{var}{Column name}
-#'   \item{type}{"data" or "dictionary"}
-#'   \item{var_type}{Expected data type}
-#'   \item{unique_by}{Uniqueness constraint}
-#'   \item{missing_allowed}{Logical}
-#' }
-#'
-#' @keywords internal
-"required_fields"

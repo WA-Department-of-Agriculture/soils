@@ -171,10 +171,16 @@ create_issue_xlsx <- function(
   error_rows <- which(error_df$Severity == "error") + 4
   if (length(error_rows) > 0) {
     error_dims <- openxlsx2::wb_dims(rows = error_rows, cols = 1:2)
-    wb$add_font(
+    wb$add_named_style(
       sheet = "Issues",
       dims = error_dims,
-      color = openxlsx2::wb_color(hex = "#9C0006")
+      name = "Bad"
+    )
+    wb$add_border(
+      sheet = "Issues",
+      dims = error_dims,
+      inner_hgrid = "thin",
+      right_border = "none"
     )
   }
 
@@ -182,10 +188,16 @@ create_issue_xlsx <- function(
   warning_rows <- which(error_df$Severity == "warning") + 4
   if (length(warning_rows) > 0) {
     warning_dims <- openxlsx2::wb_dims(rows = warning_rows, cols = 1:2)
-    wb$add_font(
+    wb$add_named_style(
       sheet = "Issues",
       dims = warning_dims,
-      color = openxlsx2::wb_color(hex = "#9C5700")
+      name = "Neutral"
+    )
+    wb$add_border(
+      sheet = "Issues",
+      dims = warning_dims,
+      inner_hgrid = "thin",
+      right_border = "none"
     )
   }
 

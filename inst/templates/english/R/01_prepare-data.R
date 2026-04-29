@@ -43,7 +43,7 @@ input_path <- c(
   "tests/test-files/csv/dupes-data-dictionary.csv"
 )
 
-input_path <- "tests/test-files/excel/invalid-measurement-groups.xlsx"
+input_path <- "tests/test-files/excel/texture-issues.xlsx"
 
 # Output file: processed data used for report generation
 output_file <- "tests/test-files/processed-data.rds"

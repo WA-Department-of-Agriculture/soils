@@ -7,9 +7,9 @@
 convert_to_numeric(data, data_dict, output = c("cli", "ui"), validate = TRUE)
 }
 \arguments{
-\item{data}{A dataframe containing both metadata and measurement columns.}
+\item{data}{A data frame containing both metadata and measurement columns.}
 
-\item{data_dict}{A dataframe containing the data dictionary. Must include
+\item{data_dict}{A data frame containing the data dictionary. Must include
 a \code{column_name} column specifying measurement columns in \code{data}.}
 
 \item{output}{Character. Output format for validation messages.

@@ -19,8 +19,8 @@ One of \code{"cli"} (default) or \code{"ui"}.}
 \value{
 If successful, a named list with:
 \describe{
-\item{data}{Dataframe of input data.}
-\item{data_dict}{Dataframe of data dictionary.}
+\item{data}{Data frame of input data.}
+\item{data_dict}{Data frame of data dictionary.}
 \item{source}{Character string indicating input type: \code{"excel"} or \code{"csv"}.}
 \item{file}{Original input file path(s).}
 }

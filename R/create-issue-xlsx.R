@@ -13,14 +13,15 @@
 #' @param gate_result Named list produced by `read_soils_input()` and
 #'   validated by `check_input_structure()`. Must include:
 #'   \itemize{
-#'     \item `data`: dataframe of input data
-#'     \item `data_dict`: dataframe of data dictionary
+#'     \item `data`: data frame of input data
+#'     \item `data_dict`: data frame of data dictionary
 #'     \item `source`: `"excel"` or `"csv"`
 #'     \item `file`: original input file path(s)
 #'   }
 #' @param output_path Character. File path where the Excel report will be saved.
 #' @param issues List of validation issues produced by `run_all_checks()`
 #'   or individual check functions.
+#' @param language Character. `"English"` or `"Spanish"`.
 #'
 #' @returns
 #' Writes an Excel file to `output_path`.
@@ -75,8 +76,10 @@
 create_issue_xlsx <- function(
   gate_result,
   output_path,
-  issues
+  issues,
+  lanugage = c("English", "Spanish")
 ) {
+  language <- rlang::arg_match(language)
   data_full <- gate_result$data
   dd_full <- gate_result$data_dict
 

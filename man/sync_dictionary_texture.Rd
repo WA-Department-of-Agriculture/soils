@@ -7,10 +7,10 @@
 sync_dictionary_texture(data, dictionary, language = "English")
 }
 \arguments{
-\item{data}{dataframe potentially containing \code{texture}, \code{sand_percent},
+\item{data}{data frame potentially containing \code{texture}, \code{sand_percent},
 \code{silt_percent}, and \code{clay_percent}.}
 
-\item{dictionary}{dataframe with columns \code{measurement_group},
+\item{dictionary}{data frame with columns \code{measurement_group},
 \code{column_name}, \code{abbr}, and \code{unit}.}
 
 \item{language}{Either \code{"English"} or \code{"Spanish"}. Default \code{"English"}.}

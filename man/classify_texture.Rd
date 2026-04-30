@@ -11,7 +11,7 @@ Thresholds for texture classification are based on the
 classify_texture(df, validate = TRUE, output = c("cli", "ui"))
 }
 \arguments{
-\item{df}{A dataframe containing the columns \code{sample_id},
+\item{df}{A data frame containing the columns \code{sample_id},
 \code{sand_percent}, \code{silt_percent}, and \code{clay_percent}. An optional
 \code{texture} column can also be provided.}
 
@@ -22,7 +22,7 @@ classify_texture(df, validate = TRUE, output = c("cli", "ui"))
 validation issues are reported.}
 }
 \value{
-A dataframe with a \code{texture} column containing USDA soil texture
+A data frame with a \code{texture} column containing USDA soil texture
 classes when sufficient data are available. Soil fraction columns may be
 completed (if partially missing) and are rounded to whole numbers.
 }

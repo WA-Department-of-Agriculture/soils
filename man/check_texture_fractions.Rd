@@ -7,7 +7,7 @@
 check_texture_fractions(df)
 }
 \arguments{
-\item{df}{A dataframe containing the columns \code{sample_id},
+\item{df}{A data frame containing the columns \code{sample_id},
 \code{sand_percent}, \code{silt_percent}, and \code{clay_percent}. An optional
 \code{texture} column can also be provided.}
 }

@@ -11,7 +11,7 @@ JavaScript code adapted from
 make_interactive_map(df, primary_color = "#a60f2d")
 }
 \arguments{
-\item{df}{Dataframe containing \code{longitude}, \code{latitude}, \code{label}, and \code{popup}
+\item{df}{Data frame containing \code{longitude}, \code{latitude}, \code{label}, and \code{popup}
 columns. See \code{prep_for_map()} for details.}
 
 \item{primary_color}{A character string specifying the color used for point

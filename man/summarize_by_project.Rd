@@ -7,7 +7,7 @@
 summarize_by_project(results_long)
 }
 \arguments{
-\item{results_long}{Dataframe in tidy, long format with columns: \code{sample_id},
+\item{results_long}{Data frame in tidy, long format with columns: \code{sample_id},
 \code{measurement_group}, \code{abbr}, \code{value}.}
 }
 \value{

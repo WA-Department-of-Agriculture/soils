@@ -857,14 +857,16 @@ check_numeric_conversion <- function(data, data_dict) {
 #' vocabularies.
 #'
 #' @param data_dict Data frame of data dictionary.
+#' @param language Character. `"English"` or `"Spanish"`.
 #'
 #' @returns A list of warning issues.
 #'
 #' @keywords internal
 check_measurement_groups <- function(
   data_dict,
-  lanugage = c("english", "spanish")
+  lanugage = c("English", "Spanish")
 ) {
+  language <- rlang::arg_match(language)
   issues <- list()
 
   measurement_groups <- list(

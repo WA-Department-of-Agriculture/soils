@@ -4,10 +4,12 @@
 \alias{check_measurement_groups}
 \title{Validate measurement group values}
 \usage{
-check_measurement_groups(data_dict, lanugage = c("english", "spanish"))
+check_measurement_groups(data_dict, lanugage = c("English", "Spanish"))
 }
 \arguments{
 \item{data_dict}{Data frame of data dictionary.}
+
+\item{language}{Character. \code{"English"} or \code{"Spanish"}.}
 }
 \value{
 A list of warning issues.

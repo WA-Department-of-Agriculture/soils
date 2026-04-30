@@ -9,7 +9,7 @@ unit_hline(ft, header)
 \arguments{
 \item{ft}{flextable object}
 
-\item{header}{Another dataframe with three columns:
+\item{header}{Another data frame with three columns:
 \itemize{
 \item First column contains what the top header row should be. In our template,
 this is the abbreviation of the measurement (i.e. \verb{Organic Matter}).

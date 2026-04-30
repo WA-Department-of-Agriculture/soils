@@ -18,7 +18,7 @@
 #'   (&plusmn;1 tolerance).
 #' }
 #'
-#' @param df A dataframe containing the columns `sample_id`,
+#' @param df A data frame containing the columns `sample_id`,
 #'   `sand_percent`, `silt_percent`, and `clay_percent`. An optional
 #'   `texture` column can also be provided.
 #'
@@ -152,10 +152,10 @@ check_texture_fractions <- function(df) {
 #' Internal helper that computes a missing soil fraction (sand, silt, or clay)
 #' when exactly one is missing, using `100 - (sum of the other two)`.
 #'
-#' @param df A dataframe containing `sand_percent`,
+#' @param df A data frame containing `sand_percent`,
 #'   `silt_percent`, and `clay_percent.`
 #'
-#' @return A dataframe with completed soil fraction percentages.
+#' @return A data frame with completed soil fraction percentages.
 #'
 #' @keywords internal
 complete_texture_fractions <- function(df) {
@@ -184,10 +184,10 @@ complete_texture_fractions <- function(df) {
 #' Internal helper that assigns a USDA soil texture class based on completed
 #' sand, silt, and clay percentages.
 #'
-#' @param df A dataframe containing completed `sand_percent`,
+#' @param df A data frame containing completed `sand_percent`,
 #'   `silt_percent`, and `clay_percent.`
 #'
-#' @return A dataframe with an added `texture` column.
+#' @return A data frame with an added `texture` column.
 #'
 #' @source Thresholds for texture classification are from the USDA NRCS Soil
 #'   Texture Calculator found at
@@ -323,7 +323,7 @@ assign_texture_class <- function(df) {
 #'   }
 #' }
 #'
-#' @param df A dataframe containing the columns `sample_id`,
+#' @param df A data frame containing the columns `sample_id`,
 #'   `sand_percent`, `silt_percent`, and `clay_percent`. An optional
 #'   `texture` column can also be provided.
 #' @param validate Logical. If `TRUE` (default), validation checks are run using
@@ -331,7 +331,7 @@ assign_texture_class <- function(df) {
 #' @param output Character. One of `"cli"` (default) or `"ui"`. Controls how
 #'   validation issues are reported.
 #'
-#' @return A dataframe with a `texture` column containing USDA soil texture
+#' @return A data frame with a `texture` column containing USDA soil texture
 #'   classes when sufficient data are available. Soil fraction columns may be
 #'   completed (if partially missing) and are rounded to whole numbers.
 #'
@@ -454,9 +454,9 @@ classify_texture <- function(df, validate = TRUE, output = c("cli", "ui")) {
 #' dictionary in a fixed order for the physical measurement group. Intended for
 #' internal use but exported so it can be called in templates.
 #'
-#' @param data dataframe potentially containing `texture`, `sand_percent`,
+#' @param data data frame potentially containing `texture`, `sand_percent`,
 #'   `silt_percent`, and `clay_percent`.
-#' @param dictionary dataframe with columns `measurement_group`,
+#' @param dictionary data frame with columns `measurement_group`,
 #'   `column_name`, `abbr`, and `unit`.
 #' @param language Either `"English"` or `"Spanish"`. Default `"English"`.
 #'

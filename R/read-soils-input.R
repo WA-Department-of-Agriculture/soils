@@ -232,8 +232,8 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
 #' @returns
 #' If successful, a named list with:
 #' \describe{
-#'   \item{data}{Dataframe of input data.}
-#'   \item{data_dict}{Dataframe of data dictionary.}
+#'   \item{data}{Data frame of input data.}
+#'   \item{data_dict}{Data frame of data dictionary.}
 #'   \item{source}{Character string indicating input type: `"excel"` or `"csv"`.}
 #'   \item{file}{Original input file path(s).}
 #' }

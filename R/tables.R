@@ -271,10 +271,10 @@ unit_hline <- function(ft, header) {
     )
 }
 
-#' Make a flextable with column names from another dataframe
+#' Make a flextable with column names from another data frame
 #'
-#' @param table A dataframe with the contents of the desired flextable output.
-#' @param header Another dataframe with three columns:
+#' @param table A data frame with the contents of the desired flextable output.
+#' @param header Another data frame with three columns:
 #'  * First column contains what the top header row should be. In our template,
 #'  this is the abbreviation of the measurement (i.e. `Organic Matter`).
 #'  * Second column, called `"key"`, contains the join key. In our template,

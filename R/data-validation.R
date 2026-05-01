@@ -114,8 +114,8 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
 
   # cli output -----------------------------------------------------------------
   if (output == "cli") {
-    errors <- Filter(\(x) x$severity == "error", issues)
-    warnings <- Filter(\(x) x$severity == "warning", issues)
+    errors <- purrr::keep(issues, ~ identical(.x$severity, "error"))
+    warnings <- purrr::keep(issues, ~ identical(.x$severity, "warning"))
 
     # Default context messages
     if (is.null(context)) {
@@ -162,7 +162,7 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
   }
 
   # ui output ------------------------------------------------------------------
-  lapply(issues, \(x) {
+  purrr::map(issues, function(x) {
     x$message <- cli::ansi_strip(x$message)
     x
   })
@@ -184,8 +184,8 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
 #' @keywords internal
 split_issues <- function(issues) {
   list(
-    errors = Filter(\(x) x$severity == "error", issues),
-    warnings = Filter(\(x) x$severity == "warning", issues)
+    errors = purrr::keep(issues, ~ identical(.x$severity, "error")),
+    warnings = purrr::keep(issues, ~ identical(.x$severity, "warning"))
   )
 }
 
@@ -864,7 +864,7 @@ check_numeric_conversion <- function(data, data_dict) {
 #' @keywords internal
 check_measurement_groups <- function(
   data_dict,
-  lanugage = c("English", "Spanish")
+  language = c("English", "Spanish")
 ) {
   language <- rlang::arg_match(language)
   issues <- list()
@@ -941,7 +941,7 @@ check_measurement_groups <- function(
 run_all_checks <- function(
   gate_result,
   output = c("cli", "ui"),
-  language = c("english", "spanish")
+  language = c("English", "Spanish")
 ) {
   output <- rlang::arg_match(output)
   language = rlang::arg_match(language)
@@ -955,7 +955,7 @@ run_all_checks <- function(
     check_dict_mismatch(gate_result$data, gate_result$data_dict),
     check_texture_fractions(gate_result$data),
     check_coordinates(gate_result$data),
-    check_measurement_groups(gate_result$data_dict)
+    check_measurement_groups(gate_result$data_dict, language = language)
   )
 
   issues <- unique(issues)

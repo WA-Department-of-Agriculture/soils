@@ -16,3 +16,4 @@ scrap.R
 extract-dependencies.R
 *~
 *.tmp
+/figure-output

@@ -7,7 +7,7 @@
 run_all_checks(
   gate_result,
   output = c("cli", "ui"),
-  language = c("english", "spanish")
+  language = c("English", "Spanish")
 )
 }
 \arguments{

@@ -77,7 +77,7 @@ create_issue_xlsx <- function(
   gate_result,
   output_path,
   issues,
-  lanugage = c("English", "Spanish")
+  language = c("English", "Spanish")
 ) {
   language <- rlang::arg_match(language)
   data_full <- gate_result$data

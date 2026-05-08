@@ -8,7 +8,7 @@ create_issue_xlsx(
   gate_result,
   output_path,
   issues,
-  lanugage = c("English", "Spanish")
+  language = c("English", "Spanish")
 )
 }
 \arguments{
@@ -26,7 +26,7 @@ validated by \code{check_input_structure()}. Must include:
 \item{issues}{List of validation issues produced by \code{run_all_checks()}
 or individual check functions.}
 
-\item{language}{Character. \code{"English"} or \code{"Spanish"}.}
+\item{language}{Character. \code{"English"} or \code{"Spanish"}. Defaults to \code{"English"}.}
 }
 \value{
 Writes an Excel file to \code{output_path}.

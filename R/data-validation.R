@@ -857,8 +857,7 @@ check_numeric_conversion <- function(data, data_dict) {
 #' vocabularies.
 #'
 #' @param data_dict Data frame of data dictionary.
-#' @param language Character. `"English"` or `"Spanish"`.
-#'
+#' @inheritParams create_issue_xlsx
 #' @returns A list of warning issues.
 #'
 #' @keywords internal
@@ -928,7 +927,7 @@ check_measurement_groups <- function(
 #'
 #' @param gate_result Output from `check_input_structure()` that passed validation.
 #' @param output Character. One of `"cli"` or `"ui"`.
-#' @param language Character. `"english"` (default) or `"spanish"`.
+#' @inheritParams create_issue_xlsx
 #'
 #' @returns
 #' A list of validation issues (errors and warnings).

@@ -9,7 +9,7 @@ check_measurement_groups(data_dict, language = c("English", "Spanish"))
 \arguments{
 \item{data_dict}{Data frame of data dictionary.}
 
-\item{language}{Character. \code{"English"} or \code{"Spanish"}.}
+\item{language}{Character. \code{"English"} or \code{"Spanish"}. Defaults to \code{"English"}.}
 }
 \value{
 A list of warning issues.

@@ -15,7 +15,7 @@ run_all_checks(
 
 \item{output}{Character. One of \code{"cli"} or \code{"ui"}.}
 
-\item{language}{Character. \code{"english"} (default) or \code{"spanish"}.}
+\item{language}{Character. \code{"English"} or \code{"Spanish"}. Defaults to \code{"English"}.}
 }
 \value{
 A list of validation issues (errors and warnings).

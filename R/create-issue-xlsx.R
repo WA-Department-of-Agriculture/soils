@@ -21,7 +21,7 @@
 #' @param output_path Character. File path where the Excel report will be saved.
 #' @param issues List of validation issues produced by `run_all_checks()`
 #'   or individual check functions.
-#' @param language Character. `"English"` or `"Spanish"`.
+#' @param language Character. `"English"` or `"Spanish"`. Defaults to `"English"`.
 #'
 #' @returns
 #' Writes an Excel file to `output_path`.

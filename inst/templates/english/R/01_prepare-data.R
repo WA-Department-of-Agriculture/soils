@@ -74,35 +74,16 @@ gate_result <- check_input_structure(input)
 # Run all validation checks
 issues <- run_all_checks(gate_result, language = language)
 
-# Check for issues
-has_issues <- length(issues) > 0
-has_errors <- purrr::some(issues, ~ identical(.x$severity, "error"))
-has_warnings <- purrr::some(issues, ~ identical(.x$severity, "warning"))
-
-# Status messaging
-if (has_errors && has_warnings) {
-  cli::cli_alert_danger("Validation failed with errors and warnings.")
-} else if (has_errors) {
-  cli::cli_alert_danger("Validation failed with errors")
-} else if (has_warnings) {
-  cli::cli_alert_warning("Validation passed with warnings.")
-} else {
-  cli::cli_alert_success("Data successfully validated without issues!")
-}
-
-# If issues exist, print to console
-if (has_issues) {
+# Report validation results
+if (length(issues) > 0) {
   format_output(issues)
-}
-
-# If issues exist, create spreadsheet with conditional formatting
-if (has_issues) {
   create_issue_xlsx(gate_result, issues_file, issues, language = language)
 } else {
   cli::cli_alert_success("No issues to report!")
 }
 
-# Add `passed` flag (TRUE if no errors)
+# Add `passed` flag if there are no errors
+has_errors <- purrr::some(issues, ~ identical(.x$severity, "error"))
 gate_result$passed <- !has_errors
 
 # 6. Process data --------------------------------------------------------------

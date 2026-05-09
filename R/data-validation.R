@@ -130,34 +130,41 @@ format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
       check_context(context)
     }
 
+    # Errors
+    if (length(errors) > 0) {
+      cli::cli_rule(
+        left = "Errors"
+      )
+      bullets <- cli::ansi_strip(
+        unlist(lapply(errors, \(x) x$message))
+      )
+      names(bullets) <- rep("*", length(bullets))
+      cli::cli_inform(
+        c(
+          "x" = context$error,
+          bullets
+        )
+      )
+
+      # Add separator if both exist
+      if (length(errors) > 0 && length(warnings) > 0) {
+        cli::cli_rule(
+          left = "Warnings"
+        )
+      }
+    }
+
     # Warnings
     if (length(warnings) > 0) {
       bullets <- cli::ansi_strip(
         unlist(lapply(warnings, \(x) x$message))
       )
       names(bullets) <- rep("*", length(bullets))
-      cli::cli_warn(c(
+      cli::cli_inform(c(
         "!" = context$warning,
-        bullets,
-        call = NULL
+        bullets
       ))
     }
-
-    # Errors
-    if (length(errors) > 0) {
-      bullets <- cli::ansi_strip(
-        unlist(lapply(errors, \(x) x$message))
-      )
-      names(bullets) <- rep("*", length(bullets))
-      cli::cli_abort(
-        c(
-          "x" = context$error,
-          bullets
-        ),
-        call = NULL
-      )
-    }
-
     return(invisible(issues))
   }
 

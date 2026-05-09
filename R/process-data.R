@@ -2,7 +2,7 @@
 #'
 #' Processes validated soil health data and data dictionary objects into
 #' standardized formats used for report generation. This function is designed
-#' to be run within the data preparation pipeline in `01_prepare-data.R`.
+#' to be run within the data preparation pipeline in `prepare-data.R`.
 #'
 #' Processing steps include:
 #' \itemize{
@@ -15,7 +15,7 @@
 #' }
 #'
 #' The returned object is intended to be saved as an `.rds` file and loaded
-#' into Quarto report templates such as `01_producer-report.qmd`.
+#' into the Quarto report template `01_producer-report.qmd`.
 #'
 #' @param gate_result A named list created from
 #'   [`check_input_structure()`] and validated with

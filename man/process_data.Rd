@@ -33,7 +33,7 @@ data dictionary
 \description{
 Processes validated soil health data and data dictionary objects into
 standardized formats used for report generation. This function is designed
-to be run within the data preparation pipeline in \verb{01_prepare-data.R}.
+to be run within the data preparation pipeline in \code{prepare-data.R}.
 }
 \details{
 Processing steps include:
@@ -47,5 +47,5 @@ Processing steps include:
 }
 
 The returned object is intended to be saved as an \code{.rds} file and loaded
-into Quarto report templates such as \verb{01_producer-report.qmd}.
+into the Quarto report template \verb{01_producer-report.qmd}.
 }

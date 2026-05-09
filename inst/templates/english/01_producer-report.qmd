@@ -93,7 +93,7 @@ strip_text_color <- "white"
 <!-- Load data and dictionary -->
 
 ```{r load-data, include=FALSE}
-input <- readRDS("data/data-processed.xlsx")
+input <- readRDS("data/data-processed.rds")
 results_wide <- input$results_wide
 results_long <- input$results_long
 dictionary <- input$data_dict

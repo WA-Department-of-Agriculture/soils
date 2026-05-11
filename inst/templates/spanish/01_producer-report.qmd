@@ -10,6 +10,7 @@ params:
 
 # Shouldn't need to edit the below values unless you want to customize.
 lang: es
+engine: knitr
 execute:
   echo: false
   warning: false
@@ -97,9 +98,9 @@ strip_text_color <- "white"
 ```{r load-data, include=FALSE}
 # Create data-processed.rds in prepare-data.R.
 input <- readRDS("data/data-processed.rds")
-data <- input$data
-dictionary <- input$data_dict
+results_wide <- input$results_wide
 results_long <- input$results_long
+dictionary <- input$data_dict
 measurement_groups <- unique(dictionary$measurement_group)
 ```
 
@@ -687,7 +688,7 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
 # Add a data download button if downloadthis is installed
 if (requireNamespace("downloadthis", quietly = TRUE)) {
   list(
-    results = dplyr::filter(data, producer_id == params$producer_id),
+    results = dplyr::filter(results_wide, producer_id == params$producer_id),
     measurement_dictionary = dictionary[
       ,
       c(

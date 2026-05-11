@@ -2,11 +2,11 @@
 
 # Read processed data that was created from prepare-data.R
 data <- readRDS("data/data-processed.rds")
-data <- input$results_wide
+data <- data$results_wide
 
 # Optional: Filter data to create reports for only a subset of producers
 # data <- data |>
-#   dplyr::filter(year %in% c(2024) & producer_id %in% c("P001", "P002"))
+#   dplyr::filter(year %in% c(2024) & producer_id %in% c("GEH01", "JFG09"))
 
 # Render all reports
 soils::render_reports(

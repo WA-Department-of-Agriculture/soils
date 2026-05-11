@@ -41,7 +41,7 @@
 #'
 #' @export
 
-process_data <- function(gate_result, language = "English") {
+process_data <- function(gate_result, language = c("English", "Spanish")) {
   language <- rlang::arg_match(language)
 
   # Make sure data and data_dict exist in gate_result

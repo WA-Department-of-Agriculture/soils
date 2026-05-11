@@ -1,6 +1,6 @@
 # Prepare your data
 #
-# Work through this script BEFORE rendering reports.
+# Work through this script BEFORE rendering reports with render-reports.R.
 #
 # This will:
 # 1. Open the example data and data dictionary for your reference
@@ -18,7 +18,7 @@
 
 # fs::file_show("data/template.xlsx")
 
-# 2. Setup ---------------------------------------------------------------
+# 2. Setup ---------------------------------------------------------------------
 
 # EDIT: Provide the path to your input data.
 #

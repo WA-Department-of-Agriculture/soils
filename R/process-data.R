@@ -54,7 +54,7 @@ process_data <- function(gate_result, language = "English") {
 
   # Make sure data passed validation
   passed <- gate_result$passed
-  if (isTRUE(passed) | is.null(passed)) {
+  if (isFALSE(passed) | is.null(passed)) {
     cli::cli_abort(c(
       "x" = "{.arg gate_result} has not passed validation.",
       "i" = "Fix all errors from {.fun run_all_checks} in the {.file R/prepare-data.R} pipeline."

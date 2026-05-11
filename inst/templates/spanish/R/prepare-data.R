@@ -114,8 +114,9 @@ cli::cli_inform(
 
 # 8. Customize the report .qmd files -------------------------------------------
 
-# The `data_processed` will be read into `01_producer-report.qmd`. Customize the
-# .qmd files with your project-specific information and branding.
+# `data_processed` will be read into `01_producer-report.qmd`.
+
+# Customize the .qmd files with your project-specific information and branding.
 
 # See this tutorial for additional details on customizing the report content:
 

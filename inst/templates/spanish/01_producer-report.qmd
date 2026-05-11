@@ -58,7 +58,9 @@ fs::dir_create(path)
 <!-- Set styling variables -->
 
 ```{r set-fonts-colors}
-# EDIT: Replace any font names and colors to match your branding.
+# EDIT: Replace any font names and colors to match your branding. 
+
+# These variables control the plot and table styling. The overall report styling is set through styles.css and word-template.docx in the resources folder. See https://wa-department-of-agriculture.github.io/soils/articles/customize.html#style-and-theme for more info.
 header_font <- "Georgia"
 body_font <- "Arial"
 
@@ -93,6 +95,7 @@ strip_text_color <- "white"
 <!-- Load data and dictionary -->
 
 ```{r load-data, include=FALSE}
+# Create data-processed.rds in prepare-data.R.
 input <- readRDS("data/data-processed.rds")
 data <- input$data
 dictionary <- input$data_dict

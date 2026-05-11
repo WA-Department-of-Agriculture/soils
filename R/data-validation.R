@@ -943,7 +943,7 @@ check_measurement_groups <- function(
 #' This function assumes that gate checks have already passed. It does not
 #' perform structural validation.
 #'
-#' @keywords internal
+#' @export
 run_all_checks <- function(
   gate_result,
   output = c("cli", "ui"),

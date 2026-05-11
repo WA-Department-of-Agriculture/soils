@@ -27,4 +27,3 @@ Executes all non-gate validation checks and aggregates issues.
 This function assumes that gate checks have already passed. It does not
 perform structural validation.
 }
-\keyword{internal}

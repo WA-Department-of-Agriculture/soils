@@ -30,4 +30,3 @@ Checks include:
 \item At least one data row
 }
 }
-\keyword{internal}

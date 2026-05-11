@@ -220,7 +220,7 @@ split_issues <- function(issues) {
 #'   \item On failure: formatted issues via `format_output()`
 #' }
 #'
-#' @keywords internal
+#' @export
 check_input_structure <- function(input, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
   issues <- list()

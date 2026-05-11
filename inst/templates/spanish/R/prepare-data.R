@@ -56,14 +56,14 @@ language <- "Spanish"
 
 # 3. Read data -----------------------------------------------------------------
 
-input <- read_soils_input(input_path)
+input <- soils::read_soils_input(input_path)
 
 # 4. Gate check ----------------------------------------------------------------
 
 # Ensures required columns and basic structure are present.
 # If this fails, downstream checks cannot run.
 
-gate_result <- check_input_structure(input)
+gate_result <- soils::check_input_structure(input)
 
 # 5. Validation ----------------------------------------------------------------
 
@@ -72,12 +72,17 @@ gate_result <- check_input_structure(input)
 # corrected data file(s).
 
 # Run all validation checks
-issues <- run_all_checks(gate_result, language = language)
+issues <- soils::run_all_checks(gate_result, language = language)
 
 # Report validation results
 if (length(issues) > 0) {
-  format_output(issues)
-  create_issue_xlsx(gate_result, issues_file, issues, language = language)
+  soils::format_output(issues)
+  soils::create_issue_xlsx(
+    gate_result,
+    issues_file,
+    issues,
+    language = language
+  )
 } else {
   cli::cli_alert_success("No issues to report!")
 }
@@ -92,7 +97,7 @@ gate_result$passed <- !has_errors
 # - Errors must be resolved
 # - Warnings may still exist but should have been reviewed
 
-data_processed <- process_data(gate_result, language = language)
+data_processed <- soils::process_data(gate_result, language = language)
 
 # 7. Save processed data -------------------------------------------------------
 

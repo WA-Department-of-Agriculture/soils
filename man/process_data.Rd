@@ -4,7 +4,7 @@
 \alias{process_data}
 \title{Process validated soil health data for reporting}
 \usage{
-process_data(gate_result, language = "English")
+process_data(gate_result, language = c("English", "Spanish"))
 }
 \arguments{
 \item{gate_result}{A named list created from

@@ -85,15 +85,20 @@ news:
 reference:
 - title: Create a {soils} project
   contents: create_soils
-- title: Prepare Data
+- title: Prepare data
   contents:
   - read_soils_input
+  - check_input_structure
+  - run_all_checks
   - create_issue_xlsx
   - process_data
   - classify_texture
   - get_n_texture_by_var
   - summarize_by_project
   - summarize_by_var
+- title: Render reports
+  contents:
+  - render_reports
 - title: Map
   contents:
   - prep_for_map

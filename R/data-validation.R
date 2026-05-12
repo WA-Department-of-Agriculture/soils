@@ -809,7 +809,7 @@ check_numeric_conversion <- function(data, data_dict) {
     )
 
     msg <- c(
-      "Non-numeric values were converted to NA (e.g., ND, <1).",
+      "Non-numeric values will be converted to NA (e.g., ND, <1).",
       "Measurement columns affected:",
       stats::setNames(bullets, rep("*", length(bullets)))
     )

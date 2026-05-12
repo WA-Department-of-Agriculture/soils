@@ -61,7 +61,7 @@ check_texture_fractions <- function(df) {
 
   if (length(non_numeric_cols) > 0) {
     msg <- cli::format_inline(
-      "{.val {non_numeric_cols}} must be numeric to validate texture."
+      "{.field {non_numeric_cols}} must be numeric to validate texture."
     )
     issues <- c(issues, list(new_issue("warning", msg)))
     return(issues)

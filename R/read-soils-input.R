@@ -300,14 +300,7 @@ read_soils_input <- function(file, output = c("cli", "ui")) {
   return(list(
     data = input$data,
     data_dict = input$data_dict,
-    issues = format_issues(
-      input$issues,
-      output,
-      context = list(
-        error = "Failed to load input data.",
-        warning = ""
-      )
-    ),
+    issues = issues,
     source = if (is_excel) "excel" else "csv",
     file = file,
     passed = length(issues) == 0

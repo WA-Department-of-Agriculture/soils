@@ -58,12 +58,11 @@ language <- "Spanish"
 
 input <- soils::read_soils_input(input_path)
 
+# Print read input status
 if (isTRUE(input$passed)) {
   cli::cli_alert_success("Successfully read data!")
 } else {
-  cli::cli_abort(
-    "Fix errors from {.fn read_soils_input} before continuing."
-  )
+  soils::format_issues(input$issues)
 }
 
 # 4. Gate check ----------------------------------------------------------------
@@ -71,14 +70,19 @@ if (isTRUE(input$passed)) {
 # Ensures required columns and basic structure are present.
 # If this fails, downstream checks cannot run.
 
-gate_result <- soils::check_input_structure(input)
+if (isTRUE(input$passed)) {
+  gate_result <- soils::check_input_structure(input)
+} else {
+  cli::cli_abort(
+    "Fix errors from {.fn read_soils_input} before continuing."
+  )
+}
 
+# Print gate check status
 if (isTRUE(gate_result$passed)) {
   cli::cli_alert_success("Data passed gate check!")
 } else {
-  cli::cli_abort(
-    "Fix errors from {.fn check_input_structure} before continuing."
-  )
+  soils::format_issues(gate_result$issues)
 }
 
 # 5. Validation ----------------------------------------------------------------
@@ -88,7 +92,13 @@ if (isTRUE(gate_result$passed)) {
 # corrected data file(s).
 
 # Run all validation checks
-validation_result <- soils::run_all_checks(gate_result, language = language)
+if (isTRUE(gate_result$passed)) {
+  validation_result <- soils::run_all_checks(gate_result, language = language)
+} else {
+  cli::cli_abort(
+    "Fix errors from {.fn check_input_structure} before continuing."
+  )
+}
 
 # Report validation results
 if (length(validation_result$issues) > 0) {

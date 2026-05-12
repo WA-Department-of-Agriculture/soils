@@ -38,52 +38,6 @@ new_issue <- function(severity = c("error", "warning"), message) {
   list(severity = severity, message = message)
 }
 
-#' Validate context structure for output formatting
-#'
-#' Ensures that the `context` argument supplied to `format_issues()`
-#' is a properly structured named list.
-#'
-#' @param context Named list with elements `"error"` and `"warning"`,
-#'   each a length-1 character string.
-#'
-#' @returns
-#' Invisibly returns `TRUE` if valid. Otherwise throws an error.
-#'
-#' @keywords internal
-check_context <- function(context) {
-  if (!is.list(context) || is.null(names(context))) {
-    cli::cli_abort(
-      "{.arg context} must be a named list with elements {.val error} and {.val warning}.",
-      call = NULL
-    )
-  }
-
-  required <- c("error", "warning")
-
-  if (!all(required %in% names(context))) {
-    cli::cli_abort(
-      "{.arg context} must contain {.val error} and {.val warning}.",
-      call = NULL
-    )
-  }
-
-  if (!all(vapply(context[required], is.character, logical(1)))) {
-    cli::cli_abort(
-      "{.arg context$error} and {.arg context$warning} must be character.",
-      call = NULL
-    )
-  }
-
-  if (!all(vapply(context[required], length, integer(1)) == 1)) {
-    cli::cli_abort(
-      "{.arg context$error} and {.arg context$warning} must be length-1.",
-      call = NULL
-    )
-  }
-
-  invisible(TRUE)
-}
-
 #' Format validation issues for CLI or UI output
 #'
 #' Converts a list of validation issues into formatted output suitable
@@ -117,39 +71,21 @@ format_issues <- function(issues, output = c("cli", "ui"), context = NULL) {
     errors <- purrr::keep(issues, ~ identical(.x$severity, "error"))
     warnings <- purrr::keep(issues, ~ identical(.x$severity, "warning"))
 
-    # Default context messages
-    if (is.null(context)) {
-      context <- list(
-        error = "Please correct the following {.strong errors}:",
-        warning = "Please review the following {.strong warnings}:"
-      )
-    }
-
-    # Verify that context is a named list with error and warning text
-    if (!is.null(context)) {
-      check_context(context)
-    }
-
     # Errors
     if (length(errors) > 0) {
       cli::cli_rule(
-        left = "Errors"
+        left = "{cli::symbol$cross} Errors"
       )
       bullets <- cli::ansi_strip(
         unlist(lapply(errors, \(x) x$message))
       )
       names(bullets) <- rep("*", length(bullets))
-      cli::cli_inform(
-        c(
-          "x" = context$error,
-          bullets
-        )
-      )
+      cli::cli_inform(bullets)
 
       # Add separator if both exist
       if (length(errors) > 0 && length(warnings) > 0) {
         cli::cli_rule(
-          left = "Warnings"
+          left = "{cli::symbol$warning} Warnings"
         )
       }
     }
@@ -160,10 +96,7 @@ format_issues <- function(issues, output = c("cli", "ui"), context = NULL) {
         unlist(lapply(warnings, \(x) x$message))
       )
       names(bullets) <- rep("*", length(bullets))
-      cli::cli_inform(c(
-        "!" = context$warning,
-        bullets
-      ))
+      cli::cli_inform(bullets)
     }
     return(invisible(issues))
   }
@@ -258,14 +191,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
     return(list(
       data = input$data,
       data_dict = input$data_dict,
-      issues = format_issues(
-        issues,
-        output,
-        context = list(
-          error = "Detected issues with input structure.",
-          warning = ""
-        )
-      ),
+      issues = issues,
       passed = length(issues) == 0,
       source = input$source,
       file = input$file
@@ -331,14 +257,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
   return(list(
     data = input$data,
     data_dict = input$data_dict,
-    issues = format_issues(
-      issues,
-      output,
-      context = list(
-        error = "Detected issues with input structure.",
-        warning = ""
-      )
-    ),
+    issues = issues,
     passed = length(issues) == 0,
     source = input$source,
     file = input$file

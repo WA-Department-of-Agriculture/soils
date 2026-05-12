@@ -231,7 +231,25 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
     msg <- cli::format_inline(
       "Input must be a named list with {.val data} and {.val data_dict}."
     )
-    return(list(new_issue("error", msg)))
+    issues <- c(issues, list(new_issue("error", msg)))
+  }
+
+  if (!is.data.frame(input$data) && !is.data.frame(input$data_dict)) {
+    msg <- cli::format_inline(
+      "{.val data} and {.val data_dict} must be dataframes."
+    )
+    issues <- c(issues, list(new_issue("error", msg)))
+  }
+
+  if (length(issues) > 0) {
+    return(format_output(
+      issues,
+      output,
+      context = list(
+        error = "Detected issues with input structure.",
+        warning = ""
+      )
+    ))
   }
 
   # Single unified map
@@ -932,16 +950,23 @@ check_measurement_groups <- function(
 #'
 #' Executes all non-gate validation checks and aggregates issues.
 #'
-#' @param gate_result Output from `check_input_structure()` that passed validation.
+#' @param gate_result Output from `check_input_structure()`.
 #' @param output Character. One of `"cli"` or `"ui"`.
 #' @inheritParams create_issue_xlsx
 #'
 #' @returns
-#' A list of validation issues (errors and warnings).
+#' A named list with:
+#' \describe{
+#'   \item{gate_result}{The original gate result object.}
+#'   \item{issues}{A list of validation issues (errors and warnings).}
+#'   \item{passed}{Logical indicating whether validation passed with no errors.}
+#' }
 #'
 #' @details
 #' This function assumes that gate checks have already passed. It does not
 #' perform structural validation.
+#'
+#' Validation passes when no issues with severity `"error"` are present.
 #'
 #' @export
 run_all_checks <- function(
@@ -950,21 +975,47 @@ run_all_checks <- function(
   language = c("English", "Spanish")
 ) {
   output <- rlang::arg_match(output)
-  language = rlang::arg_match(language)
+  language <- rlang::arg_match(language)
 
   issues <- c(
     check_missing_values(gate_result),
     check_uniqueness(gate_result),
     check_data_types(gate_result),
-    check_numeric_conversion(gate_result$data, gate_result$data_dict),
+    check_numeric_conversion(
+      gate_result$data,
+      gate_result$data_dict
+    ),
     check_additional_columns(gate_result$data),
-    check_dict_mismatch(gate_result$data, gate_result$data_dict),
+    check_dict_mismatch(
+      gate_result$data,
+      gate_result$data_dict
+    ),
     check_texture_fractions(gate_result$data),
     check_coordinates(gate_result$data),
-    check_measurement_groups(gate_result$data_dict, language = language)
+    check_measurement_groups(
+      gate_result$data_dict,
+      language = language
+    )
   )
 
   issues <- unique(issues)
 
-  return(issues)
+  has_errors <- purrr::some(
+    issues,
+    ~ identical(.x$severity, "error")
+  )
+
+  passed <- !has_errors
+
+  list(
+    data = gate_result$data,
+    data_dict = gate_result$data_dict,
+    issues = format_output(
+      issues,
+      output
+    ),
+    passed = passed,
+    source = gate_result$source,
+    file = gate_result$file
+  )
 }

@@ -10,17 +10,17 @@
 #' The function supports both Excel and CSV input sources and reconstructs
 #' a formatted workbook for review and correction.
 #'
-#' @param gate_result Named list produced by `read_soils_input()` and
+#' @param validation_result Named list produced by `read_soils_input()` and
 #'   validated by `check_input_structure()`. Must include:
 #'   \itemize{
 #'     \item `data`: data frame of input data
 #'     \item `data_dict`: data frame of data dictionary
+#'     \item `issues`: list of validation issues produced by `run_all_checks()`
+#'   or individual check functions.
 #'     \item `source`: `"excel"` or `"csv"`
 #'     \item `file`: original input file path(s)
 #'   }
 #' @param output_path Character. File path where the Excel report will be saved.
-#' @param issues List of validation issues produced by `run_all_checks()`
-#'   or individual check functions.
 #' @param language Character. `"English"` or `"Spanish"`. Defaults to `"English"`.
 #'
 #' @returns
@@ -74,21 +74,20 @@
 #' @export
 
 create_issue_xlsx <- function(
-  gate_result,
+  validation_result,
   output_path,
-  issues,
   language = c("English", "Spanish")
 ) {
   language <- rlang::arg_match(language)
-  data_full <- gate_result$data
-  dd_full <- gate_result$data_dict
+  data_full <- validation_result$data
+  dd_full <- validation_result$data_dict
 
   # Initialize workbook --------------------------------------------------------
 
-  if (gate_result$source == "excel") {
+  if (validation_result$source == "excel") {
     # Preserve original formatting by loading workbook directly
     wb <- tryCatch(
-      openxlsx2::wb_load(gate_result$file),
+      openxlsx2::wb_load(validation_result$file),
       error = function(e) {
         cli::cli_abort("Failed to load Excel file: {.file {gate_result$file}}")
       }
@@ -100,7 +99,7 @@ create_issue_xlsx <- function(
         "Excel file must contain 'Data' and 'Data Dictionary' sheets."
       )
     }
-  } else if (gate_result$source == "csv") {
+  } else if (validation_result$source == "csv") {
     # Build fresh workbook
     wb <- openxlsx2::wb_workbook()
 
@@ -126,7 +125,7 @@ create_issue_xlsx <- function(
 
   # Issues tab -----------------------------------------------------------------
 
-  issues <- format_output(issues, "ui")
+  issues <- format_output(validation_result$issues, "ui")
 
   guidance <- c(
     "Errors must be corrected before proceeding.",

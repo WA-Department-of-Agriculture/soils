@@ -8,19 +8,20 @@
 #'   One of `"cli"` (default) or `"ui"`.
 #'
 #' @returns
-#' If successful, a named list with:
+#' A named list with:
 #' \describe{
-#'   \item{data}{A data frame containing the `Data` sheet.}
-#'   \item{data_dict}{A data frame containing the `Data Dictionary` sheet.}
+#'   \item{data}{A data frame containing the `Data` sheet, or `NULL` if unreadable.}
+#'   \item{data_dict}{A data frame containing the `Data Dictionary` sheet, or `NULL` if unreadable.}
+#'   \item{issues}{A list of validation issue objects. Empty if no issues were found.}
 #' }
-#'
-#' If validation fails, returns a formatted issue object via
-#' `format_output()`.
 #'
 #' @keywords internal
 read_soils_excel <- function(file, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
+
   issues <- list()
+  data <- NULL
+  data_dict <- NULL
 
   wb <- tryCatch(
     openxlsx2::wb_load(file),
@@ -33,13 +34,18 @@ read_soils_excel <- function(file, output = c("cli", "ui")) {
   )
 
   if (is.null(wb) || is.null(sheets)) {
-    return(format_output(
-      list(new_issue("error", "Could not read Excel file.")),
-      output,
-      context = list(
-        error = "Failed to load input data.",
-        warning = ""
-      )
+    issues <- c(
+      issues,
+      list(new_issue(
+        "error",
+        "Could not read Excel file."
+      ))
+    )
+
+    return(list(
+      data = NULL,
+      data_dict = NULL,
+      issues = issues
     ))
   }
 
@@ -50,14 +56,16 @@ read_soils_excel <- function(file, output = c("cli", "ui")) {
     msg <- cli::format_inline(
       "Missing required sheets: {.val {missing}}"
     )
-    issues <- c(issues, list(new_issue("error", msg)))
-    return(format_output(
+
+    issues <- c(
       issues,
-      output,
-      context = list(
-        error = "Failed to load input data.",
-        warning = ""
-      )
+      list(new_issue("error", msg))
+    )
+
+    return(list(
+      data = NULL,
+      data_dict = NULL,
+      issues = issues
     ))
   }
 
@@ -76,32 +84,35 @@ read_soils_excel <- function(file, output = c("cli", "ui")) {
       "Could not read both Data and Data Dictionary sheets."
     )
 
-    issues <- c(issues, list(new_issue("error", msg)))
+    issues <- c(
+      issues,
+      list(new_issue("error", msg))
+    )
   } else if (is.null(data)) {
     msg <- cli::format_inline(
-      "Could not read Data sheet"
+      "Could not read Data sheet."
     )
 
-    issues <- c(issues, list(new_issue("error", msg)))
+    issues <- c(
+      issues,
+      list(new_issue("error", msg))
+    )
   } else if (is.null(data_dict)) {
     msg <- cli::format_inline(
       "Could not read Data Dictionary sheet."
     )
 
-    issues <- c(issues, list(new_issue("error", msg)))
-  }
-
-  if (length(issues) > 0) {
-    return(format_output(
+    issues <- c(
       issues,
-      output,
-      context = list(
-        error = "Failed to load input data."
-      )
-    ))
+      list(new_issue("error", msg))
+    )
   }
 
-  return(list(data = data, data_dict = data_dict))
+  list(
+    data = data,
+    data_dict = data_dict,
+    issues = issues
+  )
 }
 
 
@@ -110,51 +121,53 @@ read_soils_excel <- function(file, output = c("cli", "ui")) {
 #' Reads two CSV files: one containing the data and one containing the
 #' data dictionary. Performs file name and readability validation checks.
 #'
-#' @param file Character vector of length 2. Paths to CSV files, where:
-#'   \itemize{
-#'     \item The first file must contain `"data"` in the filename.
-#'     \item The second file must contain `"dictionary"` in the filename.
-#'   }
+#' @param file Character vector of length 2.
 #' @param output Character. Output format for validation messages.
 #'   One of `"cli"` (default) or `"ui"`.
 #'
 #' @returns
-#' If successful, a named list with:
+#' A named list with:
 #' \describe{
-#'   \item{data}{A data frame created from the first CSV file.}
-#'   \item{data_dict}{A data frame created from the second CSV file.}
+#'   \item{data}{A data frame containing the data file, or `NULL` if unreadable.}
+#'   \item{data_dict}{A data frame containing the data dictionary file, or `NULL` if unreadable.}
+#'   \item{issues}{A list of validation issue objects. Empty if no issues were found.}
 #' }
-#'
-#' If validation fails, returns a formatted issue object via
-#' `format_output()`.
 #'
 #' @keywords internal
 read_soils_csv <- function(file, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
+
   issues <- list()
+  data <- NULL
+  data_dict <- NULL
 
   if (!grepl("data", file[1], ignore.case = TRUE)) {
     msg <- cli::format_inline(
-      "First file must be the data file and include {.val data} in the filename. You provided: {.val {file[1]}}"
+      "First file must be the data file and include {.val data} in the filename. You provided: {.val {file[1]}}."
     )
-    issues <- c(issues, list(new_issue("error", msg)))
+
+    issues <- c(
+      issues,
+      list(new_issue("error", msg))
+    )
   }
 
   if (!grepl("dictionary", file[2], ignore.case = TRUE)) {
     msg <- cli::format_inline(
-      "Second file must be the data dictionary and include {.val dictionary} in the filename. You provided: {.val {file[2]}}"
+      "Second file must be the data dictionary and include {.val dictionary} in the filename. You provided: {.val {file[2]}}."
     )
-    issues <- c(issues, list(new_issue("error", msg)))
+
+    issues <- c(
+      issues,
+      list(new_issue("error", msg))
+    )
   }
 
   if (length(issues) > 0) {
-    return(format_output(
-      issues,
-      output,
-      context = list(
-        error = "Failed to load input data.",
-        warning = ""
-      )
+    return(list(
+      data = NULL,
+      data_dict = NULL,
+      issues = issues
     ))
   }
 
@@ -183,33 +196,35 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
       "Could not read both {.file {basename(file[1])}} and {.file {basename(file[2])}}."
     )
 
-    issues <- c(issues, list(new_issue("error", msg)))
+    issues <- c(
+      issues,
+      list(new_issue("error", msg))
+    )
   } else if (is.null(data)) {
     msg <- cli::format_inline(
       "Could not read {.file {basename(file[1])}}."
     )
 
-    issues <- c(issues, list(new_issue("error", msg)))
+    issues <- c(
+      issues,
+      list(new_issue("error", msg))
+    )
   } else if (is.null(data_dict)) {
     msg <- cli::format_inline(
       "Could not read {.file {basename(file[2])}}."
     )
 
-    issues <- c(issues, list(new_issue("error", msg)))
-  }
-
-  if (length(issues) > 0) {
-    return(format_output(
+    issues <- c(
       issues,
-      output,
-      context = list(
-        error = "Failed to load input data.",
-        warning = ""
-      )
-    ))
+      list(new_issue("error", msg))
+    )
   }
 
-  return(list(data = data, data_dict = data_dict))
+  list(
+    data = data,
+    data_dict = data_dict,
+    issues = issues
+  )
 }
 
 #' Read soils input data
@@ -221,43 +236,31 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
 #'   \item Two CSV files: one data file and one data dictionary file
 #' }
 #'
-#' @param file Character vector. Either:
-#'   \itemize{
-#'     \item Length 1: path to a `.xlsx` file, or
-#'     \item Length 2: paths to two `.csv` files (data first, dictionary second)
-#'   }
+#' @param file Character vector.
 #' @param output Character. Output format for validation messages.
 #'   One of `"cli"` (default) or `"ui"`.
 #'
 #' @returns
-#' If successful, a named list with:
+#' A named list with:
 #' \describe{
-#'   \item{data}{Data frame of input data.}
-#'   \item{data_dict}{Data frame of data dictionary.}
-#'   \item{source}{Character string indicating input type: `"excel"` or `"csv"`.}
+#'   \item{data}{Data frame of input data, or `NULL` if unreadable.}
+#'   \item{data_dict}{Data frame of data dictionary, or `NULL` if unreadable.}
+#'   \item{issues}{A list of validation issue objects. Empty if no issues were found.}
+#'   \item{source}{Character string indicating input type: `"excel"` or `"csv"` if detected.}
 #'   \item{file}{Original input file path(s).}
 #' }
 #'
-#' If validation fails, returns a formatted issue object via
-#' `format_output()`.
-#'
 #' @export
-#' @examples
-#' \dontrun{
-#' # Excel input
-#' read_soils_input("soil_data.xlsx")
-#'
-#' # CSV input
-#' read_soils_input(c("data.csv", "data_dictionary.csv"))
-#' }
 read_soils_input <- function(file, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
+
   issues <- list()
 
-  # Detect file type
+  is_excel <- (length(file) == 1 &&
+    grepl("\\.xlsx$", file, ignore.case = TRUE))
 
-  is_excel <- length(file) == 1 && grepl("\\.xlsx$", file, ignore.case = TRUE)
-  is_csv <- length(file) == 2 && all(grepl("\\.csv$", file, ignore.case = TRUE))
+  is_csv <- (length(file) == 2 &&
+    all(grepl("\\.csv$", file, ignore.case = TRUE)))
 
   if (!is_excel && !is_csv) {
     msg <- c(
@@ -269,16 +272,11 @@ read_soils_input <- function(file, output = c("cli", "ui")) {
         "Two {.strong .csv} files with data first and dictionary second as {.code c(\"data.csv\", \"data-dictionary.csv\")}."
       )
     )
-    issues <- c(issues, list(new_issue("error", msg)))
 
-    return(format_output(
+    issues <- c(
       issues,
-      output,
-      context = list(
-        error = "Invalid input.",
-        warning = ""
-      )
-    ))
+      list(new_issue("error", msg))
+    )
   }
 
   if (isTRUE(is_excel)) {
@@ -289,11 +287,17 @@ read_soils_input <- function(file, output = c("cli", "ui")) {
     input <- read_soils_csv(file, output = output)
   }
 
-  # Success
-
   return(list(
     data = input$data,
     data_dict = input$data_dict,
+    issues = format_output(
+      input$issues,
+      output,
+      context = list(
+        error = "Failed to load input data.",
+        warning = ""
+      )
+    ),
     source = if (is_excel) "excel" else "csv",
     file = file
   ))

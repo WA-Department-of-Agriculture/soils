@@ -17,7 +17,7 @@
 #' The returned object is intended to be saved as an `.rds` file and loaded
 #' into the Quarto report template `01_producer-report.qmd`.
 #'
-#' @param gate_result A named list created from
+#' @param validation_result A named list created from
 #'   [`check_input_structure()`] and validated with
 #'   [`run_all_checks()`]. Must contain:
 #'   \itemize{
@@ -41,29 +41,32 @@
 #'
 #' @export
 
-process_data <- function(gate_result, language = c("English", "Spanish")) {
+process_data <- function(
+  validation_result,
+  language = c("English", "Spanish")
+) {
   language <- rlang::arg_match(language)
 
-  # Make sure data and data_dict exist in gate_result
-  if (!all(c("data", "data_dict") %in% names(gate_result))) {
+  # Make sure data and data_dict exist in validation_result
+  if (!all(c("data", "data_dict") %in% names(validation_result))) {
     cli::cli_abort(c(
-      "x" = "{.arg gate_result} must be a named list with elements {.field data} and {.field data_dict}.",
-      "i" = "Create {.arg gate_result} with {.fun read_soils_input} and {.fun check_input_structure} in the {.file R/prepare-data.R} pipeline."
+      "x" = "{.arg validation_result} must be a named list with elements {.field data} and {.field data_dict}.",
+      "i" = "Create {.arg validation_result} with {.fun read_soils_input} and {.fun check_input_structure} in the {.file R/prepare-data.R} pipeline."
     ))
   }
 
   # Make sure data passed validation
-  passed <- gate_result$passed
+  passed <- validation_result$passed
   if (isFALSE(passed) | is.null(passed)) {
     cli::cli_abort(c(
-      "x" = "{.arg gate_result} has not passed validation.",
+      "x" = "{.arg validation_result} has not passed validation.",
       "i" = "Fix all errors from {.fun run_all_checks} in the {.file R/prepare-data.R} pipeline."
     ))
   }
 
   # Set data and dictionary objects
-  results_wide <- gate_result$data
-  data_dict <- gate_result$data_dict
+  results_wide <- validation_result$data
+  data_dict <- validation_result$data_dict
 
   # Make sure sample_id and field_id are character
   results_wide <- results_wide |>

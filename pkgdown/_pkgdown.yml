@@ -85,7 +85,7 @@ news:
 reference:
 - title: Create a {soils} project
   contents: create_soils
-- title: Prepare data
+- title: Read, validate, and process data
   contents:
   - read_soils_input
   - check_input_structure

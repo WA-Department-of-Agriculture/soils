@@ -104,7 +104,7 @@ check_context <- function(context) {
 #'   \item `"ui"`: returns the issue list with ANSI formatting removed.
 #' }
 #'
-#' @keywords internal
+#' @export
 format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
   output <- rlang::arg_match(output)
 
@@ -242,12 +242,14 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
   }
 
   if (length(issues) > 0) {
-    return(format_output(
-      issues,
-      output,
-      context = list(
-        error = "Detected issues with input structure.",
-        warning = ""
+    return(list(
+      issues = format_output(
+        issues,
+        output,
+        context = list(
+          error = "Detected issues with input structure.",
+          warning = ""
+        )
       )
     ))
   }
@@ -309,12 +311,14 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
   # Return
 
   if (length(issues) > 0) {
-    return(format_output(
-      issues,
-      output,
-      context = list(
-        error = "Detected issues with input structure.",
-        warning = ""
+    return(list(
+      issues = format_output(
+        issues,
+        output,
+        context = list(
+          error = "Detected issues with input structure.",
+          warning = ""
+        )
       )
     ))
   }
@@ -724,9 +728,11 @@ check_coordinates <- function(data) {
 
   if (length(bad_lat) > 0) {
     ids <- if (has_sample_id) data$sample_id[bad_lat] else bad_lat
-
     msg <- cli::format_inline(
-      "{.field latitude} has values outside valid range (-90 to 90) for: {.val {soils_cli_vec(ids)}}."
+      "{.field latitude} must be within -90 to 90.",
+      "\nAffected samples:",
+      "\n{.val {soils_cli_vec(ids)}}",
+      collapse = FALSE
     )
 
     issues <- c(issues, list(new_issue("error", msg)))
@@ -740,7 +746,10 @@ check_coordinates <- function(data) {
     ids <- if (has_sample_id) data$sample_id[bad_lon] else bad_lon
 
     msg <- cli::format_inline(
-      "{.field longitude} has values outside valid range (-180 to 180) for: {.val {soils_cli_vec(ids)}}."
+      "{.field longitude} must be within -180 to 180.",
+      "\nAffected samples:",
+      "\n{.val {soils_cli_vec(ids)}}",
+      collapse = FALSE
     )
 
     issues <- c(issues, list(new_issue("error", msg)))
@@ -754,7 +763,10 @@ check_coordinates <- function(data) {
     ids <- if (has_sample_id) data$sample_id[incomplete] else incomplete
 
     msg <- cli::format_inline(
-      "Incomplete coordinate pair (one of {.field latitude} or {.field longitude} is missing) for: {.val {soils_cli_vec(ids)}}."
+      "Incomplete coordinate pair (one of {.field latitude} or {.field longitude} is missing).",
+      "\nAffected samples:",
+      "\n{.val {soils_cli_vec(ids)}}",
+      collapse = FALSE
     )
 
     issues <- c(issues, list(new_issue("error", msg)))
@@ -977,6 +989,14 @@ run_all_checks <- function(
   output <- rlang::arg_match(output)
   language <- rlang::arg_match(language)
 
+  # Make sure data and data_dict exist in gate_result
+  if (!all(c("data", "data_dict") %in% names(gate_result))) {
+    cli::cli_abort(c(
+      "x" = "{.arg gate_result} must be a named list with elements {.field data} and {.field data_dict}.",
+      "i" = "Create {.arg gate_result} with {.fun read_soils_input} and {.fun check_input_structure} in the {.file R/prepare-data.R} pipeline."
+    ))
+  }
+
   issues <- c(
     check_missing_values(gate_result),
     check_uniqueness(gate_result),
@@ -1010,10 +1030,7 @@ run_all_checks <- function(
   list(
     data = gate_result$data,
     data_dict = gate_result$data_dict,
-    issues = format_output(
-      issues,
-      output
-    ),
+    issues = issues,
     passed = passed,
     source = gate_result$source,
     file = gate_result$file

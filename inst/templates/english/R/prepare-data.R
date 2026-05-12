@@ -90,7 +90,7 @@ validation_result <- soils::run_all_checks(gate_result, language = language)
 
 # Report validation results
 if (length(validation_result$issues) > 0) {
-  soils::format_output(validation_result$issues)
+  soils::format_issues(validation_result$issues)
   soils::create_issue_xlsx(
     validation_result,
     issues_file,

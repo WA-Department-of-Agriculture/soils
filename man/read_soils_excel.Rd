@@ -13,14 +13,12 @@ read_soils_excel(file, output = c("cli", "ui"))
 One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
-If successful, a named list with:
+A named list with:
 \describe{
-\item{data}{A data frame containing the \code{Data} sheet.}
-\item{data_dict}{A data frame containing the \verb{Data Dictionary} sheet.}
+\item{data}{A data frame containing the \code{Data} sheet, or \code{NULL} if unreadable.}
+\item{data_dict}{A data frame containing the \verb{Data Dictionary} sheet, or \code{NULL} if unreadable.}
+\item{issues}{A list of validation issue objects. Empty if no issues were found.}
 }
-
-If validation fails, returns a formatted issue object via
-\code{format_output()}.
 }
 \description{
 Reads a single Excel file containing both the \code{Data} and

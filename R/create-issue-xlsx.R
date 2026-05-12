@@ -125,7 +125,7 @@ create_issue_xlsx <- function(
 
   # Issues tab -----------------------------------------------------------------
 
-  issues <- format_output(validation_result$issues, "ui")
+  issues <- format_issues(validation_result$issues, "ui")
 
   guidance <- c(
     "Errors must be corrected before proceeding.",

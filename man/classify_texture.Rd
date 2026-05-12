@@ -69,7 +69,7 @@ are retained and returned with an \code{NA} texture value.
 \section{Side Effects}{
 
 When \code{validate = TRUE}, validation issues are formatted using
-\code{format_output()}. Errors will stop execution in \code{"cli"} mode.
+\code{format_issues()}. Errors will stop execution in \code{"cli"} mode.
 }
 
 \examples{

@@ -76,7 +76,7 @@ issues <- soils::run_all_checks(gate_result, language = language)
 
 # Report validation results
 if (length(issues) > 0) {
-  soils::format_output(issues)
+  soils::format_issues(issues)
   soils::create_issue_xlsx(
     gate_result,
     issues_file,

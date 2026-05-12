@@ -6,7 +6,7 @@
 #'
 #' This function does not modify the data. It returns a list of validation
 #' issues that can be combined with other `check_*()` functions and formatted
-#' using `format_output()`.
+#' using `format_issues()`.
 #'
 #' Validation rules:
 #' \itemize{
@@ -337,7 +337,7 @@ assign_texture_class <- function(df) {
 #'
 #' @section Side Effects:
 #' When `validate = TRUE`, validation issues are formatted using
-#' `format_output()`. Errors will stop execution in `"cli"` mode.
+#' `format_issues()`. Errors will stop execution in `"cli"` mode.
 #'
 #' @source Thresholds for texture classification are based on the
 #'   [USDA NRCS Soil Texture Calculator](https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator).
@@ -414,7 +414,7 @@ classify_texture <- function(df, validate = TRUE, output = c("cli", "ui")) {
     issues <- check_texture_fractions(df)
 
     if (length(issues) > 0) {
-      format_output(
+      format_issues(
         issues,
         output,
         context = list(

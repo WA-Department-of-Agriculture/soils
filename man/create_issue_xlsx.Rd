@@ -5,26 +5,24 @@
 \title{Create an Excel validation report with conditional formatting}
 \usage{
 create_issue_xlsx(
-  gate_result,
+  validation_result,
   output_path,
-  issues,
   language = c("English", "Spanish")
 )
 }
 \arguments{
-\item{gate_result}{Named list produced by \code{read_soils_input()} and
+\item{validation_result}{Named list produced by \code{read_soils_input()} and
 validated by \code{check_input_structure()}. Must include:
 \itemize{
 \item \code{data}: data frame of input data
 \item \code{data_dict}: data frame of data dictionary
+\item \code{issues}: list of validation issues produced by \code{run_all_checks()}
+or individual check functions.
 \item \code{source}: \code{"excel"} or \code{"csv"}
 \item \code{file}: original input file path(s)
 }}
 
 \item{output_path}{Character. File path where the Excel report will be saved.}
-
-\item{issues}{List of validation issues produced by \code{run_all_checks()}
-or individual check functions.}
 
 \item{language}{Character. \code{"English"} or \code{"Spanish"}. Defaults to \code{"English"}.}
 }

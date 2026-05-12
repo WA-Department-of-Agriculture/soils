@@ -96,6 +96,7 @@ reference:
   - get_n_texture_by_var
   - summarize_by_project
   - summarize_by_var
+  - format_issues
 - title: Render reports
   contents:
   - render_reports

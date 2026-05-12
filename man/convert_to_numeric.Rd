@@ -17,7 +17,7 @@ One of \code{"cli"} (default) or \code{"ui"}.}
 
 \item{validate}{Logical. If \code{TRUE} (default), runs
 \code{check_numeric_conversion()} and formats any resulting issues using
-\code{format_output()}.}
+\code{format_issues()}.}
 }
 \value{
 A data frame with measurement columns converted to numeric.

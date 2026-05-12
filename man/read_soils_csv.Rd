@@ -7,24 +7,18 @@
 read_soils_csv(file, output = c("cli", "ui"))
 }
 \arguments{
-\item{file}{Character vector of length 2. Paths to CSV files, where:
-\itemize{
-\item The first file must contain \code{"data"} in the filename.
-\item The second file must contain \code{"dictionary"} in the filename.
-}}
+\item{file}{Character vector of length 2.}
 
 \item{output}{Character. Output format for validation messages.
 One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
-If successful, a named list with:
+A named list with:
 \describe{
-\item{data}{A data frame created from the first CSV file.}
-\item{data_dict}{A data frame created from the second CSV file.}
+\item{data}{A data frame containing the data file, or \code{NULL} if unreadable.}
+\item{data_dict}{A data frame containing the data dictionary file, or \code{NULL} if unreadable.}
+\item{issues}{A list of validation issue objects. Empty if no issues were found.}
 }
-
-If validation fails, returns a formatted issue object via
-\code{format_output()}.
 }
 \description{
 Reads two CSV files: one containing the data and one containing the

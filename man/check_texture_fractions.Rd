@@ -23,7 +23,7 @@ dataset. Requires a \code{sample_id} column and at least two of \code{sand_perce
 \details{
 This function does not modify the data. It returns a list of validation
 issues that can be combined with other \verb{check_*()} functions and formatted
-using \code{format_output()}.
+using \code{format_issues()}.
 
 Validation rules:
 \itemize{

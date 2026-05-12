@@ -14,7 +14,7 @@ check_input_structure(input, output = c("cli", "ui"))
 \value{
 \itemize{
 \item On success: the input list (unchanged)
-\item On failure: formatted issues via \code{format_output()}
+\item On failure: formatted issues via \code{format_issues()}
 }
 }
 \description{

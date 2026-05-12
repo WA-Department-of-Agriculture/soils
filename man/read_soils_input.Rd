@@ -7,26 +7,20 @@
 read_soils_input(file, output = c("cli", "ui"))
 }
 \arguments{
-\item{file}{Character vector. Either:
-\itemize{
-\item Length 1: path to a \code{.xlsx} file, or
-\item Length 2: paths to two \code{.csv} files (data first, dictionary second)
-}}
+\item{file}{Character vector.}
 
 \item{output}{Character. Output format for validation messages.
 One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
-If successful, a named list with:
+A named list with:
 \describe{
-\item{data}{Data frame of input data.}
-\item{data_dict}{Data frame of data dictionary.}
-\item{source}{Character string indicating input type: \code{"excel"} or \code{"csv"}.}
+\item{data}{Data frame of input data, or \code{NULL} if unreadable.}
+\item{data_dict}{Data frame of data dictionary, or \code{NULL} if unreadable.}
+\item{issues}{A list of validation issue objects. Empty if no issues were found.}
+\item{source}{Character string indicating input type: \code{"excel"} or \code{"csv"} if detected.}
 \item{file}{Original input file path(s).}
 }
-
-If validation fails, returns a formatted issue object via
-\code{format_output()}.
 }
 \description{
 Detects input type and reads soils data from either:
@@ -34,14 +28,5 @@ Detects input type and reads soils data from either:
 \item A single Excel file (\code{.xlsx}) containing \code{Data} and
 \verb{Data Dictionary} sheets, or
 \item Two CSV files: one data file and one data dictionary file
-}
-}
-\examples{
-\dontrun{
-# Excel input
-read_soils_input("soil_data.xlsx")
-
-# CSV input
-read_soils_input(c("data.csv", "data_dictionary.csv"))
 }
 }

@@ -290,7 +290,7 @@ read_soils_input <- function(file, output = c("cli", "ui")) {
   return(list(
     data = input$data,
     data_dict = input$data_dict,
-    issues = format_output(
+    issues = format_issues(
       input$issues,
       output,
       context = list(

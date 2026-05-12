@@ -4,10 +4,10 @@
 \alias{process_data}
 \title{Process validated soil health data for reporting}
 \usage{
-process_data(gate_result, language = c("English", "Spanish"))
+process_data(validation_result, language = c("English", "Spanish"))
 }
 \arguments{
-\item{gate_result}{A named list created from
+\item{validation_result}{A named list created from
 \code{\link[=check_input_structure]{check_input_structure()}} and validated with
 \code{\link[=run_all_checks]{run_all_checks()}}. Must contain:
 \itemize{

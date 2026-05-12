@@ -20,7 +20,7 @@
 #'   One of `"cli"` (default) or `"ui"`.
 #' @param validate Logical. If `TRUE` (default), runs
 #'   `check_numeric_conversion()` and formats any resulting issues using
-#'   `format_output()`.
+#'   `format_issues()`.
 #'
 #' @returns
 #' A data frame with measurement columns converted to numeric.
@@ -86,7 +86,7 @@ convert_to_numeric <- function(
     issues <- check_numeric_conversion(data, data_dict)
 
     if (length(issues) > 0) {
-      format_output(
+      format_issues(
         issues,
         output,
         context = list(

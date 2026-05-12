@@ -11,14 +11,19 @@ run_all_checks(
 )
 }
 \arguments{
-\item{gate_result}{Output from \code{check_input_structure()} that passed validation.}
+\item{gate_result}{Output from \code{check_input_structure()}.}
 
 \item{output}{Character. One of \code{"cli"} or \code{"ui"}.}
 
 \item{language}{Character. \code{"English"} or \code{"Spanish"}. Defaults to \code{"English"}.}
 }
 \value{
-A list of validation issues (errors and warnings).
+A named list with:
+\describe{
+\item{gate_result}{The original gate result object.}
+\item{issues}{A list of validation issues (errors and warnings).}
+\item{passed}{Logical indicating whether validation passed with no errors.}
+}
 }
 \description{
 Executes all non-gate validation checks and aggregates issues.
@@ -26,4 +31,6 @@ Executes all non-gate validation checks and aggregates issues.
 \details{
 This function assumes that gate checks have already passed. It does not
 perform structural validation.
+
+Validation passes when no issues with severity \code{"error"} are present.
 }

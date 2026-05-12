@@ -27,7 +27,7 @@ Dirt Data Reports application.
 This file defines a structured system for:
 \itemize{
 \item Creating and managing validation issues (\code{new_issue()})
-\item Formatting output for CLI and UI contexts (\code{format_output()})
+\item Formatting output for CLI and UI contexts (\code{format_issues()})
 \item Performing gate checks on input structure (\code{check_input_structure()})
 \item Running independent validation checks on data and data dictionaries
 }

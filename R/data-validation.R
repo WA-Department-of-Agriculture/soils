@@ -6,7 +6,7 @@
 #' This file defines a structured system for:
 #'
 #'   - Creating and managing validation issues (`new_issue()`)
-#'   - Formatting output for CLI and UI contexts (`format_output()`)
+#'   - Formatting output for CLI and UI contexts (`format_issues()`)
 #'   - Performing gate checks on input structure (`check_input_structure()`)
 #'   - Running independent validation checks on data and data dictionaries
 #'
@@ -40,7 +40,7 @@ new_issue <- function(severity = c("error", "warning"), message) {
 
 #' Validate context structure for output formatting
 #'
-#' Ensures that the `context` argument supplied to `format_output()`
+#' Ensures that the `context` argument supplied to `format_issues()`
 #' is a properly structured named list.
 #'
 #' @param context Named list with elements `"error"` and `"warning"`,
@@ -105,7 +105,7 @@ check_context <- function(context) {
 #' }
 #'
 #' @export
-format_output <- function(issues, output = c("cli", "ui"), context = NULL) {
+format_issues <- function(issues, output = c("cli", "ui"), context = NULL) {
   output <- rlang::arg_match(output)
 
   if (length(issues) == 0) {
@@ -217,7 +217,7 @@ split_issues <- function(issues) {
 #' @returns
 #' \itemize{
 #'   \item On success: the input list (unchanged)
-#'   \item On failure: formatted issues via `format_output()`
+#'   \item On failure: formatted issues via `format_issues()`
 #' }
 #'
 #' @export
@@ -243,7 +243,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
 
   if (length(issues) > 0) {
     return(list(
-      issues = format_output(
+      issues = format_issues(
         issues,
         output,
         context = list(
@@ -312,7 +312,7 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
 
   if (length(issues) > 0) {
     return(list(
-      issues = format_output(
+      issues = format_issues(
         issues,
         output,
         context = list(

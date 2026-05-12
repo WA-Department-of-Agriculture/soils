@@ -14,7 +14,7 @@ each a length-1 character string.}
 Invisibly returns \code{TRUE} if valid. Otherwise throws an error.
 }
 \description{
-Ensures that the \code{context} argument supplied to \code{format_output()}
+Ensures that the \code{context} argument supplied to \code{format_issues()}
 is a properly structured named list.
 }
 \keyword{internal}

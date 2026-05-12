@@ -584,7 +584,7 @@ create_issue_xlsx <- function(
     col_lon <- openxlsx2::int2col(idx_lon)
 
     rule_missing_pair <- sprintf(
-      "AND(OR(%s2=\"\",%s2=\"\"),NOT(AND(%s2=\"\",%s2=\"\")))",
+      "AND(OR($%s2=\"\",$%s2=\"\"),$%s2<>$%s2)",
       col_lat,
       col_lon,
       col_lat,

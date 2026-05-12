@@ -4,13 +4,10 @@
 \alias{read_soils_csv}
 \title{Read CSV input files}
 \usage{
-read_soils_csv(file, output = c("cli", "ui"))
+read_soils_csv(file)
 }
 \arguments{
 \item{file}{Character vector of length 2.}
-
-\item{output}{Character. Output format for validation messages.
-One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
 A named list with:

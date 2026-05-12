@@ -4,8 +4,6 @@
 #' `Data Dictionary` sheets and performs readability validation checks.
 #'
 #' @param file Character path to a `.xlsx` file.
-#' @param output Character. Output format for validation messages.
-#'   One of `"cli"` (default) or `"ui"`.
 #'
 #' @returns
 #' A named list with:
@@ -16,9 +14,7 @@
 #' }
 #'
 #' @keywords internal
-read_soils_excel <- function(file, output = c("cli", "ui")) {
-  output <- rlang::arg_match(output)
-
+read_soils_excel <- function(file) {
   issues <- list()
   data <- NULL
   data_dict <- NULL
@@ -122,8 +118,6 @@ read_soils_excel <- function(file, output = c("cli", "ui")) {
 #' data dictionary. Performs file name and readability validation checks.
 #'
 #' @param file Character vector of length 2.
-#' @param output Character. Output format for validation messages.
-#'   One of `"cli"` (default) or `"ui"`.
 #'
 #' @returns
 #' A named list with:
@@ -134,9 +128,7 @@ read_soils_excel <- function(file, output = c("cli", "ui")) {
 #' }
 #'
 #' @keywords internal
-read_soils_csv <- function(file, output = c("cli", "ui")) {
-  output <- rlang::arg_match(output)
-
+read_soils_csv <- function(file) {
   issues <- list()
   data <- NULL
   data_dict <- NULL
@@ -241,8 +233,6 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
 #'     \item Length 1: path to a `.xlsx` file
 #'     \item Length 2: paths to two `.csv` files (data first, dictionary second)
 #'   }
-#' @param output Character. Output format for validation messages.
-#'   One of `"cli"` (default) or `"ui"`.
 #'
 #' @returns
 #' A named list with:
@@ -261,9 +251,7 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
 #' `check_input_structure()`.
 #'
 #' @export
-read_soils_input <- function(file, output = c("cli", "ui")) {
-  output <- rlang::arg_match(output)
-
+read_soils_input <- function(file) {
   issues <- list()
 
   is_excel <- (length(file) == 1 &&
@@ -287,22 +275,31 @@ read_soils_input <- function(file, output = c("cli", "ui")) {
       issues,
       list(new_issue("error", msg))
     )
+
+    return(list(
+      data = input$data,
+      data_dict = input$data_dict,
+      issues = issues,
+      source = if (is_excel) "excel" else "csv",
+      file = file,
+      passed = length(issues) == 0
+    ))
   }
 
   if (isTRUE(is_excel)) {
-    input <- read_soils_excel(file, output = output)
+    input <- read_soils_excel(file)
   }
 
   if (isTRUE(is_csv)) {
-    input <- read_soils_csv(file, output = output)
+    input <- read_soils_csv(file)
   }
 
   return(list(
     data = input$data,
     data_dict = input$data_dict,
-    issues = issues,
+    issues = input$issues,
     source = if (is_excel) "excel" else "csv",
     file = file,
-    passed = length(issues) == 0
+    passed = length(input$issues) == 0
   ))
 }

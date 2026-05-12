@@ -4,7 +4,7 @@
 \alias{read_soils_input}
 \title{Read soils input data}
 \usage{
-read_soils_input(file, output = c("cli", "ui"))
+read_soils_input(file)
 }
 \arguments{
 \item{file}{Character vector. Either:
@@ -12,9 +12,6 @@ read_soils_input(file, output = c("cli", "ui"))
 \item Length 1: path to a \code{.xlsx} file
 \item Length 2: paths to two \code{.csv} files (data first, dictionary second)
 }}
-
-\item{output}{Character. Output format for validation messages.
-One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
 A named list with:

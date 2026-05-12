@@ -4,13 +4,10 @@
 \alias{read_soils_excel}
 \title{Read soils Excel input file}
 \usage{
-read_soils_excel(file, output = c("cli", "ui"))
+read_soils_excel(file)
 }
 \arguments{
 \item{file}{Character path to a \code{.xlsx} file.}
-
-\item{output}{Character. Output format for validation messages.
-One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
 A named list with:

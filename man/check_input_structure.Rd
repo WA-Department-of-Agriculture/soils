@@ -4,12 +4,10 @@
 \alias{check_input_structure}
 \title{Validate input structure}
 \usage{
-check_input_structure(input, output = c("cli", "ui"))
+check_input_structure(input)
 }
 \arguments{
 \item{input}{Named list produced by \code{read_soils_input()}.}
-
-\item{output}{Character. One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
 A named list with:

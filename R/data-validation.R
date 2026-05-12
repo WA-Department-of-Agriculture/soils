@@ -74,24 +74,20 @@ format_issues <- function(issues, output = c("cli", "ui"), context = NULL) {
     # Errors
     if (length(errors) > 0) {
       cli::cli_rule(
-        left = "{cli::symbol$cross} Errors"
+        left = "{cli::symbol$cross} Errors (must fix to continue)"
       )
       bullets <- cli::ansi_strip(
         unlist(lapply(errors, \(x) x$message))
       )
       names(bullets) <- rep("*", length(bullets))
       cli::cli_inform(bullets)
-
-      # Add separator if both exist
-      if (length(errors) > 0 && length(warnings) > 0) {
-        cli::cli_rule(
-          left = "{cli::symbol$warning} Warnings"
-        )
-      }
     }
 
     # Warnings
     if (length(warnings) > 0) {
+      cli::cli_rule(
+        left = "{cli::symbol$warning} Warnings (review recommended)"
+      )
       bullets <- cli::ansi_strip(
         unlist(lapply(warnings, \(x) x$message))
       )
@@ -145,7 +141,6 @@ split_issues <- function(issues) {
 #' }
 #'
 #' @param input Named list produced by `read_soils_input()`.
-#' @param output Character. One of `"cli"` (default) or `"ui"`.
 #'
 #' @returns
 #' A named list with:
@@ -167,8 +162,7 @@ split_issues <- function(issues) {
 #' measurement values, ranges, or data consistency rules.
 #'
 #' @export
-check_input_structure <- function(input, output = c("cli", "ui")) {
-  output <- rlang::arg_match(output)
+check_input_structure <- function(input) {
   issues <- list()
 
   # Validate structure
@@ -901,7 +895,6 @@ check_measurement_groups <- function(
 #' Executes all non-gate validation checks and aggregates validation issues.
 #'
 #' @param gate_result Named list produced by `check_input_structure()`.
-#' @param output Character. One of `"cli"` or `"ui"`.
 #' @inheritParams create_issue_xlsx
 #'
 #' @returns
@@ -937,10 +930,8 @@ check_measurement_groups <- function(
 #' @export
 run_all_checks <- function(
   gate_result,
-  output = c("cli", "ui"),
   language = c("English", "Spanish")
 ) {
-  output <- rlang::arg_match(output)
   language <- rlang::arg_match(language)
 
   # Make sure data and data_dict exist in gate_result

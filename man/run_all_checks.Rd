@@ -4,16 +4,10 @@
 \alias{run_all_checks}
 \title{Run all validation checks}
 \usage{
-run_all_checks(
-  gate_result,
-  output = c("cli", "ui"),
-  language = c("English", "Spanish")
-)
+run_all_checks(gate_result, language = c("English", "Spanish"))
 }
 \arguments{
 \item{gate_result}{Named list produced by \code{check_input_structure()}.}
-
-\item{output}{Character. One of \code{"cli"} or \code{"ui"}.}
 
 \item{language}{Character. \code{"English"} or \code{"Spanish"}. Defaults to \code{"English"}.}
 }

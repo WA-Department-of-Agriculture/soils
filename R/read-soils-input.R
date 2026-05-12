@@ -236,7 +236,11 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
 #'   \item Two CSV files: one data file and one data dictionary file
 #' }
 #'
-#' @param file Character vector.
+#' @param file Character vector. Either:
+#'   \itemize{
+#'     \item Length 1: path to a `.xlsx` file
+#'     \item Length 2: paths to two `.csv` files (data first, dictionary second)
+#'   }
 #' @param output Character. Output format for validation messages.
 #'   One of `"cli"` (default) or `"ui"`.
 #'
@@ -245,10 +249,16 @@ read_soils_csv <- function(file, output = c("cli", "ui")) {
 #' \describe{
 #'   \item{data}{Data frame of input data, or `NULL` if unreadable.}
 #'   \item{data_dict}{Data frame of data dictionary, or `NULL` if unreadable.}
-#'   \item{issues}{A list of validation issue objects. Empty if no issues were found.}
-#'   \item{source}{Character string indicating input type: `"excel"` or `"csv"` if detected.}
+#'   \item{issues}{A formatted list of validation issue objects. Empty if no issues were found.}
+#'   \item{source}{Character string indicating detected input type: `"excel"` or `"csv"`.}
 #'   \item{file}{Original input file path(s).}
+#'   \item{passed}{Logical indicating whether the input passed all initial loading and readability checks.}
 #' }
+#'
+#' @details
+#' This function performs only input loading and readability validation.
+#' Structural validation is performed separately by
+#' `check_input_structure()`.
 #'
 #' @export
 read_soils_input <- function(file, output = c("cli", "ui")) {
@@ -299,6 +309,7 @@ read_soils_input <- function(file, output = c("cli", "ui")) {
       )
     ),
     source = if (is_excel) "excel" else "csv",
-    file = file
+    file = file,
+    passed = length(issues) == 0
   ))
 }

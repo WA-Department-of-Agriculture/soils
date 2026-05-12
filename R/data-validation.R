@@ -211,14 +211,27 @@ split_issues <- function(issues) {
 #'   \item At least one data row
 #' }
 #'
-#' @param input Named list with elements `data` and `data_dict`.
+#' @param input Named list produced by `read_soils_input()`.
 #' @param output Character. One of `"cli"` (default) or `"ui"`.
 #'
 #' @returns
-#' \itemize{
-#'   \item On success: the input list (unchanged)
-#'   \item On failure: formatted issues via `format_issues()`
+#' A named list with:
+#' \describe{
+#'   \item{data}{Input data frame.}
+#'   \item{data_dict}{Input data dictionary data frame.}
+#'   \item{issues}{A formatted list of validation issue objects. Empty if no issues were found.}
+#'   \item{passed}{Logical indicating whether the input passed all gate checks.}
+#'   \item{source}{Character string indicating detected input type: `"excel"` or `"csv"`.}
+#'   \item{file}{Original input file path(s).}
 #' }
+#'
+#' @details
+#' Gate checks are blocking validations required before downstream validation
+#' and processing can occur. If any gate checks fail, subsequent validation
+#' functions should not be run.
+#'
+#' This function validates only structural requirements and does not evaluate
+#' measurement values, ranges, or data consistency rules.
 #'
 #' @export
 check_input_structure <- function(input, output = c("cli", "ui")) {
@@ -243,6 +256,8 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
 
   if (length(issues) > 0) {
     return(list(
+      data = input$data,
+      data_dict = input$data_dict,
       issues = format_issues(
         issues,
         output,
@@ -250,7 +265,10 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
           error = "Detected issues with input structure.",
           warning = ""
         )
-      )
+      ),
+      passed = length(issues) == 0,
+      source = input$source,
+      file = input$file
     ))
   }
 
@@ -310,20 +328,21 @@ check_input_structure <- function(input, output = c("cli", "ui")) {
 
   # Return
 
-  if (length(issues) > 0) {
-    return(list(
-      issues = format_issues(
-        issues,
-        output,
-        context = list(
-          error = "Detected issues with input structure.",
-          warning = ""
-        )
+  return(list(
+    data = input$data,
+    data_dict = input$data_dict,
+    issues = format_issues(
+      issues,
+      output,
+      context = list(
+        error = "Detected issues with input structure.",
+        warning = ""
       )
-    ))
-  }
-
-  return(input) # pass through unchanged
+    ),
+    passed = length(issues) == 0,
+    source = input$source,
+    file = input$file
+  ))
 }
 
 #' Check if gate validation passed
@@ -960,25 +979,41 @@ check_measurement_groups <- function(
 
 #' Run all validation checks
 #'
-#' Executes all non-gate validation checks and aggregates issues.
+#' Executes all non-gate validation checks and aggregates validation issues.
 #'
-#' @param gate_result Output from `check_input_structure()`.
+#' @param gate_result Named list produced by `check_input_structure()`.
 #' @param output Character. One of `"cli"` or `"ui"`.
 #' @inheritParams create_issue_xlsx
 #'
 #' @returns
 #' A named list with:
 #' \describe{
-#'   \item{gate_result}{The original gate result object.}
-#'   \item{issues}{A list of validation issues (errors and warnings).}
+#'   \item{data}{Validated input data frame.}
+#'   \item{data_dict}{Validated data dictionary data frame.}
+#'   \item{issues}{A list of validation issue objects containing errors and warnings. Empty if no issues were found.}
 #'   \item{passed}{Logical indicating whether validation passed with no errors.}
+#'   \item{source}{Character string indicating detected input type: `"excel"` or `"csv"`.}
+#'   \item{file}{Original input file path(s).}
 #' }
 #'
 #' @details
-#' This function assumes that gate checks have already passed. It does not
+#' This function assumes that gate checks have already passed and does not
 #' perform structural validation.
 #'
+#' Validation checks include:
+#' \itemize{
+#'   \item Missing required values
+#'   \item Duplicate identifiers
+#'   \item Invalid data types
+#'   \item Non-numeric measurement values
+#'   \item Mismatches between the data and data dictionary
+#'   \item Texture fraction validation
+#'   \item Coordinate validation
+#'   \item Measurement group validation
+#' }
+#'
 #' Validation passes when no issues with severity `"error"` are present.
+#' Warnings do not prevent downstream processing.
 #'
 #' @export
 run_all_checks <- function(

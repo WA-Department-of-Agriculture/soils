@@ -58,10 +58,12 @@ language <- "English"
 
 input <- soils::read_soils_input(input_path)
 
-if (length(input$issues) == 0) {
+if (isTRUE(input$passed)) {
   cli::cli_alert_success("Successfully read data!")
 } else {
-  cli::cli_abort("Fix errors from {.fn read_soils_input} before continuing.")
+  cli::cli_abort(
+    "Fix errors from {.fn read_soils_input} before continuing."
+  )
 }
 
 # 4. Gate check ----------------------------------------------------------------
@@ -71,7 +73,7 @@ if (length(input$issues) == 0) {
 
 gate_result <- soils::check_input_structure(input)
 
-if (length(gate_result$issues) == 0) {
+if (isTRUE(gate_result$passed)) {
   cli::cli_alert_success("Data passed gate check!")
 } else {
   cli::cli_abort(
@@ -96,8 +98,6 @@ if (length(validation_result$issues) > 0) {
     issues_file,
     language = language
   )
-} else {
-  cli::cli_alert_success("No issues to report!")
 }
 
 # Stop if there are errors present

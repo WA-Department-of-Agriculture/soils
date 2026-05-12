@@ -7,14 +7,19 @@
 check_input_structure(input, output = c("cli", "ui"))
 }
 \arguments{
-\item{input}{Named list with elements \code{data} and \code{data_dict}.}
+\item{input}{Named list produced by \code{read_soils_input()}.}
 
 \item{output}{Character. One of \code{"cli"} (default) or \code{"ui"}.}
 }
 \value{
-\itemize{
-\item On success: the input list (unchanged)
-\item On failure: formatted issues via \code{format_issues()}
+A named list with:
+\describe{
+\item{data}{Input data frame.}
+\item{data_dict}{Input data dictionary data frame.}
+\item{issues}{A formatted list of validation issue objects. Empty if no issues were found.}
+\item{passed}{Logical indicating whether the input passed all gate checks.}
+\item{source}{Character string indicating detected input type: \code{"excel"} or \code{"csv"}.}
+\item{file}{Original input file path(s).}
 }
 }
 \description{
@@ -29,4 +34,11 @@ Checks include:
 \item Presence of required columns
 \item At least one data row
 }
+
+Gate checks are blocking validations required before downstream validation
+and processing can occur. If any gate checks fail, subsequent validation
+functions should not be run.
+
+This function validates only structural requirements and does not evaluate
+measurement values, ranges, or data consistency rules.
 }

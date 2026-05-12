@@ -11,7 +11,7 @@ run_all_checks(
 )
 }
 \arguments{
-\item{gate_result}{Output from \code{check_input_structure()}.}
+\item{gate_result}{Named list produced by \code{check_input_structure()}.}
 
 \item{output}{Character. One of \code{"cli"} or \code{"ui"}.}
 
@@ -20,17 +20,33 @@ run_all_checks(
 \value{
 A named list with:
 \describe{
-\item{gate_result}{The original gate result object.}
-\item{issues}{A list of validation issues (errors and warnings).}
+\item{data}{Validated input data frame.}
+\item{data_dict}{Validated data dictionary data frame.}
+\item{issues}{A list of validation issue objects containing errors and warnings. Empty if no issues were found.}
 \item{passed}{Logical indicating whether validation passed with no errors.}
+\item{source}{Character string indicating detected input type: \code{"excel"} or \code{"csv"}.}
+\item{file}{Original input file path(s).}
 }
 }
 \description{
-Executes all non-gate validation checks and aggregates issues.
+Executes all non-gate validation checks and aggregates validation issues.
 }
 \details{
-This function assumes that gate checks have already passed. It does not
+This function assumes that gate checks have already passed and does not
 perform structural validation.
 
+Validation checks include:
+\itemize{
+\item Missing required values
+\item Duplicate identifiers
+\item Invalid data types
+\item Non-numeric measurement values
+\item Mismatches between the data and data dictionary
+\item Texture fraction validation
+\item Coordinate validation
+\item Measurement group validation
+}
+
 Validation passes when no issues with severity \code{"error"} are present.
+Warnings do not prevent downstream processing.
 }

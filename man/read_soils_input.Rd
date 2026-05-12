@@ -7,7 +7,11 @@
 read_soils_input(file, output = c("cli", "ui"))
 }
 \arguments{
-\item{file}{Character vector.}
+\item{file}{Character vector. Either:
+\itemize{
+\item Length 1: path to a \code{.xlsx} file
+\item Length 2: paths to two \code{.csv} files (data first, dictionary second)
+}}
 
 \item{output}{Character. Output format for validation messages.
 One of \code{"cli"} (default) or \code{"ui"}.}
@@ -17,9 +21,10 @@ A named list with:
 \describe{
 \item{data}{Data frame of input data, or \code{NULL} if unreadable.}
 \item{data_dict}{Data frame of data dictionary, or \code{NULL} if unreadable.}
-\item{issues}{A list of validation issue objects. Empty if no issues were found.}
-\item{source}{Character string indicating input type: \code{"excel"} or \code{"csv"} if detected.}
+\item{issues}{A formatted list of validation issue objects. Empty if no issues were found.}
+\item{source}{Character string indicating detected input type: \code{"excel"} or \code{"csv"}.}
 \item{file}{Original input file path(s).}
+\item{passed}{Logical indicating whether the input passed all initial loading and readability checks.}
 }
 }
 \description{
@@ -29,4 +34,9 @@ Detects input type and reads soils data from either:
 \verb{Data Dictionary} sheets, or
 \item Two CSV files: one data file and one data dictionary file
 }
+}
+\details{
+This function performs only input loading and readability validation.
+Structural validation is performed separately by
+\code{check_input_structure()}.
 }

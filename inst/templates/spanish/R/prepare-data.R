@@ -44,12 +44,12 @@ input_path <- c(
 
 # Do not change the below file paths.
 
+# Issues file: Excel file highlighting validation errors and warnings
+issues_file <- "data/data-issues.xlsx"
+
 # Output file: processed data used for report generation
 output_file_rds <- "data/data-processed.rds"
 output_file_xlsx <- "data/data-processed.xlsx"
-
-# Issues file: Excel file highlighting validation errors and warnings
-issues_file <- "data/data-issues.xlsx"
 
 # Language: are you using the English or Spanish template?
 language <- "Spanish"
@@ -58,6 +58,14 @@ language <- "Spanish"
 
 input <- soils::read_soils_input(input_path)
 
+if (isTRUE(input$passed)) {
+  cli::cli_alert_success("Successfully read data!")
+} else {
+  cli::cli_abort(
+    "Fix errors from {.fn read_soils_input} before continuing."
+  )
+}
+
 # 4. Gate check ----------------------------------------------------------------
 
 # Ensures required columns and basic structure are present.
@@ -65,31 +73,41 @@ input <- soils::read_soils_input(input_path)
 
 gate_result <- soils::check_input_structure(input)
 
+if (isTRUE(gate_result$passed)) {
+  cli::cli_alert_success("Data passed gate check!")
+} else {
+  cli::cli_abort(
+    "Fix errors from {.fn check_input_structure} before continuing."
+  )
+}
+
 # 5. Validation ----------------------------------------------------------------
 
 # Validate data and data dictionary. All errors must be corrected and warnings
-# should be reviewed. After resolving errors, repeat steps 3-5 with your
+# should be reviewed. After resolving errors, rerun steps 3-5 with your
 # corrected data file(s).
 
 # Run all validation checks
-issues <- soils::run_all_checks(gate_result, language = language)
+validation_result <- soils::run_all_checks(gate_result, language = language)
 
 # Report validation results
-if (length(issues) > 0) {
-  soils::format_issues(issues)
+if (length(validation_result$issues) > 0) {
+  soils::format_issues(validation_result$issues)
   soils::create_issue_xlsx(
-    gate_result,
+    validation_result,
     issues_file,
-    issues,
     language = language
   )
-} else {
-  cli::cli_alert_success("No issues to report!")
 }
 
-# Add `passed` flag if there are no errors
-has_errors <- purrr::some(issues, ~ identical(.x$severity, "error"))
-gate_result$passed <- !has_errors
+# Stop if there are errors present
+if (isTRUE(validation_result$passed)) {
+  cli::cli_alert_success("Data has no errors!")
+} else {
+  cli::cli_abort(
+    "Fix errors from {.fn run_all_checks} before continuing."
+  )
+}
 
 # 6. Process data --------------------------------------------------------------
 
@@ -97,7 +115,7 @@ gate_result$passed <- !has_errors
 # - Errors must be resolved
 # - Warnings may still exist but should have been reviewed
 
-data_processed <- soils::process_data(gate_result, language = language)
+data_processed <- soils::process_data(validation_result, language = language)
 
 # 7. Save processed data -------------------------------------------------------
 

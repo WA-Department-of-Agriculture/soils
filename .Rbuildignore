@@ -16,4 +16,6 @@ review
 scrap.R
 figures
 extract-dependencies.R
-user-story-pseudo-code.docx
+data/data-issues.xlsx
+data/data-processed.rds
+data/data-processed.xlsx

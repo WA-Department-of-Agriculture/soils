@@ -17,3 +17,6 @@ extract-dependencies.R
 *~
 *.tmp
 /figure-output
+data/data-issues.xlsx
+data/data-processed.rds
+data/data-processed.xlsx

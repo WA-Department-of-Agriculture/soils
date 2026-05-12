@@ -42,17 +42,17 @@ input_path <- c(
   "data/template.xlsx"
 )
 
-# Do not change the below file paths.
+# Language: are you using the English or Spanish template?
+language <- "English"
 
-# Issues file: Excel file highlighting validation errors and warnings
-issues_file <- "data/data-issues.xlsx"
+# Issues file: Excel file highlighting validation errors and warnings.
+issues_file <- paste0("soil-data-issues_", Sys.Date(), ".xlsx")
+
+# Do not change the below file paths.
 
 # Output file: processed data used for report generation
 output_file_rds <- "data/data-processed.rds"
 output_file_xlsx <- "data/data-processed.xlsx"
-
-# Language: are you using the English or Spanish template?
-language <- "English"
 
 # 3. Read data -----------------------------------------------------------------
 

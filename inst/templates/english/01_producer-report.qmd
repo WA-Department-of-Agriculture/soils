@@ -642,7 +642,7 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
     ]
   ) |>
     downloadthis::download_this(
-      output_name = glue::glue("{params$year}-soils-data"),
+      output_name = glue::glue("{params$year}_soils-data"),
       output_extension = ".xlsx",
       button_label = "Download as Excel spreadsheet",
       button_type = "success"

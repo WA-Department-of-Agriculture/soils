@@ -730,6 +730,35 @@ create_issue_xlsx <- function(
     }
   }
 
+  # More than 8 measurements in a measurement_group ----------------------------
+  if ("measurement_group" %in% dd_headers) {
+    idx_group <- col_index("measurement_group")
+
+    if (length(idx_group) == 1) {
+      col_group <- openxlsx2::int2col(idx_group)
+
+      # COUNTIF over full column (rows 2:max_row)
+      rule_group_count <- sprintf(
+        "COUNTIF($%s$2:$%s$%d,$%s2)>8",
+        col_group,
+        col_group,
+        max_row,
+        col_group
+      )
+
+      wb$add_conditional_formatting(
+        sheet = "Data Dictionary",
+        dims = openxlsx2::wb_dims(
+          rows = 2:max_row,
+          cols = 1
+        ),
+        type = "expression",
+        rule = rule_group_count,
+        style = "warning_style"
+      )
+    }
+  }
+
   # Save -----------------------------------------------------------------------
 
   openxlsx2::wb_save(wb, output_path, overwrite = TRUE)

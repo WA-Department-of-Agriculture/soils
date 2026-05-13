@@ -820,6 +820,53 @@ check_numeric_conversion <- function(data, data_dict) {
   issues
 }
 
+#' Check for large measurement groups
+#'
+#' Warns when a measurement group contains more than 8 measurements.
+#' Large groups may cause report figures and tables to appear squished.
+#'
+#' @param data_dict Data dictionary.
+#'
+#' @returns
+#' A list of warning issue objects.
+#'
+#' @keywords internal
+check_large_measurement_groups <- function(data_dict) {
+  issues <- list()
+
+  counts <- data_dict |>
+    dplyr::filter(
+      !is.na(measurement_group),
+      measurement_group != ""
+    ) |>
+    dplyr::distinct(measurement_group, column_name) |>
+    dplyr::count(
+      measurement_group,
+      name = "n_measurements"
+    ) |>
+    dplyr::filter(n_measurements > 8)
+
+  if (nrow(counts) == 0) {
+    return(list())
+  }
+
+  bullets <- paste0(
+    counts$measurement_group,
+    " (",
+    counts$n_measurements,
+    " measurements)"
+  )
+
+  msg <- c(
+    "Some measurement groups contain more than 8 measurements.",
+    "To avoid squished figures and tables, split measurements so each group has fewer than 8.",
+    "Affected measurement groups:",
+    stats::setNames(bullets, rep("*", length(bullets)))
+  )
+
+  issues <- c(issues, list(new_issue("warning", msg)))
+}
+
 # Wrapper to run all check functions -------------------------------------------
 
 #' Run all validation checks
@@ -883,7 +930,8 @@ run_all_checks <- function(
       gate_result$data_dict
     ),
     check_texture_fractions(gate_result$data),
-    check_coordinates(gate_result$data)
+    check_coordinates(gate_result$data),
+    check_large_measurement_groups(gate_result$data_dict)
   )
 
   issues <- unique(issues)

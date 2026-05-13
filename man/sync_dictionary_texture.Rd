@@ -2,9 +2,9 @@
 % Please edit documentation in R/texture.R
 \name{sync_dictionary_texture}
 \alias{sync_dictionary_texture}
-\title{Synchronize dictionary with texture and fractions added by classify_texture()}
+\title{Synchronize dictionary with texture measurements}
 \usage{
-sync_dictionary_texture(data, dictionary, language = "English")
+sync_dictionary_texture(data, dictionary, language = c("English", "Spanish"))
 }
 \arguments{
 \item{data}{data frame potentially containing \code{texture}, \code{sand_percent},
@@ -16,13 +16,42 @@ sync_dictionary_texture(data, dictionary, language = "English")
 \item{language}{Either \code{"English"} or \code{"Spanish"}. Default \code{"English"}.}
 }
 \value{
-Updated dictionary with any missing texture/fraction rows inserted
-in the order: \code{texture}, \code{sand_percent}, \code{silt_percent}, \code{clay_percent}.
-Returns the original dictionary if no rows were added.
+An updated dictionary with any missing texture-related rows added.
+Returns the original dictionary unchanged if no texture rows need to be
+inserted.
 }
 \description{
-Adds missing \code{texture} and soil particle-size fraction columns to the
-dictionary in a fixed order for the physical measurement group. Intended for
-internal use but exported so it can be called in templates.
+Adds missing \code{texture} and soil particle-size fraction columns created by
+\code{classify_texture()} to a soil measurement dictionary.
 }
-\keyword{internal}
+\details{
+Texture-related measurements are inserted in the order:
+\code{texture}, \code{sand_percent}, \code{silt_percent}, \code{clay_percent}.
+
+The measurement group used for inserted rows is determined by
+\code{get_texture_group()}. If texture-related measurements already exist in the
+dictionary, their measurement group is reused. Otherwise, the first
+measurement group in the dictionary is used as a fallback.
+
+Intended primarily for internal use but exported so it can be called in
+report templates and custom workflows.
+}
+\examples{
+data <- data.frame(
+  texture = c("Loam", "Clay loam"),
+  sand_percent = c(40, 32),
+  silt_percent = c(40, 38),
+  clay_percent = c(20, 30)
+)
+
+dictionary <- data.frame(
+  measurement_group = c("Physical", "Physical", "Physical"),
+  column_name = c("sand_percent", "silt_percent", "clay_percent"),
+  abbr = c("Sand", "Silt", "Clay"),
+  unit = c("\%", "\%", "\%"),
+  stringsAsFactors = FALSE
+)
+
+sync_dictionary_texture(data, dictionary)
+
+}

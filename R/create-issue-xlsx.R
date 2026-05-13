@@ -21,7 +21,6 @@
 #'     \item `file`: original input file path(s)
 #'   }
 #' @param output_path Character. File path where the Excel report will be saved.
-#' @param language Character. `"English"` or `"Spanish"`. Defaults to `"English"`.
 #'
 #' @returns
 #' Writes an Excel file to `output_path`.
@@ -62,23 +61,20 @@
 #' gate_result <- check_input_structure(input)
 #'
 #' # Run all validation checks
-#' issues <- run_all_checks(gate_result)
+#' validation_result <- run_all_checks(gate_result)
 #'
-#' # If issues exist, create spreadsheet with conditional formatting
-#' if (length(issues) > 0) {
-#'   create_issue_xlsx(gate_result, issues_file, issues)
-#' } else {
-#'   cli::cli_alert_success("No issues to report!")
+#' # Report validation results
+#' if (length(validation_result$issues) > 0) {
+#'   soils::format_issues(validation_result$issues)
+#'   soils::create_issue_xlsx(validation_result, "soils-data-issues.xlsx")
 #' }
 #' }
 #' @export
 
 create_issue_xlsx <- function(
   validation_result,
-  output_path,
-  language = c("English", "Spanish")
+  output_path
 ) {
-  language <- rlang::arg_match(language)
   data_full <- validation_result$data
   dd_full <- validation_result$data_dict
 
@@ -89,7 +85,9 @@ create_issue_xlsx <- function(
     wb <- tryCatch(
       openxlsx2::wb_load(validation_result$file),
       error = function(e) {
-        cli::cli_abort("Failed to load Excel file: {.file {gate_result$file}}")
+        cli::cli_abort(
+          "Failed to load Excel file: {.file {validation_result$file}}"
+        )
       }
     )
 
@@ -116,7 +114,7 @@ create_issue_xlsx <- function(
     )
   } else {
     cli::cli_abort(
-      "Unknown input data source type: {.val {gate_result$source}}"
+      "Unknown input data source type: {.val {validation_result$source}}"
     )
   }
 
@@ -729,64 +727,6 @@ create_issue_xlsx <- function(
           style = "error_style"
         )
       }
-    }
-  }
-
-  ## Invalid measurement groups -----------------------------------------------
-
-  measurement_groups <- list(
-    english = c(
-      "Physical",
-      "Biological",
-      "Chemical",
-      "Plant Essential Macro Nutrients",
-      "Plant Essential Micro Nutrients"
-    ),
-    spanish = c(
-      "Mediciones f\u00edsicas",
-      "Mediciones biol\u00f3gicas",
-      "Mediciones qu\u00edmicas",
-      "Macronutrientes esenciales para plantas",
-      "Micronutriente es esenciales para plantas"
-    )
-  )
-
-  language <- tolower(language)
-  if (!language %in% names(measurement_groups)) {
-    return(issues)
-  }
-
-  valid <- enc2native(measurement_groups[[language]])
-
-  if ("measurement_group" %in% dd_headers) {
-    idx <- which(dd_headers == "measurement_group")
-
-    if (length(idx) == 1) {
-      col_letter <- openxlsx2::int2col(idx)
-
-      # Add reference sheet with valid groups
-      wb$add_worksheet("Reference", visible = FALSE)
-      wb$add_data(sheet = "Reference", x = data.frame(groups = valid))
-      valid_rows <- length(valid) + 1
-      wb$add_named_region(
-        sheet = "Reference",
-        dims = openxlsx2::wb_dims(cols = "A", rows = 2:valid_rows),
-        name = "valid_groups"
-      )
-
-      rule_invalid_group <- sprintf(
-        "AND(%s2<>\"\",ISNA(MATCH(%s2,valid_groups,0)))",
-        col_letter,
-        col_letter
-      )
-
-      wb$add_conditional_formatting(
-        sheet = "Data Dictionary",
-        dims = openxlsx2::wb_dims(rows = 2:max_row, cols = idx),
-        type = "expression",
-        rule = rule_invalid_group,
-        style = "warning_style"
-      )
     }
   }
 

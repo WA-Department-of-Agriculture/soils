@@ -93,6 +93,7 @@ reference:
   - create_issue_xlsx
   - process_data
   - classify_texture
+  - get_texture_group
   - get_n_texture_by_var
   - summarize_by_project
   - summarize_by_var

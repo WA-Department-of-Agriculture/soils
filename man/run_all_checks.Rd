@@ -4,12 +4,10 @@
 \alias{run_all_checks}
 \title{Run all validation checks}
 \usage{
-run_all_checks(gate_result, language = c("English", "Spanish"))
+run_all_checks(gate_result)
 }
 \arguments{
 \item{gate_result}{Named list produced by \code{check_input_structure()}.}
-
-\item{language}{Character. \code{"English"} or \code{"Spanish"}. Defaults to \code{"English"}.}
 }
 \value{
 A named list with:
@@ -38,7 +36,6 @@ Validation checks include:
 \item Mismatches between the data and data dictionary
 \item Texture fraction validation
 \item Coordinate validation
-\item Measurement group validation
 }
 
 Validation passes when no issues with severity \code{"error"} are present.

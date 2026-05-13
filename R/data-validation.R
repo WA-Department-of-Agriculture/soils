@@ -820,74 +820,6 @@ check_numeric_conversion <- function(data, data_dict) {
   issues
 }
 
-#' Validate measurement group values
-#'
-#' Ensures that `measurement_group` values match expected controlled
-#' vocabularies.
-#'
-#' @param data_dict Data frame of data dictionary.
-#' @inheritParams create_issue_xlsx
-#' @returns A list of warning issues.
-#'
-#' @keywords internal
-check_measurement_groups <- function(
-  data_dict,
-  language = c("English", "Spanish")
-) {
-  language <- rlang::arg_match(language)
-  issues <- list()
-
-  measurement_groups <- list(
-    english = c(
-      "Physical",
-      "Biological",
-      "Chemical",
-      "Plant Essential Macro Nutrients",
-      "Plant Essential Micro Nutrients"
-    ),
-    spanish = c(
-      "Mediciones f\u00edsicas",
-      "Mediciones biol\u00f3gicas",
-      "Mediciones qu\u00edmicas",
-      "Macronutrientes esenciales para plantas",
-      "Micronutriente es esenciales para plantas"
-    )
-  )
-
-  language <- tolower(language)
-  if (!language %in% names(measurement_groups)) {
-    return(issues)
-  }
-
-  valid <- enc2native(measurement_groups[[language]])
-
-  if (!"measurement_group" %in% colnames(data_dict)) {
-    msg <- cli::format_inline(
-      "Missing {.field measurement_group} column in Data Dictionary"
-    )
-    issues <- c(issues, list(new_issue("warning", msg)))
-    return(issues)
-  }
-
-  actual <- enc2native(
-    data_dict$measurement_group[!is.na(data_dict$measurement_group)]
-  )
-  invalid <- setdiff(actual, valid)
-
-  if (length(invalid) > 0) {
-    lang_label <- stringr::str_to_title(language)
-    msg <- cli::format_inline(
-      "Invalid {.field measurement_group} values: {.val {invalid}}.",
-      "\nValid options for {lang_label}:",
-      "\n{.val {valid}}",
-      collapse = FALSE
-    )
-    issues <- c(issues, list(new_issue("warning", msg)))
-  }
-
-  return(issues)
-}
-
 # Wrapper to run all check functions -------------------------------------------
 
 #' Run all validation checks
@@ -895,7 +827,6 @@ check_measurement_groups <- function(
 #' Executes all non-gate validation checks and aggregates validation issues.
 #'
 #' @param gate_result Named list produced by `check_input_structure()`.
-#' @inheritParams create_issue_xlsx
 #'
 #' @returns
 #' A named list with:
@@ -921,7 +852,6 @@ check_measurement_groups <- function(
 #'   \item Mismatches between the data and data dictionary
 #'   \item Texture fraction validation
 #'   \item Coordinate validation
-#'   \item Measurement group validation
 #' }
 #'
 #' Validation passes when no issues with severity `"error"` are present.
@@ -929,11 +859,8 @@ check_measurement_groups <- function(
 #'
 #' @export
 run_all_checks <- function(
-  gate_result,
-  language = c("English", "Spanish")
+  gate_result
 ) {
-  language <- rlang::arg_match(language)
-
   # Make sure data and data_dict exist in gate_result
   if (!all(c("data", "data_dict") %in% names(gate_result))) {
     cli::cli_abort(c(
@@ -956,11 +883,7 @@ run_all_checks <- function(
       gate_result$data_dict
     ),
     check_texture_fractions(gate_result$data),
-    check_coordinates(gate_result$data),
-    check_measurement_groups(
-      gate_result$data_dict,
-      language = language
-    )
+    check_coordinates(gate_result$data)
   )
 
   issues <- unique(issues)

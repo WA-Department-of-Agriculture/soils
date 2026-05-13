@@ -4,11 +4,7 @@
 \alias{create_issue_xlsx}
 \title{Create an Excel validation report with conditional formatting}
 \usage{
-create_issue_xlsx(
-  validation_result,
-  output_path,
-  language = c("English", "Spanish")
-)
+create_issue_xlsx(validation_result, output_path)
 }
 \arguments{
 \item{validation_result}{Named list produced by \code{read_soils_input()} and
@@ -23,8 +19,6 @@ or individual check functions.
 }}
 
 \item{output_path}{Character. File path where the Excel report will be saved.}
-
-\item{language}{Character. \code{"English"} or \code{"Spanish"}. Defaults to \code{"English"}.}
 }
 \value{
 Writes an Excel file to \code{output_path}.
@@ -76,13 +70,12 @@ input <- read_soils_input("soil-data.xlsx")
 gate_result <- check_input_structure(input)
 
 # Run all validation checks
-issues <- run_all_checks(gate_result)
+validation_result <- run_all_checks(gate_result)
 
-# If issues exist, create spreadsheet with conditional formatting
-if (length(issues) > 0) {
-  create_issue_xlsx(gate_result, issues_file, issues)
-} else {
-  cli::cli_alert_success("No issues to report!")
+# Report validation results
+if (length(validation_result$issues) > 0) {
+  soils::format_issues(validation_result$issues)
+  soils::create_issue_xlsx(validation_result, "soils-data-issues.xlsx")
 }
 }
 }

@@ -4,7 +4,7 @@
 \alias{format_issues}
 \title{Format validation issues for CLI or UI output}
 \usage{
-format_issues(issues, output = c("cli", "ui"), context = NULL)
+format_issues(issues, output = c("cli", "ui"))
 }
 \arguments{
 \item{issues}{List of issues created by \code{new_issue()}.}

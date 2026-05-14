@@ -442,11 +442,7 @@ classify_texture <- function(df, validate = TRUE, output = c("cli", "ui")) {
     if (length(issues) > 0) {
       format_issues(
         issues,
-        output,
-        context = list(
-          error = "Texture validation failed.",
-          warning = "Texture validation completed with warnings. "
-        )
+        output
       )
     }
   }

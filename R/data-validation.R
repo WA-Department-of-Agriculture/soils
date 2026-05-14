@@ -59,7 +59,7 @@ new_issue <- function(severity = c("error", "warning"), message) {
 #' }
 #'
 #' @export
-format_issues <- function(issues, output = c("cli", "ui"), context = NULL) {
+format_issues <- function(issues, output = c("cli", "ui")) {
   output <- rlang::arg_match(output)
 
   if (length(issues) == 0) {

@@ -71,11 +71,11 @@ check_texture_fractions <- function(df) {
 
   df_calc <- df |>
     dplyr::mutate(
-      dplyr::across(dplyr::all_of(fraction_cols), round),
-      missing_n = rowSums(
-        is.na(dplyr::across(dplyr::all_of(fraction_cols)))
-      )
+      dplyr::across(dplyr::all_of(present), round)
     )
+
+  df_calc$missing_n <- rowSums(is.na(df_calc[present])) +
+    length(missing)
 
   has_texture <- "texture" %in% names(df_calc)
 
@@ -92,17 +92,30 @@ check_texture_fractions <- function(df) {
   out_of_range_ids <- df_calc |>
     dplyr::filter(
       dplyr::if_any(
-        dplyr::all_of(fraction_cols),
+        dplyr::all_of(present),
         ~ !is.na(.) & (. < 0 | . > 100)
       )
     ) |>
     dplyr::pull(sample_id)
 
-  invalid_sum_ids <- df_calc$sample_id[
-    df_calc$missing_n == 0 &
-      (rowSums(df_calc[fraction_cols]) < 99 |
-        rowSums(df_calc[fraction_cols]) > 101)
-  ]
+  invalid_sum_ids <- character(0)
+
+  # All 3 fractions present -> must sum to 100 +/- 1
+  if (length(present) == 3) {
+    invalid_sum_ids <- df_calc$sample_id[
+      df_calc$missing_n == 0 &
+        (rowSums(df_calc[present]) < 99 |
+          rowSums(df_calc[present]) > 101)
+    ]
+  }
+
+  # Exactly 2 fractions present -> implied third fraction
+  # must remain between 0 and 100
+  if (length(present) == 2) {
+    invalid_sum_ids <- df_calc$sample_id[
+      rowSums(df_calc[present], na.rm = TRUE) > 100
+    ]
+  }
 
   # Errors --------------------------------------------------------------------
 
@@ -137,7 +150,7 @@ check_texture_fractions <- function(df) {
 
   if (length(compute_ids) > 0) {
     msg <- c(
-      "One texture fraction is missing and will be computed as 100 minus the other two.",
+      "One texture fraction ({.field sand_percent}, {.field silt_percent}, or {.field clay_percent}) is missing and will be computed as 100 minus the sum of the other two.",
       "Affected samples:",
       cli::format_inline("{.val {soils_cli_vec(compute_ids)}}")
     )
@@ -159,6 +172,19 @@ check_texture_fractions <- function(df) {
 #'
 #' @keywords internal
 complete_texture_fractions <- function(df) {
+  fraction_cols <- c(
+    "sand_percent",
+    "silt_percent",
+    "clay_percent"
+  )
+
+  # Add missing fraction columns as NA
+  missing_cols <- setdiff(fraction_cols, names(df))
+
+  if (length(missing_cols) > 0) {
+    df[missing_cols] <- NA_real_
+  }
+
   df |>
     dplyr::mutate(
       sand_percent = dplyr::if_else(
@@ -176,6 +202,10 @@ complete_texture_fractions <- function(df) {
         100 - (sand_percent + silt_percent),
         clay_percent
       )
+    ) |>
+    dplyr::relocate(
+      dplyr::all_of(fraction_cols),
+      .after = sample_id
     )
 }
 
@@ -433,7 +463,7 @@ classify_texture <- function(df, validate = TRUE, output = c("cli", "ui")) {
 
   # Check whether at least one sample has enough fraction data
   has_fraction_data <- length(fraction_cols) >= 2 &&
-    any(rowSums(!is.na(df[fraction_cols])) >= 2)
+    any(rowSums(!is.na(dplyr::select(df, dplyr::all_of(fraction_cols)))) >= 2)
 
   # Early return of unchanged data if there is insufficient data
   if (isFALSE(has_fraction_data)) {

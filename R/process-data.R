@@ -80,7 +80,14 @@ process_data <- function(
   )
 
   # Classify soil texture
-  results_wide <- soils::classify_texture(results_wide, validate = FALSE)
+  results_wide <- soils::classify_texture(results_wide, validate = FALSE) |>
+    # Move texture variables after coordinates
+    dplyr::relocate(
+      dplyr::any_of(
+        c("texture", "sand_percent", "silt_percent", "clay_percent")
+      ),
+      .after = "longitude"
+    )
 
   # Add texture and fraction rows to the dictionary if created during classification
   data_dict <- soils::sync_dictionary_texture(

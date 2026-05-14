@@ -202,10 +202,6 @@ complete_texture_fractions <- function(df) {
         100 - (sand_percent + silt_percent),
         clay_percent
       )
-    ) |>
-    dplyr::relocate(
-      dplyr::all_of(fraction_cols),
-      .after = sample_id
     )
 }
 
@@ -668,7 +664,9 @@ sync_dictionary_texture <- function(
         column_name == "sand_percent" ~ 2,
         column_name == "silt_percent" ~ 3,
         column_name == "clay_percent" ~ 4,
-        .default = measurement_order
+        # If not texture, keep the same order as original dictionary but add
+        # 1000 so it comes after the texture group
+        .default = measurement_order + 1000
       )
     ) |>
     dplyr::arrange(group_order, measurement_order) |>

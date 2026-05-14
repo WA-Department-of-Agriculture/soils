@@ -16,6 +16,6 @@ review
 scrap.R
 figures
 extract-dependencies.R
-data/data-issues.xlsx
+*data-issues*.xlsx
 data/data-processed.rds
 data/data-processed.xlsx

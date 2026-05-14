@@ -575,14 +575,15 @@ get_texture_group <- function(dictionary) {
 #'   texture = c("Loam", "Clay loam"),
 #'   sand_percent = c(40, 32),
 #'   silt_percent = c(40, 38),
-#'   clay_percent = c(20, 30)
+#'   clay_percent = c(20, 30),
+#'   pH = c(7.4, 6.8)
 #' )
 #'
 #' dictionary <- data.frame(
-#'   measurement_group = c("Physical", "Physical", "Physical"),
-#'   column_name = c("sand_percent", "silt_percent", "clay_percent"),
-#'   abbr = c("Sand", "Silt", "Clay"),
-#'   unit = c("%", "%", "%"),
+#'   measurement_group = c("Physical", "Physical", "Physical", "Chemical"),
+#'   column_name = c("sand_percent", "silt_percent", "clay_percent", "pH"),
+#'   abbr = c("Sand", "Silt", "Clay", "pH"),
+#'   unit = c("%", "%", "%", ""),
 #'   stringsAsFactors = FALSE
 #' )
 #'
@@ -600,24 +601,20 @@ sync_dictionary_texture <- function(
 
   texture_cols <- c("texture", "sand_percent", "silt_percent", "clay_percent")
 
-  fraction_abbr <- switch(
+  abbr <- switch(
     language,
     English = c(
+      texture = "Texture",
       sand_percent = "Sand",
       silt_percent = "Silt",
       clay_percent = "Clay"
     ),
     Spanish = c(
+      texture = "Textura",
       sand_percent = "Arena",
       silt_percent = "Limo",
       clay_percent = "Arcilla"
     )
-  )
-
-  texture_abbr <- switch(
-    language,
-    English = "Texture",
-    Spanish = "Textura"
   )
 
   # Detect which texture columns are present in data but missing in dictionary
@@ -628,50 +625,54 @@ sync_dictionary_texture <- function(
     return(dictionary)
   }
 
+  # Get the measurement group containing texture variables
   texture_group <- get_texture_group(dictionary)
+
+  # Get ordering from data dictionary
+  dictionary <- dictionary |>
+    dplyr::mutate(
+      # Get measurement group order
+      group_order = dplyr::cur_group_id(),
+      # Get measurement order
+      measurement_order = seq_along(column_name),
+      .by = measurement_group
+    )
+
+  # Get texture group order
+  texture_group_order <- dictionary |>
+    dplyr::filter(measurement_group == texture_group) |>
+    dplyr::pull(group_order) |>
+    unique()
 
   # Build rows for missing texture measurements
   rows <- purrr::map(
     cols_to_add,
     function(col) {
-      if (col == "texture") {
-        data.frame(
-          measurement_group = texture_group,
-          column_name = "texture",
-          abbr = texture_abbr,
-          unit = "",
-          stringsAsFactors = FALSE
-        )
-      } else {
-        data.frame(
-          measurement_group = texture_group,
-          column_name = col,
-          abbr = fraction_abbr[[col]],
-          unit = "%",
-          stringsAsFactors = FALSE
-        )
-      }
+      data.frame(
+        measurement_group = texture_group,
+        column_name = col,
+        abbr = abbr[[col]],
+        unit = "%",
+        group_order = texture_group_order,
+        stringsAsFactors = FALSE
+      )
     }
   ) |>
     dplyr::bind_rows()
 
-  # Add rows
-  dictionary <- dplyr::bind_rows(dictionary, rows)
-
-  # Reorder texture variables within texture group
   dictionary <- dictionary |>
-    dplyr::group_by(measurement_group) |>
-    dplyr::arrange(
-      dplyr::case_when(
-        measurement_group == texture_group &
-          column_name %in% texture_cols ~
-          match(column_name, texture_cols),
-
-        .default = length(texture_cols) + dplyr::row_number()
-      ),
-      .by_group = TRUE
+    dplyr::bind_rows(rows) |>
+    dplyr::mutate(
+      measurement_order = dplyr::case_when(
+        column_name == "texture" ~ 1,
+        column_name == "sand_percent" ~ 2,
+        column_name == "silt_percent" ~ 3,
+        column_name == "clay_percent" ~ 4,
+        .default = measurement_order
+      )
     ) |>
-    dplyr::ungroup()
+    dplyr::arrange(group_order, measurement_order) |>
+    dplyr::select(-c(group_order, measurement_order))
 
-  dictionary
+  return(dictionary)
 }

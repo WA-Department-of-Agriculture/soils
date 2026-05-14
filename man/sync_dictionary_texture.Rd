@@ -41,14 +41,15 @@ data <- data.frame(
   texture = c("Loam", "Clay loam"),
   sand_percent = c(40, 32),
   silt_percent = c(40, 38),
-  clay_percent = c(20, 30)
+  clay_percent = c(20, 30),
+  pH = c(7.4, 6.8)
 )
 
 dictionary <- data.frame(
-  measurement_group = c("Physical", "Physical", "Physical"),
-  column_name = c("sand_percent", "silt_percent", "clay_percent"),
-  abbr = c("Sand", "Silt", "Clay"),
-  unit = c("\%", "\%", "\%"),
+  measurement_group = c("Physical", "Physical", "Physical", "Chemical"),
+  column_name = c("sand_percent", "silt_percent", "clay_percent", "pH"),
+  abbr = c("Sand", "Silt", "Clay", "pH"),
+  unit = c("\%", "\%", "\%", ""),
   stringsAsFactors = FALSE
 )
 

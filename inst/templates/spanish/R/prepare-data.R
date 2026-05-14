@@ -42,6 +42,9 @@ input_path <- c(
   "data/template.xlsx"
 )
 
+# Will the report be in "English" or "Spanish"?
+language <- "Spanish"
+
 # Issues file: Excel file highlighting validation errors and warnings.
 issues_file <- paste0("soil-data-issues_", Sys.Date(), ".xlsx")
 
@@ -118,7 +121,7 @@ if (isTRUE(validation_result$passed)) {
 # - Errors must be resolved
 # - Warnings may still exist but should have been reviewed
 
-data_processed <- soils::process_data(validation_result)
+data_processed <- soils::process_data(validation_result, language = language)
 
 # 7. Save processed data -------------------------------------------------------
 

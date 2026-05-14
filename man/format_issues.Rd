@@ -10,12 +10,6 @@ format_issues(issues, output = c("cli", "ui"))
 \item{issues}{List of issues created by \code{new_issue()}.}
 
 \item{output}{Character. One of \code{"cli"} (default) or \code{"ui"}.}
-
-\item{context}{Optional named list providing custom header messages:
-\itemize{
-\item \code{"error"}: header for error messages
-\item \code{"warning"}: header for warning messages
-}}
 }
 \value{
 \itemize{

@@ -45,11 +45,6 @@ new_issue <- function(severity = c("error", "warning"), message) {
 #'
 #' @param issues List of issues created by `new_issue()`.
 #' @param output Character. One of `"cli"` (default) or `"ui"`.
-#' @param context Optional named list providing custom header messages:
-#'   \itemize{
-#'     \item `"error"`: header for error messages
-#'     \item `"warning"`: header for warning messages
-#'   }
 #'
 #' @returns
 #' \itemize{

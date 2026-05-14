@@ -149,10 +149,12 @@ check_texture_fractions <- function(df) {
   }
 
   if (length(compute_ids) > 0) {
-    msg <- cli::format_inline(
-      "One texture fraction ({.field sand_percent}, {.field silt_percent}, or {.field clay_percent}) is missing and will be computed as 100 minus the sum of the other two.",
-      "\nAffected samples:",
-      "\n{.val {soils_cli_vec(compute_ids)}}"
+    msg <- c(
+      cli::format_inline(
+        "One texture fraction ({.field sand_percent}, {.field silt_percent}, or {.field clay_percent}) is missing and will be computed as 100 minus the sum of the other two."
+      ),
+      cli::format_inline("Affected samples:"),
+      cli::format_inline("{.val {soils_cli_vec(compute_ids)}}")
     )
     issues <- c(issues, list(new_issue("warning", msg)))
   }

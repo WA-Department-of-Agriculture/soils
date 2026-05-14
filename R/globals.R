@@ -29,6 +29,7 @@ utils::globalVariables(c(
   "missing_allowed",
   "missing_n",
   "n",
+  "n_measurements",
   "output_file",
   "output_format",
   "producer_id",

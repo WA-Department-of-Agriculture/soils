@@ -86,14 +86,7 @@ convert_to_numeric <- function(
     issues <- check_numeric_conversion(data, data_dict)
 
     if (length(issues) > 0) {
-      format_issues(
-        issues,
-        output,
-        context = list(
-          error = "Numeric conversion failed.",
-          warning = "Numeric conversion completed with warnings."
-        )
-      )
+      format_issues(issues, output)
 
       if (any(vapply(issues, \(x) x$severity == "error", logical(1)))) {
         stop("Numeric conversion failed.")

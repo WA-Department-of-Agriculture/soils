@@ -13,7 +13,7 @@ make_static_map(
 )
 }
 \arguments{
-\item{df}{Dataframe containing at minimum \code{longitude} and \code{latitude} columns.}
+\item{df}{Data frame containing at minimum \code{longitude} and \code{latitude} columns.}
 
 \item{label}{Name of the column in \code{df} used to label soil sample points.}
 

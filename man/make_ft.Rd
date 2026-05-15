@@ -2,14 +2,14 @@
 % Please edit documentation in R/tables.R
 \name{make_ft}
 \alias{make_ft}
-\title{Make a flextable with column names from another dataframe}
+\title{Make a flextable with column names from another data frame}
 \usage{
 make_ft(table, header)
 }
 \arguments{
-\item{table}{A dataframe with the contents of the desired flextable output.}
+\item{table}{A data frame with the contents of the desired flextable output.}
 
-\item{header}{Another dataframe with three columns:
+\item{header}{Another data frame with three columns:
 \itemize{
 \item First column contains what the top header row should be. In our template,
 this is the abbreviation of the measurement (i.e. \verb{Organic Matter}).
@@ -23,7 +23,7 @@ the unit (i.e. \verb{\%}).
 Formatted flextable object.
 }
 \description{
-Make a flextable with column names from another dataframe
+Make a flextable with column names from another data frame
 }
 \examples{
 # Read in wrangled table data

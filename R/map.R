@@ -1,6 +1,6 @@
 #' Prepare data for interactive mapping
 #'
-#' Prepare a dataframe for use in interactive maps by creating formatted
+#' Prepare a data frame for use in interactive maps by creating formatted
 #' label and popup columns from user-specified variables. This function is
 #' intended for use prior to `make_interactive_map()`.
 #'
@@ -47,7 +47,7 @@ prep_for_map <- function(df, label_heading, label_body) {
 #' `make_leaflet()` was renamed to `make_interactive_map()` for a more
 #' descriptive and consistent naming convention.
 #'
-#' @param df Dataframe containing `longitude`, `latitude`, `label`, and `popup`
+#' @param df Data frame containing `longitude`, `latitude`, `label`, and `popup`
 #'   columns. See `prep_for_map()` for details.
 #' @param primary_color A character string specifying the color used for point
 #'   features on the map (hex code or color name). Defaults to WaSHI red
@@ -84,7 +84,7 @@ make_leaflet <- function(
 #' \pkg{leaflet}. This function is designed to work with data prepared using
 #' `prep_for_map()`.
 #'
-#' @param df Dataframe containing `longitude`, `latitude`, `label`, and `popup`
+#' @param df Data frame containing `longitude`, `latitude`, `label`, and `popup`
 #'   columns. See `prep_for_map()` for details.
 #' @param primary_color A character string specifying the color used for point
 #'   features on the map (hex code or color name). Defaults to WaSHI red
@@ -179,7 +179,7 @@ function(el, x){
 #' function is intended as a non-interactive alternative to
 #' `make_interactive_map()`.
 #'
-#' @param df Dataframe containing at minimum `longitude` and `latitude` columns.
+#' @param df Data frame containing at minimum `longitude` and `latitude` columns.
 #' @param label Name of the column in `df` used to label soil sample points.
 #' @param provider Character string specifying the basemap tile provider, passed
 #'   to `maptiles::get_tiles()`. See details of `maptiles::get_tiles()` for
@@ -263,7 +263,7 @@ make_static_map <- function(
     retina = TRUE
   )
 
-  # Convert basetiles to a dataframe for ggplot2
+  # Convert basetiles to a data frame for ggplot2
   tiles_df <- as.data.frame(
     basetiles,
     xy = TRUE,

@@ -22,7 +22,7 @@ A data frame with additional \code{label} and \code{popup} columns,
 suitable for input into \code{make_interactive_map()}.
 }
 \description{
-Prepare a dataframe for use in interactive maps by creating formatted
+Prepare a data frame for use in interactive maps by creating formatted
 label and popup columns from user-specified variables. This function is
 intended for use prior to \code{make_interactive_map()}.
 }

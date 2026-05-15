@@ -4,7 +4,7 @@
 ^README\.Rmd$
 ^data-raw
 example_reports
-figure_output
+^figure_output
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
@@ -16,3 +16,6 @@ review
 scrap.R
 figures
 extract-dependencies.R
+soil-data-issues.*\.xlsx
+data/data-processed.rds
+data/data-processed.xlsx

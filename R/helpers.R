@@ -1,106 +1,107 @@
-#' Convert measurement columns to numeric and warn
+#' Convert measurement columns to numeric
+#'
+#' Converts measurement columns in `data` to numeric using column names
+#' defined in the data dictionary. Optionally validates and reports
+#' non-numeric values that are coerced to `NA`.
 #'
 #' Intended for use during data ingestion and validation in the reporting
 #' workflow.
 #'
-#' Non-numeric values in specified measurement columns, such as character values
-#' commonly used to represent missing or censored measurements (e.g. `"ND"`,
-#' `"<1"`, `"-"`, or `""`), are converted to `NA`. Warnings are emitted when
-#' non-missing values are converted to `NA`, and when a column contains only `NA`
-#' values after coercion, indicating it may be omitted from downstream summaries
-#' or visualizations.
+#' Non-numeric values in measurement columns, such as character values
+#' commonly used to represent missing or censored measurements (e.g.
+#' `"ND"`, `"<1"`, `"-"`, or `""`), are converted to `NA`. When
+#' `validate = TRUE`, warnings are emitted if non-missing values are
+#' coerced to `NA`, and if entire columns become `NA` after conversion.
 #'
-#' @param data A data frame containing both metadata and quantitative
-#'   measurement columns.
-#' @param measurement_cols A character vector of column names to convert to
-#'   numeric.
+#' @param data A data frame containing both metadata and measurement columns.
+#' @param data_dict A data frame containing the data dictionary. Must include
+#'   a `column_name` column specifying measurement columns in `data`.
+#' @param output Character. Output format for validation messages.
+#'   One of `"cli"` (default) or `"ui"`.
+#' @param validate Logical. If `TRUE` (default), runs
+#'   `check_numeric_conversion()` and formats any resulting issues using
+#'   `format_issues()`.
 #'
-#' @return A data frame where specified measurement columns have been converted to
-#'   numeric.
+#' @returns
+#' A data frame with measurement columns converted to numeric.
+#'
+#' @details
+#' Measurement columns are derived from `data_dict$column_name`, excluding
+#' known non-measurement fields such as `"texture"`. Only columns present
+#' in `data` are converted.
+#'
+#' When `validate = TRUE`:
+#' \itemize{
+#'   \item Warnings are issued for values that are coerced to `NA`
+#'   \item Errors (if any) will stop execution
+#' }
 #'
 #' @examples
+#' \dontrun{
 #' # Example data
 #' example_data <- data.frame(
 #'   year        = c(2023, 2023, 2024),
 #'   sample_id   = c("S1", "S2", "S3"),
 #'   field_id    = c("A", "A", "B"),
-#'   ph          = c("6.5", "ND", "7.1"),   # partial NA (1 ND -> NA)
-#'   nh4_n_mg_kg = c("12.3", "<1", ""),     # partial NA (2 non-numeric -> NA)
-#'   no3_n_mg_kg = c("NA", "NA", "NA"),     # fully NA
+#'   ph          = c("6.5", "ND", "7.1"),
+#'   nh4_n_mg_kg = c("12.3", "<1", ""),
+#'   no3_n_mg_kg = c("NA", "NA", "NA"),
 #'   stringsAsFactors = FALSE
 #' )
 #'
+#' example_dict <- data.frame(
+#'   column_name = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg"),
+#'   stringsAsFactors = FALSE
+#' )
 #'
-#' # Specify the measurement columns
-#' measurement_cols = c("ph", "nh4_n_mg_kg", "no3_n_mg_kg")
-#'
-#' # Convert measurement columns to numeric
-#' clean_data <- convert_to_numeric(example_data, measurement_cols)
+#' clean_data <- convert_to_numeric(
+#'   data = example_data,
+#'   data_dict = example_dict
+#' )
+#' }
 #'
 #' @export
-convert_to_numeric <- function(data, measurement_cols) {
-  # Abort if measurement_cols is missing
-  if (missing(measurement_cols)) {
-    cli::cli_abort(c(
-      "x" = "Please provide a vector of `measurement_cols` to convert to numeric."
-    ))
+convert_to_numeric <- function(
+  data,
+  data_dict,
+  output = c("cli", "ui"),
+  validate = TRUE
+) {
+  output <- rlang::arg_match(output)
+
+  # Derive measurement columns
+  if (!"column_name" %in% names(data_dict)) {
+    cli::cli_abort(
+      "Data Dictionary is missing {.field column_name}, which should list the measurement column names in Data."
+    )
   }
 
-  # Abort if any measurement columns are not present in data
-  abort_if_missing_cols(
-    data,
-    measurement_cols,
-    context = "These columns come from `measurement_cols` and will be converted to numeric."
-  )
+  non_measurement <- c("texture", "Texture")
 
-  # Preserve original values for NA-coercion check
-  data_original <- data |> dplyr::select(dplyr::all_of(measurement_cols))
+  measurement_cols <- data_dict$column_name |>
+    setdiff(non_measurement) |>
+    intersect(names(data))
 
-  # Convert measurements to numeric (suppress warnings)
+  if (validate) {
+    issues <- check_numeric_conversion(data, data_dict)
+
+    if (length(issues) > 0) {
+      format_issues(issues, output)
+
+      if (any(vapply(issues, \(x) x$severity == "error", logical(1)))) {
+        stop("Numeric conversion failed.")
+      }
+    }
+  }
+
+  # Perform conversion --------------------------------------------------------
+
   suppressWarnings(
-    data_numeric <- data |>
+    data |>
       dplyr::mutate(
         dplyr::across(dplyr::all_of(measurement_cols), as.numeric)
       )
   )
-
-  # Count NAs introduced by coercion (partial NAs)
-  na_created <- purrr::map_int(
-    measurement_cols,
-    ~ sum(!is.na(data_original[[.x]]) & is.na(data_numeric[[.x]]))
-  )
-  names(na_created) <- measurement_cols
-
-  # Initialize warn_messages
-  warn_messages <- NULL
-
-  # Partial NAs (some values converted)
-  partial_na <- na_created[na_created > 0]
-  if (length(partial_na) > 0) {
-    bullets_partial <- purrr::imap_chr(
-      partial_na,
-      ~ glue::glue(
-        "{{.field { .y }}} ({ .x } {if (.x == 1) 'value' else 'values'})"
-      )
-    )
-    names(bullets_partial) <- rep("*", length(bullets_partial))
-
-    warn_messages <- c(
-      "i" = "Non-numeric values were converted to `NA`.\
-      (e.g., `ND` or `<1`).\
-      These values are excluded from tables and plots.",
-      "",
-      "!" = "{.strong Columns with values converted to `NA`}:",
-      bullets_partial
-    )
-  }
-
-  # Emit warning
-  if (length(warn_messages) > 0) {
-    cli::cli_warn(warn_messages)
-  }
-
-  return(data_numeric)
 }
 
 #' Calculate the mode of a categorical variable
@@ -226,10 +227,10 @@ get_n_texture_by_var <- function(results_long, producer_info, var) {
 
 #' Summarize producer's samples with averages by grouping variable
 #'
-#' @param results_long Dataframe in tidy, long format with columns: `sample_id`,
+#' @param results_long Data frame in tidy, long format with columns: `sample_id`,
 #'   `measurement_group`, `abbr`, and `value`. If a `texture` column is present,
 #'   the most frequent texture (mode) is included in the output.
-#' @param producer_samples Dataframe in tidy, long format with columns:
+#' @param producer_samples Data frame in tidy, long format with columns:
 #'   `measurement_group`, `abbr`, `value`.
 #' @param var Variable to summarize by, which should be present in both
 #'   `results_long` and `producer_samples`.
@@ -318,7 +319,7 @@ summarize_by_var <- function(results_long, producer_samples, var) {
 
 #' Summarize samples across the project
 #'
-#' @param results_long Dataframe in tidy, long format with columns: `sample_id`,
+#' @param results_long Data frame in tidy, long format with columns: `sample_id`,
 #'   `measurement_group`, `abbr`, `value`.
 #'
 #' @return A data frame summarizing the average values across the project by

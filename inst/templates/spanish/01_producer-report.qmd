@@ -2,14 +2,15 @@
 # EDIT: Replace logo.png in images folder with your own and add project name.
 title: "![](images/logo.png) Resultados del Proyecto"
 # EDIT: Subtitle right aligned below title.
-subtitle: "Primavera 2023"
+subtitle: "Primavera 2024"
 # EDIT: Choose a valid producer_id/year combo that exists in your dataset.
 params:
-  producer_id: WUY05
-  year: 2023
+  producer_id: GEH01
+  year: 2024
 
 # Shouldn't need to edit the below values unless you want to customize.
 lang: es
+engine: knitr
 execute:
   echo: false
   warning: false
@@ -58,7 +59,9 @@ fs::dir_create(path)
 <!-- Set styling variables -->
 
 ```{r set-fonts-colors}
-# EDIT: Replace any font names and colors to match your branding.
+# EDIT: Replace any font names and colors to match your branding. 
+
+# These variables control the plot and table styling. The overall report styling is set through styles.css and word-template.docx in the resources folder. See https://wa-department-of-agriculture.github.io/soils/articles/customize.html#style-and-theme for more info.
 header_font <- "Georgia"
 body_font <- "Arial"
 
@@ -93,132 +96,12 @@ strip_text_color <- "white"
 <!-- Load data and dictionary -->
 
 ```{r load-data, include=FALSE}
-# EDIT: Add your cleaned lab data to the data folder, using 'washi-data.csv' as
-# a template.
-
-# Load lab results
-data <- read.csv(
-  here::here("data/washi-data.csv"),
-  check.names = FALSE,
-  encoding = "UTF-8",
-  strip.white = TRUE
-) |>
-  # Make sure sample_id and field_id are character
-  dplyr::mutate(dplyr::across(c(sample_id, field_id), as.character))
-
-# Abort if there are duplicate sample IDs.
-if (anyDuplicated(data$sample_id)) {
-  cli::cli_abort(c(
-    "All values in {.var sample_id} must be unique.",
-    "x" = "Found duplicate{?s} of\
-                 {.val {unique(data$sample_id[duplicated(data$sample_id)])}}"
-  ))
-}
-```
-
-```{r load-dictionary, include=FALSE}
-# EDIT: Add your data dictionary to the data folder, using 'data-dictionary.csv'
-# as a template.
-
-# Load data dictionary
-dictionary <- read.csv(
-  here::here("data/data-dictionary.csv"),
-  check.names = FALSE,
-  # Set encoding for using subscripts, superscripts, special characters
-  encoding = "UTF-8",
-  strip.white = TRUE
-)
-```
-
-<!-- Texture validation and classification -->
-
-```{r texture-validate-classify}
-# Validate and classify soil texture (requires at least two of:
-# sand_percent, silt_percent, clay_percent)
-data <- soils::classify_texture(data)
-
-# Add texture and fraction rows to the dictionary if created during classification
-dictionary <- soils::sync_dictionary_texture(data, dictionary, "Spanish")
-```
-
-<!-- Format measurement labels and set ordering -->
-
-```{r process-dictionary}
-dictionary <- dictionary |>
-  dplyr::mutate(
-    # Concatenate abbr and unit with html break for the table and plot labels
-    abbr_unit = dplyr::if_else(
-      is.na(unit) | unit == "",
-      abbr,
-      glue::glue("{abbr}<br>{unit}")
-    ),
-    # Set the order of how measurement groups will appear within the report
-    # based on the order found in the data dictionary
-    group_order = dplyr::cur_group_id(),
-    # Set the order of how measurements will appear within each measurement
-    # group based on the order found in the data dictionary
-    measurement_order = seq_along(column_name),
-    .by = measurement_group
-  )
-
-# Get vector of measurement groups from dictionary
+# Create data-processed.rds in prepare-data.R.
+input <- readRDS("data/data-processed.rds")
+results_wide <- input$results_wide
+results_long <- input$results_long
+dictionary <- input$data_dict
 measurement_groups <- unique(dictionary$measurement_group)
-```
-
-<!-- Pivot data longer and join with data dictionary -->
-
-```{r tidy-long}
-# OPTIONAL EDIT: If you have extra metadata columns in `data`, add them to this
-# vector. All other columns are assumed to be quantitative measurements and will
-# be coerced to numeric. Non-numeric values (e.g. "ND", "NA", "", "-", "<1")
-# will be converted to NA and excluded from tables and plots.
-metadata_cols <- c(
-  "year",
-  "sample_id",
-  "farm_name",
-  "producer_id",
-  "field_id",
-  "county",
-  "crop",
-  "longitude",
-  "latitude",
-  "texture"
-)
-
-# Identify measurement columns
-measurement_cols <- data |>
-  dplyr::select(-dplyr::any_of(metadata_cols)) |>
-  colnames()
-
-# Convert measurement columns to numeric; warns if values are converted to NA
-data <- soils::convert_to_numeric(data, measurement_cols)
-
-# Tidy data into long format and join with data dictionary
-results_long <- data |>
-  tidyr::pivot_longer(
-    cols = dplyr::all_of(measurement_cols),
-    names_to = "measurement"
-  ) |>
-  dplyr::inner_join(dictionary, by = c("measurement" = "column_name")) |>
-  dplyr::mutate(
-    group_order = factor(
-      group_order,
-      levels = unique(dictionary$group_order),
-      ordered = unique(is.ordered(dictionary$group_order))
-    ),
-    abbr = factor(
-      abbr,
-      levels = dictionary$abbr,
-      ordered = is.ordered(dictionary$measurement_order)
-    ),
-    abbr_unit = factor(
-      abbr_unit,
-      levels = dictionary$abbr_unit,
-      ordered = is.ordered(dictionary$measurement_order)
-    )
-  ) |>
-  dplyr::arrange(group_order, measurement_order) |>
-  dplyr::filter(!is.na(value))
 ```
 
 <!-- Get producer info -->
@@ -394,29 +277,25 @@ tables <- df_table |>
   })
 ```
 
-```{r physical-group-tweaks}
-# Special wrangling for texture
-if ("Textura" %in% names(df_table)) {
-  # Extract physical df from averages list
-  physical <- list("Mediciones físicas" = tables$`Mediciones físicas`)
+```{r texture-group-tweaks}
+# Determine which measurement group contains texture variables
+texture_group <- soils::get_texture_group(dictionary)
 
-  # Remove texture from all dataframes except physical
-  tables <- purrr::map(
-    subset(
-      tables,
-      !(names(tables) == "Mediciones físicas")
-    ),
-    \(x) dplyr::select(x, -Textura)
+# Keep texture column only in the texture measurement group table
+if (!is.null(texture_group) && "Textura" %in% names(df_table)) {
+  tables <- purrr::imap(
+    tables,
+    \(x, group_name) {
+      if (group_name != texture_group &&
+        "Textura" %in% names(x)) {
+        x <- dplyr::select(x, -Textura)
+      }
+      x
+    }
   )
-
-  # Add physical df back to the averages list
-  tables <- c(tables, physical)
-
-  # Remove this intermediate variable from env
-  rm(physical)
 }
 
-# Order list of tables based on how they appear in dictionary. Important that
+# Order list of tables based on dictionary order. Important that
 # tables and headers are in the same order for the make-flextables chunk.
 tables <- tables[measurement_groups]
 ```
@@ -805,7 +684,7 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
 # Add a data download button if downloadthis is installed
 if (requireNamespace("downloadthis", quietly = TRUE)) {
   list(
-    results = dplyr::filter(data, producer_id == params$producer_id),
+    results = dplyr::filter(results_wide, producer_id == params$producer_id),
     measurement_dictionary = dictionary[
       ,
       c(
@@ -816,7 +695,7 @@ if (requireNamespace("downloadthis", quietly = TRUE)) {
     ]
   ) |>
     downloadthis::download_this(
-      output_name = glue::glue("{params$year}-soils-data"),
+      output_name = glue::glue("{params$year}_soils-data"),
       output_extension = ".xlsx",
       button_label = "Descargar como hoja de cálculo",
       button_type = "success"

@@ -7,11 +7,11 @@
 summarize_by_var(results_long, producer_samples, var)
 }
 \arguments{
-\item{results_long}{Dataframe in tidy, long format with columns: \code{sample_id},
+\item{results_long}{Data frame in tidy, long format with columns: \code{sample_id},
 \code{measurement_group}, \code{abbr}, and \code{value}. If a \code{texture} column is present,
 the most frequent texture (mode) is included in the output.}
 
-\item{producer_samples}{Dataframe in tidy, long format with columns:
+\item{producer_samples}{Data frame in tidy, long format with columns:
 \code{measurement_group}, \code{abbr}, \code{value}.}
 
 \item{var}{Variable to summarize by, which should be present in both
